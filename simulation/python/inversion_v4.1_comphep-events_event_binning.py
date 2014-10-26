@@ -145,9 +145,9 @@ def smear(p,resolution):
 # tree = ET.parse('pptiluskvarkL-produksjon/20140529-1.txt')
 # root = tree.getroot()
 #import the Herwig .txt file of events
-import sys
-file = open("../herwigpp/Herwigpp_3033_chain_events_unshowered_quarks.txt",'r')
-lines = file.readlines()
+import xml.etree.ElementTree as ET
+tree = ET.parse('../comphep/comphep_uLsquarks_20140529-1.txt')
+root = tree.getroot()
 
 # Set known parameters
 # SM particle masses
@@ -169,10 +169,11 @@ MNprim = MN
 
 
 
-def minimize(N,resolution,Minitial):
+def minimize(Nbins, Nevents,resolution,Minitial):
 	# N is int, no. of events, resolution is double, smearing res, 
 	# Minitial is list of 8 elements, start point for parameter scan
 	# Make lists for storing D matrices and E vectors
+	N = Nbins*Nevents
 	Dlist = []
 	Elist = []
 	Adetlist = np.zeros(0)
@@ -195,42 +196,51 @@ def minimize(N,resolution,Minitial):
 		# Particles are numbered according to Webber (arXiv:0907.5307v2) fig. 1
 		# (the lepton/antilepton ordering is arbitrary in each chain, the lepton has been 
 		# chosen as 2/6 and the antilepton as 3/7)
+		string = root[i+2].text
+		lines = string.splitlines()
 
-		# Read all particles from file
-		# chain 1
-		quark1 = lines[9*i + 1].split()
-		p1 = np.matrix([ float(quark1[4]), float(quark1[1]), float(quark1[2]), float(quark1[3]), float(quark1[5]), int(quark1[0]) ])
-		lepton11 = lines[9*i + 2].split()
-		p2 = np.matrix([ float(lepton11[4]), float(lepton11[1]), float(lepton11[2]), float(lepton11[3]), float(lepton11[5]), int(lepton11[0]) ])
-		lepton12 = lines[9*i + 3].split()
-		p3 = np.matrix([ float(lepton12[4]), float(lepton12[1]), float(lepton12[2]), float(lepton12[3]), float(lepton12[5]), int(lepton12[0]) ])
-		neutralino1 = lines[9*i + 4].split()
-		p4 = np.matrix([ float(neutralino1[4]), float(neutralino1[1]), float(neutralino1[2]), float(neutralino1[3]), float(neutralino1[5]), int(neutralino1[0]) ])
-		#chain2
-		quark2 = lines[9*i + 5].split()
-		p5 = np.matrix([ float(quark2[4]), float(quark2[1]), float(quark2[2]), float(quark2[3]), float(quark2[5]), int(quark2[0]) ])
-		lepton21 = lines[9*i + 6].split()
-		p6 = np.matrix([ float(lepton21[4]), float(lepton21[1]), float(lepton21[2]), float(lepton21[3]), float(lepton21[5]), int(lepton21[0]) ])
-		lepton22 = lines[9*i + 7].split()
-		p7 = np.matrix([ float(lepton22[4]), float(lepton22[1]), float(lepton22[2]), float(lepton22[3]), float(lepton22[5]), int(lepton22[0]) ])
-		neutralino2 = lines[9*i + 8].split()
-		p8 = np.matrix([ float(neutralino2[4]), float(neutralino2[1]), float(neutralino2[2]), float(neutralino2[3]), float(neutralino2[5]), int(neutralino2[0]) ])
+		#1st chain, p1-4
 
-		# Take care of units - Herwig++ likes MeV, we like GeV (avoid disturbing the pdg code entry)
-		p1[0,0:5] /= 1000
-		p2[0,0:5] /= 1000
-		p3[0,0:5] /= 1000
-		p4[0,0:5] /= 1000
-		p5[0,0:5] /= 1000
-		p6[0,0:5] /= 1000
-		p7[0,0:5] /= 1000
-		p8[0,0:5] /= 1000
+		# Read squark 1 from file
+		psquark1 = str(lines[4]).split()
+		# print "PDG number of particle 1: ",psquark1[0] # just to check
+		#p1 = [float(p1[9]), float(p1[6]), float(p1[7]), float(p1[8])]
+		psquark1 = np.matrix([ float(psquark1[9]), float(psquark1[6]), float(psquark1[7]), float(psquark1[8])])
 
-		# Save stuff for plotting
-		quark1mass[i,0] = p1[0,5]
-		quark1mass[i,1] = p1[0,4]
-		quark2mass[i,0] = p5[0,5]
-		quark2mass[i,1] = p5[0,4]
+		# #DEBUG
+		# psquark1 = np.matrix([ Msquark, 0, 0, 0]) # overwrite CompHEP data to start squarks at rest
+		# #/DEBUG
+
+		# Decay squark to quark and neutralino2
+		p1, pN21 = decayfun(Msquark,psquark1,mquark,MN2)
+		# Decay neutralino2 to lepton1 and slepton
+		p2, pseR1 = decayfun(MN2,pN21,mlepton1,MseR)
+		# Decay slepton to (anti)lepton1 and neutralino1
+		p3, p4 = decayfun(MseR,pseR1,mlepton1,MN1)
+
+
+
+
+
+		#2nd chain, p5-8
+		psquark2 = str(lines[5]).split()
+		# print "PDG number of particle 5: ",psquark2[0] # just to check
+		psquark2 = np.matrix([ float(psquark2[9]), float(psquark2[6]), float(psquark2[7]), float(psquark2[8])])
+
+		# #DEBUG
+		# psquark2 = np.matrix([ Msquark, 0, 0, 0]) # overwrite CompHEP data to start squarks at rest
+		# #/DEBUG
+
+		# See whether CompHEP produces squarks off-shell
+		# print minkowskinorm(psquark1) - Msquark**2
+		# print minkowskinorm(psquark2) - Msquark**2
+
+		# Decay (anti)squark to (anti)quark and neutralino2
+		p5, pN22 = decayfun(Msquark,psquark2,mquark,MN2)
+		# Decay neutralino2 to lepton2 and slepton
+		p6, pseR2 = decayfun(MN2,pN22,mlepton2,MseR)
+		# Decay slepton to (anti)lepton2 and neutralino1
+		p7, p8 = decayfun(MseR,pseR2,mlepton2,MN1)
 
 
 		# DETERMINANT TEST 
@@ -414,13 +424,13 @@ def minimize(N,resolution,Minitial):
 	# plt.show()
 
 	# Plot quark invariant masses
-	quarkmasses = np.concatenate((quark1mass,quark2mass),axis=0)
-	plt.hist(quarkmasses[abs(quarkmasses[:,0])==4,1], bins=100)
-	plt.title('Distribution of c/cbar quark invariant masses before parton showering, %d events' % (N) )
-	plt.xlabel(r'$m_q^\mathrm{inv}$ [GeV]')
-	plt.show()
+	# quarkmasses = np.concatenate((quark1mass,quark2mass),axis=0)
+	# plt.hist(quarkmasses[abs(quarkmasses[:,0])==4,1], bins=100)
+	# plt.title('Distribution of c/cbar quark invariant masses before parton showering, %d events' % (N) )
+	# plt.xlabel(r'$m_q^\mathrm{inv}$ [GeV]')
+	# plt.show()
 
-	# print len(quark1mass[quark1mass[:,0]==1,1])
+	#print len(quark1mass[quark1mass[:,0]>=5,1])
 	# print len(quark1mass[abs(quark1mass[:,0])==1,1])+len(quark1mass[abs(quark1mass[:,0])==2,1])+len(quark1mass[abs(quark1mass[:,0])==3,1])+len(quark1mass[abs(quark1mass[:,0])==4,1])
 
 
@@ -452,7 +462,9 @@ def minimize(N,resolution,Minitial):
 		return xisquared
 
 	# COPY: xi-squared function to minimize with identical chains
-	def xisquared_identical_chains(MZ, MY, MX, MN): #, MZp, MYp, MXp, MNp):
+	def xisquared_identical_chains(MZ, MY, MX, MN, Nevents, i): #, MZp, MYp, MXp, MNp):
+		Nevents = int(Nevents)
+		i = int(i)
 		# Duplicate masses for primed chain
 		MZp, MYp, MXp, MNp = MZ, MY, MX, MN
 		# Set up Webber's M vector
@@ -462,7 +474,7 @@ def minimize(N,resolution,Minitial):
 		P = [] # store Pn
 		xisquared = 0
 		# offshell = [] # list to store p4nsquared - MN**2
-		for n in range(N):
+		for n in range(i*Nevents, (i+1)*Nevents):
 			Pn = np.dot(Dlist[n],M.T) + Elist[n]
 			P.append(Pn) #store in case needed
 		
@@ -490,51 +502,103 @@ def minimize(N,resolution,Minitial):
 	# MXp = MX
 	# MNp = MN
 
-	m = minuit.Minuit(xisquared_identical_chains, 
-			MZ=Minitial[0], #limit_MZ=(300, 700),
-			# MY = 1.80337030e+02, fix_MY=True,
-			# MX = 1.44059825e+02, fix_MX=True,
-			# MN = 9.70071979e+01, fix_MN=True,
-			MY=Minitial[1], #limit_MY=(100, 300),
-			MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
-			MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
-			# MZp=1e2, limit_MZp=(50, 1500), error_MZp=1,
-			# MYp=1e2, limit_MYp=(50, 1500), error_MYp=1,
-			# MXp=1e2, limit_MXp=(50, 1500), error_MXp=1,
-			# MNp=1e2, limit_MNp=(50, 1500), error_MNp=1,
-			# print_level=1
-			#maxcalls=None,
-		#	tol = 10000
-			)
-	#m.printMode = 1
-	m.simplex()
-
+	best_fit = np.zeros((Nbins,4))
+	relative_fit_error = np.zeros((Nbins,4))
 
 	# True values
 	MZ = 5.45421001e+02 # Mass of ~uL
 	MY = 1.80337030e+02 # Mass of ~chi02
 	MX = 1.44059825e+02 # Mass of ~eR
 	MN = 9.70071979e+01 # Mass of ~chi01 (dark matter!)
+	true_values = np.array([MZ,MY,MX,MN])
 
-	true_values = [MZ, MY, MX, MN]
-	best_fit = [m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']]
-	relative_fit_error = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
-	return true_values, best_fit, relative_fit_error
+	for i in range(Nbins):
+
+		m = minuit.Minuit(xisquared_identical_chains, 
+				MZ=Minitial[0], #limit_MZ=(300, 700),
+				# MY = 1.80337030e+02, fix_MY=True,
+				# MX = 1.44059825e+02, fix_MX=True,
+				# MN = 9.70071979e+01, fix_MN=True,
+				MY=Minitial[1], #limit_MY=(100, 300),
+				MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
+				MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
+				# MZp=1e2, limit_MZp=(50, 1500), error_MZp=1,
+				# MYp=1e2, limit_MYp=(50, 1500), error_MYp=1,
+				# MXp=1e2, limit_MXp=(50, 1500), error_MXp=1,
+				# MNp=1e2, limit_MNp=(50, 1500), error_MNp=1,
+				# print_level=1
+				#maxcalls=None,
+			#	tol = 10000,
+				Nevents=Nevents, fix_Nevents=True,
+				i=i, fix_i = True
+				)
+		#m.printMode = 1
+		m.simplex()
+
+		# true_values = [MZ, MY, MX, MN]
+		best_fit_xisquaredvalue = m.fval
+		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']
+		relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
+	
+	return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error
 
 
 # Run:
-N = 500
-print "N =", N
-Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
+Nevents = 25
+Nbins = 1000/Nevents
+# print "N =", N
+Minitial = [5.45e2, 1.8e2, 1.4e2, 0.9e2, 5.45e2, 1.8e2, 1.4e2, 0.9e2] # Starting point for parameter scan
 xisquaredlist = []
-for smearing_resolution in [3]:
-	true_values, best_fit, relative_fit_error = minimize(N, smearing_resolution, Minitial)
+for smearing_resolution in [2]:
+	xisquared, true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial)
+	print best_fit
 
-	print 'smearing', "%2.2f ," % smearing_resolution
-	print 'True masses', true_values
-	print 'Best-fit values', best_fit
-	print 'relative_fit_error', relative_fit_error, ', abs mean fit error', "%.2e" %np.mean(np.abs(relative_fit_error))
-	print "number of runs =", len(xisquaredlist), ", mean xi^2 =", np.mean(xisquaredlist), "final xi^2 =", xisquaredlist[-1]
+	# Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
+
+	# Get true mass values
+	Msquark = true_values[0]
+	Mchi2 = true_values[1]
+	Mslepton = true_values[2]
+	Mchi1 = true_values[3]
+
+	# Extra masses
+	MsquarkuL = 5.61119014E+02
+	MsquarkdL = 5.68441109E+02
+	MsquarksL = 5.68441109E+02
+	MsquarkcL = 5.61119014E+02
+	MsquarkuR = 3.00000000E+04
+	MsquarkdR = 3.00000000E+04
+	MsquarksR = 3.00000000E+04
+	MsquarkcR = 3.00000000E+04
+
+	# Take out best-fit values for each bin as vectors
+	msquark = best_fit[:,0]
+	mchi2 = best_fit[:,1]
+	mslepton = best_fit[:,2]
+	mchi1 = best_fit[:,3]
+
+	ylim = [np.min(msquark)-30, np.max(msquark)+30]
+	xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
+	print xlim, ylim
+	plt.plot(mchi2, msquark, 'ro')
+	# plt.xticks([100],[r'$\pi$'],fontsize=32)
+	plt.xlim(xlim[0],xlim[1])
+	plt.ylim(ylim[0],ylim[1])
+	plt.hold('on')
+	plt.plot(mslepton, msquark, 'bo')
+	plt.plot(mchi1, msquark, 'go')
+	plt.plot(Mchi2*np.ones(2), ylim, 'k--')
+	plt.plot(Mslepton*np.ones(2), ylim, 'k--')
+	plt.plot(Mchi1*np.ones(2), ylim, 'k--')
+	plt.plot(xlim, Msquark*np.ones(2), 'k--')
+	plt.show()
+
+
+	# print 'smearing', "%2.2f ," % smearing_resolution
+	# print 'True masses', true_values
+	# print 'Best-fit values', best_fit
+	# print 'relative_fit_error', relative_fit_error, ', abs mean fit error', "%.2e" %np.mean(np.abs(relative_fit_error))
+	# print "number of runs =", len(xisquaredlist), ", mean xi^2 =", np.mean(xisquaredlist), "final xi^2 =", xisquaredlist[-1]
 
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
 # Nlist = range(100,1000, 50)

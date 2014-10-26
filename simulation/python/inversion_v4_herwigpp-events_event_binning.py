@@ -146,7 +146,7 @@ def smear(p,resolution):
 # root = tree.getroot()
 #import the Herwig .txt file of events
 import sys
-file = open("../herwigpp/Herwigpp_3033_chain_events_unshowered_quarks.txt",'r')
+file = open("../herwigpp/LHC-MSSM-analysis_20141023_normal_gluino.log",'r')
 lines = file.readlines()
 
 # Set known parameters
@@ -169,10 +169,11 @@ MNprim = MN
 
 
 
-def minimize(N,resolution,Minitial):
+def minimize(Nbins, Nevents,resolution,Minitial):
 	# N is int, no. of events, resolution is double, smearing res, 
 	# Minitial is list of 8 elements, start point for parameter scan
 	# Make lists for storing D matrices and E vectors
+	N = Nbins*Nevents
 	Dlist = []
 	Elist = []
 	Adetlist = np.zeros(0)
@@ -414,13 +415,13 @@ def minimize(N,resolution,Minitial):
 	# plt.show()
 
 	# Plot quark invariant masses
-	quarkmasses = np.concatenate((quark1mass,quark2mass),axis=0)
-	plt.hist(quarkmasses[abs(quarkmasses[:,0])==4,1], bins=100)
-	plt.title('Distribution of c/cbar quark invariant masses before parton showering, %d events' % (N) )
-	plt.xlabel(r'$m_q^\mathrm{inv}$ [GeV]')
-	plt.show()
+	# quarkmasses = np.concatenate((quark1mass,quark2mass),axis=0)
+	# plt.hist(quarkmasses[abs(quarkmasses[:,0])==4,1], bins=100)
+	# plt.title('Distribution of c/cbar quark invariant masses before parton showering, %d events' % (N) )
+	# plt.xlabel(r'$m_q^\mathrm{inv}$ [GeV]')
+	# plt.show()
 
-	# print len(quark1mass[quark1mass[:,0]==1,1])
+	print len(quark1mass[quark1mass[:,0]>=5,1])
 	# print len(quark1mass[abs(quark1mass[:,0])==1,1])+len(quark1mass[abs(quark1mass[:,0])==2,1])+len(quark1mass[abs(quark1mass[:,0])==3,1])+len(quark1mass[abs(quark1mass[:,0])==4,1])
 
 
@@ -452,7 +453,9 @@ def minimize(N,resolution,Minitial):
 		return xisquared
 
 	# COPY: xi-squared function to minimize with identical chains
-	def xisquared_identical_chains(MZ, MY, MX, MN): #, MZp, MYp, MXp, MNp):
+	def xisquared_identical_chains(MZ, MY, MX, MN, Nevents, i): #, MZp, MYp, MXp, MNp):
+		Nevents = int(Nevents)
+		i = int(i)
 		# Duplicate masses for primed chain
 		MZp, MYp, MXp, MNp = MZ, MY, MX, MN
 		# Set up Webber's M vector
@@ -462,7 +465,7 @@ def minimize(N,resolution,Minitial):
 		P = [] # store Pn
 		xisquared = 0
 		# offshell = [] # list to store p4nsquared - MN**2
-		for n in range(N):
+		for n in range(i*Nevents, (i+1)*Nevents):
 			Pn = np.dot(Dlist[n],M.T) + Elist[n]
 			P.append(Pn) #store in case needed
 		
@@ -490,51 +493,103 @@ def minimize(N,resolution,Minitial):
 	# MXp = MX
 	# MNp = MN
 
-	m = minuit.Minuit(xisquared_identical_chains, 
-			MZ=Minitial[0], #limit_MZ=(300, 700),
-			# MY = 1.80337030e+02, fix_MY=True,
-			# MX = 1.44059825e+02, fix_MX=True,
-			# MN = 9.70071979e+01, fix_MN=True,
-			MY=Minitial[1], #limit_MY=(100, 300),
-			MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
-			MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
-			# MZp=1e2, limit_MZp=(50, 1500), error_MZp=1,
-			# MYp=1e2, limit_MYp=(50, 1500), error_MYp=1,
-			# MXp=1e2, limit_MXp=(50, 1500), error_MXp=1,
-			# MNp=1e2, limit_MNp=(50, 1500), error_MNp=1,
-			# print_level=1
-			#maxcalls=None,
-		#	tol = 10000
-			)
-	#m.printMode = 1
-	m.simplex()
-
+	best_fit = np.zeros((Nbins,4))
+	relative_fit_error = np.zeros((Nbins,4))
 
 	# True values
-	MZ = 5.45421001e+02 # Mass of ~uL
-	MY = 1.80337030e+02 # Mass of ~chi02
-	MX = 1.44059825e+02 # Mass of ~eR
-	MN = 9.70071979e+01 # Mass of ~chi01 (dark matter!)
+	MZ = 5.61119014E+02 # Mass of ~uL
+	MY = 1.81088157E+02 # Mass of ~chi02
+	MX = 1.44102799E+02 # Mass of ~eR
+	MN = 9.66880686E+01 # Mass of ~chi01 (dark matter!)
+	true_values = np.array([MZ,MY,MX,MN])
 
-	true_values = [MZ, MY, MX, MN]
-	best_fit = [m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']]
-	relative_fit_error = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
-	return true_values, best_fit, relative_fit_error
+	for i in range(Nbins):
+
+		m = minuit.Minuit(xisquared_identical_chains, 
+				MZ=Minitial[0], #limit_MZ=(300, 700),
+				# MY = 1.80337030e+02, fix_MY=True,
+				# MX = 1.44059825e+02, fix_MX=True,
+				# MN = 9.70071979e+01, fix_MN=True,
+				MY=Minitial[1], #limit_MY=(100, 300),
+				MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
+				MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
+				# MZp=1e2, limit_MZp=(50, 1500), error_MZp=1,
+				# MYp=1e2, limit_MYp=(50, 1500), error_MYp=1,
+				# MXp=1e2, limit_MXp=(50, 1500), error_MXp=1,
+				# MNp=1e2, limit_MNp=(50, 1500), error_MNp=1,
+				# print_level=1
+				#maxcalls=None,
+			#	tol = 10000,
+				Nevents=Nevents, fix_Nevents=True,
+				i=i, fix_i = True
+				)
+		#m.printMode = 1
+		m.simplex()
+
+		# true_values = [MZ, MY, MX, MN]
+		best_fit_xisquaredvalue = m.fval
+		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']
+		relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
+	
+	return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error
 
 
 # Run:
-N = 500
-print "N =", N
+Nevents = 25
+Nbins = 60
+# print "N =", N
 Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
 xisquaredlist = []
-for smearing_resolution in [3]:
-	true_values, best_fit, relative_fit_error = minimize(N, smearing_resolution, Minitial)
+for smearing_resolution in [0]:
+	xisquared, true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial)
+	print best_fit
 
-	print 'smearing', "%2.2f ," % smearing_resolution
-	print 'True masses', true_values
-	print 'Best-fit values', best_fit
-	print 'relative_fit_error', relative_fit_error, ', abs mean fit error', "%.2e" %np.mean(np.abs(relative_fit_error))
-	print "number of runs =", len(xisquaredlist), ", mean xi^2 =", np.mean(xisquaredlist), "final xi^2 =", xisquaredlist[-1]
+	# Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
+
+	# Get true mass values
+	Msquark = true_values[0]
+	Mchi2 = true_values[1]
+	Mslepton = true_values[2]
+	Mchi1 = true_values[3]
+
+	# Extra masses
+	MsquarkuL = 5.61119014E+02
+	MsquarkdL = 5.68441109E+02
+	MsquarksL = 5.68441109E+02
+	MsquarkcL = 5.61119014E+02
+	MsquarkuR = 3.00000000E+04
+	MsquarkdR = 3.00000000E+04
+	MsquarksR = 3.00000000E+04
+	MsquarkcR = 3.00000000E+04
+
+	# Take out best-fit values for each bin as vectors
+	msquark = best_fit[:,0]
+	mchi2 = best_fit[:,1]
+	mslepton = best_fit[:,2]
+	mchi1 = best_fit[:,3]
+
+	ylim = [np.min(msquark)-30, np.max(msquark)+30]
+	xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
+	print xlim, ylim
+	plt.plot(mchi2, msquark, 'ro')
+	# plt.xticks([100],[r'$\pi$'],fontsize=32)
+	plt.xlim(xlim[0],xlim[1])
+	plt.ylim(ylim[0],ylim[1])
+	plt.hold('on')
+	plt.plot(mslepton, msquark, 'bo')
+	plt.plot(mchi1, msquark, 'go')
+	plt.plot(Mchi2*np.ones(2), ylim, 'k--')
+	plt.plot(Mslepton*np.ones(2), ylim, 'k--')
+	plt.plot(Mchi1*np.ones(2), ylim, 'k--')
+	plt.plot(xlim, Msquark*np.ones(2), 'k--')
+	plt.show()
+
+
+	# print 'smearing', "%2.2f ," % smearing_resolution
+	# print 'True masses', true_values
+	# print 'Best-fit values', best_fit
+	# print 'relative_fit_error', relative_fit_error, ', abs mean fit error', "%.2e" %np.mean(np.abs(relative_fit_error))
+	# print "number of runs =", len(xisquaredlist), ", mean xi^2 =", np.mean(xisquaredlist), "final xi^2 =", xisquaredlist[-1]
 
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
 # Nlist = range(100,1000, 50)
