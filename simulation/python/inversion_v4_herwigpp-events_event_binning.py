@@ -536,7 +536,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 
 # Run:
 Nevents = 25
-Nbins = 60
+Nbins = 2000/Nevents
 # print "N =", N
 Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
 xisquaredlist = []

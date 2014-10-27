@@ -475,15 +475,20 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 		true_values = [MZ,MY,MX,MN]
 
 		for i in range(ndim):
-			cube[i] = cube[i]*1000 #true_values[i] + cube[i]*100
+			cube[i] = cube[i]*2*true_values[i]
 	# def prior(MZ, MY, MX, MN, true_values):
 	# 	return np.exp( (MZ-true_values[0])**2 + (MY-true_values[1])**2 + (MX-true_values[2])**2 + (MN-true_values[3])**2 )
 
 	# COPY: xi-squared function to minimize with identical chains
-	def xisquared_identical_chains_multinest(cube, ndim, nparams, lnew): #, MZp, MYp, MXp, MNp):
-		MZ, MY, MX, MN = cube
+	def xisquared_identical_chains_multinest(cube, ndim, nparams, lnew):
+		# MZ, MY, MX, MN = cube[0:4]
+		MZ = cube[0]
+		MY = cube[1]
+		MX = cube[2]
+		MN = cube[3]
+		print cube
 		Nevents = 25 #int(Nevents)
-		i = 1 #int(i)
+		i = 0 #int(i)
 		# Duplicate masses for primed chain
 		MZp, MYp, MXp, MNp = MZ, MY, MX, MN
 		# Set up Webber's M vector
@@ -505,9 +510,9 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 
 			# offshell.append(abs(p4nsquared-MN**2))
 			# offshell.append(abs(p8nsquared-MNprim**2))
-		xisquared = xisquared/float(N)/100**4
+		xisquared = xisquared/float(N)
 		# print xisquared
-		xisquaredlist.append(xisquared)
+		# xisquaredlist.append(xisquared)
 		return -xisquared # minus sign for Multinest
 
 
@@ -525,46 +530,39 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	best_fit = np.zeros((Nbins,4))
 	relative_fit_error = np.zeros((Nbins,4))
 
-	def show(filepath): 
-		""" open the output (pdf) file for the user """
-		if os.name == 'mac': subprocess.call(('open', filepath))
-		elif os.name == 'nt': os.startfile(filepath)
-		elif os.name == 'posix': subprocess.call(('xdg-open', filepath))
-		else: subprocess.call(('evince', filepath))
+	# for i in range(Nbins):
+	n_params = 0
+	# we want to see some output while it is running
+	progress = pymultinest.ProgressPlotter(n_params = 0, outputfiles_basename='chains/1-')
+	progress.start()
+	# threading.Timer(2, show, ["chains/2-phys_live.points.pdf"]).start() # delayed opening
+	# run MultiNest
+	pymultinest.run(xisquared_identical_chains_multinest, prior, n_dims = 4, n_live_points=8000, evidence_tolerance = 1e-3)
+	# ok, done. Stop our progress watcher
+	progress.stop()
 
-
-	for i in range(Nbins):
-		n_params = 4
-		# we want to see some output while it is running
-		# progress = pymultinest.ProgressPlotter(n_params = n_params, outputfiles_basename='chains/2-'); progress.start()
-		# threading.Timer(2, show, ["chains/2-phys_live.points.pdf"]).start() # delayed opening
-		# run MultiNest
-		pymultinest.run(xisquared_identical_chains_multinest, prior, n_dims = 4, n_params=n_params, evidence_tolerance = 1e-4)#, n_live_points=20000)
-		# ok, done. Stop our progress watcher
-		# progress.stop()
-
-		# lets analyse the results
-		a = pymultinest.Analyzer(n_params)
-		s = a.get_mode_stats()
+	# lets analyse the results
+	analysis = pymultinest.Analyzer(n_params)#, post_file='post_file.txt');
+	# stats = a.get_mode_stats();
 
 
 
-		# true_values = [MZ, MY, MX, MN]
-		best_fit_xisquaredvalue = m.fval
-		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']
-		relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
+	# true_values = [MZ, MY, MX, MN]
+	# best_fit_xisquaredvalue = 0# m.fval
+	# best_fit[i,:] = 0# m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']
+	# relative_fit_error[i,:] = 0# [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
 	
-	return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error
-
+	# return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error, stats
+	return analysis
 
 # Run:
 Nevents = 25
 Nbins = 1
 # print "N =", N
 Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
-xisquaredlist = []
+# xisquaredlist = []
 for smearing_resolution in [0]:
-	test = minimize(Nbins, Nevents, smearing_resolution, Minitial)
+	analysis = minimize(Nbins, Nevents, smearing_resolution, Minitial)
 	#xisquared, true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial)
 	#print best_fit
 
