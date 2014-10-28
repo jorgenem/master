@@ -544,7 +544,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 
 
 # Run:
-Nevents = 25
+Nevents = 1000
 Nbins = 1000/Nevents
 # print "N =", N
 Minitial = [5.45e2, 1.8e2, 1.4e2, 0.9e2, 5.45e2, 1.8e2, 1.4e2, 0.9e2] # Starting point for parameter scan

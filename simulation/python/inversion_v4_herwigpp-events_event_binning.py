@@ -152,9 +152,9 @@ lines = file.readlines()
 # Set known parameters
 # SM particle masses
 # u-quark and electron mass set to zero
-mquark = m1 = m5 = 0;
-mlepton1 = m2 = m3 = 0;
-mlepton2 = m6 = m7 = 0;
+# mquark = m1 = m5 = 0;
+# mlepton1 = m2 = m3 = 0;
+# mlepton2 = m6 = m7 = 0;
 
 
 # Now to make a mass hypothesis (guess the correct one)
@@ -260,7 +260,13 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 		p6 = smear(p6,r)
 		p7 = smear(p7,r)
 
-
+		# Calculate invariant masses of measured particles
+		m1 = np.sign(minkowskinorm(p1))*np.sqrt(abs(minkowskinorm(p1)))
+		m2 = np.sign(minkowskinorm(p2))*np.sqrt(abs(minkowskinorm(p2)))
+		m3 = np.sign(minkowskinorm(p3))*np.sqrt(abs(minkowskinorm(p3)))
+		m5 = np.sign(minkowskinorm(p5))*np.sqrt(abs(minkowskinorm(p5)))
+		m6 = np.sign(minkowskinorm(p6))*np.sqrt(abs(minkowskinorm(p6)))
+		m7 = np.sign(minkowskinorm(p7))*np.sqrt(abs(minkowskinorm(p7)))
 
 		# Check invariant mass of initial colliding partons?
 		#print minkowskinorm(p1+p2+p3+p4+p5+p6+p7+p8)
@@ -535,7 +541,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 
 
 # Run:
-Nevents = 25
+Nevents = 100
 Nbins = 2000/Nevents
 # print "N =", N
 Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan

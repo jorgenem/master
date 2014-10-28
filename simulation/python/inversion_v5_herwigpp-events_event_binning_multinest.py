@@ -485,8 +485,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 		MZ = cube[0]
 		MY = cube[1]
 		MX = cube[2]
-		MN = cube[3]
-		print cube
+		MN = 9.66880686e+01#cube[3]
 		Nevents = 25 #int(Nevents)
 		i = 0 #int(i)
 		# Duplicate masses for primed chain
@@ -533,18 +532,19 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	# for i in range(Nbins):
 	n_params = 0
 	# we want to see some output while it is running
-	progress = pymultinest.ProgressPlotter(n_params = 0, outputfiles_basename='chains/1-')
-	progress.start()
+	# progress = pymultinest.ProgressPlotter(n_params = 0, outputfiles_basename='chains/1-')
+	# progress.start()
 	# threading.Timer(2, show, ["chains/2-phys_live.points.pdf"]).start() # delayed opening
 	# run MultiNest
-	pymultinest.run(xisquared_identical_chains_multinest, prior, n_dims = 4, n_live_points=8000, evidence_tolerance = 1e-3)
+	pymultinest.run(xisquared_identical_chains_multinest, prior, n_dims = 3, n_live_points=200, evidence_tolerance = 1e-2, verbose=True, resume=False, seed=2)
+
 	# ok, done. Stop our progress watcher
-	progress.stop()
+	# progress.stop()
 
 	# lets analyse the results
-	analysis = pymultinest.Analyzer(n_params)#, post_file='post_file.txt');
+	# analysis = pymultinest.Analyzer(n_params)#, post_file='post_file.txt');
 	# stats = a.get_mode_stats();
-
+	# analysis.get_data()
 
 
 	# true_values = [MZ, MY, MX, MN]
@@ -553,7 +553,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	# relative_fit_error[i,:] = 0# [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
 	
 	# return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error, stats
-	return analysis
+	return 1
 
 # Run:
 Nevents = 25
