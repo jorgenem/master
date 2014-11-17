@@ -292,7 +292,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 		# print "p5+p6+p7+p8 ", np.sqrt(abs(minkowskinorm(p1+p2+p3+p4) - MZprim**2))
 
 		# Calculate invariant mass between leptons for triangle plotting
-		invmass_c1leptons = np.sqrt(minkowskinorm(p2+p3))   # calculate invariant 
+		invmass_c1leptons = np.sqrt(abs(minkowskinorm(p2+p3)))   # calculate invariant 
 		invariant_mass_between_c1_leptons.append(invmass_c1leptons) # mass between leptons in chain 1
 
 
@@ -502,7 +502,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	# MXp = MX
 	# MNp = MN
 
-	best_fit = np.zeros((Nbins,4))
+	best_fit = np.zeros((Nbins,6))
 	relative_fit_error = np.zeros((Nbins,4))
 
 	# True values
@@ -520,8 +520,8 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 				# MX = 1.44059825e+02, fix_MX=True,
 				# MN = 9.70071979e+01, fix_MN=True,
 				MY=Minitial[1], #limit_MY=(100, 300),
-				MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
-				MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
+				MX=Minitial[2], #limit_MX=(100, 200), 
+				MN=Minitial[3],  #limit_MN=(50, 150),
 				# MZp=1e2, limit_MZp=(50, 1500), error_MZp=1,
 				# MYp=1e2, limit_MYp=(50, 1500), error_MYp=1,
 				# MXp=1e2, limit_MXp=(50, 1500), error_MXp=1,
@@ -529,25 +529,30 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 				# print_level=1
 				#maxcalls=None,
 			#	tol = 10000,
+				err_MZ=Minitial[0]*0.01, 
+				err_MY=Minitial[1]*0.01, 
+				err_MX=Minitial[2]*0.01, 
+				err_MN=Minitial[3]*0.01,
 				Nevents=Nevents, fix_Nevents=True,
-				i=i, fix_i = True
+				i=i, fix_i = True,
+				strategy=2
 				)
 		#m.printMode = 1
 		m.simplex()
 
 		# true_values = [MZ, MY, MX, MN]
 		best_fit_xisquaredvalue = m.fval
-		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']
+		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN'], m.fval, m.ncalls
 		relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
 	
 	return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error
 
 
 # Run:
-Nevents = 1000
+Nevents = 25
 Nbins = 1000/Nevents
 # print "N =", N
-Minitial = [5.45e2, 1.8e2, 1.4e2, 0.9e2, 5.45e2, 1.8e2, 1.4e2, 0.9e2] # Starting point for parameter scan
+Minitial = [5.5e2, 1.8e2, 1.4e2, 0.9e2, 5.5e2, 1.8e2, 1.4e2, 0.9e2] # Starting point for parameter scan
 xisquaredlist = []
 for smearing_resolution in [2]:
 	xisquared, true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial)
@@ -579,7 +584,7 @@ for smearing_resolution in [2]:
 
 	ylim = [np.min(msquark)-30, np.max(msquark)+30]
 	xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
-	print xlim, ylim
+	# print xlim, ylim
 	plt.plot(mchi2, msquark, 'ro')
 	# plt.xticks([100],[r'$\pi$'],fontsize=32)
 	plt.xlim(xlim[0],xlim[1])
