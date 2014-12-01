@@ -11,6 +11,7 @@ namespace Jorgen {
 
   /** Global variable declarations **/
   long int numEvents;
+  long int numEventsMomentumConservation;
   long int numEventsTotal;
 
 using namespace ThePEG;

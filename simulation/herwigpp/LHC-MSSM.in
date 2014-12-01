@@ -86,7 +86,7 @@ insert HPConstructor:Outgoing 7 /Herwig/Particles/~s_Lbar
 # then add another 'setup' line with that
 # file as the argument. The provided
 # spectrum file is an example using SPheno 2.2.3
-setup MSSM/Model sps1a.spc
+setup MSSM/Model susyhit_softsusy_slha.out
 
 # To disable a particular decay mode, add it's tag to the DisableModes
 # interface of the DecayConstructor object, i.e.
