@@ -542,7 +542,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 
 		# true_values = [MZ, MY, MX, MN]
 		best_fit_xisquaredvalue = m.fval
-		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN'], m.fval, m.ncalls
+		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN'], m.ncalls
 		relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
 	
 	return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error

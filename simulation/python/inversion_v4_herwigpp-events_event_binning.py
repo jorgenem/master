@@ -2,6 +2,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from math import pi
+from iminuit import Minuit
+import scipy.optimize as sciopt
 np.random.seed(2) # set seed for reproducibility
 
 
@@ -146,7 +148,7 @@ def smear(p,resolution):
 # root = tree.getroot()
 #import the Herwig .txt file of events
 import sys
-file = open("../herwigpp/LHC-MSSM-analysis_20141023_normal_gluino.log",'r')
+file = open("../herwigpp/LHC-MSSM-analysis_20141128_softsusy_with_branching_to_all_four_correct_leptons_31000_events.log",'r')
 lines = file.readlines()
 
 # Set known parameters
@@ -157,11 +159,14 @@ lines = file.readlines()
 # mlepton2 = m6 = m7 = 0;
 
 
-# Now to make a mass hypothesis (guess the correct one)
-Msquark = MZ = 5.45421001e+02 # Mass of ~uL
-MN2 = MY = 1.80337030e+02 # Mass of ~chi02
-MseR = MX = 1.44059825e+02 # Mass of ~eR
-MN1 = MN = 9.70071979e+01 # Mass of ~chi01 (dark matter!)
+# True masses
+MSuL = 565.312 # Mass of ~uL, ~cL
+MSdL = 570.734 # Mass of ~dl, ~sL
+Msquark = MZ =(MSuL+MSdL)/2.0 # mean squark mass, fit this
+MN2 = MY = 180.337 # Mass of ~chi02
+MseR = MX = 144.06 # Mass of ~eR, ~muR
+# include left-handed sleptons? Must be done in the branchings before Herwig simulation in case
+MN1 = MN = 9.70071979E+01 # Mass of ~chi01 (dark matter!)
 MZprim = MZ
 MYprim = MY
 MXprim = MX
@@ -180,7 +185,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	A_nosmeardetlist = np.zeros(0)
 
 	# Define normalizing mass (characteristic mass scale of the problem)
-	Mnorm = Minitial[3]
+	Mnorm = 100000
 	# print "Mnorm = ", Mnorm
 
 	# Save invariant masses for making triangle
@@ -427,38 +432,38 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	# plt.xlabel(r'$m_q^\mathrm{inv}$ [GeV]')
 	# plt.show()
 
-	print len(quark1mass[quark1mass[:,0]>=5,1])
+	# print len(quark1mass[quark1mass[:,0]>=5,1])
 	# print len(quark1mass[abs(quark1mass[:,0])==1,1])+len(quark1mass[abs(quark1mass[:,0])==2,1])+len(quark1mass[abs(quark1mass[:,0])==3,1])+len(quark1mass[abs(quark1mass[:,0])==4,1])
 
 
 
 
 	# ============ Minimization to best fit =================
-	import minuit
+
 
 	# Define xi-squared function to minimize
-	def xisquared(MZ, MY, MX, MN, MZp, MYp, MXp, MNp):
-		# Set up Webber's M vector
-		M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
-		# Calculate the "chi-squared" error of the hypothesis
-		P = [] # store Pn
-		xisquared = 0
-		offshell = [] # list to store p4nsquared - MN**2
-		for n in range(N):
-			Pn = np.dot(Dlist[n],M.T) + Elist[n]
-			P.append(Pn) #store in case needed
+	# def xisquared(MZ, MY, MX, MN, MZp, MYp, MXp, MNp):
+	# 	# Set up Webber's M vector
+	# 	M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
+	# 	# Calculate the "chi-squared" error of the hypothesis
+	# 	P = [] # store Pn
+	# 	xisquared = 0
+	# 	offshell = [] # list to store p4nsquared - MN**2
+	# 	for n in range(N):
+	# 		Pn = np.dot(Dlist[n],M.T) + Elist[n]
+	# 		P.append(Pn) #store in case needed
 		
 		
-			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
-			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
+	# 		p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
+	# 		p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 		
-			xisquared +=  (p4nsquared - MN**2)**2 + (p8nsquared - MNprim**2)**2
-			offshell.append(abs(p4nsquared-MN**2))
-			offshell.append(abs(p8nsquared-MNprim**2))
+	# 		xisquared +=  (p4nsquared - MN**2)**2 + (p8nsquared - MNprim**2)**2
+	# 		offshell.append(abs(p4nsquared-MN**2))
+	# 		offshell.append(abs(p8nsquared-MNprim**2))
 		
-		return xisquared
+	# 	return xisquared
 
-	# COPY: xi-squared function to minimize with identical chains
+	# xi-squared function to minimize with identical chains
 	def xisquared_identical_chains(MZ, MY, MX, MN, Nevents, i): #, MZp, MYp, MXp, MNp):
 		Nevents = int(Nevents)
 		i = int(i)
@@ -479,13 +484,11 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 		
-			xisquared +=  (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 # p4/p8 is normalized by MN.
+			xisquared +=  (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 # p4/p8 is normalized by Mnorm.
 
 			# offshell.append(abs(p4nsquared-MN**2))
 			# offshell.append(abs(p8nsquared-MNprim**2))
-		xisquared = xisquared/float(N)/100**4
-		# print xisquared
-		xisquaredlist.append(xisquared)
+		xisquared = xisquared/(float(Nevents))
 		return xisquared
 
 
@@ -499,58 +502,58 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	# MXp = MX
 	# MNp = MN
 
-	best_fit = np.zeros((Nbins,4))
+	best_fit = np.zeros((Nbins,6))
 	relative_fit_error = np.zeros((Nbins,4))
 
-	# True values
-	MZ = 5.61119014E+02 # Mass of ~uL
-	MY = 1.81088157E+02 # Mass of ~chi02
-	MX = 1.44102799E+02 # Mass of ~eR
-	MN = 9.66880686E+01 # Mass of ~chi01 (dark matter!)
+	# # True values
+	# MZ = 5.61119014E+02 # Mass of ~uL
+	# MY = 1.81088157E+02 # Mass of ~chi02
+	# MX = 1.44102799E+02 # Mass of ~eR
+	# MN = 9.66880686E+01 # Mass of ~chi01 (dark matter!)
 	true_values = np.array([MZ,MY,MX,MN])
 
 	for i in range(Nbins):
 
-		m = minuit.Minuit(xisquared_identical_chains, 
-				MZ=Minitial[0], #limit_MZ=(300, 700),
-				# MY = 1.80337030e+02, fix_MY=True,
-				# MX = 1.44059825e+02, fix_MX=True,
-				# MN = 9.70071979e+01, fix_MN=True,
-				MY=Minitial[1], #limit_MY=(100, 300),
-				MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
-				MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
-				# MZp=1e2, limit_MZp=(50, 1500), error_MZp=1,
-				# MYp=1e2, limit_MYp=(50, 1500), error_MYp=1,
-				# MXp=1e2, limit_MXp=(50, 1500), error_MXp=1,
-				# MNp=1e2, limit_MNp=(50, 1500), error_MNp=1,
-				# print_level=1
-				#maxcalls=None,
-			#	tol = 10000,
-				Nevents=Nevents, fix_Nevents=True,
-				i=i, fix_i = True
-				)
-		#m.printMode = 1
-		m.simplex()
+		# m = Minuit(xisquared_identical_chains, 
+		# 		MZ=Minitial[0], #limit_MZ=(300, 700),
+		# 		MY=Minitial[1], #limit_MY=(100, 300),
+		# 		MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
+		# 		MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
+		# 		print_level=0,
+		# 		#maxcalls=None,
+		# 		error_MZ=Minitial[0]*0.01, 
+		# 		error_MY=Minitial[1]*0.01, 
+		# 		error_MX=Minitial[2]*0.01, 
+		# 		error_MN=Minitial[3]*0.01,
+		# 		Nevents=Nevents, fix_Nevents=True,
+		# 		i=i, fix_i = True,
+		# 		# strategy=2, # doesn't work? doesn't help.
+		# 		# tol=1e-3,
+		# 		# up=0.5
+		# 		)
+		# #m.printMode = 1
+		# m.migrad()
 
-		# true_values = [MZ, MY, MX, MN]
-		best_fit_xisquaredvalue = m.fval
-		best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']
-		relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
+		# # true_values = [MZ, MY, MX, MN]
+		# best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN'], m.ncalls, m.fval
+		# relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
 	
-	return best_fit_xisquaredvalue, true_values, best_fit, relative_fit_error
+	return true_values, best_fit, relative_fit_error
 
 
-# Run:
-Nevents = 100
-Nbins = 2000/Nevents
-# print "N =", N
-Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
-xisquaredlist = []
+# ==== Run: ======
+
+
+# Initialize run
+Nevents = 25
+Nbins = 100
+# Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan. 
+Minitial = np.array([MZ, MY, MX, MN])*1.0  # Make all mass guesses be equally far off, percentage-wise.
+print Minitial
 for smearing_resolution in [0]:
-	xisquared, true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial)
-	print best_fit
-
-	# Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
+	true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial)
+	for i in range(Nbins):
+		print "%3d % .6e   % .6e   % .6e   % .6e   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
 
 	# Get true mass values
 	Msquark = true_values[0]
@@ -559,36 +562,78 @@ for smearing_resolution in [0]:
 	Mchi1 = true_values[3]
 
 	# Extra masses
-	MsquarkuL = 5.61119014E+02
-	MsquarkdL = 5.68441109E+02
-	MsquarksL = 5.68441109E+02
-	MsquarkcL = 5.61119014E+02
-	MsquarkuR = 3.00000000E+04
-	MsquarkdR = 3.00000000E+04
-	MsquarksR = 3.00000000E+04
-	MsquarkcR = 3.00000000E+04
+	# MsquarkuL = 5.61119014E+02
+	# MsquarkdL = 5.68441109E+02
+	# MsquarksL = 5.68441109E+02
+	# MsquarkcL = 5.61119014E+02
+	# MsquarkuR = 3.00000000E+04
+	# MsquarkdR = 3.00000000E+04
+	# MsquarksR = 3.00000000E+04
+	# MsquarkcR = 3.00000000E+04
 
-	# Take out best-fit values for each bin as vectors
+	# Take out best-fit values for each bin as vectors (note minuscle m for the fit-vector)
 	msquark = best_fit[:,0]
 	mchi2 = best_fit[:,1]
 	mslepton = best_fit[:,2]
 	mchi1 = best_fit[:,3]
 
+
+	# Calculation of mean values and rms error for the fit
+	def rmse_true(true, estimate_vector):
+		# rms error compared to true value
+		n = len(estimate_vector)
+		rmse = np.sqrt( np.mean( np.power( true*np.ones(n)-estimate_vector , 2) ) )
+		return rmse
+	def rmse_est(estimate_vector):
+		# rms deviation from mean
+		n = len(estimate_vector)
+		mean = np.mean(estimate_vector)
+		rmse = np.sqrt( np.mean( np.power( mean*np.ones(n)-estimate_vector , 2) ) )
+		return rmse
+
+	mean_msquark = np.mean(msquark)
+	mean_mchi2 = np.mean(mchi2)
+	mean_mslepton = np.mean(mslepton)
+	mean_mchi1 = np.mean(mchi1)
+
+	rmse_est_msquark = rmse_est(msquark)
+	rmse_est_mchi2 = rmse_est(mchi2)
+	rmse_est_mslepton = rmse_est(mslepton)
+	rmse_est_mchi1 = rmse_est(mchi1)
+
+	rmse_true_msquark = rmse_true(Msquark, msquark)
+	rmse_true_mchi2 = rmse_true(Mchi2, mchi2)
+	rmse_true_mslepton = rmse_true(Mslepton, mslepton)
+	rmse_true_mchi1 = rmse_true(Mchi1, mchi1)
+
+	print "Mean and rmse values:"
+	print "squark:  mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_msquark, rmse_est_msquark, rmse_true_msquark)
+	print "chi2:    mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_mchi2, rmse_est_mchi2, rmse_true_mchi2)
+	print "slepton: mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_mslepton, rmse_est_mslepton, rmse_true_mslepton)
+	print "chi1:    mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_mchi1, rmse_est_mchi1, rmse_true_mchi1)
+
+
+
+	# Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
+
 	ylim = [np.min(msquark)-30, np.max(msquark)+30]
 	xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
-	print xlim, ylim
+	#print xlim, ylim
 	plt.plot(mchi2, msquark, 'ro')
 	# plt.xticks([100],[r'$\pi$'],fontsize=32)
 	plt.xlim(xlim[0],xlim[1])
 	plt.ylim(ylim[0],ylim[1])
 	plt.hold('on')
 	plt.plot(mslepton, msquark, 'bo')
-	plt.plot(mchi1, msquark, 'go')
-	plt.plot(Mchi2*np.ones(2), ylim, 'k--')
-	plt.plot(Mslepton*np.ones(2), ylim, 'k--')
-	plt.plot(Mchi1*np.ones(2), ylim, 'k--')
+	plt.plot(mchi1, msquark, 'yo')
+	plt.plot(Mchi2*np.ones(2), ylim, 'r--')
+	plt.plot(Mslepton*np.ones(2), ylim, 'b--')
+	plt.plot(Mchi1*np.ones(2), ylim, 'y--')
 	plt.plot(xlim, Msquark*np.ones(2), 'k--')
 	plt.show()
+
+
+
 
 
 	# print 'smearing', "%2.2f ," % smearing_resolution
