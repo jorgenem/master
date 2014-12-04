@@ -124,9 +124,32 @@ def decayfun(m1,P1,m2,m3):
 def smear(p,resolution):
 	# Smears 4-momentum according to AcerDET manual
 	r = np.random.randn()
-	p_smeared = p * ( 1 + r * resolution / np.sqrt(p[0,0]) )
+	p_smeared = p * ( 1 + r * resolution / np.sqrt(np.abs(p[0,0])) )
 	return p_smeared
-
+def smear2(p):
+	# Smears 4-momentum according to AcerDET manual, differently for different particle types (the true way to do it)
+	pdgid = abs(p[0,5])
+	r = np.random.randn()
+	if pdgid == 11: #electron
+		resolution = 0.12
+		p_smeared = p * ( 1 + r * resolution / np.sqrt(np.abs(p[0,0])) )
+	elif pdgid <= 4: #quark
+		threshold = 3.2
+		pabs = np.linalg.norm(p[0,1:4])
+		pseudorapidity = 0.5*np.log( ( pabs + p[0,3] )/( pabs - p[0,3] ) )
+		if pseudorapidity <= threshold:
+			resolution = 0.50
+		else:
+			resolution = 1.00
+		p_smeared = p * ( 1 + r * resolution / np.sqrt(np.abs(p[0,0])) )
+	elif pdgid == 13: #muon
+		resolution = 0.0005
+		p_smeared = p / ( 1 + r * resolution / np.sqrt(p[0,1]**2 + p[0,2]**2) )
+	else:
+		print "Something went wrong in the smearing function."
+		print "pdg = ", pdgid
+		print "pseudorapidity = ", pseudorapidity
+	return p_smeared
 
 
 
@@ -185,7 +208,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	A_nosmeardetlist = np.zeros(0)
 
 	# Define normalizing mass (characteristic mass scale of the problem)
-	Mnorm = 100000
+	Mnorm = 1000
 	# print "Mnorm = ", Mnorm
 
 	# Save invariant masses for making triangle
@@ -257,13 +280,12 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 
 		# Smear, r percent resolution
 		r = resolution # percent/100 momentum smearing
-		p1 = smear(p1,r)
-		p2 = smear(p2,r)
-		p3 = smear(p3,r)
-
-		p5 = smear(p5,r)
-		p6 = smear(p6,r)
-		p7 = smear(p7,r)
+		p1 = smear2(p1)
+		p2 = smear2(p2)
+		p3 = smear2(p3)
+		p5 = smear2(p5)
+		p6 = smear2(p6)
+		p7 = smear2(p7)
 
 		# Calculate invariant masses of measured particles
 		m1 = np.sign(minkowskinorm(p1))*np.sqrt(abs(minkowskinorm(p1)))
@@ -464,11 +486,11 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 	# 	return xisquared
 
 	# xi-squared function to minimize with identical chains
-	def xisquared_identical_chains(MZ, MY, MX, MN, Nevents, i): #, MZp, MYp, MXp, MNp):
+	def xisquared_identical_chains(Masses, Nevents, i): #, MZp, MYp, MXp, MNp):
 		Nevents = int(Nevents)
 		i = int(i)
 		# Duplicate masses for primed chain
-		MZp, MYp, MXp, MNp = MZ, MY, MX, MN
+		MZp, MYp, MXp, MNp = MZ, MY, MX, MN = Masses
 		# Set up Webber's M vector
 		M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
 		M = M/Mnorm**2 #normalise M
@@ -537,6 +559,16 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 		# # true_values = [MZ, MY, MX, MN]
 		# best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN'], m.ncalls, m.fval
 		# relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
+
+		# Scipy minimization
+		m = sciopt.minimize(xisquared_identical_chains, Minitial, 
+						  args=(Nevents, i), method='TNC', 
+						  bounds=((0, None), (0, None), (0, None), (0, None))
+						  # tol=1,
+						  # options={'maxiter': 100}
+						  )
+		best_fit[i,:] = m.x[0], m.x[1], m.x[2], m.x[3], m.nfev, m.fun
+		relative_fit_error = 0
 	
 	return true_values, best_fit, relative_fit_error
 
@@ -547,8 +579,9 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 # Initialize run
 Nevents = 25
 Nbins = 100
+mass_offset = 1.1
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan. 
-Minitial = np.array([MZ, MY, MX, MN])*1.0  # Make all mass guesses be equally far off, percentage-wise.
+Minitial = np.array([MZ, MY, MX, MN])*mass_offset  # Make all mass guesses be equally far off, percentage-wise.
 print Minitial
 for smearing_resolution in [0]:
 	true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial)
@@ -606,12 +639,17 @@ for smearing_resolution in [0]:
 	rmse_true_mslepton = rmse_true(Mslepton, mslepton)
 	rmse_true_mchi1 = rmse_true(Mchi1, mchi1)
 
+	print "Mass offset =", mass_offset
 	print "Mean and rmse values:"
 	print "squark:  mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_msquark, rmse_est_msquark, rmse_true_msquark)
 	print "chi2:    mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_mchi2, rmse_est_mchi2, rmse_true_mchi2)
 	print "slepton: mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_mslepton, rmse_est_mslepton, rmse_true_mslepton)
 	print "chi1:    mean = %3.3f, rmse_est = %3.3f, rmse_true = %3.3f" %(mean_mchi1, rmse_est_mchi1, rmse_true_mchi1)
-
+	print "Thesis-friendly numbers: mean \pm rmse_est [rmse_true]"
+	print "squark : %d \pm %d [%d]" %(round(mean_msquark), round(rmse_est_msquark), round(rmse_true_msquark))
+	print "chi2   : %d \pm %d [%d]" %(round(mean_mchi2), round(rmse_est_mchi2), round(rmse_true_mchi2))
+	print "slepton: %d \pm %d [%d]" %(round(mean_mslepton), round(rmse_est_mslepton), round(rmse_true_mslepton))
+	print "chi1   : %d \pm %d [%d]" %(round(mean_mchi1), round(rmse_est_mchi1), round(rmse_true_mchi1))
 
 
 	# Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
@@ -630,6 +668,9 @@ for smearing_resolution in [0]:
 	plt.plot(Mslepton*np.ones(2), ylim, 'b--')
 	plt.plot(Mchi1*np.ones(2), ylim, 'y--')
 	plt.plot(xlim, Msquark*np.ones(2), 'k--')
+	plt.xlabel(r'$m_i \mathrm{[GeV]}$',fontsize=20)
+	plt.ylabel(r'$m_{\tilde q} \mathrm{[GeV]}$',fontsize=20)
+	plt.savefig('herwig_scipy_tnc_with_smearing_1p1_initial_guess.pdf', format='pdf')
 	plt.show()
 
 
