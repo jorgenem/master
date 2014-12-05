@@ -169,6 +169,7 @@ def smear2(p):
 # import xml.etree.ElementTree as ET
 # tree = ET.parse('pptiluskvarkL-produksjon/20140529-1.txt')
 # root = tree.getroot()
+
 #import the Herwig .txt file of events
 import sys
 file = open("../herwigpp/LHC-MSSM-analysis_20141128_softsusy_with_branching_to_all_four_correct_leptons_31000_events.log",'r')
@@ -195,11 +196,11 @@ MYprim = MY
 MXprim = MX
 MNprim = MN
 
+true_values = np.array([MZ,MY,MX,MN])
+
 
 
 def minimize(Nbins, Nevents,resolution,Minitial):
-	# N is int, no. of events, resolution is double, smearing res, 
-	# Minitial is list of 8 elements, start point for parameter scan
 	# Make lists for storing D matrices and E vectors
 	N = Nbins*Nevents
 	Dlist = []
@@ -278,8 +279,8 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 
 
 
-		# Smear, r percent resolution
-		r = resolution # percent/100 momentum smearing
+		# Smear
+		# r = resolution # percent/100 momentum smearing
 		p1 = smear2(p1)
 		p2 = smear2(p2)
 		p3 = smear2(p3)
@@ -294,6 +295,7 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 		m5 = np.sign(minkowskinorm(p5))*np.sqrt(abs(minkowskinorm(p5)))
 		m6 = np.sign(minkowskinorm(p6))*np.sqrt(abs(minkowskinorm(p6)))
 		m7 = np.sign(minkowskinorm(p7))*np.sqrt(abs(minkowskinorm(p7)))
+
 
 		# Check invariant mass of initial colliding partons?
 		#print minkowskinorm(p1+p2+p3+p4+p5+p6+p7+p8)
@@ -514,25 +516,9 @@ def minimize(Nbins, Nevents,resolution,Minitial):
 		return xisquared
 
 
-	# # Now to make a mass hypothesis (guess the correct one)
-	# MZ = 5.45421001e+02 # Mass of ~uL
-	# MY = 1.80337030e+02 # Mass of ~chi02
-	# MX = 1.44059825e+02 # Mass of ~eR
-	# MN = 9.70071979e+01 # Mass of ~chi01 (dark matter!)
-	# MZp = MZ
-	# MYp = MY
-	# MXp = MX
-	# MNp = MN
 
 	best_fit = np.zeros((Nbins,6))
 	relative_fit_error = np.zeros((Nbins,4))
-
-	# # True values
-	# MZ = 5.61119014E+02 # Mass of ~uL
-	# MY = 1.81088157E+02 # Mass of ~chi02
-	# MX = 1.44102799E+02 # Mass of ~eR
-	# MN = 9.66880686E+01 # Mass of ~chi01 (dark matter!)
-	true_values = np.array([MZ,MY,MX,MN])
 
 	for i in range(Nbins):
 

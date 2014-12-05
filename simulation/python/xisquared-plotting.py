@@ -335,15 +335,16 @@ for i in range(N):
 
 
 # xi-squared function to minimize with identical chains
-def xisquared_identical_chains(Masses, Nevents, i): #, MZp, MYp, MXp, MNp):
+def xisquared_identical_chains(MZ, MY, MX, MN, Nevents, i): #, MZp, MYp, MXp, MNp):
 	Nevents = int(Nevents)
 	i = int(i)
 	# Duplicate masses for primed chain
-	MZp, MYp, MXp, MNp = MZ, MY, MX, MN = Masses
-	print Masses
+	MZp, MYp, MXp, MNp = MZ, MY, MX, MN# = Masses
+	# print Masses
 	# Set up Webber's M vector
 	M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
 	M = M/Mnorm**2 #normalise M
+	print len(M)
 	# Calculate the "chi-squared" error of the hypothesis
 	P = [] # store Pn
 	xisquared = 0
@@ -360,7 +361,7 @@ def xisquared_identical_chains(Masses, Nevents, i): #, MZp, MYp, MXp, MNp):
 
 		# offshell.append(abs(p4nsquared-MN**2))
 		# offshell.append(abs(p8nsquared-MNprim**2))
-	xisquared = xisquared/float(N)
+	xisquared = xisquared/float(Nevents)
 	return xisquared
 
 
@@ -372,30 +373,30 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 
-# msquark_linspace = np.linspace(Msquark*0.5, Msquark*1.5, 300)
-# mchi2_linspace   = np.linspace(Mchi2*0.5, Mchi2*1.5, 300)
-# mslepton_linspace = np.linspace(Mslepton*0.5, Mslepton*1.5, 300)
-# mchi1_linspace = np.linspace(Mchi1*0.5, Mchi1*1.5, 300)
-# msquark_mesh1, mchi2_mesh = np.meshgrid(msquark_linspace, mchi2_linspace)
-# msquark_mesh2, mslepton_mesh = np.meshgrid(msquark_linspace, mslepton_linspace)
-# msquark_mesh3, mchi1_mesh = np.meshgrid(msquark_linspace, mchi1_linspace)
+msquark_linspace = np.linspace(Msquark*0.5, Msquark*1.5, 300)
+mchi2_linspace   = np.linspace(Mchi2*0.5, Mchi2*1.5, 300)
+mslepton_linspace = np.linspace(Mslepton*0.5, Mslepton*1.5, 300)
+mchi1_linspace = np.linspace(Mchi1*0.5, Mchi1*1.5, 300)
+msquark_mesh1, mchi2_mesh = np.meshgrid(msquark_linspace, mchi2_linspace)
+msquark_mesh2, mslepton_mesh = np.meshgrid(msquark_linspace, mslepton_linspace)
+msquark_mesh3, mchi1_mesh = np.meshgrid(msquark_linspace, mchi1_linspace)
 
-# xi2_plot_squarkchi2 = np.log(xisquared_identical_chains(msquark_mesh1, mchi2_mesh, Mslepton, Mchi1, N, 0))
+xi2_plot_squarkchi2 = np.log(xisquared_identical_chains(msquark_mesh1, mchi2_mesh, Mslepton, Mchi1, N, 0))
 # xi2_plot_squarkslepton = np.log(xisquared_identical_chains(msquark_mesh2, Mchi2, mslepton_mesh, Mchi1, N, 0))
 # xi2_plot_squarkchi1 = np.log(xisquared_identical_chains(msquark_mesh3, Mchi2, Mslepton, mchi1_mesh, N, 0))
 
-# # Plot 1: squark-chi2
-# fig = plt.figure()
-# ax = fig.add_subplot(111, projection='3d', )
-# ax.set_zscale(u'linear')
-# ax.plot_wireframe(msquark_mesh1, mchi2_mesh, xi2_plot_squarkchi2, rstride=10, cstride=10, color='k')
-# # plt.title('test')
+# Plot 1: squark-chi2
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d', )
+ax.set_zscale(u'linear')
+ax.plot_wireframe(msquark_mesh1, mchi2_mesh, xi2_plot_squarkchi2, rstride=10, cstride=10, color='k')
+# plt.title('test')
 
-# ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
-# ax.set_ylabel(r'$m_{\tilde \chi_2^0}$', {'fontsize':20})
-# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
+ax.set_ylabel(r'$m_{\tilde \chi_2^0}$', {'fontsize':20})
+ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
 
-# plt.show()
+plt.show()
 
 
 # # Plot 2: squark-slepton
@@ -426,11 +427,11 @@ from mpl_toolkits.mplot3d import Axes3D
 # plt.show()
 
 
-Minitial = np.array([MZ, MY, MX, MN])*1.05
-print Minitial
-import scipy.optimize as sciopt
-minimum = sciopt.minimize(xisquared_identical_chains, Minitial, 
-						  args=(25,0), method='SLSQP', 
-						  #bounds=((MZ*0.5, MZ*2), (MY*0.5, MY*2), (MX*0.5, MX*2), (MN*0.0, MN*2))
-						  )
-print minimum
+# Minitial = np.array([MZ, MY, MX, MN])*1.05
+# print Minitial
+# import scipy.optimize as sciopt
+# minimum = sciopt.minimize(xisquared_identical_chains, Minitial, 
+# 						  args=(25,0), method='SLSQP', 
+# 						  #bounds=((MZ*0.5, MZ*2), (MY*0.5, MY*2), (MX*0.5, MX*2), (MN*0.0, MN*2))
+# 						  )
+# print minimum
