@@ -57,7 +57,6 @@ Supersymmetry is a hypothetical extension of the Standard model of particle phys
 
 
 
-
 \chapter{Determination of SUSY particle masses from cascade decays}
 In the following chapters we will present and discuss a method for determining the masses of supersymmetric particles in certain types of cascade decays. The present chapter formulates the type of process we are studying and the problems we face, and presents a novel method proposed by B. Webber \cite{Webber:2009vm} for making inferrals about the unknown masses. The subsequent chapters deal with confirmation and improvements on the method. We begin by simulating events, adding complexities layer by layer, confirming the method and getting some feeling for its aptitude. We then discuss some problems with the original formulation, suggest ways to amend these and look at ways to develop the method further.
 
@@ -519,7 +518,7 @@ This leads us to investigate other minimization algorithms. We employ methods bu
 		\caption{}
 		\label{fig:scipy_fit_nosmear4}
 	\end{subfigure}
-	\caption{Best-fit points for 100 bins of 25 Herwig++ generated events for initial guesses of $1.05 M_\mathrm{true}$ ((a), (b)) and $1.1 M_\mathrm{true}$ ((c), (d)) using Newton Conjugate-Gradient ((a),(c)) and sequential least squares ((b), (d)) methods for minimization. Note that figure (c) has outliers stretching the axes, making it seem more clustered compared to the others than it is.}
+	\caption{Best-fit points for 100 bins of 25 Herwig++ generated events for initial guesses of $1.05 M_\mathrm{true}$ ((a), (b)) and $1.1 M_\mathrm{true}$ ((c), (d)) using Newton Conjugate-Gradient (TNC) ((a),(c)) and sequential least squares (SLSQP) ((b), (d)) methods for minimization. The fits are summarized in table \ref{table:herwig_scipy_comparison}. Note that figure (c) has outliers stretching the axes, making it seem more clustered compared to the others than it is.}
 	\label{fig:scipy_fit_nosmear}
 \end{figure}
 
@@ -534,7 +533,7 @@ where $r_n$ is a standard normal-distributed random variable and $s$ is the chos
 \begin{align}
 	\tilde{p}^\mu = p^\mu / \left( 1 + r_n \cdot 0.005{\sqrt{p_T \mathrm{[GeV]}}} \right),\label{eq:smear2}
 \end{align}
-\marginpar{Question to Are: Should it really be division in this formula, or is it a typo in AcerDET?} where $p_T$ is the transverse momentum of the muon.
+\marginpar{Question to Are: Should it really be division in this formula, or is it a typo in AcerDET manual?} where $p_T$ is the transverse momentum of the muon.
 
 % Old:
 % The first complication we add is that of momentum smearing. This is done to model the uncertainties that stem from the detectors. According to the prescription from the {\ttfamily AcerDET} manual \cite{RichterWas:2002ch} we use a smearing of the form
@@ -574,7 +573,7 @@ where $r_n$ is a standard normal-distributed random variable and $s$ is the chos
 
 
 \subsection{How does matrix invertibility depend on smearing?}
-Given a 4-momentum vector $p^\mu_i$, what are its statistical properties after smearing with the prescription in Eq. \eqref{eq:smear}? The stochastic variable $r_n$ in \eqref{eq:smear} is drawn from a standard normal distribution, {\it e.g.}\
+Given a 4-momentum vector $p^\mu_i$, what are its statistical properties after smearing with the prescription in Eq. \eqref{eq:smear1}? The stochastic variable $r_n$ in \eqref{eq:smear1} is drawn from a standard normal distribution, {\it e.g.}\
 \begin{align}
 	r_n \sim N(\mu,\sigma) = N(0,1),
 \end{align}
@@ -601,7 +600,7 @@ For a sum of smeared 4-vectors we thus get
 \section{Taking combinatorial issues into account}
 In a real detector event, we will not have information about which of the measured particles belong to which chain. Therefore we must evaluate all allowed combinations and see which appears most likely to be the correct one. We have two possible cases, depending on whether the OSSF leptons on the two sides are of the same or different generations: If all four leptons are the same, then there are 16 possible combinations including the two-fold ambiguity in the quark assignments, while the number reduces to eight if the leptons come in two different generations. 
 
--- What are the relative branchings to the two cases? Does it make sense to discard the all-leptons-equal events like Webber does or do we lose a lot of events?
+{\it -- What are the relative branchings to the two cases? Does it make sense to discard the all-leptons-equal events like Webber does or do we lose a lot of events? Answer: The branching is of course 50-50, since the branching from neutralino2 is equal to both leptons. The plan is therefore to implement combinatorics for the most general case, possibly with a switch option to reduce to unequal sides for comparison.}
 
 
 
@@ -615,7 +614,7 @@ In a real detector event, we will not have information about which of the measur
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Improvements of the method}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-To think about: How do we scan when we don't know true values? May it be fruitful to run many minimizations with different starting positions? Something to try.
+To think about: How do we scan when we don't know true values? The fit is sensitive to initial values. Might it be fruitful to run many minimizations with different starting positions? That would essentially stack another 4-dimensional minimization on top of this one. Would scale CPU time enormously. Probably not that clever.
 
 
 
