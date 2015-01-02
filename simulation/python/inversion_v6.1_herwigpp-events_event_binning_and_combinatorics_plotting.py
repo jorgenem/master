@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from math import pi
 from iminuit import Minuit
 import scipy.optimize as sciopt
+from mpl_toolkits.mplot3d import Axes3D
+
 np.random.seed(2) # set seed for reproducibility
 
 
@@ -51,51 +53,10 @@ def smear2(p):
 		print "pseudorapidity = ", pseudorapidity
 	return np.matrix([p_smeared[0,0], p_smeared[0,1], p_smeared[0,2], p_smeared[0,3], p_smeared[0,4], p[0,5]])
 
-# def xisquared_identical_chains_with_combinatorics(Masses, Ainv_list, Clist, Nevents, i, Mnorm): 
-# 	Nevents = int(Nevents)
-# 	i = int(i)
-# 	# Duplicate masses for primed chain
-# 	MZp, MYp, MXp, MNp = MZ, MY, MX, MN = Masses
-# 	# Set up Webber's M vector
-# 	M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
-# 	M = M/Mnorm**2 #normalise M
-
-# 	#B matrix
-# 	B = np.matrix([[-1,1,0,0,0,0,0,0],
-# 				   [0,-1,1,0,0,0,0,0],
-# 				   [0,0,-1,1,0,0,0,0],
-# 				   [0,0,0,0,0,0,0,0],
-# 				   [0,0,0,0,-1,1,0,0],
-# 				   [0,0,0,0,0,-1,1,0],
-# 				   [0,0,0,0,0,0,-1,1],
-# 				   [0,0,0,0,0,0,0,0]])
-
-# 	# Calculate the "chi-squared" error of the hypothesis
-# 	xisquared = 0
-# 	for n in range(i*Nevents, (i+1)*Nevents):
-# 		xisquared_current_tmp = []
-
-
-# 		for m in range(combinations):
-# 			Ainv_current_permuted = np.dot(permute[m],Ainv_list[n])
-# 			D = np.dot(Ainv_current_permuted, B)
-# 			E = np.dot(Ainv_current_permuted, Clist[n].T)
-
-# 			Pn = np.dot(D, M) + E
-# 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
-# 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
-# 			xisquared +=  (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 # p4/p8 is normalized by Mnorm.
-
-# 	xisquared = xisquared/(float(Nevents))
-# 	return xisquared
-
 
 def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_lists, Nevents, j, all_leptons_equal_list, Nx, Ny):
 	Nevents = int(Nevents)
 	j = int(j)
-
-	# Nx = 300
-	# Ny = 300
 
 	# Define 8x8 permutation matrices
 	permute23 = 		np.matrix([	[1,0,0,0,0,0,0,0],
@@ -140,9 +101,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 	M = 1/float(Mnorm)**2 * np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
 	M = M.T
 
-	best_fit_combination = [] # list of best-fit combination for each event
-	# TODO: Implement a check of how many non-true best-fit combinations there are for different mass points
-	#best_fit_combination = np.array(Nevents,Nx,Ny) # list of best-fit combination for each event
+	best_fit_combination = np.zeros((Nevents,Nx,Ny)) # array of matrices of best-fit combination indices for each event. 0 is index of true combination.
 	xisquared = 0 # begin accumulation of the xisquared sum
 	for n in range(j*Nevents, (j+1)*Nevents):
 
@@ -160,7 +119,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[0,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[0,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -168,7 +127,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[1,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[1,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -176,7 +135,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[2,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[2,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -184,7 +143,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[3,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[3,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 
 			# Case 2 - A2/C2
@@ -196,7 +155,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[4,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[4,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -204,7 +163,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[5,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[5,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -212,7 +171,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[6,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[6,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -220,7 +179,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[7,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[7,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 
 			# Case 3 - A3/C3
@@ -232,7 +191,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[8,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[8,:,:] =  (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -240,7 +199,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[9,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[9,:,:] =  (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -248,7 +207,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[10,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[10,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -256,7 +215,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[11,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[11,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 
 			# Case 4 - A4/C4
@@ -268,7 +227,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[12,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[12,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -276,7 +235,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[13,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[13,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -284,7 +243,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[14,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[14,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2  
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -292,7 +251,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[15,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[15,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 
 
@@ -309,7 +268,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[0,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[0,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -317,7 +276,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[1,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[1,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -325,7 +284,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[2,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[2,:,:] =  (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -333,7 +292,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[3,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[3,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 
 			# Case 2 - A2/C2
@@ -345,7 +304,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[4,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[4,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -353,7 +312,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[5,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[5,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -361,7 +320,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[6,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[6,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -369,7 +328,7 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp[7,:,:] = (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 
+			xisquared_current_tmp[7,:,:] = (p4nsquared - M[3,0])**2 + (p8nsquared - M[7,0])**2 
 
 
 			
@@ -379,6 +338,18 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 
 		# Check which combination gives the smallest xisquared contribution
 		xisquared_current = np.min(xisquared_current_tmp,0)
+
+		# Store index of best-fit combination among the 8/16 possibilities
+		for k in range(Nx):
+			for l in range(Ny):
+				best_fit_combination[n-j*Nevents,k,l] = np.where(xisquared_current_tmp[:,k,l]==xisquared_current[k,l])[0]
+				if len(np.where(xisquared_current_tmp[:,k,l]==xisquared_current[k,l]))>1:
+					print "!"
+				# print np.where(xisquared_current_tmp[:,k,l]==xisquared_current[k,l])
+
+
+
+		# print best_fit_combination
 		# best_fit_combination.append(xisquared_current_tmp.index(xisquared_current))
 		# if xisquared_current_tmp.count(xisquared_current) > 1:
 		# 	print "Warning: multiple best-fit combinations for event ", n
@@ -386,8 +357,16 @@ def xisquared_identical_chains_with_combinatorics(MZ, MY, MX, MN, Ainv_lists, C_
 		# Add best-fit combination xisquared value to total
 		xisquared += xisquared_current
 	# END loop over events/n
+
+	number_of_correct_combinations = np.zeros((Nx, Ny))
+
+	for k in range(Nx):
+		for l in range(Ny):
+
+			number_of_correct_combinations[k,l] = Nevents - np.count_nonzero(best_fit_combination[:,k,l])
+
 	xisquared = xisquared/float(Nevents)
-	return xisquared#, best_fit_combination
+	return number_of_correct_combinations
 	# END xisquared definition
 
 
@@ -469,6 +448,12 @@ def best_fit(Nbins, Nevents, Mtrue, Minitial, Mnorm):
 		m5 = p5[0,4] = np.sign(minkowskinorm(p5))*np.sqrt(abs(minkowskinorm(p5)))
 		m6 = p6[0,4] = np.sign(minkowskinorm(p6))*np.sqrt(abs(minkowskinorm(p6)))
 		m7 = p7[0,4] = np.sign(minkowskinorm(p7))*np.sqrt(abs(minkowskinorm(p7)))
+		m1squared = minkowskinorm(p1)
+		m2squared = minkowskinorm(p2)
+		m3squared = minkowskinorm(p3)
+		m5squared = minkowskinorm(p5)
+		m6squared = minkowskinorm(p6)
+		m7squared = minkowskinorm(p7)
 
 		# Calculate missing transverse from (smeared) visible particles
 		pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
@@ -519,21 +504,21 @@ def best_fit(Nbins, Nevents, Mtrue, Minitial, Mnorm):
 		A2inv_list.append(A2inv)
 
 		#C vector
-		C1 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p1,p2) + 2*minkowskidot(p1,p3) + m1**2,
-						2*minkowskidot(p2,p3) + m2**2,
-						m3**2,
+		C1 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p1,p2) + 2*minkowskidot(p1,p3) + m1squared,
+						2*minkowskidot(p2,p3) + m2squared,
+						m3squared,
 						pxmiss**2,
-						2*minkowskidot(p5,p6) + 2*minkowskidot(p5,p7) + m5**2,
-						2*minkowskidot(p6,p7) + m6**2,
-						m7**2,
+						2*minkowskidot(p5,p6) + 2*minkowskidot(p5,p7) + m5squared,
+						2*minkowskidot(p6,p7) + m6squared,
+						m7squared,
 						pymiss**2])
-		C2 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p5,p2) + 2*minkowskidot(p5,p3) + m5**2,
-						2*minkowskidot(p2,p3) + m2**2,
-						m3**2,
+		C2 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p5,p2) + 2*minkowskidot(p5,p3) + m5squared,
+						2*minkowskidot(p2,p3) + m2squared,
+						m3squared,
 						pxmiss**2,
-						2*minkowskidot(p1,p6) + 2*minkowskidot(p1,p7) + m1**2,
-						2*minkowskidot(p6,p7) + m6**2,
-						m7**2,
+						2*minkowskidot(p1,p6) + 2*minkowskidot(p1,p7) + m1squared,
+						2*minkowskidot(p6,p7) + m6squared,
+						m7squared,
 						pymiss**2])
 		C1 = np.transpose(C1) #make column vector
 		C2 = np.transpose(C2)
@@ -573,21 +558,21 @@ def best_fit(Nbins, Nevents, Mtrue, Minitial, Mnorm):
 			A4inv_list.append(A4inv)
 
 			#C vector
-			C3 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p1,p2) + 2*minkowskidot(p1,p7) + m1**2,
-							2*minkowskidot(p2,p7) + m2**2,
-							m7**2,
+			C3 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p1,p2) + 2*minkowskidot(p1,p7) + m1squared,
+							2*minkowskidot(p2,p7) + m2squared,
+							m7squared,
 							pxmiss**2,
-							2*minkowskidot(p5,p6) + 2*minkowskidot(p5,p3) + m5**2,
-							2*minkowskidot(p6,p3) + m6**2,
+							2*minkowskidot(p5,p6) + 2*minkowskidot(p5,p3) + m5squared,
+							2*minkowskidot(p6,p3) + m6squared,
 							m3**2,
 							pymiss**2])
-			C4 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p5,p2) + 2*minkowskidot(p5,p7) + m5**2,
-							2*minkowskidot(p2,p7) + m2**2,
-							m7**2,
+			C4 = 1/float(Mnorm)**2 * np.matrix([ 2*minkowskidot(p5,p2) + 2*minkowskidot(p5,p7) + m5squared,
+							2*minkowskidot(p2,p7) + m2squared,
+							m7squared,
 							pxmiss**2,
-							2*minkowskidot(p1,p6) + 2*minkowskidot(p1,p3) + m1**2,
-							2*minkowskidot(p6,p3) + m6**2,
-							m3**2,
+							2*minkowskidot(p1,p6) + 2*minkowskidot(p1,p3) + m1squared,
+							2*minkowskidot(p6,p3) + m6squared,
+							m3squared,
 							pymiss**2])
 			C3 = np.transpose(C3)
 			C4 = np.transpose(C4)	
@@ -646,8 +631,8 @@ Mnorm = 1000
 Mtrue = np.array([MZ, MY, MX, MN])
 
 # Choose bin size, number of bins and start value
-Nbins = 1
-Nevents = 25
+Nbins = 2
+Nevents = 10
 
 
 # === RUN BEST-FIT ===
@@ -660,8 +645,6 @@ null, Ainv_lists, C_lists, all_leptons_equal_list = best_fit(Nbins, Nevents, Mtr
 
 
 # Plot xi^2 as function of some masses to see how bumpy
-from mpl_toolkits.mplot3d import Axes3D
-
 N = Nevents
 Nx = Ny = 300
 j = 0
@@ -673,55 +656,131 @@ mchi1_linspace = np.linspace(Mchi1*0.0, Mchi1*3, Nx)
 msquark_mesh1, mchi2_mesh = np.meshgrid(msquark_linspace, mchi2_linspace)
 msquark_mesh2, mslepton_mesh = np.meshgrid(msquark_linspace, mslepton_linspace)
 msquark_mesh3, mchi1_mesh = np.meshgrid(msquark_linspace, mchi1_linspace)
+mslepton_mesh2, mchi1_mesh2 = np.meshgrid(mslepton_linspace, mchi1_linspace)
 
-xi2_plot_squarkchi2 = np.log(xisquared_identical_chains_with_combinatorics( msquark_mesh1, mchi2_mesh, Mslepton, Mchi1, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny))
-xi2_plot_squarkslepton = np.log(xisquared_identical_chains_with_combinatorics(msquark_mesh2, Mchi2, mslepton_mesh, Mchi1, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny))
-xi2_plot_squarkchi1 = np.log(xisquared_identical_chains_with_combinatorics( msquark_mesh3, Mchi2, Mslepton, mchi1_mesh, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny))
+# xi2_plot_squarkchi2 = np.log(xisquared_identical_chains_with_combinatorics( msquark_mesh1, mchi2_mesh, Mslepton, Mchi1, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny))
+# xi2_plot_squarkslepton = np.log(xisquared_identical_chains_with_combinatorics(msquark_mesh2, Mchi2, mslepton_mesh, Mchi1, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny))
+# xi2_plot_squarkchi1 = np.log(xisquared_identical_chains_with_combinatorics( msquark_mesh3, Mchi2, Mslepton, mchi1_mesh, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny))
+
+
+# # Plot 1: squark-chi2
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d', )
+# ax.set_zscale(u'linear')
+# ax.plot_wireframe(msquark_mesh1, mchi2_mesh, xi2_plot_squarkchi2, rstride=10, cstride=10, color='k')
+# # plt.title('test')
+
+# ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
+# ax.set_ylabel(r'$m_{\tilde \chi_2^0}$', {'fontsize':20})
+# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+
+# # plt.savefig('3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-chi2.pdf', format='pdf')
+
+# plt.show()
+
+
+# # Plot 2: squark-slepton
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d', )
+# ax.set_zscale(u'linear')
+# ax.plot_wireframe(msquark_mesh2, mslepton_mesh, xi2_plot_squarkslepton, rstride=10, cstride=10, color='k')
+# # plt.title('test')
+
+# ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
+# ax.set_ylabel(r'$m_{\tilde l}$', {'fontsize':20})
+# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+
+# # plt.savefig('3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-slepton.pdf', format='pdf')
+
+# plt.show()
+
+
+# # Plot 3: squark-chi1
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d', )
+# ax.set_zscale(u'linear')
+# ax.plot_wireframe(msquark_mesh3, mchi1_mesh, xi2_plot_squarkchi1, rstride=10, cstride=10, color='k')
+# # plt.title('test')
+
+# ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
+# ax.set_ylabel(r'$m_{\tilde \chi_1^0}$', {'fontsize':20})
+# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+
+# # plt.savefig('3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-chi1.pdf', format='pdf')
+
+# plt.show()
+
+
+
+# Below is the code for plotting the amount of true best-fit combinations. Requires that the xisquared function returns number of correct combinations instead of the xisquared value.
+
+xi2_plot_squarkchi2 = xisquared_identical_chains_with_combinatorics( msquark_mesh1, mchi2_mesh, Mslepton, Mchi1, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny)
+xi2_plot_squarkslepton = xisquared_identical_chains_with_combinatorics(msquark_mesh2, Mchi2, mslepton_mesh, Mchi1, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny)
+xi2_plot_squarkchi1 = xisquared_identical_chains_with_combinatorics( msquark_mesh3, Mchi2, Mslepton, mchi1_mesh, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny)
+xi2_plot_sleptonchi1 = xisquared_identical_chains_with_combinatorics( Msquark, Mchi2, mslepton_mesh2, mchi1_mesh2, Ainv_lists, C_lists, N, j, all_leptons_equal_list, Nx, Ny)
+
+xi2_plot_squarkchi2 /= Nevents
+xi2_plot_squarkslepton /= Nevents
+xi2_plot_squarkchi1 /= Nevents
+xi2_plot_sleptonchi1 /= Nevents
 
 # Plot 1: squark-chi2
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d', )
-ax.set_zscale(u'linear')
-ax.plot_wireframe(msquark_mesh1, mchi2_mesh, xi2_plot_squarkchi2, rstride=10, cstride=10, color='k')
-# plt.title('test')
+fig, ax = plt.subplots()
+p = ax.pcolor(msquark_mesh1, mchi2_mesh, xi2_plot_squarkchi2, cmap='RdBu', vmin=0, vmax=abs(xi2_plot_squarkchi2).max())
+plt.xlim(msquark_linspace[0],msquark_linspace[-1])
+cb = fig.colorbar(p, ax=ax)
 
 ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
 ax.set_ylabel(r'$m_{\tilde \chi_2^0}$', {'fontsize':20})
-ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+plt.title("Fraction of events with correct best-fit combination, %d events"%Nevents)
 
-# plt.savefig('3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-chi2.pdf', format='pdf')
+plt.savefig('fraction_of_correct_combinatorics_squark-chi2.pdf', format='pdf')
 
 plt.show()
 
 
 # Plot 2: squark-slepton
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d', )
-ax.set_zscale(u'linear')
-ax.plot_wireframe(msquark_mesh2, mslepton_mesh, xi2_plot_squarkslepton, rstride=10, cstride=10, color='k')
-# plt.title('test')
+fig, ax = plt.subplots()
+p = ax.pcolor(msquark_mesh1, mslepton_mesh, xi2_plot_squarkslepton, cmap='RdBu', vmin=0, vmax=abs(xi2_plot_squarkslepton).max())
+cb = fig.colorbar(p, ax=ax)
 
 ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
 ax.set_ylabel(r'$m_{\tilde l}$', {'fontsize':20})
-ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+plt.title("Fraction of events with correct best-fit combination, %d events"%Nevents)
 
-# plt.savefig('3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-slepton.pdf', format='pdf')
+plt.savefig('fraction_of_correct_combinatorics_squark-slepton.pdf', format='pdf')
 
 plt.show()
 
 
-# Plot 3: squark-chi1
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d', )
-ax.set_zscale(u'linear')
-ax.plot_wireframe(msquark_mesh3, mchi1_mesh, xi2_plot_squarkchi1, rstride=10, cstride=10, color='k')
-# plt.title('test')
+# # Plot 3: squark-chi1
+fig, ax = plt.subplots()
+p = ax.pcolor(msquark_mesh1, mchi1_mesh, xi2_plot_squarkchi1, cmap='RdBu', vmin=0, vmax=abs(xi2_plot_squarkchi1).max())
+cb = fig.colorbar(p, ax=ax)
 
 ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
 ax.set_ylabel(r'$m_{\tilde \chi_1^0}$', {'fontsize':20})
-ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+plt.title("Fraction of events with correct best-fit combination, %d events"%Nevents)
 
-# plt.savefig('3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-chi1.pdf', format='pdf')
+plt.savefig('fraction_of_correct_combinatorics_squark-chi1.pdf', format='pdf')
+
+plt.show()
+
+
+# # Plot 4: squark-chi1
+fig, ax = plt.subplots()
+p = ax.pcolor(mslepton_mesh2, mchi1_mesh2, xi2_plot_sleptonchi1, cmap='RdBu', vmin=0, vmax=abs(xi2_plot_sleptonchi1).max())
+cb = fig.colorbar(p, ax=ax)
+
+ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
+ax.set_ylabel(r'$m_{\tilde \chi_1^0}$', {'fontsize':20})
+# ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
+plt.title("Fraction of events with correct best-fit combination, %d events"%Nevents)
+
+plt.savefig('fraction_of_correct_combinatorics_slepton-chi1.pdf', format='pdf')
 
 plt.show()
 
@@ -741,90 +800,3 @@ plt.show()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-# === Hopefully just old crap below here ===
-	# 	#A matrix
-	# 	A = 2*np.matrix([	[ p1[0,1] , p1[0,2] , p1[0,3] , -p1[0,0] , 0 , 0 , 0 , 0 ],
-	# 						[ p2[0,1] , p2[0,2] , p2[0,3] , -p2[0,0] , 0 , 0 , 0 , 0 ],
-	# 						[ p3[0,1] , p3[0,2] , p3[0,3] , -p3[0,0] , 0 , 0 , 0 , 0 ],
-	# 						[ 0.5*pxmiss,	0   , 0		  , 0		 , 0.5*pxmiss,0 , 0 , 0 ],
-	# 						[ 0	, 0 , 0 , 0 , p5[0,1] , p5[0,2] , p5[0,3] , -p5[0,0] ],
-	# 						[ 0	, 0 , 0 , 0 , p6[0,1] , p6[0,2] , p6[0,3] , -p6[0,0] ],
-	# 						[ 0	, 0 , 0 , 0 , p7[0,1] , p7[0,2] , p7[0,3] , -p7[0,0] ],
-	# 						[ 0 ,0.5*pymiss, 0 , 0 , 0 	  , 0.5*pymiss	, 0		  , 0 		 ]]	)
-	# 	A = A/Mnorm # normalize A
-	# 	# print np.linalg.det(A)
-	# 	#A inverse
-	# 	# print A
-	# 	Ainv = A.I
-	# 	Ainv_list.append(Ainv)
-
-
-
-	# 	#C vector
-	# 	C = np.transpose(np.matrix([ 	2*minkowskidot(p1,p2) + 2*minkowskidot(p1,p3) + m1**2,
-	# 									2*minkowskidot(p2,p3) + m2**2,
-	# 									m3**2,
-	# 									pxmiss**2,
-	# 									2*minkowskidot(p5,p6) + 2*minkowskidot(p5,p7) + m5**2,
-	# 									2*minkowskidot(p6,p7) + m6**2,
-	# 									m7**2,
-	# 									pymiss**2]))
-	# 	C = C/Mnorm**2 # normalize C
-
-	# 	# Composite matrix & vector D and E
-	# 	# D = np.dot(Ainv,B)
-	# 	# E = np.dot(Ainv,C.T)
-
-	# 	# store D and E
-	# 	# Dlist.append(D)
-	# 	# Elist.append(E)
-	# 	# store A and C instead, because of combinatorical permutations
-	# 	Ainv_list.append(Ainv)
-	# 	Clist.append(C)
-
-	# 	# ===========
-	# 	# From here on we can forget about the event momenta, everything
-	# 	# is stored in Dn and En for each event. Time to guess the masses.
-	# 	# ===========
-
-	# #### end loop over i
-
-	# # Loop over bins
-	# for i in range(Nbins):
-
-	# 	# Calculate xisquared directly in loop, not in function
-
-	# 	# Duplicate masses for primed chain
-	# 	MZp, MYp, MXp, MNp = MZ, MY, MX, MN = Masses
-	# 	# Set up Webber's M vector
-	# 	M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
-	# 	M = M/Mnorm**2 #normalise M
-
-	# 	# Calculate the "chi-squared" error of the hypothesis
-	# 	xisquared = 0
-	# 	for n in range(i*Nevents, (i+1)*Nevents):
-	# 		xisquared_current_tmp = []
-
-
-	# 		for m in range(combinations):
-	# 			Ainv_current_permuted = np.dot(permute[m],Ainv_list[n])
-	# 			D = np.dot(Ainv_current_permuted, B)
-	# 			E = np.dot(Ainv_current_permuted, Clist[n].T)
-
-	# 			Pn = np.dot(D, M) + E
-	# 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
-	# 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
-	# 			xisquared +=  (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 # p4/p8 is normalized by Mnorm.
-
-	# 	xisquared = xisquared/(float(Nevents))

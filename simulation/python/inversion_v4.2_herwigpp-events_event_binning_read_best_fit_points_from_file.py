@@ -483,112 +483,117 @@ mass_offset = 0.99
   # Make all mass guesses be equally far off, percentage-wise.
 M_explowbound=[400,94,94,46]
 
-smearing_resolution = 0
-for mass_offset in [0.99]:
-	Minitial = np.array([MZ, MY, MX, MN])*mass_offset
-	# Minitial=np.array([447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959])*mass_offset
-	print Minitial
-	true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial,M_explowbound)
-	for i in range(Nbins):
-		print "%3d % .6e   % .6e   % .6e   % .6e   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
+import sys
+file = open("../mathematica/minimization_best_fit_100_bins_25_events_no_combinatorics.txt",'r')
+lines = file.readlines()
 
-	# Get true mass values
-	Msquark = true_values[0]
-	Mchi2 = true_values[1]
-	Mslepton = true_values[2]
-	Mchi1 = true_values[3]
-
-	# Extra masses
-	# MsquarkuL = 5.61119014E+02
-	# MsquarkdL = 5.68441109E+02
-	# MsquarksL = 5.68441109E+02
-	# MsquarkcL = 5.61119014E+02
-	# MsquarkuR = 3.00000000E+04
-	# MsquarkdR = 3.00000000E+04
-	# MsquarksR = 3.00000000E+04
-	# MsquarkcR = 3.00000000E+04
-
-	# Take out best-fit values for each bin as vectors (note minuscle m for the fit-vector)
-	msquark = best_fit[:,0]
-	mchi2 = best_fit[:,1]
-	mslepton = best_fit[:,2]
-	mchi1 = best_fit[:,3]
+best_fit = np.zeros((100,4))
+for i in range(len(lines)):
+	print(lines[i])
+	words=lines[i].split()
+	best_fit[i,0]=float(words[0])
+	best_fit[i,1]=float(words[1])
+	best_fit[i,2]=float(words[2])
+	best_fit[i,3]=float(words[3])
+	print best_fit[i,:],"\n"
 
 
-	# Calculation of mean values and rms error for the fit
-	def rmse_true(true, estimate_vector):
-		# rms error compared to true value
-		n = len(estimate_vector)
-		rmse = np.sqrt( np.mean( np.power( true*np.ones(n)-estimate_vector , 2) ) )
-		return rmse
-	def rmse_est(estimate_vector):
-		# rms deviation from mean
-		n = len(estimate_vector)
-		mean = np.mean(estimate_vector)
-		rmse = np.sqrt( np.mean( np.power( mean*np.ones(n)-estimate_vector , 2) ) )
-		return rmse
+Msquark = true_values[0]
+Mchi2 = true_values[1]
+Mslepton = true_values[2]
+Mchi1 = true_values[3]
 
-	mean_msquark = np.mean(msquark)
-	mean_mchi2 = np.mean(mchi2)
-	mean_mslepton = np.mean(mslepton)
-	mean_mchi1 = np.mean(mchi1)
+# Extra masses
+# MsquarkuL = 5.61119014E+02
+# MsquarkdL = 5.68441109E+02
+# MsquarksL = 5.68441109E+02
+# MsquarkcL = 5.61119014E+02
+# MsquarkuR = 3.00000000E+04
+# MsquarkdR = 3.00000000E+04
+# MsquarksR = 3.00000000E+04
+# MsquarkcR = 3.00000000E+04
 
-	rmse_est_msquark = rmse_est(msquark)
-	rmse_est_mchi2 = rmse_est(mchi2)
-	rmse_est_mslepton = rmse_est(mslepton)
-	rmse_est_mchi1 = rmse_est(mchi1)
-
-	# rmse_true_msquark = rmse_true(Msquark, msquark)
-	# rmse_true_mchi2 = rmse_true(Mchi2, mchi2)
-	# rmse_true_mslepton = rmse_true(Mslepton, mslepton)
-	# rmse_true_mchi1 = rmse_true(Mchi1, mchi1)
-
-	print "Mass offset =", mass_offset
-	# print "Mean and rmse values:"
-	# print "squark:  mean = %3.3f, rmse_est = %3.3f" %(mean_msquark, rmse_est_msquark)
-	# print "chi2:    mean = %3.3f, rmse_est = %3.3f" %(mean_mchi2, rmse_est_mchi2)
-	# print "slepton: mean = %3.3f, rmse_est = %3.3f" %(mean_mslepton, rmse_est_mslepton)
-	# print "chi1:    mean = %3.3f, rmse_est = %3.3f" %(mean_mchi1, rmse_est_mchi1)
-	print "Thesis-friendly numbers: mean \pm rmse_est"
-	print "squark : %d \pm %d" %(round(mean_msquark), round(rmse_est_msquark))
-	print "chi2   : %d \pm %d" %(round(mean_mchi2), round(rmse_est_mchi2))
-	print "slepton: %d \pm %d" %(round(mean_mslepton), round(rmse_est_mslepton))
-	print "chi1   : %d \pm %d" %(round(mean_mchi1), round(rmse_est_mchi1))
+# Take out best-fit values for each bin as vectors (note minuscle m for the fit-vector)
+msquark = best_fit[:,0]
+mchi2 = best_fit[:,1]
+mslepton = best_fit[:,2]
+mchi1 = best_fit[:,3]
 
 
-	# Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
+# Calculation of mean values and rms error for the fit
+def rmse_true(true, estimate_vector):
+	# rms error compared to true value
+	n = len(estimate_vector)
+	rmse = np.sqrt( np.mean( np.power( true*np.ones(n)-estimate_vector , 2) ) )
+	return rmse
+def rmse_est(estimate_vector):
+	# rms deviation from mean
+	n = len(estimate_vector)
+	mean = np.mean(estimate_vector)
+	rmse = np.sqrt( np.mean( np.power( mean*np.ones(n)-estimate_vector , 2) ) )
+	return rmse
 
-	# ylim = [np.min(msquark)-30, np.max(msquark)+30]
-	# xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
-	ylim=[300,700]
-	xlim=[0,300]
-	#print xlim, ylim
-	plt.plot(mchi2, msquark, 'ro')
-	# plt.xticks([100],[r'$\pi$'],fontsize=32)
-	plt.xlim(xlim[0],xlim[1])
-	plt.ylim(ylim[0],ylim[1])
-	plt.hold('on')
-	plt.plot(mslepton, msquark, 'bo')
-	plt.plot(mchi1, msquark, 'yo')
-	plt.plot(Mchi2*np.ones(2), ylim, 'r--')
-	plt.plot(Mslepton*np.ones(2), ylim, 'b--')
-	plt.plot(Mchi1*np.ones(2), ylim, 'y--')
-	plt.plot(xlim, Msquark*np.ones(2), 'k--')
-	plt.xlabel(r'$m_i \mathrm{[GeV]}$',fontsize=20)
-	plt.ylabel(r'$m_{\tilde q} \mathrm{[GeV]}$',fontsize=20)
-	plt.title("Mass offset = %.2f"%mass_offset)
-	# plt.savefig('herwig_scipy_tnc_with_smearing_1p1_initial_guess.pdf', format='pdf')
-	# plt.show()
+mean_msquark = np.mean(msquark)
+mean_mchi2 = np.mean(mchi2)
+mean_mslepton = np.mean(mslepton)
+mean_mchi1 = np.mean(mchi1)
+
+rmse_est_msquark = rmse_est(msquark)
+rmse_est_mchi2 = rmse_est(mchi2)
+rmse_est_mslepton = rmse_est(mslepton)
+rmse_est_mchi1 = rmse_est(mchi1)
+
+# rmse_true_msquark = rmse_true(Msquark, msquark)
+# rmse_true_mchi2 = rmse_true(Mchi2, mchi2)
+# rmse_true_mslepton = rmse_true(Mslepton, mslepton)
+# rmse_true_mchi1 = rmse_true(Mchi1, mchi1)
+
+print "Mass offset =", mass_offset
+# print "Mean and rmse values:"
+# print "squark:  mean = %3.3f, rmse_est = %3.3f" %(mean_msquark, rmse_est_msquark)
+# print "chi2:    mean = %3.3f, rmse_est = %3.3f" %(mean_mchi2, rmse_est_mchi2)
+# print "slepton: mean = %3.3f, rmse_est = %3.3f" %(mean_mslepton, rmse_est_mslepton)
+# print "chi1:    mean = %3.3f, rmse_est = %3.3f" %(mean_mchi1, rmse_est_mchi1)
+print "Thesis-friendly numbers: mean \pm rmse_est"
+print "squark : %d \pm %d" %(round(mean_msquark), round(rmse_est_msquark))
+print "chi2   : %d \pm %d" %(round(mean_mchi2), round(rmse_est_mchi2))
+print "slepton: %d \pm %d" %(round(mean_mslepton), round(rmse_est_mslepton))
+print "chi1   : %d \pm %d" %(round(mean_mchi1), round(rmse_est_mchi1))
+
+
+# Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
+
+# ylim = [np.min(msquark)-30, np.max(msquark)+30]
+# xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
+ylim=[200,800]
+xlim=[0,300]
+#print xlim, ylim
+plt.plot(mchi2, msquark, 'ro')
+# plt.xticks([100],[r'$\pi$'],fontsize=32)
+plt.xlim(xlim[0],xlim[1])
+plt.ylim(ylim[0],ylim[1])
+plt.hold('on')
+plt.plot(mslepton, msquark, 'bo')
+plt.plot(mchi1, msquark, 'yo')
+plt.plot(Mchi2*np.ones(2), ylim, 'r--')
+plt.plot(Mslepton*np.ones(2), ylim, 'b--')
+plt.plot(Mchi1*np.ones(2), ylim, 'y--')
+plt.plot(xlim, Msquark*np.ones(2), 'k--')
+plt.xlabel(r'$m_i \mathrm{[GeV]}$',fontsize=20)
+plt.ylabel(r'$m_{\tilde q} \mathrm{[GeV]}$',fontsize=20)
+# plt.title("Mass offset = %.2f"%mass_offset)
+plt.savefig('herwig_mathematica_no_smearing.pdf', format='pdf')
+plt.show()
 
 
 
 
 
-	# print 'smearing', "%2.2f ," % smearing_resolution
-	# print 'True masses', true_values
-	# print 'Best-fit values', best_fit
-	# print 'relative_fit_error', relative_fit_error, ', abs mean fit error', "%.2e" %np.mean(np.abs(relative_fit_error))
-	# print "number of runs =", len(xisquaredlist), ", mean xi^2 =", np.mean(xisquaredlist), "final xi^2 =", xisquaredlist[-1]
+# print 'smearing', "%2.2f ," % smearing_resolution
+# print 'True masses', true_values
+# print 'Best-fit values', best_fit
+# print 'relative_fit_error', relative_fit_error, ', abs mean fit error', "%.2e" %np.mean(np.abs(relative_fit_error))
+# print "number of runs =", len(xisquaredlist), ", mean xi^2 =", np.mean(xisquaredlist), "final xi^2 =", xisquaredlist[-1]
 
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan
 # Nlist = range(100,1000, 50)
