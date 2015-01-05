@@ -80,7 +80,7 @@ PPtr getFinalInstance(PPtr p)
   {
     return p;
   }
-  else if (children[0]->id() != p->id())
+  else if (children[0]->id() != p->id()) // Is this a possible flaw? Are we certain that the particle itself is always indexed first if it e.g. emits gluons or gammas?
   {
     return p;
   }
@@ -171,13 +171,13 @@ bool getChildrenWithPossibleGammas (PPtr p, int id11, int id12, int id13, int id
     // Check that there are no other children than we expect
     if (abs((*child)->id()) == id11 || abs((*child)->id()) == id12 || abs((*child)->id()) == id13 || abs((*child)->id()) == id14)
     {
-      // If child is equal to child1 then
+      // If child is equal to child1 (slepton) then
       child1IsPresent = true;
       indexId1 = counter; 
     }
     if (abs((*child)->id()) == id21 || abs((*child)->id()) == id22)
     {
-      // If child is equal to child2 then
+      // If child is equal to child2 (lepton) then
       child2IsPresent = true;
       indexId2 = counter;
     }
@@ -194,8 +194,8 @@ bool getChildrenWithPossibleGammas (PPtr p, int id11, int id12, int id13, int id
   }
   if (child1IsPresent && child2IsPresent)
   {
-    child1 = children[indexId1];
-    child2 = children[indexId2];
+    child1 = getFinalInstance(children[indexId1]);
+    child2 = getFinalInstance(children[indexId2]);
     return true;
   }
   else
