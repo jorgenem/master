@@ -246,9 +246,9 @@ In this thesis we wish to investigate and hopefully develop this method further.
 
 The plan of attack is as follows:
 \begin{enumerate}
-	\item We begin by generating squark pairs at 14 TeV using {\tt CompHEP}, decaying them in the chain of on-shell two-body decays given in (\ref{eq:goldencascade}). The visible decay products, quarks and leptons, are then used to reconstruct the masses. As a benchmark we investigate the precission atainable for the parameter point SPS1a~\cite{Allanach:2002nj}. 
-	\item	We then compare results with and without including the combinatorical issues from identifying the decay products, and we add a simple parametrised momentum smearing, based on realistic detector response, in order to simulate that the measurement of the kinematics of final-state particles is not exact. This was the level of precission employed by Webber in~\cite{Webber:2009vm}.
+	\item We begin by generating squark pairs at rest, decaying them in the chain of on-shell two-body decays given in (\ref{eq:goldencascade}). The visible decay products, quarks and leptons, are then used to reconstruct the masses. As a benchmark we investigate the precision attainable for the parameter point SPS1a~\cite{Allanach:2002nj}. 
 	\item Because of final state radiation and parton showering, as well as---to a lesser degree---sparticle widths, the particles in the decay chain will not be on-shell due to extra gluons (and photons) in the final state. We employ a more sophisticated Monte Carlo code, {\tt Herwig++}~\cite{Bahr:2008pv}  to simulate these properties. This should have an effect on the mass reconstruction since Webber's method assumes on-shell decays.
+	\item	We then compare results with and without including the combinatorical issues from identifying the decay products, and we add a simple parametrised momentum smearing, based on realistic detector response, in order to simulate that the measurement of the kinematics of final-state particles is not exact. This was the level of precision employed by Webber in~\cite{Webber:2009vm}.
 	\item The partons that emerge from the hadron showers will hadronize, forming a hadron jet before arriving in the detector. Measurement of the initial parton from reconstructing such jets is one of the big challenges of collider physics. We use the {\tt FastJet}~\cite{Cacciari:2011ma} program for jet reconstruction, with algorithms used in the LHC experiments, and study the effect of jet reconstruction on the mass measurement.
 	\item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. In addition we simulate the expected largest backgrounds for a four-lepton supersymmetry search and investigate how the performance of the method is affected by the presence of background.
 	\item {\bf If time} As a last step towards realism, we put the events through a fast detector simulation. 
@@ -299,7 +299,70 @@ However, the production of additional quarks is irrelevant for the analysis and 
 
 
 
+\section{The simplest possible case: Squarks decaying at rest}
+The very simplest way to study this problem, when all the complications of reality are stripped away, consists of a pair of heavy particles which each decay in a series of on-shell two-body decays down to three light particles that are detected and one that escapes. This idealized situation constrains the possible performance of Webber's method on the most general level, so we choose to start here. To decay the particles we use the algorithm described in appendix \ref{ch:decayalgorithm}. The algorithm assumes that everything is completely on-shell, so there is no Breit-Wigner smearing of the unstable particle masses, no initial- or final state radiation of photons or gluons that could force particles off-shell and no loss of energy in the process.
 
+We take the CMMSM benchmark point SPS 1a \cite{Allanach:2002nj} as our mass parameter point. As mentioned above, we will only consider the first two generations of squarks. We will also take them to be left-handed, primarily since right-handed squarks have low cross-sections at SPS 1a (see discussion in the next section). The squarks we end up studying are then $\tilde u_L, \tilde d_L, \tilde c_L$ and $\tilde s_L$. Their masses are $m_{\tilde u_L, \tilde c_L} = 565 \,\mathrm{GeV}$ and $m_{\tilde d_L, \tilde s_L} = 571 \, \mathrm{GeV}$, {\it i.e.}\ the up/down-type mass splitting $\Delta m = 6 \, \mathrm{GeV}$ is small. For this simplistic case, we take a single squark mass of $m_{\tilde q} = (m_{\tilde u_L, \tilde c_L}+m_{\tilde d_L, \tilde s_L})/2 = 568 \, \mathrm{GeV}$. 
+
+Furthermore, we will assume only first- and second generation sleptons and leptons, on the basis that tau leptons are difficult to detect experimentally. The mass hierarchy of SPS1a is such that the left-handed sleptons $\tilde e_L, \tilde \mu_L$ are heavier than $\chi_2^0$, thus disabling those decay modes for the $\chi_2^0$. Since first- and second generation sleptons of the same chirality are mass-degenerate at this parameter point, it means that we only have one slepton mass to fit, namely $m_{\tilde e_R, \tilde \mu_R} = 144 \, \mathrm{GeV}$. Finally, the masses of the neutralinos at SPS 1a are $m_{\chi_2^0} = 180 \, \mathrm{GeV}$ and $m_{\chi_1^0} = 97 \, \mathrm{GeV}$. 
+
+For one single event, the $\xi^2$ function detailed in the last chapter (which we are looking to minimize) takes the form shown in figure \ref{fig:3D_masses_simplistic_1event}\footnote{All plots are in vector format, so they are highly zoomable if the document is opened electronically.}. [Say something about that the LSP dependency is weirdy-weird]
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_1_simplistic_event_squark-chi2.pdf} 
+		\caption{}
+		% \label{fig:3D_masses1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_1_simplistic_event_squark-slepton.pdf} 
+		\caption{}
+		% \label{fig:3D_masses2}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_1_simplistic_event_squark-chi1.pdf} 
+		\caption{}
+		% \label{fig:3D_masses3}
+	\end{subfigure}
+	% \begin{subfigure}[b]{0.49\textwidth}
+	% 	\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-chi1_rotated.pdf} 
+	% 	\caption{}
+	% 	\label{fig:3D_masses4}
+	% \end{subfigure}
+	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events.}
+	\label{fig:3D_masses_simplistic_1event}
+\end{figure}
+
+The strength in Webber's approach, however, lies in the ability to combine multiple events in one fit. We make the same plot again, but with 25 events combined, in figure \ref{fig:3D_masses_simplistic}. We immediately notice that the ``valley''-like features of the previous plot have disappeared, the surface is flatter, and the minima are more pronounced. 
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_simplistic_events_squark-chi2.pdf} 
+		\caption{}
+		% \label{fig:3D_masses1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_simplistic_events_squark-slepton.pdf} 
+		\caption{}
+		% \label{fig:3D_masses2}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_simplistic_events_squark-chi1.pdf} 
+		\caption{}
+		% \label{fig:3D_masses3}
+	\end{subfigure}
+	% \begin{subfigure}[b]{0.49\textwidth}
+	% 	\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-chi1_rotated.pdf} 
+	% 	\caption{}
+	% 	\label{fig:3D_masses4}
+	% \end{subfigure}
+	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events.}
+	\label{fig:3D_masses_simplistic}
+\end{figure}
 % \section{Event generation using {\tt CompHEP}}
 % We first begin by using {\ttfamily CompHEP 4.5.2} \cite{Pukhov:1999gg} to generate 1000 $pp \to \tilde{u}_L \bar{\tilde{u}}_L$ collisions at $\sqrt{s} = 14 \, \mathrm{TeV}$ with the supersymmetric parameter choice mSUGRA SPS1a $(\alpha)$ \cite{Allanach:2002nj} calculated using {\ttfamily SoftSUSY 3.4.1} \cite{Allanach:2001kg}.\footnote{Note that CompHEP uses the wrong squark mass: The value from SoftSUSY is $\sim 565 \,\mathrm{GeV}$, while CompHEP uses $\sim 545 \,\mathrm{GeV}$. This is due to how CompHEP is coded: The external RGE running done by SoftSUSY is only used by CompHEP up to the point of low-scale soft mass parameters. The calculation of physical squark masses from soft mass parameters is hard-coded in CompHEP using a tree-level formula. Trying to manually change the value has proven difficult since it disturbs the internal consistency of CompHEP.} \marginpar{TODO: Make CompHEP use the correct squark mass if possible.} {\ttfamily CompHEP} produces a file containing the 4-momenta of the squarks for each event. It is important to note that {\ttfamily CompHEP} produces the squarks on-shell -- possibly a major simplification for colour-charged particles, who might realistically be far off-shell when they come from a hard collision before they have a chance to shower off gluons. The squark 4-momenta are then read into a Python script where the rest of the chain is generated. We generate the chain as a succession of two-body decays where the decay products are on-shell, {\it e.g.}\ we work in a narrow width approximation. This is again a major simplification for the quark due to showering. Standard model particles are assumed massless. The algorithm for this generation is described in section \ref{sec:decayalgorithm}. The decay direction for the back-to-back decay in each step is drawn uniformly on a sphere. This is correct for the scalar particles, and for the fermions it is justified by averaging over spin directions. \marginpar{\color{purple} Note to self: Check that I understand this properly.} The resulting visible 4-momenta resemble an idealized decay situation. As a check to see that our algorithm is correct, we reproduce the dilepton invariant mass distribution for the upper chain as discussed in the previous section. The distribution is shown in figure \ref{fig:dilepton_invariant_mass_no_smearing}. We see that it resembles a triangle, and that it cuts sharply at $m_{ll}^{\mathrm{max}} \approx 80 \, \mathrm{GeV}$, which corresponds nicely with the theoretical prediction $m_{ll}^\text{max} = 80.2 \, \mathrm{GeV}$ from Eq. \ref{eq:invariant_mass_endpoint}.
 
@@ -423,7 +486,7 @@ There is also the possibility of photon bremsstrahlung in the other charged part
 \subsection{Fitting the {\ttfamily Herwig++} events}
 The best-fit point is the point which minimizes the $\xi^2$ function, given in Eq. \eqref{eq:xisquared_modified}, for a selection of events. Evaluation of the function involves inverting the $8\times 8$ matrix $\mathbf{A}$ (Eq. \eqref{eq:Amatrix_modified}) for each event, so it is not trivially done by hand, although it is quick to do numerically. But in order to study the behaviour of the $\xi^2$ more in-depth, we implement the method in Mathematica \cite{Mathematica}, which is able to calculate symbolically. Using a sample of 25 events, Mathematica reveals that the $\xi^2$ is a polynomial of degree 8 in the four mass variables. 
 
-Without taking combinatorical ambiguities into account, the $\xi^2$ function has a smooth surface and a well-defined global minimum\marginpar{Although sometimes it seems like the function is flat around the minimum, or something, since the routines have trouble finding the exact minimum.} -- although it may have several local minima. Figure \ref{fig:3D_masses} shows the $\log(\xi^2)$ surface as a function of pairs of masses. Notice that the minimum is significantly less pronounced for $m_{\chi_2^0}$ than for the other three masses -- it actually seems to form a slide down toward zero mass. Subfigure (d) shows a rotated view to illustrate this. The plotting limits for each mass is from $0.5$ to $1.5$ of the minimum, so it means that the steepness of $\xi^2$ relative to the lightest mass is less than the others. This may mean that it is more difficult to fit this mass than the others.
+Without taking combinatorical ambiguities into account, the $\xi^2$ function has a smooth surface and a well-defined global minimum\marginpar{Although sometimes it seems like the function is flat around the minimum, or something, since the routines have trouble finding the exact minimum.} -- although it may have several local minima. Figure \ref{fig:3D_masses_herwig} shows the $\log(\xi^2)$ surface as a function of pairs of masses. Notice that the minimum is significantly less pronounced for $m_{\chi_2^0}$ than for the other three masses -- it actually seems to form a slide down toward zero mass. Subfigure (d) shows a rotated view to illustrate this. The plotting limits for each mass is from $0.5$ to $1.5$ of the minimum, so it means that the steepness of $\xi^2$ relative to the lightest mass is less than the others. This may mean that it is more difficult to fit this mass than the others.
 % , which is consistent with our earlier speculations and with the rms errors in table \ref{table:herwig_migrad_nosmear_1p01} -- more on that in a moment. It will be interesting to see how combinatorics affects this. \marginpar{Note to self: Or could this be the result of Migrad not finding a better guess than the initial value for the OTHER masses in many of the bins?}
 
 
@@ -454,7 +517,7 @@ Without taking combinatorical ambiguities into account, the $\xi^2$ function has
 		\label{fig:3D_masses4}
 	\end{subfigure}
 	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events.}
-	\label{fig:3D_masses}
+	\label{fig:3D_masses_herwig}
 \end{figure}
 
 To test the fit method, we split the {\ttfamily Herwig++} data into bins of 25 events each. This is the same approach that Webber takes. We use Mathematica's {\ttfamily Minimize} function to find the mass parameter values that minimize the $\xi^2$ for each bin. We study the minimization performance for each bin by making scatter plots and quantize the overall error by looking at the mean value and standard deviation over all the bins.
@@ -720,7 +783,7 @@ Webber chooses to include only the cases with different generation leptons in th
 	\caption{3D contour plot of $\log(\xi^2)$ with combinatorics included, in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value.}
 	\label{fig:3D_masses_with_combinatorics}
 \end{figure}
-We see that the combinatorical issues introduces sharp edges and less pronounced minima. The sharp edges most likely arise when the function experiences a sudden shift in best-fit combinations. The most striking difference between this and figure \ref{fig:3D_masses} is that the $m_{\tilde \chi_1^0}$ no longer shows a minimum - it just flattens out toward zero. This could have dramatic effects on the minimization. 
+We see that the combinatorical issues introduces sharp edges and less pronounced minima. The sharp edges most likely arise when the function experiences a sudden shift in best-fit combinations. The most striking difference between this and figure \ref{fig:3D_masses_herwig} is that the $m_{\tilde \chi_1^0}$ no longer shows a minimum - it just flattens out toward zero. This could have dramatic effects on the minimization. 
 
 
 
@@ -734,15 +797,14 @@ To think about: How do we scan when we don't know true values? The fit is sensit
 
 What about discarding events with large minima? Do they seem to ruin the fit or is the minimal value not that good a measurement?
 
-
+I have not looked much into using Det(A) as a measure of invertibility. It seems like invertibility is not really the big issue, but it might be worth investigating never the less. Maybe discard events based on Det(A)?
 
 
 \appendix
 
-\chapter{Algorithms}
+\chapter{An algorithm for generating on-shell two-body decays}
+\label{ch:decayalgorithm}
 
-\section{On-shell two-body decay}
-\label{sec:decayalgorithm}
  The particles will go back-to-back in the rest frame of the decaying particle - the direction is drawn randomly from a uniform spherical distribution. This can be achieved in spherical coordinates by the assignments
 \begin{align}
 	U, V &= \text{uniform}(0,1)\nonumber \\
