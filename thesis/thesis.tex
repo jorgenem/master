@@ -308,6 +308,8 @@ Furthermore, we will assume only first- and second generation sleptons and lepto
 
 For one single event, the $\xi^2$ function detailed in the last chapter (which we are looking to minimize) takes the form shown in figure \ref{fig:3D_masses_simplistic_1event}\footnote{All plots are in vector format, so they are highly zoomable if the document is opened electronically.}. [Say something about that the LSP dependency is weirdy-weird]
 
+
+
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.49\textwidth}
@@ -331,11 +333,49 @@ For one single event, the $\xi^2$ function detailed in the last chapter (which w
 	% 	\caption{}
 	% 	\label{fig:3D_masses4}
 	% \end{subfigure}
-	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events.}
+	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events. Note that the `spikes' are an artifact of the plotting style.}
 	\label{fig:3D_masses_simplistic_1event}
 \end{figure}
 
-The strength in Webber's approach, however, lies in the ability to combine multiple events in one fit. We make the same plot again, but with 25 events combined, in figure \ref{fig:3D_masses_simplistic}. We immediately notice that the ``valley''-like features of the previous plot have disappeared, the surface is flatter, and the minima are more pronounced. 
+Using the numerical minimization method Nelder-Mead, or `Simplex method', we find the numerical minimum of the $\xi^2$. This is non-trivial, and the problems of minimization will be thoroughly discussed throughout this thesis. The problem seems mainly to be that numerical minimization routines rely on getting a starting point from the user. When we have generated the events ourselves, we of course know the true value of the masses -- which we expect to be very close to the minimum of the function, if not exactly at the spot -- but in an experimental situation we will have little or no information about where to search. 
+
+In table \ref{table:starting_point_fit_dependency_1event_simplistic} we present the results of numerical searches for the minimum of the $\xi^2$ shown in \ref{fig:3D_masses_simplistic_1event} for different starting points. The points are chosen as a multiple $x$ of the true mass values. \marginpar{This means we only vary them along a line in 4D. Worth trying other parametrizations.} We see that the fit is highly dependent on starting point. This might be explained by the `valley' shape of the $\xi^2$ seen in the plots -- it is plausible that the minimization algorithm has problems with resolving the true minimum when there are two directions with very different steepness as here.
+
+\begin{table}[hbt]
+	\centering
+	\begin{tabular}{| l | l | l | l | l | l |}
+		\hline
+		Starting point  &&&&																					&  Minimal $\xi^2$ \\ 
+		 						& $\tilde q$	& $\tilde \chi_2^0$	& $\tilde l$	& $\tilde \chi_1^0$ & value \\ \hline
+		True mass [GeV]			& 568.0         & 180.3 			& 144.1			&  97.0				& \\ \hline
+		100 \% 					& 568.0  		& 180.3   			& 144.1  		&  97.0				& $7.2\times 10^{-30}$ \\ \hline
+		90 \% 					& 532.5  		& 164.9   			& 124.7  		&  90.0				& $2.4\times 10^{-28}$ \\ \hline
+		110 \%					& 620.1  		& 202.2   			& 163.2  		& 107.8				& $6.0\times 10^{-28}$ \\ \hline
+		50 \% 					& 515.0  		& 135.2   			&  74.1  		&   8.9				& $9.2\times 10^{-30}$ \\ \hline
+		150 \% 					& 810.1  		& 274.9   			& 229.5  		& 139.5				& $3.3\times 10^{-27}$ \\ \hline
+	\end{tabular}
+	\caption{The minimal point found by Scipy Nelder-Mead for a $\xi^2$ from one event of squarks decaying from rest, for different starting points.}
+	\label{table:starting_point_fit_dependency_1event_simplistic}
+\end{table}
+
+The strength in Webber's approach, however, lies in the ability to combine multiple events in one fit. We make the same plot again, but with 25 events combined, in figure \ref{fig:3D_masses_simplistic}. We immediately notice that most of the ``valley''-like features of the previous plot have disappeared, the surface is flatter, and the minima are more pronounced. When we now apply the minimization algorithm, we find a much better performance, and the correct best-fit point is found to 1 decimal point in most cases. The results are summarized in table \ref{table:starting_point_fit_dependency_25events_simplistic}. Note that for a starting point of $x = 0.5$, the algorithm finds the unphysical point $-97$ GeV for the LSP mass. This is probably an artifact due to that the $\xi^2$ is symmetric in mass sign, and that the Nelder-Mead algorithm is unable to handle constraints or bounds (so we cannot specify that the masses must be positive).
+
+\begin{table}[hbt]
+	\centering
+	\begin{tabular}{| l | l | l | l | l | l |}
+		\hline
+		Starting point  &&&&																					&  Minimal $\xi^2$ \\ 
+		 						& $\tilde q$	& $\tilde \chi_2^0$	& $\tilde l$	& $\tilde \chi_1^0$ & value \\ \hline
+		True mass [GeV]			& 568.0         & 180.3 			& 144.1			& 97.0				& \\ \hline
+		100 \% 					& 568.0   		& 180.3   			& 144.1   		& 97.0      		& 1.482195e-26 \\ \hline
+		90 \%  					& 568.0   		& 180.3   			& 144.1   		& 97.0      		& 5.842969e-27 \\ \hline
+		110 \% 					& 568.0   		& 180.3   			& 144.1   		& 97.0      		& 4.779690e-27 \\ \hline
+		50 \%  					& 568.0   		& 180.3   			& 144.1   		& $-97.0$     		& 6.303178e-27 \\ \hline
+	\end{tabular}
+	\caption{The minimal point found by Scipy Nelder-Mead for a $\xi^2$ of 25 events of squarks decaying from rest, for different starting points.}
+	\label{table:starting_point_fit_dependency_25events_simplistic}
+\end{table}
+
 
 \begin{figure}[hbt]
 	\centering
@@ -363,6 +403,57 @@ The strength in Webber's approach, however, lies in the ability to combine multi
 	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events.}
 	\label{fig:3D_masses_simplistic}
 \end{figure}
+
+We now make a fit of 100 bins of 25 events of this simple kind. The results are summarized in table \ref{table:fits_100_bins_simplistic}, and scatter plots of the best-fit points are shown in figure \ref{fig:fits_100_bins_simplistic}. The fits are very good in most cases, except for $x = 50 \%$, where it fails to find the best-fit point in many cases. Also, the scatter plots reveal the tendency of the best-fit points to distribute themselves along lines in the southwest/northeast-direction of the mass planes, intersecting the points of true minimum. This is the same direction that the `valley' shape takes in the surface plots, indicating that the inaccuracy in the minimization is hardest to resolve in the direction of the valley.
+
+\begin{table}[hbt]
+	\centering
+	\begin{tabular}{| l | l | l | l | l | l |}
+		\hline
+		Starting point &  $m_{\tilde{q}}$ & $m_{\tilde{\chi}_2^0}$ & $m_{\tilde{l}}$ & $m_{\tilde{\chi}_1^0}$ \\ \hline
+					   & True values [GeV] 	& 568 (avg.) 	& 180 	& 144 	& 97 \\ \hline
+		100 \%		   & $568 \pm 0$ & $180 \pm 0 $ & $144 \pm 0 $ & $97 \pm 0	$ \\ \hline
+		90 \% 		   & $568 \pm 0$ & $180 \pm 0 $ & $144 \pm 0 $ & $97 \pm 0	$ \\ \hline
+		110 \%		   & $568 \pm 1$ & $180 \pm 1 $ & $144 \pm 1 $ & $97 \pm 1	$ \\ \hline
+		50 \% 		   & $567 \pm 4$ & $175 \pm 36$ & $142 \pm 10$ & $-20 \pm 92$   \\ \hline
+		150 \%		   & $568 \pm 2$ & $181 \pm 4 $ & $145 \pm 5 $ & $98 \pm 6 $	 \\ \hline
+	\end{tabular}
+	\caption{Fit of 100 bins of 25 simplistic events using SciPy Nelder-Mead. Values are given as average $\pm$ r.m.s. deviation. }
+	\label{table:fits_100_bins_simplistic}
+\end{table}
+
+
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_1p00_initial_guess.pdf} 
+		\caption{}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_0p90_initial_guess.pdf} 
+		\caption{}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_1p10_initial_guess.pdf} 
+		\caption{}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_0p50_initial_guess.pdf} 
+		\caption{}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_1p50_initial_guess.pdf} 
+		\caption{}
+	\end{subfigure}
+	\caption{Scatter plots of 100 bin fits of 25 simplistic events for different starting points, corresponding to table \ref{table:fits_100_bins_simplistic}.}
+	\label{fig:fits_100_bins_simplistic}
+\end{figure}
+
+
+
 % \section{Event generation using {\tt CompHEP}}
 % We first begin by using {\ttfamily CompHEP 4.5.2} \cite{Pukhov:1999gg} to generate 1000 $pp \to \tilde{u}_L \bar{\tilde{u}}_L$ collisions at $\sqrt{s} = 14 \, \mathrm{TeV}$ with the supersymmetric parameter choice mSUGRA SPS1a $(\alpha)$ \cite{Allanach:2002nj} calculated using {\ttfamily SoftSUSY 3.4.1} \cite{Allanach:2001kg}.\footnote{Note that CompHEP uses the wrong squark mass: The value from SoftSUSY is $\sim 565 \,\mathrm{GeV}$, while CompHEP uses $\sim 545 \,\mathrm{GeV}$. This is due to how CompHEP is coded: The external RGE running done by SoftSUSY is only used by CompHEP up to the point of low-scale soft mass parameters. The calculation of physical squark masses from soft mass parameters is hard-coded in CompHEP using a tree-level formula. Trying to manually change the value has proven difficult since it disturbs the internal consistency of CompHEP.} \marginpar{TODO: Make CompHEP use the correct squark mass if possible.} {\ttfamily CompHEP} produces a file containing the 4-momenta of the squarks for each event. It is important to note that {\ttfamily CompHEP} produces the squarks on-shell -- possibly a major simplification for colour-charged particles, who might realistically be far off-shell when they come from a hard collision before they have a chance to shower off gluons. The squark 4-momenta are then read into a Python script where the rest of the chain is generated. We generate the chain as a succession of two-body decays where the decay products are on-shell, {\it e.g.}\ we work in a narrow width approximation. This is again a major simplification for the quark due to showering. Standard model particles are assumed massless. The algorithm for this generation is described in section \ref{sec:decayalgorithm}. The decay direction for the back-to-back decay in each step is drawn uniformly on a sphere. This is correct for the scalar particles, and for the fermions it is justified by averaging over spin directions. \marginpar{\color{purple} Note to self: Check that I understand this properly.} The resulting visible 4-momenta resemble an idealized decay situation. As a check to see that our algorithm is correct, we reproduce the dilepton invariant mass distribution for the upper chain as discussed in the previous section. The distribution is shown in figure \ref{fig:dilepton_invariant_mass_no_smearing}. We see that it resembles a triangle, and that it cuts sharply at $m_{ll}^{\mathrm{max}} \approx 80 \, \mathrm{GeV}$, which corresponds nicely with the theoretical prediction $m_{ll}^\text{max} = 80.2 \, \mathrm{GeV}$ from Eq. \ref{eq:invariant_mass_endpoint}.
 
@@ -444,6 +535,7 @@ The strength in Webber's approach, however, lies in the ability to combine multi
 % It is interesting to see whether our modifications of Webber's mathematics, discussed in section \ref{sec:dimension_fixing}, have any effect on computation time, accuracy or even whether {\ttfamily SIMPLEX} finds the minimum at all. We did a test of this, using 25 of the {\ttfamily CompHEP} events and running through the different smearings $s= 0,0.5,1,3,6$ and $10$. For the basic formulation without the dimension fixing and without normalizing, the {\ttfamily SIMPLEX} routine fails to find the minimum even for zero smearing. Normalizing the $\xi^2$ function by the number of events helps to make it past zero smearing and 0.5 smearing, but then it fails. For zero smearing the mean absolute relative fit error compared to the true masses is at the order of $10^{-7}$. Running with the dimensions of $\mathbf{A}$ fixed according to Eq. \eqref{eq:Amatrix_modified} also fails beyond 0.5 smearing, and the error even for 0 smearing is actually increased to the order of $10^{-2}$. By also including the normalization as given in Eqs. \eqref{eq:vectors_normalized}, the script runs through all smearings and manages to get a fit in every case. We note that the error in this fully dimensionless implementation is of the order $10^{-2}$ for 0 smearing, thus actually higher than for the original implementation. This is however only for one 25 event sample, and should be studied more carefully before drawing conclusions. The total run time for the dimensionless fit is a couple of seconds. By mistake we discovered that dividing the $\xi^2$ by a number of order $10^8$ actually decreased computation time further, by about a factor 2. This indicates that {\ttfamily SIMPLEX} prefers to work with small numbers, at least in the {\ttfamily PyMinuit} implementation.
 
 
+\newpage
 
 \section{Monte Carlo event generation with {\ttfamily Herwig++}}
 % In our fit thus far, we have used events generated by {\ttfamily CompHEP} at squark level and decayed them in a very basic way. One obvious flaw in our model is the lack of {\it parton showering}---the radiation of gluons (and in turn quarks and antiquarks) emitted from the quark in the squark to quark decay process. If showering is taken into account, it means that the initial quark in the squark two-body decay can be off-shell, since it is really carrying the energy and momentum of not only itself, but also (several) other partons.\footnote{This statement should not be taken too literally, since the showering of a discrete number of gluons is just an approximate model of the re-summed contribution from higher-order diagrams in perturbation theory.}
@@ -458,10 +550,9 @@ We generate sparticle pair production, with the first two generations of left-ha
 
 We use only left-handed squarks because the production of $\tilde \chi_2^0$ from right handed squarks is small---at SPS1a the 2nd generation neutralino is mostly wino whilst the 1st generation is mostly bino, and the wino only couples to left-handed squarks. For instance, the branching ratio for $\tilde u_R \to u \tilde \chi_2^0$ is $\sim 1 \%$, whilst for $\tilde u_L$ it is $\sim 30 \%$. The exclusion of events with unwanted squarks is done in the post-generation analysis.
 
-Futhermore, the mass hierarchy of SPS1a is such that the left-handed sleptons $\tilde e_L, \tilde \mu_L$ are heavier than $\chi_2^0$, thus disabling those decay modes for the $\chi_2^0$. Since first- and second generation sleptons of the same chirality are mass-degenerate at this parameter point, it means that we only have one slepton mass to fit.
+Furthermore, the mass hierarchy of SPS1a is such that the left-handed sleptons $\tilde e_L, \tilde \mu_L$ are heavier than $\chi_2^0$, thus disabling those decay modes for the $\chi_2^0$. Since first- and second generation sleptons of the same chirality are mass-degenerate at this parameter point, it means that we only have one slepton mass to fit.
 
 The choice of MSSM parameters is input into {\ttfamily Herwig++} using an SLHA model file~\cite{Skands:2003cj} for the SPS1a parameter point
-%{\ttfamily MadGraph} \cite{Alwall:2014hca}
 generated by {\ttfamily SoftSusy 3.4.1}~\cite{Allanach:2001kg} and post-processed by {\ttfamily SUSY-HIT 1.4} \cite{Djouadi:2006bz} to calculate branching ratios. We disable all decay channels except those that produce our chain (\ref{eq:goldencascade}) by manually editing the branchings in the SLHA file. 
 
 \subsection{{\ttfamily Herwig++} event analysis routine} 
@@ -483,7 +574,7 @@ There is also the possibility of photon bremsstrahlung in the other charged part
 % \label{fig:invmass_offshellquarks}
 % \end{figure}
 
-\subsection{Fitting the {\ttfamily Herwig++} events}
+\section{Fitting the {\ttfamily Herwig++} events}
 The best-fit point is the point which minimizes the $\xi^2$ function, given in Eq. \eqref{eq:xisquared_modified}, for a selection of events. Evaluation of the function involves inverting the $8\times 8$ matrix $\mathbf{A}$ (Eq. \eqref{eq:Amatrix_modified}) for each event, so it is not trivially done by hand, although it is quick to do numerically. But in order to study the behaviour of the $\xi^2$ more in-depth, we implement the method in Mathematica \cite{Mathematica}, which is able to calculate symbolically. Using a sample of 25 events, Mathematica reveals that the $\xi^2$ is a polynomial of degree 8 in the four mass variables. 
 
 Without taking combinatorical ambiguities into account, the $\xi^2$ function has a smooth surface and a well-defined global minimum\marginpar{Although sometimes it seems like the function is flat around the minimum, or something, since the routines have trouble finding the exact minimum.} -- although it may have several local minima. Figure \ref{fig:3D_masses_herwig} shows the $\log(\xi^2)$ surface as a function of pairs of masses. Notice that the minimum is significantly less pronounced for $m_{\chi_2^0}$ than for the other three masses -- it actually seems to form a slide down toward zero mass. Subfigure (d) shows a rotated view to illustrate this. The plotting limits for each mass is from $0.5$ to $1.5$ of the minimum, so it means that the steepness of $\xi^2$ relative to the lightest mass is less than the others. This may mean that it is more difficult to fit this mass than the others.
@@ -522,7 +613,7 @@ Without taking combinatorical ambiguities into account, the $\xi^2$ function has
 
 To test the fit method, we split the {\ttfamily Herwig++} data into bins of 25 events each. This is the same approach that Webber takes. We use Mathematica's {\ttfamily Minimize} function to find the mass parameter values that minimize the $\xi^2$ for each bin. We study the minimization performance for each bin by making scatter plots and quantize the overall error by looking at the mean value and standard deviation over all the bins.
 
-Our function seems to have multiple local minima\marginpar{This is actually a little difficult to be sure of...}, which severely complicates minimization. Most numerical minimization algorithms, such as the Simplex algorithm that Webber uses, relies on getting a starting point from the user. For a function with several minima, a poorly chosen starting point might fool the algorithm to converge to a local minimum without discovering the global minimum. The Mathematica minimization has the advantage of symbolic calculation, so it should have no problem finding the true minimum for a function as simple (sic!) as an octic polynomial in four variables. Also, it does not require a user-supplied starting point, which is nice since we realistically have little idea \`{a} priori of what the mass values are.
+Our function seems to have multiple local minima\marginpar{Here I have done a lot of back-and-forth. I think I am landing on that the fitting difficulties seem to be a numerical issue and not due to local minima, although the function in some cases appear to have two or three minima. Also, it turns out that Mathematica's Minimize does NOT in fact do symbolic minimization, but automatically calls a numerical minimizer which uses none other than the Nelder-Mead/Simplex algorithm for minimization. So here I have gone a full round back to start. This sectio was last revised before I did the stuff with on-shell decays from the last section.}, which severely complicates minimization. Most numerical minimization algorithms, such as the Simplex algorithm that Webber uses, relies on getting a starting point from the user. For a function with several minima, a poorly chosen starting point might fool the algorithm to converge to a local minimum without discovering the global minimum. The Mathematica minimization has the advantage of symbolic calculation, so it should have no problem finding the true minimum for a function as simple (sic!) as an octic polynomial in four variables. Also, it does not require a user-supplied starting point, which is nice since we realistically have little idea \`{a} priori of what the mass values are.
 
 We include an example to illustrate how toublesome the minimization is for the purely numerical routines that Python offer. We use the Truncated Newton's Conjugate Gradient (TNC) method from the Scipy \cite{SciPy} package to minimize three bins of 25 events of unsmeared {\ttfamily Herwig++} data. We choose three different starting points for the minimization, selected as 95 \%, 100 \% and 105 \% of the true mass values, respectively. We limit the parameter space by experimental mass bounds from below. The results are summarized in table \ref{table:starting_point_fit_dependency}. We see that the Scipy minimization depends to a large degree on the starting point. This we have found to be the case for all the numerical methods that are implemented in Scipy, such as Simplex/Nelder-Mead and BFGS. We also see that the Mathematica minimization in all cases performs better or equal to the Scipy method. This gives us confidence that the results obtained by Mathematica reflect the true minima. 
 
@@ -549,7 +640,7 @@ The explanation for the variable performance of Scipy we believe lies in that th
 		105 \% / 3 				 		& 596.5   		& 192.5   			& 150.7   		& 97.4     			& 0.3432126 \\ \hline
 		Mathematica / 3 				& 549.3 		& 157.8 			& 113.7 		& 46. 				& 0.303138 \\ \hline	
 	\end{tabular}
-	\caption{Example of minimization performance for three bins of 25 unsmeared {\ttfamily Herwig++} events, minimized using Scipy TNC with three different starting values plus Mathematica. See the text for details.}
+	\caption{Example of minimization performance for three different bins of 25 unsmeared {\ttfamily Herwig++} events, minimized using Scipy TNC with three different starting values plus Mathematica. See the text for details.}
 	\label{table:starting_point_fit_dependency}
 \end{table}
 
@@ -583,7 +674,7 @@ Even though the mathematica routine is clever, it is still a good idea to limit 
 \begin{figure}[hbt]
 \centering
 \includegraphics[scale=0.7]{figures/herwig_mathematica_no_smearing.pdf} 
-\caption{Best-fit points of 100 bins of 25 events generated with {\ttfamily Herwig++}, without momentum smearing and with no combinatorics, minimized using Mathematica.}
+\caption{Best-fit points of 100 bins of 25 events generated with {\ttfamily Herwig++}, without momentum smearing and with no combinatorics, minimized using Mathematica. [This fit is horrible, obviously. The reason for the vertical lines is that the best-fit lies outside the experimental bounds. This remains to be investigated further.]}
 \label{fig:no_combinatorics_best_fit}
 \end{figure}
 
@@ -795,10 +886,11 @@ We see that the combinatorical issues introduces sharp edges and less pronounced
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 To think about: How do we scan when we don't know true values? The fit is sensitive to initial values. Might it be fruitful to run many minimizations with different starting positions? That would essentially stack another 4-dimensional minimization on top of this one. Would scale CPU time enormously. Probably not that clever.
 
-What about discarding events with large minima? Do they seem to ruin the fit or is the minimal value not that good a measurement?
+What about discarding events with large minima? Do they seem to ruin the fit or is the minimal value not that good a measurement? Webber does this. 
 
 I have not looked much into using Det(A) as a measure of invertibility. It seems like invertibility is not really the big issue, but it might be worth investigating never the less. Maybe discard events based on Det(A)?
 
+One very unchewed idea: How about fitting the more fundamental SUSY soft parameters instead of the physical masses? I.e. substitute the soft masses instead of the physical ones? Can we gain something under different model assumptions, extract some co-varying parameters or something?
 
 \appendix
 
@@ -813,40 +905,53 @@ I have not looked much into using Det(A) as a measure of invertibility. It seems
 \end{align}
 The decay algorithm, in python notation, is as follows. Particle 1 of 4-momentum $p_1$ decays to particle 2 and 3 of 4-momentum $p_2$ and $p_3$. 
 \begin{lstlisting}
-	p1abs = sqrt( float( dot( p1 , transpose(p1) ) ) )  # 3-momentum of particle 1 in lab frame
+	# Calculating four-momenta of particle 2&3 going back-to-back from
+	# decay of particle 1 in the frame where particle 1 has 4-mom P1
+	#
+	#
+	# particle 1 = decaying particle
+	# particle 2 & particle 3 = decay products
+	# primed system is rest frame of particle 1, unprimed is lab frame
+	# rotated system is at rest in lab system,
+	# but rotated so particle one goes in +x direction
+	p1 = P1[0,1:4]
+	p1abs = np.sqrt( float( np.dot( p1 , np.transpose(p1) ) ) ) # 3-momentum 
+																# of particle 1 in 
+												      			# lab frame
 
 	# == Kinematical decay in RF of particle 1 ==
-	# Primed coordinates are in RF of particle 1
-	p2absprime = 1.0/(2*m1) * sqrt( (m1**2-m2**2-m3**2)**2- 4*m2**2*m3**2 ) # abs-val of 3-momentum of particle 2/3 in RF of particle 1
+	p2absprime = 1.0/(2*m1) * np.sqrt( (m1**2-m2**2-m3**2)**2- 4*m2**2*m3**2 ) # abs-val
+	# of 3-momentum of particle 2/3 in RF of particle 1
 
-	# Random point picking on a sphere
-	U, V = random.uniform(0,1,2) 
-	phi = 2*pi*U 				  
-	theta = arccos(2*V-1) 		 
+	U, V = np.random.uniform(0,1,2) # random 
+	phi = 2*pi*U 					# point picking 
+	theta = np.arccos(2*V-1) 		# on a sphere
 
 	# Calculate cartesian 3- and 4-momentum of particle 2&3
-	p2prime = matrix([ p2absprime*sin(theta)*cos(phi) , 
-					   p2absprime*sin(theta)*sin(phi) , 
-				   	   p2absprime*cos(theta) ])
+	p2prime = np.matrix([ p2absprime*np.sin(theta)*np.cos(phi) , 
+						  p2absprime*np.sin(theta)*np.sin(phi) , 
+						  p2absprime*np.cos(theta) ])
 	p3prime = -p2prime
-	E2prime = sqrt( p2absprime**2 + m2**2 )
-	E3prime = sqrt( p2absprime**2 + m3**2 )
-	P2prime = matrix([ E2prime , p2prime[0,0] , p2prime[0,1] , p2prime[0,2] ])
-	P3prime = matrix([ E3prime , p3prime[0,0] , p3prime[0,1] , p3prime[0,2] ])
+	E2prime = np.sqrt( p2absprime**2 + m2**2 )
+	E3prime = np.sqrt( p2absprime**2 + m3**2 )
+	P2prime = np.matrix([ E2prime , p2prime[0,0] , p2prime[0,1] , p2prime[0,2] ])
+	P3prime = np.matrix([ E3prime , p3prime[0,0] , p3prime[0,1] , p3prime[0,2] ])
 
 	# == Back-transform to lab frame ==
+
 	# First check whether it is necessary to boost
+
 	if p1abs > 1e-10:
 
 		# Lorentz boost along x-direction to get to rotated lab frame
 		# (lab frame moves in negative x direction)
-	 	vlab = -p1abs/sqrt(p1abs**2 + m1**2) # velocity of particle 1 in lab frame
-		gamma = 1/sqrt(1-vlab**2)
+	 	vlab = -p1abs/np.sqrt(p1abs**2 + m1**2) # velocity of particle 1 in lab frame
+		gamma = 1/np.sqrt(1-vlab**2)
 
-		P2rot = matrix([ gamma*(P2prime[0,0] - vlab*P2prime[0,1]) , 
+		P2rot = np.matrix([ gamma*(P2prime[0,0] - vlab*P2prime[0,1]) , 
 				      gamma*(P2prime[0,1] - vlab*P2prime[0,0]) ,
 				      P2prime[0,2] , P2prime[0,3] ])
-		P3rot = matrix([ gamma*(P3prime[0,0] - vlab*P3prime[0,1]) , 
+		P3rot = np.matrix([ gamma*(P3prime[0,0] - vlab*P3prime[0,1]) , 
 				      gamma*(P3prime[0,1] - vlab*P3prime[0,0]) ,
 				      P3prime[0,2] , P3prime[0,3] ])
 
@@ -861,25 +966,25 @@ The decay algorithm, in python notation, is as follows. Particle 1 of 4-momentum
 		# as long as we are consistent from event to event.
 		# So we pick two vectors orthogonal to p1 and do Gram-Schmidt orthogonalization:
 		v1 = p1
-		v2 = matrix([ p1[0,1] , -p1[0,0] , 0 ])
-		v3 = matrix([ p1[0,2] , 0 , -p1[0,0] ])
+		v2 = np.matrix([ p1[0,1] , -p1[0,0] , 0 ])
+		v3 = np.matrix([ p1[0,2] , 0 , -p1[0,0] ])
 
 		u1 = v1
 		u2 = v2 - proj(v2,u1)
 		u3 = v3 - proj(v3,u1) - proj(v3,u2)
 
-		xrot = u1/linalg.norm(u1)
-		yrot = u2/linalg.norm(u2)
-		zrot = u3/linalg.norm(u3)
+		xrot = u1/np.linalg.norm(u1) if np.linalg.norm(u1) > 0 else np.matrix([0,0,1])
+		yrot = u2/np.linalg.norm(u2) if np.linalg.norm(u2) > 0 else np.matrix([0,1,0])
+		zrot = u3/np.linalg.norm(u3) if np.linalg.norm(u3) > 0 else np.matrix([1,0,0])
 
 		# Form a matrix T which takes a vector in the lab basis to a vector 
 		# in the rotated basis by
-		T = concatenate( (xrot , yrot , zrot) , axis=0 )
+		T = np.concatenate( (xrot , yrot , zrot) , axis=0 )
 		# What we need is to rotate from rotated basis to lab basis, so we need the inverse
 		# - which is the transpose, since rotation matrices are orthogonal. 
 		# Also, to ease calculation, we let T be the 3x3 submatrix of T4, setting the [0,0]
-		# component of T4 to 1 to leave time component invariant under this spatial rotation
-		T4 = matrix([[1,     0,     0,    0],
+		#component of T4 to 1 to leave time component invariant under this spatial rotation
+		T4 = np.matrix([[1,     0,     0,    0],
 						[0,T[0,0],T[0,1],T[0,2]],
 						[0,T[1,0],T[1,1],T[1,2]],
 						[0,T[2,0],T[2,1],T[2,2]] ])
