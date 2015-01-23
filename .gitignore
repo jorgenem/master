@@ -1,0 +1,23 @@
+# TeX:
+*.aux
+*.fdb_latexm
+*.log
+#*.out
+*.gz
+*.lof
+*.lot
+*.toc
+*.bbl
+*.blg
+*.fdb_latexmk
+
+# Misc:
+*.pdf
+!/thesis/figures/**
+*.so
+*.run
+/herwigpp/LHC-MSSM.tex
+*.sublime-project
+*.sublime-workspace
+*.txt
+/thesis/old/**
