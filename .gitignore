@@ -10,14 +10,20 @@
 *.bbl
 *.blg
 *.fdb_latexmk
+/thesis/*.out
+*.zip
 
 # Misc:
 *.pdf
 !/thesis/figures/**
 *.so
 *.run
-/herwigpp/LHC-MSSM.tex
+/simulation/herwigpp/LHC-MSSM.tex
+/simulation/herwigpp/LHC-MSSM.out
 *.sublime-project
 *.sublime-workspace
 *.txt
 /thesis/old/**
+/simulation/python/old/**
+/simulation/pythia/main24
+/simulation/herwigpp/test/main
