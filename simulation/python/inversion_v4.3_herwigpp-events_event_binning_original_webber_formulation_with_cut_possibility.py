@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from math import pi
+from iminuit import Minuit
 import scipy.optimize as sciopt
 np.random.seed(2) # set seed for reproducibility
 
@@ -13,122 +14,43 @@ np.random.seed(2) # set seed for reproducibility
 
 
 
-def proj(v,u):
-	# projects v onto u
-	if np.linalg.norm(u) > 0:
-		return np.dot(u,np.transpose(v))/float(np.dot(u,u.T)) * u
-	else: 
-		return u
+
 def minkowskidot(a,b):
 	# Inner product in Minkowski space
 	return float(a[0,0]*b[0,0]-a[0,1]*b[0,1]-a[0,2]*b[0,2]-a[0,3]*b[0,3])
 def minkowskinorm(a):
 	# Inner product of a with a in Minkowski space
 	return minkowskidot(a,a)
-def decayfun(m1,P1,m2,m3):
-	# Calculating four-momenta of particle 2&3 going back-to-back from
-	# decay of particle 1 in the frame where particle 1 has 4-mom P1
-	#
-	#
-	# particle 1 = decaying particle
-	# particle 2 & particle 3 = decay products
-	# primed system is rest frame of particle 1, unprimed is lab frame
-	# rotated system is at rest in lab system,
-	# but rotated so particle one goes in +x direction
-	p1 = P1[0,1:4]
-	p1abs = np.sqrt( float( np.dot( p1 , np.transpose(p1) ) ) ) # 3-momentum 
-																# of particle 1 in 
-												      			# lab frame
 
-	# == Kinematical decay in RF of particle 1 ==
-	p2absprime = 1.0/(2*m1) * np.sqrt( (m1**2-m2**2-m3**2)**2- 4*m2**2*m3**2 ) # abs-val
-	# of 3-momentum of particle 2/3 in RF of particle 1
-
-	U, V = np.random.uniform(0,1,2) # random 
-	phi = 2*pi*U 					# point picking 
-	theta = np.arccos(2*V-1) 		# on a sphere
-
-	# Calculate cartesian 3- and 4-momentum of particle 2&3
-	p2prime = np.matrix([ p2absprime*np.sin(theta)*np.cos(phi) , 
-						  p2absprime*np.sin(theta)*np.sin(phi) , 
-						  p2absprime*np.cos(theta) ])
-	p3prime = -p2prime
-	E2prime = np.sqrt( p2absprime**2 + m2**2 )
-	E3prime = np.sqrt( p2absprime**2 + m3**2 )
-	P2prime = np.matrix([ E2prime , p2prime[0,0] , p2prime[0,1] , p2prime[0,2] ])
-	P3prime = np.matrix([ E3prime , p3prime[0,0] , p3prime[0,1] , p3prime[0,2] ])
-
-	# == Back-transform to lab frame ==
-
-	# First check whether it is necessary to boost
-
-	if p1abs > 1e-10:
-
-		# Lorentz boost along x-direction to get to rotated lab frame
-		# (lab frame moves in negative x direction)
-	 	vlab = -p1abs/np.sqrt(p1abs**2 + m1**2) # velocity of particle 1 in lab frame
-		gamma = 1/np.sqrt(1-vlab**2)
-
-		P2rot = np.matrix([ gamma*(P2prime[0,0] - vlab*P2prime[0,1]) , 
-				      gamma*(P2prime[0,1] - vlab*P2prime[0,0]) ,
-				      P2prime[0,2] , P2prime[0,3] ])
-		P3rot = np.matrix([ gamma*(P3prime[0,0] - vlab*P3prime[0,1]) , 
-				      gamma*(P3prime[0,1] - vlab*P3prime[0,0]) ,
-				      P3prime[0,2] , P3prime[0,3] ])
-
-		# == Rotate back to lab frame ==
-
-		# Calculate the unit vectors of the rotated system axes in terms of lab axes
-
-		# The definition is that x axis is along p1.
-		# For the other axes we must make a choice - y&z directions are undetermined,
-		# only the yz plane is determined from x choice. But since we have drawn 
-		# random angles and the yz plane is not boosted, the choice does not matter
-		# as long as we are consistent from event to event.
-		# So we pick two vectors orthogonal to p1 and do Gram-Schmidt orthogonalization:
-		v1 = p1
-		v2 = np.matrix([ p1[0,1] , -p1[0,0] , 0 ])
-		v3 = np.matrix([ p1[0,2] , 0 , -p1[0,0] ])
-
-		u1 = v1
-		u2 = v2 - proj(v2,u1)
-		u3 = v3 - proj(v3,u1) - proj(v3,u2)
-
-		xrot = u1/np.linalg.norm(u1) if np.linalg.norm(u1) > 0 else np.matrix([0,0,1])
-		yrot = u2/np.linalg.norm(u2) if np.linalg.norm(u2) > 0 else np.matrix([0,1,0])
-		zrot = u3/np.linalg.norm(u3) if np.linalg.norm(u3) > 0 else np.matrix([1,0,0])
-
-		# Form a matrix T which takes a vector in the lab basis to a vector 
-		# in the rotated basis by
-		T = np.concatenate( (xrot , yrot , zrot) , axis=0 )
-		# What we need is to rotate from rotated basis to lab basis, so we need the inverse
-		# - which is the transpose, since rotation matrices are orthogonal. 
-		# Also, to ease calculation, we let T be the 3x3 submatrix of T4, setting the [0,0]
-		#component of T4 to 1 to leave time component invariant under this spatial rotation
-		T4 = np.matrix([[1,     0,     0,    0],
-						[0,T[0,0],T[0,1],T[0,2]],
-						[0,T[1,0],T[1,1],T[1,2]],
-						[0,T[2,0],T[2,1],T[2,2]] ])
-
-		P2 = T4.T*P2rot.T
-		P3 = T4.T*P3rot.T
-		P2 = P2.T
-		P3 = P3.T
-
-	# If it was unneccessary, i.e. decay happened in lab frame, then
-	else:
-		P2 = P2prime
-		P3 = P3prime
-
-	# Finished!
-
-	return P2, P3
 def smear(p,resolution):
 	# Smears 4-momentum according to AcerDET manual
 	r = np.random.randn()
-	p_smeared = p * ( 1 + r * resolution / np.sqrt(p[0,0]) )
+	p_smeared = p * ( 1 + r * resolution / np.sqrt(np.abs(p[0,0])) )
 	return p_smeared
-
+def smear2(p):
+	# Smears 4-momentum according to AcerDET manual, differently for different particle types (the true way to do it)
+	pdgid = abs(p[0,5])
+	r = np.random.randn()
+	if pdgid == 11: #electron
+		resolution = 0.12
+		p_smeared = p * ( 1 + r * resolution / np.sqrt(np.abs(p[0,0])) )
+	elif pdgid <= 4: #quark
+		threshold = 3.2
+		pabs = np.linalg.norm(p[0,1:4])
+		pseudorapidity = 0.5*np.log( ( pabs + p[0,3] )/( pabs - p[0,3] ) )
+		if pseudorapidity <= threshold:
+			resolution = 0.50
+		else:
+			resolution = 1.00
+		p_smeared = p * ( 1 + r * resolution / np.sqrt(np.abs(p[0,0])) )
+	elif pdgid == 13: #muon
+		resolution = 0.0005
+		p_smeared = p / ( 1 + r * resolution / np.sqrt(p[0,1]**2 + p[0,2]**2) )
+	else:
+		print "Something went wrong in the smearing function."
+		print "pdg = ", pdgid
+		print "pseudorapidity = ", pseudorapidity
+	return p_smeared
 
 
 
@@ -144,20 +66,27 @@ def smear(p,resolution):
 
 
 
-#import the LHE file of events.
+# #import the LHE file of events.
 # import xml.etree.ElementTree as ET
 # tree = ET.parse('pptiluskvarkL-produksjon/20140529-1.txt')
 # root = tree.getroot()
 
+#import the Herwig .txt file of events
+import sys
+# file = open("on-shell_decay_squarks_at_rest_10000_events.txt",'r')
+file = open("Pythia_cascade_events_no_ISR_or_FSR_20150120.log", 'r')
+herwig = False
+lines = file.readlines()
+
 # Set known parameters
 # SM particle masses
 # u-quark and electron mass set to zero
-mquark = m1 = m5 = 0;
-mlepton1 = m2 = m3 = 0;
-mlepton2 = m6 = m7 = 0;
+# mquark = m1 = m5 = 0;
+# mlepton1 = m2 = m3 = 0;
+# mlepton2 = m6 = m7 = 0;
 
 
-# Now to make a mass hypothesis (guess the correct one)
+# True masses
 MSuL = 565.312 # Mass of ~uL, ~cL
 MSdL = 570.734 # Mass of ~dl, ~sL
 Msquark = MZ =(MSuL+MSdL)/2.0 # mean squark mass, fit this
@@ -174,9 +103,7 @@ true_values = np.array([MZ,MY,MX,MN])
 
 
 
-def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
-	# N is int, no. of events, resolution is double, smearing res, 
-	# Minitial is list of 8 elements, start point for parameter scan
+def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 	# Make lists for storing D matrices and E vectors
 	N = Nbins*Nevents
 	Dlist = []
@@ -185,16 +112,15 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 	A_nosmeardetlist = np.zeros(0)
 
 	# Define normalizing mass (characteristic mass scale of the problem)
-	Mnorm = 100
+	# Mnorm = 100
 	# print "Mnorm = ", Mnorm
 
 	# Save invariant masses for making triangle
 	invariant_mass_between_c1_leptons = [] 
 
-	write_to_file = False
-	# Open file for writing 4-momenta
-	if write_to_file == True:
-		outfile = open("on-shell_decay_squarks_at_rest_10000_events.txt","w")
+	# Save quark invariant masses
+	quark1mass = np.zeros((N,2));
+	quark2mass = np.zeros((N,2));
 
 	# N - How much loop?
 	for i in range(N):
@@ -202,68 +128,43 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 		# Particles are numbered according to Webber (arXiv:0907.5307v2) fig. 1
 		# (the lepton/antilepton ordering is arbitrary in each chain, the lepton has been 
 		# chosen as 2/6 and the antilepton as 3/7)
-		# string = root[i+2].text
-		# lines = string.splitlines()
 
-		#1st chain, p1-4
+		# Read all particles from file
+		# chain 1
+		quark1 = lines[9*i + 1].split()
+		p1 = np.matrix([ float(quark1[4]), float(quark1[1]), float(quark1[2]), float(quark1[3]), float(quark1[5]), int(quark1[0]) ])
+		lepton11 = lines[9*i + 2].split()
+		p2 = np.matrix([ float(lepton11[4]), float(lepton11[1]), float(lepton11[2]), float(lepton11[3]), float(lepton11[5]), int(lepton11[0]) ])
+		lepton12 = lines[9*i + 3].split()
+		p3 = np.matrix([ float(lepton12[4]), float(lepton12[1]), float(lepton12[2]), float(lepton12[3]), float(lepton12[5]), int(lepton12[0]) ])
+		neutralino1 = lines[9*i + 4].split()
+		p4 = np.matrix([ float(neutralino1[4]), float(neutralino1[1]), float(neutralino1[2]), float(neutralino1[3]), float(neutralino1[5]), int(neutralino1[0]) ])
+		#chain2
+		quark2 = lines[9*i + 5].split()
+		p5 = np.matrix([ float(quark2[4]), float(quark2[1]), float(quark2[2]), float(quark2[3]), float(quark2[5]), int(quark2[0]) ])
+		lepton21 = lines[9*i + 6].split()
+		p6 = np.matrix([ float(lepton21[4]), float(lepton21[1]), float(lepton21[2]), float(lepton21[3]), float(lepton21[5]), int(lepton21[0]) ])
+		lepton22 = lines[9*i + 7].split()
+		p7 = np.matrix([ float(lepton22[4]), float(lepton22[1]), float(lepton22[2]), float(lepton22[3]), float(lepton22[5]), int(lepton22[0]) ])
+		neutralino2 = lines[9*i + 8].split()
+		p8 = np.matrix([ float(neutralino2[4]), float(neutralino2[1]), float(neutralino2[2]), float(neutralino2[3]), float(neutralino2[5]), int(neutralino2[0]) ])
 
-		# Read squark 1 from file
-		# psquark1 = str(lines[4]).split()
-		# print "PDG number of particle 1: ",psquark1[0] # just to check
-		#p1 = [float(p1[9]), float(p1[6]), float(p1[7]), float(p1[8])]
-		# psquark1 = np.matrix([ float(psquark1[9]), float(psquark1[6]), float(psquark1[7]), float(psquark1[8])])
-		psquark1 = np.matrix([0,0,0,Msquark])
+		# Take care of units - Herwig++ likes MeV, we like GeV (avoid disturbing the pdg code entry)
+		if herwig:
+			p1[0,0:5] /= 1000
+			p2[0,0:5] /= 1000
+			p3[0,0:5] /= 1000
+			p4[0,0:5] /= 1000
+			p5[0,0:5] /= 1000
+			p6[0,0:5] /= 1000
+			p7[0,0:5] /= 1000
+			p8[0,0:5] /= 1000
 
-		# #DEBUG
-		# psquark1 = np.matrix([ Msquark, 0, 0, 0]) # overwrite CompHEP data to start squarks at rest
-		# #/DEBUG
-
-		# Decay squark to quark and neutralino2
-		p1, pN21 = decayfun(Msquark,psquark1,mquark,MN2)
-		# Decay neutralino2 to lepton1 and slepton
-		p2, pseR1 = decayfun(MN2,pN21,mlepton1,MseR)
-		# Decay slepton to (anti)lepton1 and neutralino1
-		p3, p4 = decayfun(MseR,pseR1,mlepton1,MN1)
-
-
-
-
-		#2nd chain, p5-8
-		# psquark2 = str(lines[5]).split()
-		# # print "PDG number of particle 5: ",psquark2[0] # just to check
-		# psquark2 = np.matrix([ float(psquark2[9]), float(psquark2[6]), float(psquark2[7]), float(psquark2[8])])
-		psquark2 = np.matrix([0,0,0,Msquark])
-
-		# #DEBUG
-		# psquark2 = np.matrix([ Msquark, 0, 0, 0]) # overwrite CompHEP data to start squarks at rest
-		# #/DEBUG
-
-		# See whether CompHEP produces squarks off-shell
-		# print minkowskinorm(psquark1) - Msquark**2
-		# print minkowskinorm(psquark2) - Msquark**2
-
-		# Decay (anti)squark to (anti)quark and neutralino2
-		p5, pN22 = decayfun(Msquark,psquark2,mquark,MN2)
-		# Decay neutralino2 to lepton2 and slepton
-		p6, pseR2 = decayfun(MN2,pN22,mlepton2,MseR)
-		# Decay slepton to (anti)lepton2 and neutralino1
-		p7, p8 = decayfun(MseR,pseR2,mlepton2,MN1)
-
-
-
-		# Write 4-momenta to file
-		if write_to_file == True:
-			outfile.write("== Event number %d ==\n" %i)
-			outfile.write("1\t %.4f %.4f %.4f %.4f %.4f \n" %(p1[0,1],p1[0,2],p1[0,3],p1[0,0],minkowskinorm(p1)))
-			outfile.write("-11\t %.4f %.4f %.4f %.4f %.4f \n" %(p2[0,1],p2[0,2],p2[0,3],p2[0,0],minkowskinorm(p2)))
-			outfile.write("11\t %.4f %.4f %.4f %.4f %.4f \n" %(p3[0,1],p3[0,2],p3[0,3],p3[0,0],minkowskinorm(p3)))
-			outfile.write("1000022\t %.4f %.4f %.4f %.4f %.4f \n" %(p4[0,1],p4[0,2],p4[0,3],p4[0,0],minkowskinorm(p4)))
-
-			outfile.write("1\t %.4f %.4f %.4f %.4f %.4f \n" %(p5[0,1],p5[0,2],p5[0,3],p5[0,0],minkowskinorm(p5)))
-			outfile.write("-11\t %.4f %.4f %.4f %.4f %.4f \n" %(p6[0,1],p6[0,2],p6[0,3],p6[0,0],minkowskinorm(p6)))
-			outfile.write("11\t %.4f %.4f %.4f %.4f %.4f \n" %(p7[0,1],p7[0,2],p7[0,3],p7[0,0],minkowskinorm(p7)))
-			outfile.write("1000022\t %.4f %.4f %.4f %.4f %.4f \n" %(p8[0,1],p8[0,2],p8[0,3],p8[0,0],minkowskinorm(p8)))
-
+		# Save stuff for plotting
+		# quark1mass[i,0] = p1[0,5]
+		# quark1mass[i,1] = p1[0,4]
+		# quark2mass[i,0] = p5[0,5]
+		# quark2mass[i,1] = p5[0,4]
 
 
 		# DETERMINANT TEST 
@@ -282,15 +183,28 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 
 
 
-		# Smear, r percent resolution
+		# Smear
 		# r = resolution # percent/100 momentum smearing
-		# p1 = smear(p1,r)
-		# p2 = smear(p2,r)
-		# p3 = smear(p3,r)
+		# p1 = smear2(p1)
+		# p2 = smear2(p2)
+		# p3 = smear2(p3)
+		# p5 = smear2(p5)
+		# p6 = smear2(p6)
+		# p7 = smear2(p7)
 
-		# p5 = smear(p5,r)
-		# p6 = smear(p6,r)
-		# p7 = smear(p7,r)
+		# Calculate invariant masses of measured particles
+		# m1 = np.sign(minkowskinorm(p1))*np.sqrt(abs(minkowskinorm(p1)))
+		# m2 = np.sign(minkowskinorm(p2))*np.sqrt(abs(minkowskinorm(p2)))
+		# m3 = np.sign(minkowskinorm(p3))*np.sqrt(abs(minkowskinorm(p3)))
+		# m5 = np.sign(minkowskinorm(p5))*np.sqrt(abs(minkowskinorm(p5)))
+		# m6 = np.sign(minkowskinorm(p6))*np.sqrt(abs(minkowskinorm(p6)))
+		# m7 = np.sign(minkowskinorm(p7))*np.sqrt(abs(minkowskinorm(p7)))
+		m1square = minkowskinorm(p1)
+		m2square = minkowskinorm(p2)
+		m3square = minkowskinorm(p3)
+		m5square = minkowskinorm(p5)
+		m6square = minkowskinorm(p6)
+		m7square = minkowskinorm(p7)
 
 		# Check invariant mass of initial colliding partons?
 		#print minkowskinorm(p1+p2+p3+p4+p5+p6+p7+p8)
@@ -330,30 +244,24 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 		pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
 		pymiss = - p1[0,2] - p2[0,2] - p3[0,2] - p5[0,2] - p6[0,2] - p7[0,2]
 
-		m1square = minkowskinorm(p1)
-		m2square = minkowskinorm(p2)
-		m3square = minkowskinorm(p3)
-		m5square = minkowskinorm(p5)
-		m6square = minkowskinorm(p6)
-		m7square = minkowskinorm(p7)
-
 		# print "pxmiss", pxmisstrue - pxmiss
 		# print "pymiss", pymisstrue - pymiss
 
 		#A matrix
 		A = 2*np.matrix([[ p1[0,1] , p1[0,2] , p1[0,3] , -p1[0,0] , 0 , 0 , 0 , 0 ],
-						[ p2[0,1] , p2[0,2] , p2[0,3] , -p2[0,0] , 0 , 0 , 0 , 0 ],
-						[ p3[0,1] , p3[0,2] , p3[0,3] , -p3[0,0] , 0 , 0 , 0 , 0 ],
-						[ 0.5*pxmiss,	0   , 0		  , 0		 , 0.5*pxmiss,0 , 0 , 0 ],
-						[ 0	, 0 , 0 , 0 , p5[0,1] , p5[0,2] , p5[0,3] , -p5[0,0] ],
-						[ 0	, 0 , 0 , 0 , p6[0,1] , p6[0,2] , p6[0,3] , -p6[0,0] ],
-						[ 0	, 0 , 0 , 0 , p7[0,1] , p7[0,2] , p7[0,3] , -p7[0,0] ],
-						[ 0 ,0.5*pymiss, 0 , 0 , 0 	  , 0.5*pymiss	, 0		  , 0 		 ]])
-		A = A/Mnorm # normalize A
+						 [ p2[0,1] , p2[0,2] , p2[0,3] , -p2[0,0] , 0 , 0 , 0 , 0 ],
+						 [ p3[0,1] , p3[0,2] , p3[0,3] , -p3[0,0] , 0 , 0 , 0 , 0 ],
+						 [ 0.5,	0   , 0		  , 0		 , 0.5,0 , 0 , 0 ],
+						 [ 0	, 0 , 0 , 0 , p5[0,1] , p5[0,2] , p5[0,3] , -p5[0,0] ],
+						 [ 0	, 0 , 0 , 0 , p6[0,1] , p6[0,2] , p6[0,3] , -p6[0,0] ],
+						 [ 0	, 0 , 0 , 0 , p7[0,1] , p7[0,2] , p7[0,3] , -p7[0,0] ],
+						 [ 0 ,0.5, 0 , 0 , 0 	  , 0.5	, 0		  , 0 ]])
+		# A = A/Mnorm # normalize A
+		# print A
 		# print np.linalg.det(A)
 		#A inverse
-		# print A
 		Ainv = A.I
+		# print Ainv
 
 		#B matrix
 		B = np.matrix([[-1,1,0,0,0,0,0,0],
@@ -369,17 +277,19 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 		C = np.matrix([ 2*minkowskidot(p1,p2) + 2*minkowskidot(p1,p3) + m1square,
 						2*minkowskidot(p2,p3) + m2square,
 						m3square,
-						pxmiss**2,
+						pxmiss,
 						2*minkowskidot(p5,p6) + 2*minkowskidot(p5,p7) + m5square,
 						2*minkowskidot(p6,p7) + m6square,
 						m7square,
-						pymiss**2])
-		C = C/Mnorm**2 # normalize C
+						pymiss])
+		# C = C/Mnorm**2 # normalize C
 		# print C
 
 		# Composite matrix & vector D and E
 		D = np.dot(Ainv,B)
+		# print D
 		E = np.dot(Ainv,C.T)
+		# print E
 
 		# store D and E
 		Dlist.append(D)
@@ -395,8 +305,7 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 	 # is stored in Dn and En for each event. Time to guess the masses.
 	 # ===========
 
-	if write_to_file == True:
-		outfile.close()
+
 
 
 	# # Now to make a mass hypothesis (guess the correct one)
@@ -452,34 +361,45 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 	# plt.ylabel(r'$\mathrm{det}(A_\mathrm{smear})$')
 	# plt.show()
 
+	# Plot quark invariant masses
+	# quarkmasses = np.concatenate((quark1mass,quark2mass),axis=0)
+	# plt.hist(quarkmasses[abs(quarkmasses[:,0])==4,1], bins=100)
+	# plt.title('Distribution of c/cbar quark invariant masses before parton showering, %d events' % (N) )
+	# plt.xlabel(r'$m_q^\mathrm{inv}$ [GeV]')
+	# plt.show()
+
+	# print len(quark1mass[quark1mass[:,0]>=5,1])
+	# print len(quark1mass[abs(quark1mass[:,0])==1,1])+len(quark1mass[abs(quark1mass[:,0])==2,1])+len(quark1mass[abs(quark1mass[:,0])==3,1])+len(quark1mass[abs(quark1mass[:,0])==4,1])
+
 
 
 
 	# ============ Minimization to best fit =================
-	# import minuit
+
 
 	# Define xi-squared function to minimize
-	def xisquared(MZ, MY, MX, MN, MZp, MYp, MXp, MNp):
-		# Set up Webber's M vector
-		M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
-		# Calculate the "chi-squared" error of the hypothesis
-		P = [] # store Pn
-		xisquared = 0
-		offshell = [] # list to store p4nsquared - MN**2
-		for n in range(N):
-			Pn = np.dot(Dlist[n],M.T) + Elist[n]
-			P.append(Pn) #store in case needed
+	# def xisquared(MZ, MY, MX, MN, MZp, MYp, MXp, MNp):
+	# 	# Set up Webber's M vector
+	# 	M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
+	# 	# Calculate the "chi-squared" error of the hypothesis
+	# 	P = [] # store Pn
+	# 	xisquared = 0
+	# 	offshell = [] # list to store p4nsquared - MN**2
+	# 	for n in range(N):
+	# 		Pn = np.dot(Dlist[n],M.T) + Elist[n]
+	# 		P.append(Pn) #store in case needed
 		
-			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
-			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 		
-			xisquared +=  (p4nsquared - MN**2)**2 + (p8nsquared - MNprim**2)**2
-			offshell.append(abs(p4nsquared-MN**2))
-			offshell.append(abs(p8nsquared-MNprim**2))
+	# 		p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
+	# 		p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 		
-		return xisquared
+	# 		xisquared +=  (p4nsquared - MN**2)**2 + (p8nsquared - MNprim**2)**2
+	# 		offshell.append(abs(p4nsquared-MN**2))
+	# 		offshell.append(abs(p8nsquared-MNprim**2))
+		
+	# 	return xisquared
 
-	# COPY: xi-squared function to minimize with identical chains
+	# xi-squared function to minimize with identical chains
 	def xisquared_identical_chains(Masses, Nevents, i): #, MZp, MYp, MXp, MNp):
 		Nevents = int(Nevents)
 		i = int(i)
@@ -487,78 +407,88 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 		MZp, MYp, MXp, MNp = MZ, MY, MX, MN = Masses
 		# Set up Webber's M vector
 		M = np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
-		M = M/Mnorm**2 #normalise M
+		# M = M/Mnorm**2 #normalise M
 		# Calculate the "chi-squared" error of the hypothesis
 		# P = [] # store Pn
 		xisquared = 0
 		# offshell = [] # list to store p4nsquared - MN**2
 		for n in range(i*Nevents, (i+1)*Nevents):
 			Pn = np.dot(Dlist[n],M.T) + Elist[n]
+			# print Pn
 			# P.append(Pn) #store in case needed
 		
 		
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
+			# print p4nsquared,p8nsquared
+			# print M[0,3]/Mnorm**2
 		
-			xisquared +=  (p4nsquared - M[0,3])**2 + (p8nsquared - M[0,7])**2 # p4/p8 is normalized by MN.
+			xisquared +=  (p4nsquared - M[0,3])**2 + (p8nsquared - M[0,7])**2 # p4/p8 is normalized by Mnorm.
 
 			# offshell.append(abs(p4nsquared-MN**2))
 			# offshell.append(abs(p8nsquared-MNprim**2))
-		xisquared = xisquared/float(Nevents)#/100**4
-		# print xisquared
-		# xisquaredlist.append(xisquared)
-		return xisquared
+		# xisquared = xisquared/(float(Nevents))
+		return xisquared/(100**4)/float(Nevents)
 
-
-	# # Now to make a mass hypothesis (guess the correct one)
-	# MZ = 5.45421001e+02 # Mass of ~uL
-	# MY = 1.80337030e+02 # Mass of ~chi02
-	# MX = 1.44059825e+02 # Mass of ~eR
-	# MN = 9.70071979e+01 # Mass of ~chi01 (dark matter!)
-	# MZp = MZ
-	# MYp = MY
-	# MXp = MX
-	# MNp = MN
-
+	# print "calling test"
+	# Mtest=[447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959]
+	# print xisquared_identical_chains(Mtest,1,0)
 	best_fit = np.zeros((Nbins,6))
 	relative_fit_error = np.zeros((Nbins,4))
 
 	for i in range(Nbins):
+
+		# m = Minuit(xisquared_identical_chains, 
+		# 		MZ=Minitial[0], #limit_MZ=(300, 700),
+		# 		MY=Minitial[1], #limit_MY=(100, 300),
+		# 		MX=Minitial[2], #limit_MX=(100, 200), #err_MX=1000, 
+		# 		MN=Minitial[3], # err_MN=10, limit_MN=(50, 150),
+		# 		print_level=0,
+		# 		#maxcalls=None,
+		# 		error_MZ=Minitial[0]*0.01, 
+		# 		error_MY=Minitial[1]*0.01, 
+		# 		error_MX=Minitial[2]*0.01, 
+		# 		error_MN=Minitial[3]*0.01,
+		# 		Nevents=Nevents, fix_Nevents=True,
+		# 		i=i, fix_i = True,
+		# 		# strategy=2, # doesn't work? doesn't help.
+		# 		# tol=1e-3,
+		# 		# up=0.5
+		# 		)
+		# #m.printMode = 1
+		# m.migrad()
+
+		# # true_values = [MZ, MY, MX, MN]
+		# best_fit[i,:] = m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN'], m.ncalls, m.fval
+		# relative_fit_error[i,:] = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
+
+		# Scipy minimization
 		m = sciopt.minimize(xisquared_identical_chains, Minitial, 
 						  args=(Nevents, i), method='Nelder-Mead', 
 						  bounds=((Mlowbound[0], None), (Mlowbound[1], None), (Mlowbound[2], None), (Mlowbound[3], None)),
-						  tol=1e-40,
-						  options={'maxiter': 1000}
+						  #tol=1e-40,
+						  options={'maxiter': 2000}
 						  )
 		best_fit[i,:] = m.x[0], m.x[1], m.x[2], m.x[3], m.nfev, m.fun
 		relative_fit_error = 0
 	
-	return best_fit, relative_fit_error	
-
-	# True values
-	MZ = 5.45421001e+02 # Mass of ~uL
-	MY = 1.80337030e+02 # Mass of ~chi02
-	MX = 1.44059825e+02 # Mass of ~eR
-	MN = 9.70071979e+01 # Mass of ~chi01 (dark matter!)
-
-	true_values = [MZ, MY, MX, MN]
-	best_fit = [m.values['MZ'], m.values['MY'], m.values['MX'], m.values['MN']]
-	relative_fit_error = [(MZ-m.values['MZ'])/MZ, (MY-m.values['MY'])/MY, (MX-m.values['MX'])/MX, (MN-m.values['MN'])/MN]
-	return true_values, best_fit, relative_fit_error
+	return best_fit, relative_fit_error
 
 
-# Run:
+# ==== Run: ======
+
+
+# Initialize run
 Nevents = 25
 Nbins = 10
 # mass_offset = 0.99
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan. 
   # Make all mass guesses be equally far off, percentage-wise.
-# M_explowbound=[400,94,94,46]
-M_explowbound=[0,0,0,0]
+M_explowbound=[400,94,94,46]
 
 smearing_resolution = 0
-for mass_offset in [1, 0.9, 1.1, 0.5, 1.5]:
-	Minitial = np.array([MZ, MY, MX, MN])*mass_offset
+for mass_offset in [1]:
+	Minitial = true_values*np.array([mass_offset,mass_offset,mass_offset,mass_offset])
 	# Minitial=np.array([447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959])*mass_offset
 	print Minitial
 	best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial,M_explowbound)
@@ -572,22 +502,24 @@ for mass_offset in [1, 0.9, 1.1, 0.5, 1.5]:
 	Mslepton = true_values[2]
 	Mchi1 = true_values[3]
 
-	# Extra masses
-	# MsquarkuL = 5.61119014E+02
-	# MsquarkdL = 5.68441109E+02
-	# MsquarksL = 5.68441109E+02
-	# MsquarkcL = 5.61119014E+02
-	# MsquarkuR = 3.00000000E+04
-	# MsquarkdR = 3.00000000E+04
-	# MsquarksR = 3.00000000E+04
-	# MsquarkcR = 3.00000000E+04
-
 	# Take out best-fit values for each bin as vectors (note minuscle m for the fit-vector)
 	msquark = best_fit[:,0]
 	mchi2 = best_fit[:,1]
 	mslepton = best_fit[:,2]
 	mchi1 = best_fit[:,3]
 
+	msquark_passcut = []
+	mchi2_passcut = []
+	mslepton_passcut = []
+	mchi1_passcut = []
+	cut = 2500 # xi^2 cut value in units of (100 GeV)^4
+	for i in range(len(best_fit[:,0])):
+		if best_fit[i,5] < float(cut)/Nevents: 
+			msquark_passcut.append(best_fit[i,0])
+			mchi2_passcut.append(best_fit[i,1])
+			mslepton_passcut.append(best_fit[i,2])
+			mchi1_passcut.append(best_fit[i,3])
+	print "Number of events passing xi^2-cut = ", len(msquark_passcut)
 
 	# Calculation of mean values and rms error for the fit
 	def rmse_est(estimate_vector):
@@ -597,15 +529,15 @@ for mass_offset in [1, 0.9, 1.1, 0.5, 1.5]:
 		rmse = np.sqrt( np.mean( np.power( mean*np.ones(n)-estimate_vector , 2) ) )
 		return rmse
 
-	mean_msquark = np.mean(msquark)
-	mean_mchi2 = np.mean(mchi2)
-	mean_mslepton = np.mean(mslepton)
-	mean_mchi1 = np.mean(mchi1)
+	mean_msquark = np.mean(msquark_passcut)
+	mean_mchi2 = np.mean(mchi2_passcut)
+	mean_mslepton = np.mean(mslepton_passcut)
+	mean_mchi1 = np.mean(mchi1_passcut)
 
-	rmse_est_msquark = rmse_est(msquark)
-	rmse_est_mchi2 = rmse_est(mchi2)
-	rmse_est_mslepton = rmse_est(mslepton)
-	rmse_est_mchi1 = rmse_est(mchi1)
+	rmse_est_msquark = rmse_est(msquark_passcut)
+	rmse_est_mchi2 = rmse_est(mchi2_passcut)
+	rmse_est_mslepton = rmse_est(mslepton_passcut)
+	rmse_est_mchi1 = rmse_est(mchi1_passcut)
 
 	# rmse_true_msquark = rmse_true(Msquark, msquark)
 	# rmse_true_mchi2 = rmse_true(Mchi2, mchi2)
@@ -632,13 +564,13 @@ for mass_offset in [1, 0.9, 1.1, 0.5, 1.5]:
 	ylim=[300,700]
 	xlim=[0,300]
 	#print xlim, ylim
-	plt.plot(mchi2, msquark, 'ro')
+	plt.plot(mchi2_passcut, msquark_passcut, 'ro')
 	# plt.xticks([100],[r'$\pi$'],fontsize=32)
 	plt.xlim(xlim[0],xlim[1])
 	plt.ylim(ylim[0],ylim[1])
 	plt.hold('on')
-	plt.plot(mslepton, msquark, 'bo')
-	plt.plot(mchi1, msquark, 'yo')
+	plt.plot(mslepton_passcut, msquark_passcut, 'bo')
+	plt.plot(mchi1_passcut, msquark_passcut, 'yo')
 	plt.plot(Mchi2*np.ones(2), ylim, 'r--')
 	plt.plot(Mslepton*np.ones(2), ylim, 'b--')
 	plt.plot(Mchi1*np.ones(2), ylim, 'y--')
@@ -650,9 +582,8 @@ for mass_offset in [1, 0.9, 1.1, 0.5, 1.5]:
 	plt.text(MY+1,320,r'$\tilde\chi_2^0$',fontsize=20)
 	plt.text(MX+1,320,r'$\tilde l$',fontsize=20)
 	plt.text(MN+1,320,r'$\tilde \chi_1^0$',fontsize=20)
-	# plt.savefig('25_events_simplistic_scipy_nelder-mead_without_smearing_%1.2f_initial_guess.pdf'%mass_offset, format='pdf')
-	# plt.show()
-
+	plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR_webber_original_xisquared-cut.pdf'%mass_offset, format='pdf')
+	plt.show()
 
 
 

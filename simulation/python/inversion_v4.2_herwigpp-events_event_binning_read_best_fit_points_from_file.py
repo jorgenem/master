@@ -73,7 +73,7 @@ def smear2(p):
 
 #import the Herwig .txt file of events
 import sys
-file = open("../herwigpp/LHC-MSSM-analysis_20141128_softsusy_with_branching_to_all_four_correct_leptons_31000_events.log",'r')
+file = open("../herwigpp/LHC-MSSM-analysis_20150105_corrected_lepton_instance.log",'r')
 lines = file.readlines()
 
 # Set known parameters
@@ -110,7 +110,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 	A_nosmeardetlist = np.zeros(0)
 
 	# Define normalizing mass (characteristic mass scale of the problem)
-	Mnorm = 1000
+	Mnorm = 100
 	# print "Mnorm = ", Mnorm
 
 	# Save invariant masses for making triangle
@@ -476,26 +476,27 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 
 # Initialize run
-Nevents = 25
-Nbins = 50
-mass_offset = 0.99
+Nevents = 1
+Nbins = 1000
+mass_offset = 1.00
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan. 
   # Make all mass guesses be equally far off, percentage-wise.
 M_explowbound=[400,94,94,46]
 
 import sys
-file = open("../mathematica/minimization_best_fit_100_bins_25_events_no_combinatorics.txt",'r')
+file = open("/home/jorgenem/git-repos/master/simulation/mathematica/minimization_best_fit_mass_offset_1p1_1000_bins_1_events_pythia_no_ISR_or_FSR_local.txt",'r')
 lines = file.readlines()
 
-best_fit = np.zeros((100,4))
-for i in range(len(lines)):
+best_fit = np.zeros((Nbins,5))
+for i in range(Nbins):
 	print(lines[i])
 	words=lines[i].split()
 	best_fit[i,0]=float(words[0])
 	best_fit[i,1]=float(words[1])
 	best_fit[i,2]=float(words[2])
 	best_fit[i,3]=float(words[3])
-	print best_fit[i,:],"\n"
+	best_fit[i,4]=float(words[4])
+	# print best_fit[i,:],"\n"
 
 
 Msquark = true_values[0]
@@ -519,13 +520,20 @@ mchi2 = best_fit[:,1]
 mslepton = best_fit[:,2]
 mchi1 = best_fit[:,3]
 
+msquark_passcut = []
+mchi2_passcut = []
+mslepton_passcut = []
+mchi1_passcut = []
+cut = 1e-22 # xi^2 cut value in units of (100 GeV)^4
+for i in range(Nbins):
+	if best_fit[i,4] < float(cut):
+		msquark_passcut.append(best_fit[i,0])
+		mchi2_passcut.append(best_fit[i,1])
+		mslepton_passcut.append(best_fit[i,2])
+		mchi1_passcut.append(best_fit[i,3])
+print "Number of events passing xi^2-cut = ", len(msquark_passcut)
 
 # Calculation of mean values and rms error for the fit
-def rmse_true(true, estimate_vector):
-	# rms error compared to true value
-	n = len(estimate_vector)
-	rmse = np.sqrt( np.mean( np.power( true*np.ones(n)-estimate_vector , 2) ) )
-	return rmse
 def rmse_est(estimate_vector):
 	# rms deviation from mean
 	n = len(estimate_vector)
@@ -533,15 +541,15 @@ def rmse_est(estimate_vector):
 	rmse = np.sqrt( np.mean( np.power( mean*np.ones(n)-estimate_vector , 2) ) )
 	return rmse
 
-mean_msquark = np.mean(msquark)
-mean_mchi2 = np.mean(mchi2)
-mean_mslepton = np.mean(mslepton)
-mean_mchi1 = np.mean(mchi1)
+mean_msquark = np.mean(msquark_passcut)
+mean_mchi2 = np.mean(mchi2_passcut)
+mean_mslepton = np.mean(mslepton_passcut)
+mean_mchi1 = np.mean(mchi1_passcut)
 
-rmse_est_msquark = rmse_est(msquark)
-rmse_est_mchi2 = rmse_est(mchi2)
-rmse_est_mslepton = rmse_est(mslepton)
-rmse_est_mchi1 = rmse_est(mchi1)
+rmse_est_msquark = rmse_est(msquark_passcut)
+rmse_est_mchi2 = rmse_est(mchi2_passcut)
+rmse_est_mslepton = rmse_est(mslepton_passcut)
+rmse_est_mchi1 = rmse_est(mchi1_passcut)
 
 # rmse_true_msquark = rmse_true(Msquark, msquark)
 # rmse_true_mchi2 = rmse_true(Mchi2, mchi2)
@@ -565,24 +573,28 @@ print "chi1   : %d \pm %d" %(round(mean_mchi1), round(rmse_est_mchi1))
 
 # ylim = [np.min(msquark)-30, np.max(msquark)+30]
 # xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
-ylim=[200,800]
+ylim=[300,700]
 xlim=[0,300]
 #print xlim, ylim
-plt.plot(mchi2, msquark, 'ro')
+plt.plot(mchi2_passcut, msquark_passcut, 'ro')
 # plt.xticks([100],[r'$\pi$'],fontsize=32)
 plt.xlim(xlim[0],xlim[1])
 plt.ylim(ylim[0],ylim[1])
 plt.hold('on')
-plt.plot(mslepton, msquark, 'bo')
-plt.plot(mchi1, msquark, 'yo')
+plt.plot(mslepton_passcut, msquark_passcut, 'bo')
+plt.plot(mchi1_passcut, msquark_passcut, 'yo')
 plt.plot(Mchi2*np.ones(2), ylim, 'r--')
 plt.plot(Mslepton*np.ones(2), ylim, 'b--')
 plt.plot(Mchi1*np.ones(2), ylim, 'y--')
 plt.plot(xlim, Msquark*np.ones(2), 'k--')
 plt.xlabel(r'$m_i \mathrm{[GeV]}$',fontsize=20)
 plt.ylabel(r'$m_{\tilde q} \mathrm{[GeV]}$',fontsize=20)
-# plt.title("Mass offset = %.2f"%mass_offset)
-plt.savefig('herwig_mathematica_no_smearing.pdf', format='pdf')
+plt.title("Mass offset = %.2f, Nevents = %d, cut = %.2e, passcut-fraction = %.3f"%(mass_offset,Nevents,cut,len(msquark_passcut)/float(Nbins)))
+plt.text(50,MZ+5,r'$\tilde q$',fontsize=20)
+plt.text(MY+1,320,r'$\tilde\chi_2^0$',fontsize=20)
+plt.text(MX+1,320,r'$\tilde l$',fontsize=20)
+plt.text(MN+1,320,r'$\tilde \chi_1^0$',fontsize=20)
+plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR_xisquared-cut.pdf'%mass_offset, format='pdf')
 plt.show()
 
 

@@ -73,7 +73,9 @@ def smear2(p):
 
 #import the Herwig .txt file of events
 import sys
-file = open("../herwigpp/LHC-MSSM-analysis_20141128_softsusy_with_branching_to_all_four_correct_leptons_31000_events.log",'r')
+# file = open("on-shell_decay_squarks_at_rest_10000_events.txt",'r')
+file = open("Pythia_cascade_events_no_ISR_or_FSR_20150120.log", 'r')
+herwig = False
 lines = file.readlines()
 
 # Set known parameters
@@ -110,7 +112,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 	A_nosmeardetlist = np.zeros(0)
 
 	# Define normalizing mass (characteristic mass scale of the problem)
-	Mnorm = 1000
+	Mnorm = 100
 	# print "Mnorm = ", Mnorm
 
 	# Save invariant masses for making triangle
@@ -148,14 +150,15 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		p8 = np.matrix([ float(neutralino2[4]), float(neutralino2[1]), float(neutralino2[2]), float(neutralino2[3]), float(neutralino2[5]), int(neutralino2[0]) ])
 
 		# Take care of units - Herwig++ likes MeV, we like GeV (avoid disturbing the pdg code entry)
-		p1[0,0:5] /= 1000
-		p2[0,0:5] /= 1000
-		p3[0,0:5] /= 1000
-		p4[0,0:5] /= 1000
-		p5[0,0:5] /= 1000
-		p6[0,0:5] /= 1000
-		p7[0,0:5] /= 1000
-		p8[0,0:5] /= 1000
+		if herwig:
+			p1[0,0:5] /= 1000
+			p2[0,0:5] /= 1000
+			p3[0,0:5] /= 1000
+			p4[0,0:5] /= 1000
+			p5[0,0:5] /= 1000
+			p6[0,0:5] /= 1000
+			p7[0,0:5] /= 1000
+			p8[0,0:5] /= 1000
 
 		# Save stuff for plotting
 		quark1mass[i,0] = p1[0,5]
@@ -427,9 +430,9 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		xisquared = xisquared/(float(Nevents))
 		return xisquared
 
-	print "calling test"
-	Mtest=[447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959]
-	print xisquared_identical_chains(Mtest,1,0)
+	# print "calling test"
+	# Mtest=[447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959]
+	# print xisquared_identical_chains(Mtest,1,0)
 	best_fit = np.zeros((Nbins,6))
 	relative_fit_error = np.zeros((Nbins,4))
 
@@ -463,13 +466,13 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		m = sciopt.minimize(xisquared_identical_chains, Minitial, 
 						  args=(Nevents, i), method='Nelder-Mead', 
 						  bounds=((Mlowbound[0], None), (Mlowbound[1], None), (Mlowbound[2], None), (Mlowbound[3], None)),
-						  tol=1e-40,
-						  options={'maxiter': 1000}
+						  #tol=1e-40,
+						  options={'maxiter': 2000}
 						  )
 		best_fit[i,:] = m.x[0], m.x[1], m.x[2], m.x[3], m.nfev, m.fun
 		relative_fit_error = 0
 	
-	return true_values, best_fit, relative_fit_error
+	return best_fit, relative_fit_error
 
 
 # ==== Run: ======
@@ -477,20 +480,21 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 # Initialize run
 Nevents = 25
-Nbins = 50
-mass_offset = 0.99
+Nbins = 100
+# mass_offset = 0.99
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan. 
   # Make all mass guesses be equally far off, percentage-wise.
 M_explowbound=[400,94,94,46]
 
 smearing_resolution = 0
-for mass_offset in [0.99]:
-	Minitial = np.array([MZ, MY, MX, MN])*mass_offset
+for mass_offset in [1]:
+	Minitial = true_values*np.array([mass_offset,mass_offset,mass_offset,mass_offset])
 	# Minitial=np.array([447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959])*mass_offset
 	print Minitial
-	true_values, best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial,M_explowbound)
+	best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial,M_explowbound)
 	for i in range(Nbins):
-		print "%3d % .6e   % .6e   % .6e   % .6e   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
+		# print "%3d % .6e   % .6e   % .6e   % .6e   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
+		print "%3d %2.1f   %2.1f   %2.1f   %2.1f   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
 
 	# Get true mass values
 	Msquark = true_values[0]
@@ -516,11 +520,6 @@ for mass_offset in [0.99]:
 
 
 	# Calculation of mean values and rms error for the fit
-	def rmse_true(true, estimate_vector):
-		# rms error compared to true value
-		n = len(estimate_vector)
-		rmse = np.sqrt( np.mean( np.power( true*np.ones(n)-estimate_vector , 2) ) )
-		return rmse
 	def rmse_est(estimate_vector):
 		# rms deviation from mean
 		n = len(estimate_vector)
@@ -577,8 +576,12 @@ for mass_offset in [0.99]:
 	plt.xlabel(r'$m_i \mathrm{[GeV]}$',fontsize=20)
 	plt.ylabel(r'$m_{\tilde q} \mathrm{[GeV]}$',fontsize=20)
 	plt.title("Mass offset = %.2f"%mass_offset)
-	# plt.savefig('herwig_scipy_tnc_with_smearing_1p1_initial_guess.pdf', format='pdf')
-	# plt.show()
+	plt.text(50,MZ+5,r'$\tilde q$',fontsize=20)
+	plt.text(MY+1,320,r'$\tilde\chi_2^0$',fontsize=20)
+	plt.text(MX+1,320,r'$\tilde l$',fontsize=20)
+	plt.text(MN+1,320,r'$\tilde \chi_1^0$',fontsize=20)
+	plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR.pdf'%mass_offset, format='pdf')
+	plt.show()
 
 
 
