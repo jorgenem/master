@@ -72,11 +72,32 @@ bool getChildren2(PPtr p, ParticleVector &children)
   }
 }
 
-PPtr getFinalInstance(PPtr p)
+PPtr getFinalInstance(PPtr p) // This function works its way down in the instance chain until p's first child is not p, or p has no children.
 {
   //int id = p->id();
   ParticleVector children = p->children();
   if(children.size()==0) 
+  {
+    return p;
+  }
+  else if (children[0]->id() != p->id()) // Is this a possible flaw? Are we certain that the particle itself is always indexed first if it e.g. emits gluons or gammas?
+  {
+    return p;
+  }
+  else
+  {
+    return getFinalInstance(children[0]);
+  }
+}
+PPtr getFinalInstanceBeforeRadiation(PPtr p) // Added 20150116 as a variation: The point is to return p if p has more than one child and first child is itself (i.e. if it radiates something in the next step)
+{
+  //int id = p->id();
+  ParticleVector children = p->children();
+  if(children.size()==0) 
+  {
+    return p;
+  }
+  else if (children[0]->id() == p->id() && children.size()>1) // added 20150116
   {
     return p;
   }
@@ -101,14 +122,19 @@ PPtr getOffshellQuark(PPtr p)
   {
     return p;
   }
-  else if (children.size()>1 && children[0]->id() != p->id() && children[1]->id() != p->id())
+  else if (children.size()>1 && children[0]->id() != p->id() && children[1]->id() != p->id() && abs(p->id())<10)
   {
     cout << "WARNING! A quark seems to have decayed. Quark id = " << p->id() << ", children id = " << children[0]->id() << children[1]->id() << ". Check carefully." << endl;
     return p;
   }
+  else if (children.size()>1 && children[0]->id() != p->id() && children[1]->id() != p->id())
+  {
+      // This case applies e.g. for squarks, which should decay.
+      return p;
+  }
   else if (children.size()==0)
   {
-    cout << "final state quark! id = " << p->id() << endl;
+    // cout << "final state quark! id = " << p->id() << endl;
     return p;
   }
   else
@@ -121,7 +147,7 @@ bool momentumConservation(PPtr p1, PPtr p2, PPtr p3)
 {
   // Particle p1 decays to particle p2 & p3
   // bool momentumIsConserved = true;
-  double epsilon = 1e-1;
+  double epsilon = 0.5; // Should probably not be smaller than BasicConsistency:: maximum 4-momentum violation.
   double p1x = p1->momentum().x();
   double p1y = p1->momentum().y();
   double p1z = p1->momentum().z();
@@ -144,6 +170,85 @@ bool momentumConservation(PPtr p1, PPtr p2, PPtr p3)
   }
   else
   {
+    cout << "Momentum conservation failed without gammas: Dpx = " << p1x - p2x - p3x << ", Dpy = " << p1y - p2y - p3y << ", Dpz = " << p1z - p2z - p3z << ", De = " << p1e - p2e - p3e << endl;
+    cout << "Individual particle momenta: " << endl;
+    cout << "Incoming: \t id = " << p1->id() << " \t\t" << p1x << " \t\t" << p1y << " \t\t" << p1z << " \t\t" << p1e << endl;
+      cout << "Outgoing 1: \t id = " << p2->id() << " \t\t" << p2x << " \t\t" << p2y << " \t\t" << p2z << " \t\t" << p2e << endl;
+      cout << "Outgoing 2: \t id = " << p3->id() << " \t\t" << p3x << " \t\t" << p3y << " \t\t" << p3z << " \t\t" << p3e << endl;
+
+
+    return false;
+  }
+}
+bool momentumConservationWithPossibleGammas(PPtr p1, PPtr p2, PPtr p3) {
+  // if (abs(p1->id())>=1000001 && abs(p1->id())<=1000006) // If it is a squark, make sure it has correct off-shell momentum
+  // {
+  //   p1 = getOffshellQuark(p1);
+  // } // We should NOT pick the off-shell version of the squark -- we need to pick it out AFTER it has radiated gluons, just before it actually decays to neutralino2+quark. Then we need to make sure we pick the neutralino2 and quark BEFORE they radiate anything.
+  if (p1->children().size()==2) 
+  {
+    return momentumConservation(p1, p2, p3);
+  }
+  else if (p1->children().size()>2) 
+  {
+    // cout << "An event with gammas! There are " << p1->children().size()-2 << " of them, the first one has ID = " << p1->children()[2]->id() << endl;
+    double epsilon = 5e-1;
+    double p1x = p1->momentum().x();
+    double p1y = p1->momentum().y();
+    double p1z = p1->momentum().z();
+    double p1e = p1->momentum().e();
+    double p2x = p2->momentum().x();
+    double p2y = p2->momentum().y();
+    double p2z = p2->momentum().z();
+    double p2e = p2->momentum().e();
+    double p3x = p3->momentum().x();
+    double p3y = p3->momentum().y();
+    double p3z = p3->momentum().z();
+    double p3e = p3->momentum().e();
+
+    double outgoingSum_x = p2x + p3x;
+    double outgoingSum_y = p2y + p3y;
+    double outgoingSum_z = p2z + p3z;
+    double outgoingSum_e = p2e + p3e;
+
+    for (ParticleVector::const_iterator gamma = p1->children().begin() + 2; gamma != p1->children().end(); ++gamma ) 
+    {
+      if ((*gamma)->id() != 22) {
+        cout << "Found a child which is not a photon! It has id = " << (*gamma)->id() << endl;
+        return false;
+        break;
+      }
+      outgoingSum_x = outgoingSum_x + getFinalInstance(*gamma)->momentum().x();
+      outgoingSum_y = outgoingSum_y + getFinalInstance(*gamma)->momentum().y();
+      outgoingSum_z = outgoingSum_z + getFinalInstance(*gamma)->momentum().z();
+      outgoingSum_e = outgoingSum_e + getFinalInstance(*gamma)->momentum().e();
+    }
+    if (  abs(p1x - outgoingSum_x)<epsilon 
+        &&abs(p1y - outgoingSum_y)<epsilon 
+        &&abs(p1z - outgoingSum_z)<epsilon 
+        &&abs(p1e - outgoingSum_e)<epsilon ) {
+      return true;
+    }
+    else {
+      cout << "Momentum conservation failed with gammas included: Dpx = " << p1x - outgoingSum_x << ", Dpy = " << p1y - outgoingSum_y << ", Dpz = " << p1z - outgoingSum_z << ", De = " << p1e - outgoingSum_e << endl;
+      cout << "Individual particle momenta: " << endl;
+      cout << "Incoming: \t id = " << p1->id() << " \t\t" << p1x << " \t\t" << p1y << " \t\t" << p1z << " \t\t" << p1e << endl;
+      int counter = 1;
+      for (ParticleVector::const_iterator gamma = p1->children().begin(); gamma != p1->children().end(); ++gamma) {
+        cout << "Outgoing " << counter << ": \t id = " << (*gamma)->id() << " \t\t" << getFinalInstance(*gamma)->momentum().x() << " \t\t" << getFinalInstance(*gamma)->momentum().y() << " \t\t" << getFinalInstance(*gamma)->momentum().z() << " \t\t" << getFinalInstance(*gamma)->momentum().e() << endl;
+          ++counter;
+      }
+      return false;
+    } 
+  } // end else if there are at least three particles. If none of the above is true, something is wrong (less than two children!)
+  else {
+    cout << "Error in momentumConservationWithPossibleGammas: p1 has less than two children?" << endl;
+    if (p1->children().size()==1) {
+      cout << "p1 id = " << p1->id() << ", child 1 id = " << p1->children()[0]->id() << endl;
+    }
+    else {
+      cout << "No children. Final state. p1 id = " << p1->id() << endl;
+    }
     return false;
   }
 }
@@ -236,7 +341,7 @@ void Foo::analyze(tEventPtr event, long ieve, int loop, int state) {
   // Declare variables 
   vector<MomentumVector> event_particles; // Save all chain particles
   bool chain = true; // Assume that both chains are present until proven wrong by if-tests
-  // bool momentumIsConserved = true; // Assume that momentum conservation tests succeed in both chains until proven wrong
+  bool momentumIsConserved = true; // Assume that momentum conservation tests succeed in both chains until proven wrong
   bool gluino = false; // Assume we didn't produce a gluino in the hard subprocess
   // Get primary subprocess (squarks):
   tSubProPtr primarysubprocess = event->primarySubProcess();
@@ -360,42 +465,47 @@ void Foo::analyze(tEventPtr event, long ieve, int loop, int state) {
 
 
 
-                  //PPtr squark = getFinalInstance(*squarkiterator);
-                  // PPtr neutralino2final = getFinalInstance(neutralino2);
-                  // PPtr lepton1final = getFinalInstance(lepton1);
-                  // PPtr sleptonfinal = getFinalInstance(slepton);
-                  // PPtr lepton2final = getFinalInstance(lepton2);
-                  // PPtr neutralino1final = getFinalInstance(neutralino1);
+                  // PPtr squark = getOffshellQuark(*squarkiterator);
+                  // PPtr squarkoffshell = getOffshellQuark(squark);
+                  PPtr squarkfinal = getFinalInstance(squark);
+                  PPtr neutralino2final = getFinalInstance(neutralino2);
+                  PPtr neutralino2beforeradiation = getFinalInstanceBeforeRadiation(neutralino2);
+                  PPtr lepton1final = getFinalInstance(lepton1);
+                  PPtr sleptonfinal = getFinalInstance(slepton);
+                  PPtr sleptonbeforeradiation = getFinalInstanceBeforeRadiation(slepton);
+                  PPtr lepton2final = getFinalInstance(lepton2);
+                  PPtr neutralino1beforeradiation = getFinalInstanceBeforeRadiation(neutralino1);
 
 
-                  // bool squarkDecayMomentumConservation = momentumConservation(squark, neutralino2final, quark);
-                  // bool neutralino2finalDecayMomentumConservation = momentumConservation(neutralino2final, sleptonfinal, lepton1final);
-                  // bool sleptonDecayMomentumConservation = momentumConservation(sleptonfinal, lepton2final, neutralino1final);
-                  // if (!(neutralino2finalDecayMomentumConservation && sleptonDecayMomentumConservation)) // NB! Skipping squark momentum check
-                  // {
-                  //   textOutput << "=== Total event number " << numEventsTotal << " (failed momentum conservation) ===" << endl;
-                  //   textOutput << "Momentum conservation test failed." << endl;
-                  //   textOutput << "squark conserved = " << squarkDecayMomentumConservation << endl;
-                  //   textOutput << "squark momentum \t" << squark->momentum().x() << "\t" << squark->momentum().y() << "\t" << squark->momentum().z() << "\t" << squark->momentum().e() << "\t" <<
-                  //     squark->momentum().m() << endl;
-                  //   textOutput << "neutralino2final momentum \t" << neutralino2final->momentum().x() << "\t" << neutralino2final->momentum().y() << "\t" << neutralino2final->momentum().z() << "\t" << neutralino2final->momentum().e() << "\t" <<
-                  //     neutralino2final->momentum().m() << endl;
-                  //   textOutput << "quark momentum \t" << quark->momentum().x() << "\t" << quark->momentum().y() << "\t" << quark->momentum().z() << "\t" << quark->momentum().e() << "\t" <<
-                  //     quark->momentum().m() << endl;
-                  //   textOutput << "neutralino2final conserved = " << neutralino2finalDecayMomentumConservation << endl;
-                  //   // textOutput << "neutralino2 decayed three-body with gamma = " << neutralino2DecayedThreeBodyWithGamma << endl;
-                  //   textOutput << "slepton conserved = " << sleptonDecayMomentumConservation << endl;
-                  //   // textOutput << "slepton decayed three-body with gamma = " << sleptonDecayedThreeBodyWithGamma << endl;
+                  bool squarkDecayMomentumConservation = momentumConservationWithPossibleGammas(squarkfinal, neutralino2beforeradiation, quark);
+                  bool neutralino2finalDecayMomentumConservation = momentumConservationWithPossibleGammas(neutralino2final, sleptonbeforeradiation, lepton1final);
+                  bool sleptonDecayMomentumConservation = momentumConservationWithPossibleGammas(sleptonfinal, lepton2final, neutralino1beforeradiation);
+                  if (!(neutralino2finalDecayMomentumConservation && sleptonDecayMomentumConservation && squarkDecayMomentumConservation) &&  abs(squark->id())>=1000001 && abs(squark->id())<=1000004) // Check that it's not a chain with right-handed squarks)
+                  {
+                    // textOutput << "=== Total event number " << numEventsTotal << " (failed momentum conservation) ===" << endl;
+                    // textOutput << "Momentum conservation test failed." << endl;
+                    // textOutput << "squark conserved = " << squarkDecayMomentumConservation << ", \t id = " << squarkfinal->id() << endl;
+                    // textOutput << "squark momentum \t" << squarkfinal->momentum().x() << "\t" << squarkfinal->momentum().y() << "\t" << squarkfinal->momentum().z() << "\t" << squarkfinal->momentum().e() << "\t" <<
+                    //   squarkfinal->momentum().m() << endl;
+                    // textOutput << "neutralino2final momentum \t" << neutralino2final->momentum().x() << "\t" << neutralino2final->momentum().y() << "\t" << neutralino2final->momentum().z() << "\t" << neutralino2final->momentum().e() << "\t" <<
+                    //   neutralino2final->momentum().m() << endl;
+                    // textOutput << "quark momentum \t" << quark->momentum().x() << "\t" << quark->momentum().y() << "\t" << quark->momentum().z() << "\t" << quark->momentum().e() << "\t" <<
+                    //   quark->momentum().m() << endl;
+                    // textOutput << "neutralino2final conserved = " << neutralino2finalDecayMomentumConservation << ", \t id = " << neutralino2final->id() << endl;
+                    // // textOutput << "neutralino2 decayed three-body with gamma = " << neutralino2DecayedThreeBodyWithGamma << endl;
+                    // textOutput << "slepton conserved = " << sleptonDecayMomentumConservation << ", \t id = " << sleptonfinal->id() << endl;
+                    // // textOutput << "slepton decayed three-body with gamma = " << sleptonDecayedThreeBodyWithGamma << endl;
 
-                  //   momentumIsConserved = false;
-                  // }
-                  // else
-                  // {
-                  //   // textOutput << "Momentum conservation test succeeded." << endl;
-                  //   // textOutput << "squark conserved = " << squarkDecayMomentumConservation << endl;
-                  //   // textOutput << "neutralino2final conserved = " << neutralino2finalDecayMomentumConservation << endl;
-                  //   // textOutput << "slepton conserved = " << sleptonDecayMomentumConservation << endl;
-                  // }
+                    momentumIsConserved = false;
+                  }
+                  else
+                  {
+                    // textOutput << "Momentum conservation test succeeded." << endl;
+                    // textOutput << "squark conserved = " << squarkDecayMomentumConservation << endl;
+                    // textOutput << "neutralino2final conserved = " << neutralino2finalDecayMomentumConservation << endl;
+                    // textOutput << "slepton conserved = " << sleptonDecayMomentumConservation << endl;
+                    // numEventsMomentumConservation++;
+                  }
 
 
 
@@ -492,10 +602,11 @@ void Foo::analyze(tEventPtr event, long ieve, int loop, int state) {
   if (chain)
   {
     numEvents++;
-    // if (momentumIsConserved)
-    // {
-    //   numEventsMomentumConservation++;
-    // }
+    if (momentumIsConserved)
+    {
+      numEventsMomentumConservation++;
+    // Updated 20150116 to only write event to file if it passes momentum conservation tests
+
     // Write run number
     textOutput << "=== Chain event number " << numEvents << ", total event number " << numEventsTotal << " ===" << endl;
     // cout << "== Correct event number " << numEvents << ", total event number " << numEventsTotal << endl;
@@ -559,14 +670,10 @@ void Foo::analyze(tEventPtr event, long ieve, int loop, int state) {
                << event_particles[7].e  << "\t"
                << event_particles[7].m  << "\t"
                << endl;
-    // if (!momentumIsConserved)
-    // {
-    //   textOutput << "= NB! Failed momentum conservation in at least one chain ==" << endl;
-    // }
 
 
-
-  }
+    } // end if momentumIsConserved
+  } // end if chain
   else if (gluino)
   {
    // textOutput << "== Total event number " << numEventsTotal << " (failed veto, gluino) ===" << endl;

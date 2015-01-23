@@ -1,0 +1,340 @@
+##################################################
+# Example generator for the MSSM
+# The best way to use this is to make your own 
+# copy of this file and edit that as you require.
+#
+# The first section loads the model file which 
+# does not contain anything that users need to touch.
+#
+# The second section contains the user settings.
+###################################################
+
+# Set emission to POWHEG for radiation in decays
+set /Herwig/Shower/Evolver:HardEmissionMode POWHEG
+
+read MSSM.model
+cd /Herwig/NewPhysics
+
+##################################################
+#
+# This section contains the user defined settings
+#
+##################################################
+
+# Load my personal c++ analysis program
+cd /Herwig/Analysis
+create Jorgen::Foo fooAnalysis Foo.so
+insert /Herwig/Generators/LHCGenerator:AnalysisHandlers 1 fooAnalysis
+
+
+# Turn off hadronization (from Herwig++ wiki)
+cd /Herwig/EventHandlers
+#set LHCHandler:CascadeHandler NULL
+set LHCHandler:HadronizationHandler NULL
+#set LHCHandler:DecayHandler NULL
+# In this case we need to turn off check for final state quarks
+cd /Herwig/Analysis
+set Basics:CheckQuark 0
+
+
+# Use CTEQ6L PDF from LHAPDF
+#create ThePEG::LHAPDF myPDFset
+#set myPDFset:PDFName cteq6l.LHpdf
+#set myPDFset:RemnantHandler /Herwig/Partons/HadronRemnants
+#set /Herwig/Particles/p+:PDF myPDFset
+#set /Herwig/Particles/pbar-:PDF myPDFset
+
+
+
+cd /Herwig/NewPhysics
+# --- Hard Process ----
+# The particle name can be found in the relevant model file
+# by searching for its PDG code and noting the text 
+# '/Herwig/Particles/###' where the hashes denote the name
+
+# Switch to decide whether to include EW diagrams in the 
+# hard process (On by default)
+set HPConstructor:IncludeEW No
+
+set TwoBodyDC:CreateDecayModes Yes
+set ThreeBodyDC:CreateDecayModes No
+set WeakDecayConstructor:CreateDecayModes Yes
+
+# Example hard process: Incoming proton, outgoing squarks
+insert HPConstructor:Incoming 0 /Herwig/Particles/u
+insert HPConstructor:Incoming 1 /Herwig/Particles/ubar
+insert HPConstructor:Incoming 2 /Herwig/Particles/d
+insert HPConstructor:Incoming 3 /Herwig/Particles/dbar
+insert HPConstructor:Incoming 4 /Herwig/Particles/c
+insert HPConstructor:Incoming 5 /Herwig/Particles/cbar
+insert HPConstructor:Incoming 6 /Herwig/Particles/s
+insert HPConstructor:Incoming 7 /Herwig/Particles/sbar
+insert HPConstructor:Incoming 8 /Herwig/Particles/g
+
+insert HPConstructor:Outgoing 0 /Herwig/Particles/~u_L
+insert HPConstructor:Outgoing 1 /Herwig/Particles/~u_Lbar
+insert HPConstructor:Outgoing 2 /Herwig/Particles/~d_L
+insert HPConstructor:Outgoing 3 /Herwig/Particles/~d_Lbar
+insert HPConstructor:Outgoing 4 /Herwig/Particles/~c_L
+insert HPConstructor:Outgoing 5 /Herwig/Particles/~c_Lbar
+insert HPConstructor:Outgoing 6 /Herwig/Particles/~s_L
+insert HPConstructor:Outgoing 7 /Herwig/Particles/~s_Lbar
+
+# --- Perturbative Decays ---
+# Read in the spectrum file and optional decay table.
+# If a decay table is in a separate file
+# then add another 'setup' line with that
+# file as the argument. The provided
+# spectrum file is an example using SPheno 2.2.3
+setup MSSM/Model susyhit_softsusy_slha.out
+
+# To disable a particular decay mode, add it's tag to the DisableModes
+# interface of the DecayConstructor object, i.e.
+# insert DecayConstructor:DisableModes   0 ~u_L->~chi_1+,d;
+# insert DecayConstructor:DisableModes   1 ~u_L->~chi_2+,d;
+# insert DecayConstructor:DisableModes   2 ~u_L->~chi_1+,s;
+# insert DecayConstructor:DisableModes   3 ~u_L->~chi_2+,s;
+# insert DecayConstructor:DisableModes   4 ~u_L->~chi_1+,b;
+# insert DecayConstructor:DisableModes   5 ~u_L->~chi_2+,b;
+# insert DecayConstructor:DisableModes   6 ~u_L->~g,u;
+# insert DecayConstructor:DisableModes   7 ~u_L->~chi_10,u;
+# insert DecayConstructor:DisableModes   8 ~u_L->~chi_30,u;
+# insert DecayConstructor:DisableModes   9 ~u_L->~chi_40,u;
+# insert DecayConstructor:DisableModes  10 ~u_L->~d_L,W+;
+# insert DecayConstructor:DisableModes  11 ~u_L->~d_R,W+;
+# insert DecayConstructor:DisableModes  12 ~u_L->~s_L,W+;
+# insert DecayConstructor:DisableModes  13 ~u_L->~s_R,W+;
+# insert DecayConstructor:DisableModes  14 ~u_L->~b_1,W+;
+# insert DecayConstructor:DisableModes  15 ~u_L->~b_2,W+;
+# insert DecayConstructor:DisableModes  16 ~u_L->~u_L,Z0;
+# insert DecayConstructor:DisableModes  17 ~u_L->~u_R,Z0;
+# insert DecayConstructor:DisableModes  18 ~u_L->~u_L,h0;
+# insert DecayConstructor:DisableModes  19 ~u_L->~u_R,h0;
+# insert DecayConstructor:DisableModes  20 ~u_L->~u_L,H0;
+# insert DecayConstructor:DisableModes  21 ~u_L->~u_R,H0;
+# insert DecayConstructor:DisableModes  22 ~u_L->~u_L,gamma;
+# insert DecayConstructor:DisableModes  23 ~u_L->~u_R,gamma;
+# insert DecayConstructor:DisableModes  24 ~d_L->~chi_1-,u;
+# insert DecayConstructor:DisableModes  25 ~d_L->~chi_2-,u;
+# insert DecayConstructor:DisableModes  26 ~d_L->~chi_1-,c;
+# insert DecayConstructor:DisableModes  27 ~d_L->~chi_2-,c;
+# insert DecayConstructor:DisableModes  28 ~d_L->~chi_1-,t;
+# insert DecayConstructor:DisableModes  29 ~d_L->~chi_2-,t;
+# insert DecayConstructor:DisableModes  30 ~d_L->~g,d;
+# insert DecayConstructor:DisableModes  31 ~d_L->~chi_10,d;
+# insert DecayConstructor:DisableModes  32 ~d_L->~chi_30,d;
+# insert DecayConstructor:DisableModes  33 ~d_L->~chi_40,d;
+# insert DecayConstructor:DisableModes  34 ~d_L->~u_L,W-;
+# insert DecayConstructor:DisableModes  35 ~d_L->~u_R,W-;
+# insert DecayConstructor:DisableModes  36 ~d_L->~c_L,W-;
+# insert DecayConstructor:DisableModes  37 ~d_L->~c_R,W-;
+# insert DecayConstructor:DisableModes  38 ~d_L->~t_1,W-;
+# insert DecayConstructor:DisableModes  39 ~d_L->~t_2,W-;
+# insert DecayConstructor:DisableModes  40 ~d_L->~d_L,Z0;
+# insert DecayConstructor:DisableModes  41 ~d_L->~d_R,Z0;
+# insert DecayConstructor:DisableModes  42 ~d_L->~d_L,h0;
+# insert DecayConstructor:DisableModes  43 ~d_L->~d_R,h0;
+# insert DecayConstructor:DisableModes  44 ~d_L->~d_L,H0;
+# insert DecayConstructor:DisableModes  45 ~d_L->~d_R,H0;
+# insert DecayConstructor:DisableModes  46 ~d_L->~d_L,gamma;
+# insert DecayConstructor:DisableModes  47 ~d_L->~d_R,gamma;
+# insert DecayConstructor:DisableModes  48 ~c_L->~chi_1+,d;
+# insert DecayConstructor:DisableModes  49 ~c_L->~chi_2+,d;
+# insert DecayConstructor:DisableModes  50 ~c_L->~chi_1+,s;
+# insert DecayConstructor:DisableModes  51 ~c_L->~chi_2+,s;
+# insert DecayConstructor:DisableModes  52 ~c_L->~chi_1+,b;
+# insert DecayConstructor:DisableModes  53 ~c_L->~chi_2+,b;
+# insert DecayConstructor:DisableModes  54 ~c_L->~g,c;
+# insert DecayConstructor:DisableModes  55 ~c_L->~chi_10,c;
+# insert DecayConstructor:DisableModes  56 ~c_L->~chi_30,c;
+# insert DecayConstructor:DisableModes  57 ~c_L->~chi_40,c;
+# insert DecayConstructor:DisableModes  58 ~c_L->~d_L,W+;
+# insert DecayConstructor:DisableModes  59 ~c_L->~d_R,W+;
+# insert DecayConstructor:DisableModes  60 ~c_L->~s_L,W+;
+# insert DecayConstructor:DisableModes  61 ~c_L->~s_R,W+;
+# insert DecayConstructor:DisableModes  62 ~c_L->~b_1,W+;
+# insert DecayConstructor:DisableModes  63 ~c_L->~b_2,W+;
+# insert DecayConstructor:DisableModes  64 ~c_L->~c_L,Z0;
+# insert DecayConstructor:DisableModes  65 ~c_L->~c_R,Z0;
+# insert DecayConstructor:DisableModes  66 ~c_L->~c_L,h0;
+# insert DecayConstructor:DisableModes  67 ~c_L->~c_R,h0;
+# insert DecayConstructor:DisableModes  68 ~c_L->~c_L,H0;
+# insert DecayConstructor:DisableModes  69 ~c_L->~c_R,H0;
+# insert DecayConstructor:DisableModes  70 ~c_L->~c_L,gamma;
+# insert DecayConstructor:DisableModes  71 ~c_L->~c_R,gamma;
+# insert DecayConstructor:DisableModes  72 ~s_L->~chi_1-,u;
+# insert DecayConstructor:DisableModes  73 ~s_L->~chi_2-,u;
+# insert DecayConstructor:DisableModes  74 ~s_L->~chi_1-,c;
+# insert DecayConstructor:DisableModes  75 ~s_L->~chi_2-,c;
+# insert DecayConstructor:DisableModes  76 ~s_L->~chi_1-,t;
+# insert DecayConstructor:DisableModes  77 ~s_L->~chi_2-,t;
+# insert DecayConstructor:DisableModes  78 ~s_L->~g,s;
+# insert DecayConstructor:DisableModes  79 ~s_L->~chi_10,s;
+# insert DecayConstructor:DisableModes  80 ~s_L->~chi_30,s;
+# insert DecayConstructor:DisableModes  81 ~s_L->~chi_40,s;
+# insert DecayConstructor:DisableModes  82 ~s_L->~u_L,W-;
+# insert DecayConstructor:DisableModes  83 ~s_L->~u_R,W-;
+# insert DecayConstructor:DisableModes  84 ~s_L->~c_L,W-;
+# insert DecayConstructor:DisableModes  85 ~s_L->~c_R,W-;
+# insert DecayConstructor:DisableModes  86 ~s_L->~t_1,W-;
+# insert DecayConstructor:DisableModes  87 ~s_L->~t_2,W-;
+# insert DecayConstructor:DisableModes  88 ~s_L->~s_L,Z0;
+# insert DecayConstructor:DisableModes  89 ~s_L->~s_R,Z0;
+# insert DecayConstructor:DisableModes  90 ~s_L->~s_L,h0;
+# insert DecayConstructor:DisableModes  91 ~s_L->~s_R,h0;
+# insert DecayConstructor:DisableModes  92 ~s_L->~s_L,H0;
+# insert DecayConstructor:DisableModes  93 ~s_L->~s_R,H0;
+# insert DecayConstructor:DisableModes  94 ~s_L->~s_L,gamma;
+# insert DecayConstructor:DisableModes  95 ~s_L->~s_R,gamma;
+# insert DecayConstructor:DisableModes  96 ~u_Lbar->~chi_1-,dbar;
+# insert DecayConstructor:DisableModes  97 ~u_Lbar->~chi_2-,dbar;
+# insert DecayConstructor:DisableModes  98 ~u_Lbar->~chi_1-,sbar;
+# insert DecayConstructor:DisableModes  99 ~u_Lbar->~chi_2-,sbar;
+# insert DecayConstructor:DisableModes 100 ~u_Lbar->~chi_1-,bbar;
+# insert DecayConstructor:DisableModes 101 ~u_Lbar->~chi_2-,bbar;
+# insert DecayConstructor:DisableModes 102 ~u_Lbar->~g,ubar;
+# insert DecayConstructor:DisableModes 103 ~u_Lbar->~chi_10,ubar;
+# insert DecayConstructor:DisableModes 104 ~u_Lbar->~chi_30,ubar;
+# insert DecayConstructor:DisableModes 105 ~u_Lbar->~chi_40,ubar;
+# insert DecayConstructor:DisableModes 106 ~u_Lbar->~d_Lbar,W-;
+# insert DecayConstructor:DisableModes 107 ~u_Lbar->~d_Rbar,W-;
+# insert DecayConstructor:DisableModes 108 ~u_Lbar->~s_Lbar,W-;
+# insert DecayConstructor:DisableModes 109 ~u_Lbar->~s_Rbar,W-;
+# insert DecayConstructor:DisableModes 110 ~u_Lbar->~b_1bar,W-;
+# insert DecayConstructor:DisableModes 111 ~u_Lbar->~b_2bar,W-;
+# insert DecayConstructor:DisableModes 112 ~u_Lbar->~u_Lbar,Z0;
+# insert DecayConstructor:DisableModes 113 ~u_Lbar->~u_Rbar,Z0;
+# insert DecayConstructor:DisableModes 114 ~u_Lbar->~u_Lbar,h0;
+# insert DecayConstructor:DisableModes 115 ~u_Lbar->~u_Rbar,h0;
+# insert DecayConstructor:DisableModes 116 ~u_Lbar->~u_Lbar,H0;
+# insert DecayConstructor:DisableModes 117 ~u_Lbar->~u_Rbar,H0;
+# insert DecayConstructor:DisableModes 118 ~u_Lbar->~u_Lbar,gamma;
+# insert DecayConstructor:DisableModes 119 ~u_Lbar->~u_Rbar,gamma;
+# insert DecayConstructor:DisableModes 120 ~d_Lbar->~chi_1-,ubar;
+# insert DecayConstructor:DisableModes 121 ~d_Lbar->~chi_2-,ubar;
+# insert DecayConstructor:DisableModes 122 ~d_Lbar->~chi_1-,cbar;
+# insert DecayConstructor:DisableModes 123 ~d_Lbar->~chi_2-,cbar;
+# insert DecayConstructor:DisableModes 124 ~d_Lbar->~chi_1-,tbar;
+# insert DecayConstructor:DisableModes 125 ~d_Lbar->~chi_2-,tbar;
+# insert DecayConstructor:DisableModes 126 ~d_Lbar->~g,dbar;
+# insert DecayConstructor:DisableModes 127 ~d_Lbar->~chi_10,dbar;
+# insert DecayConstructor:DisableModes 128 ~d_Lbar->~chi_30,dbar;
+# insert DecayConstructor:DisableModes 129 ~d_Lbar->~chi_40,dbar;
+# insert DecayConstructor:DisableModes 130 ~d_Lbar->~u_Lbar,W+;
+# insert DecayConstructor:DisableModes 131 ~d_Lbar->~u_Rbar,W+;
+# insert DecayConstructor:DisableModes 132 ~d_Lbar->~c_Lbar,W+;
+# insert DecayConstructor:DisableModes 133 ~d_Lbar->~c_Rbar,W+;
+# insert DecayConstructor:DisableModes 134 ~d_Lbar->~t_1bar,W+;
+# insert DecayConstructor:DisableModes 135 ~d_Lbar->~t_2bar,W+;
+# insert DecayConstructor:DisableModes 136 ~d_Lbar->~d_Lbar,Z0;
+# insert DecayConstructor:DisableModes 137 ~d_Lbar->~d_Rbar,Z0;
+# insert DecayConstructor:DisableModes 138 ~d_Lbar->~d_Lbar,h0;
+# insert DecayConstructor:DisableModes 139 ~d_Lbar->~d_Rbar,h0;
+# insert DecayConstructor:DisableModes 140 ~d_Lbar->~d_Lbar,H0;
+# insert DecayConstructor:DisableModes 141 ~d_Lbar->~d_Rbar,H0;
+# insert DecayConstructor:DisableModes 142 ~d_Lbar->~d_Lbar,gamma;
+# insert DecayConstructor:DisableModes 143 ~d_Lbar->~d_Rbar,gamma;
+# insert DecayConstructor:DisableModes 144 ~c_Lbar->~chi_1-,dbar;
+# insert DecayConstructor:DisableModes 145 ~c_Lbar->~chi_2-,dbar;
+# insert DecayConstructor:DisableModes 146 ~c_Lbar->~chi_1-,sbar;
+# insert DecayConstructor:DisableModes 147 ~c_Lbar->~chi_2-,sbar;
+# insert DecayConstructor:DisableModes 148 ~c_Lbar->~chi_1-,bbar;
+# insert DecayConstructor:DisableModes 149 ~c_Lbar->~chi_2-,bbar;
+# insert DecayConstructor:DisableModes 150 ~c_Lbar->~g,cbar;
+# insert DecayConstructor:DisableModes 151 ~c_Lbar->~chi_10,cbar;
+# insert DecayConstructor:DisableModes 152 ~c_Lbar->~chi_30,cbar;
+# insert DecayConstructor:DisableModes 153 ~c_Lbar->~chi_40,cbar;
+# insert DecayConstructor:DisableModes 154 ~c_Lbar->~d_Lbar,W-;
+# insert DecayConstructor:DisableModes 155 ~c_Lbar->~d_Rbar,W-;
+# insert DecayConstructor:DisableModes 156 ~c_Lbar->~s_Lbar,W-;
+# insert DecayConstructor:DisableModes 157 ~c_Lbar->~s_Rbar,W-;
+# insert DecayConstructor:DisableModes 158 ~c_Lbar->~b_1bar,W-;
+# insert DecayConstructor:DisableModes 159 ~c_Lbar->~b_2bar,W-;
+# insert DecayConstructor:DisableModes 160 ~c_Lbar->~c_Lbar,Z0;
+# insert DecayConstructor:DisableModes 161 ~c_Lbar->~c_Rbar,Z0;
+# insert DecayConstructor:DisableModes 162 ~c_Lbar->~c_Lbar,h0;
+# insert DecayConstructor:DisableModes 163 ~c_Lbar->~c_Rbar,h0;
+# insert DecayConstructor:DisableModes 164 ~c_Lbar->~c_Lbar,H0;
+# insert DecayConstructor:DisableModes 165 ~c_Lbar->~c_Rbar,H0;
+# insert DecayConstructor:DisableModes 166 ~c_Lbar->~c_Lbar,gamma;
+# insert DecayConstructor:DisableModes 167 ~c_Lbar->~c_Rbar,gamma;
+# insert DecayConstructor:DisableModes 168 ~s_Lbar->~chi_1+,ubar;
+# insert DecayConstructor:DisableModes 169 ~s_Lbar->~chi_2+,ubar;
+# insert DecayConstructor:DisableModes 170 ~s_Lbar->~chi_1+,cbar;
+# insert DecayConstructor:DisableModes 171 ~s_Lbar->~chi_2+,cbar;
+# insert DecayConstructor:DisableModes 172 ~s_Lbar->~chi_1+,tbar;
+# insert DecayConstructor:DisableModes 173 ~s_Lbar->~chi_2+,tbar;
+# insert DecayConstructor:DisableModes 174 ~s_Lbar->~g,sbar;
+# insert DecayConstructor:DisableModes 175 ~s_Lbar->~chi_10,sbar;
+# insert DecayConstructor:DisableModes 176 ~s_Lbar->~chi_30,sbar;
+# insert DecayConstructor:DisableModes 177 ~s_Lbar->~chi_40,sbar;
+# insert DecayConstructor:DisableModes 178 ~s_Lbar->~u_Lbar,W+;
+# insert DecayConstructor:DisableModes 179 ~s_Lbar->~u_Rbar,W+;
+# insert DecayConstructor:DisableModes 180 ~s_Lbar->~c_Lbar,W+;
+# insert DecayConstructor:DisableModes 181 ~s_Lbar->~c_Rbar,W+;
+# insert DecayConstructor:DisableModes 182 ~s_Lbar->~t_1bar,W+;
+# insert DecayConstructor:DisableModes 183 ~s_Lbar->~t_2bar,W+;
+# insert DecayConstructor:DisableModes 184 ~s_Lbar->~s_Lbar,Z0;
+# insert DecayConstructor:DisableModes 185 ~s_Lbar->~s_Rbar,Z0;
+# insert DecayConstructor:DisableModes 186 ~s_Lbar->~s_Lbar,h0;
+# insert DecayConstructor:DisableModes 187 ~s_Lbar->~s_Rbar,h0;
+# insert DecayConstructor:DisableModes 188 ~s_Lbar->~s_Lbar,H0;
+# insert DecayConstructor:DisableModes 189 ~s_Lbar->~s_Rbar,H0;
+# insert DecayConstructor:DisableModes 190 ~s_Lbar->~s_Lbar,gamma;
+# insert DecayConstructor:DisableModes 191 ~s_Lbar->~s_Rbar,gamma;
+# insert DecayConstructor:DisableModes 192 ~chi_20->~tau_1+,tau-;
+# insert DecayConstructor:DisableModes 193 ~chi_20->~tau_1-,tau+;
+# insert DecayConstructor:DisableModes 194 ~chi_20->~tau_2+,tau-;
+# insert DecayConstructor:DisableModes 195 ~chi_20->~tau_2-,tau+;
+# insert DecayConstructor:DisableModes 196 ~chi_20->~nu_eL,nu_ebar;
+# insert DecayConstructor:DisableModes 197 ~chi_20->~nu_eLbar,nu_e;
+# insert DecayConstructor:DisableModes 198 ~chi_20->~nu_muL,nu_mubar;
+# insert DecayConstructor:DisableModes 199 ~chi_20->~nu_muLbar,nu_mu;
+# insert DecayConstructor:DisableModes 200 ~chi_20->~nu_tauL,nu_taubar;
+# insert DecayConstructor:DisableModes 201 ~chi_20->~nu_tauLbar,nu_tau;
+
+# insert DecayConstructor:DisableModes  ~chi_20->~tau_1+,tau-;
+# insert DecayConstructor:DisableModes  ~chi_20->~tau_1-,tau+;
+
+# insert DecayConstructor:DisableModes 22 ~d_L->~chi_1-,u;
+# insert DecayConstructor:DisableModes 23 ~d_L->~chi_2-,u;
+# insert DecayConstructor:DisableModes 24 ~u_Lbar->~chi_1-,dbar;
+# insert DecayConstructor:DisableModes 25 ~d_Lbar->~chi_1+,ubar;
+# insert DecayConstructor:DisableModes 26 ~u_Lbar->~chi_2-,dbar;
+# insert DecayConstructor:DisableModes 27 ~d_Lbar->~chi_2+,ubar;
+# insert DecayConstructor:DisableModes 28 ~u_R->~chi_10,u;
+# insert DecayConstructor:DisableModes 29 ~d_R->~chi_10,d;
+# etc ...
+
+# Select only specific decay modes (probably does not work for BSM particles)
+# do /Herwig/Particles/~u_L:SelectDecayModes ~u_L->~chi_20,u;
+# do /Herwig/Particles/~u_Lbar:SelectDecayModes ~u_Lbar->~chi_20,ubar;
+# do /Herwig/Particles/~u_L:SelectDecayModes ~d_L->~chi_20,d;
+# do /Herwig/Particles/~u_L:SelectDecayModes ~d_Lbar->~chi_20,dbar;
+# do /Herwig/Particles/~u_L:SelectDecayModes ~c_L->~chi_20,c;
+# do /Herwig/Particles/~u_L:SelectDecayModes ~c_Lbar->~chi_20,cbar;
+# do /Herwig/Particles/~u_L:SelectDecayModes ~s_L->~chi_20,s;
+# do /Herwig/Particles/~u_L:SelectDecayModes ~s_Lbar->~chi_20,sbar;
+
+# To set a minimum allowed branching fraction (the default is shown)
+#set NewModel:MinimumBR 1e-6
+
+# Modify sparticle masses to make sure they are not produced
+# Obsolete - done in .slha file instead
+# set /Herwig/Particles/~u_R:NominalMass 15000.*GeV
+# set /Herwig/Particles/~u_Rbar:NominalMass 15000.*GeV
+# set /Herwig/Particles/~c_R:NominalMass 15000.*GeV
+# set /Herwig/Particles/~c_Rbar:NominalMass 15000.*GeV
+
+# Intrinsic pT tune extrapolated to LHC energy
+set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV
+
+# Other parameters for run
+cd /Herwig/Generators
+set LHCGenerator:NumberOfEvents 10000000
+set LHCGenerator:RandomNumberGenerator:Seed 31122001
+set LHCGenerator:PrintEvent 101
+set LHCGenerator:MaxErrors 10000
+set LHCGenerator:EventHandler:LuminosityFunction:Energy 14000.0
+
+saverun LHC-MSSM LHCGenerator
