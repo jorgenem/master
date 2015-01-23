@@ -44,7 +44,11 @@ bool isInAcceptedList (Particle p) {
   }
   return isInAcceptedList;
 }
-
+struct EventParticle 
+{
+  int id;
+  Vec4 p;
+};
 
 
 
@@ -62,6 +66,15 @@ int main() {
   int nAbort   = pythia.mode("Main:timesAllowErrors");
   // double eCM   = pythia.parm("Beams:eCM");
 
+
+
+  // * Make and open text output file 
+  ofstream textOutput;
+  // ofstream adOut;
+  const char* filename = "Pythia_cascade_events_no_ISR_or_FSR_original_widths_20150121.log";
+  remove(filename);
+  textOutput.open(filename, ios::out | ios::app);
+
   // Initialize.
   pythia.init();
 
@@ -75,7 +88,8 @@ int main() {
   int iAbort = 0;
   int iEvent = 0;
   int nCorrect = 0;
-  while (iEvent < nEvent) {
+  int nMomentumNotConserved = 0;
+  while (nCorrect < nEvent) { // nEvent specifies the number of correct cascade events we want.
 
     // Generate events. Quit if failure.
     GENERATE: if (!pythia.next()) {
@@ -87,6 +101,7 @@ int main() {
     cout << "Event number " << (iEvent+1) << endl;
     ++iEvent;
 
+    // NOTE: The particle event record numbers that we select are the first instance of each particle after a decay vertex, except for squarks where we take the iBotCopy instance. For the other particles, the selected instance is possibly not the correct-momentum instance.
 
     // Check that primary hard process is left-handed first- or second generation squarks or gluinos
     bool correctPrimaryProcess = ( isInAcceptedList(event[5]) && isInAcceptedList(event[6]) );
@@ -96,12 +111,14 @@ int main() {
       goto GENERATE;
     }
 
-    bool chain[2];
+    EventParticle quarkMomentumSumArray[2];
+    EventParticle lepton1MomentumSumArray[2];
+    EventParticle lepton2MomentumSumArray[2];
+    EventParticle neutralino1MomentumSumArray[2];
+    bool chain[2] = {false, false};
 
     for (int iC = 0; iC<2; iC++) // Loop over the two primary outgoing
     {
-      if (isInAcceptedList(event[iC+5])) 
-      {
         int primaryOutgoing = 5+iC;
         int squark;
         if (abs(event[primaryOutgoing].id()) >= 1000001 && abs(event[primaryOutgoing].id()) <= 1000004)
@@ -116,11 +133,11 @@ int main() {
           int child2 = event.daughterList(event[5+iC].iBotCopyId())[1];
           if (abs(event[child1].id()) >= 1000001 && abs(event[child1].id()) <= 1000004)
           {
-            squark = child1;
+            squark = event[child1].iBotCopyId();
           }
           else if (abs(event[child2].id()) >= 1000001 && abs(event[child2].id()) <= 1000004)
           {
-            squark = child2;
+            squark = event[child2].iBotCopyId();
           }
           else 
           {
@@ -128,6 +145,11 @@ int main() {
             cout << "Gluino children have IDs " << event[child1].id() << " and " << event[child2].id() << endl;
             goto GENERATE;
           }
+        }
+        else 
+        {
+          cout << "Break: Chain number " << iC+1 << " didn't have a squark or gluino" << endl;
+          goto GENERATE;
         }
 
         // We have a squark.
@@ -249,6 +271,10 @@ int main() {
         // Now we have all the correct particles in the chain.
         chain[iC] = true;
 
+
+
+
+
         // Print them to screen for testing
         cout << "Correct chain instance found." << endl;
         cout << "Squark  ID = " << event[squark].id() << endl;
@@ -259,19 +285,261 @@ int main() {
         cout << "Chi1    ID = " << event[neutralino1].id() << endl;
         cout << "Lepton2 ID = " << event[lepton2].id() << endl;
 
-        } // END IF it is a squark/gluino
-        else 
+
+        // Check momentum conservation
+        // Find the final instance of outgoing particles prior to possible radiation.
+        int neutralino2BeforeRad  = event[neutralino2].iBotCopy();
+        int quarkBeforeRad        = event[quark].iBotCopy();
+        int sleptonBeforeRad      = event[slepton].iBotCopy();
+        int lepton1BeforeRad      = event[lepton1].iBotCopy();
+        int neutralino1BeforeRad  = event[neutralino1].iBotCopy();
+        int lepton2BeforeRad      = event[lepton2].iBotCopy();
+
+        int neutralino2Final  = event[neutralino2].iBotCopyId();
+        // int quarkFinal        = event[quark].iBotCopyId();
+        int sleptonFinal      = event[slepton].iBotCopyId();
+        // int lepton1Final      = event[lepton1].iBotCopyId();
+        // int neutralino1Final  = event[neutralino1].iBotCopyId();
+        // int lepton2Final      = event[lepton2].iBotCopyId();
+
+        Vec4 momentumSumPrimaryVertex = event[squark].p() - (event[neutralino2BeforeRad].p() + event[quarkBeforeRad].p());
+        Vec4 momentumSumSecondaryVertex = event[neutralino2Final].p() - (event[sleptonBeforeRad].p() + event[lepton1BeforeRad].p());
+        Vec4 momentumSumTertiaryVertex = event[sleptonFinal].p() - (event[neutralino1BeforeRad].p() + event[lepton2BeforeRad].p());
+        cout << "Momentum conservation in chain:" << endl;
+        cout << "1. vertex: " << squark << " to " << neutralino2BeforeRad << " + " << quarkBeforeRad << ", momentum = " << momentumSumPrimaryVertex << endl;
+        cout << "2. vertex: " << neutralino2Final << " to " << sleptonBeforeRad << " + " << lepton1BeforeRad << ", momentum = " << momentumSumSecondaryVertex << endl;
+        cout << "3. vertex: " << sleptonFinal << " to " << neutralino1BeforeRad << " + " << lepton2BeforeRad << ", momentum = " << momentumSumTertiaryVertex << endl;
+
+        double epsilon = 0.01;
+        bool momentumConservedPrimaryVertex = (abs(momentumSumPrimaryVertex.px()) < epsilon && abs(momentumSumPrimaryVertex.py()) < epsilon && abs(momentumSumPrimaryVertex.pz()) < epsilon && abs(momentumSumPrimaryVertex.e()) < epsilon);
+        bool momentumConservedSecondaryVertex = (abs(momentumSumSecondaryVertex.px()) < epsilon && abs(momentumSumSecondaryVertex.py()) < epsilon && abs(momentumSumSecondaryVertex.pz()) < epsilon && abs(momentumSumSecondaryVertex.e()) < epsilon);
+        bool momentumConservedTertiaryVertex = (abs(momentumSumTertiaryVertex.px()) < epsilon && abs(momentumSumTertiaryVertex.py()) < epsilon && abs(momentumSumTertiaryVertex.pz()) < epsilon && abs(momentumSumTertiaryVertex.e()) < epsilon);
+
+
+        Vec4 quarkMomentumSum;
+        Vec4 lepton1MomentumSum;
+        Vec4 lepton2MomentumSum;
+        Vec4 neutralino1MomentumSum;
+
+        quark = event[quark].iBotCopy();
+        if (event.daughterList(quark).size() > 0)
         {
-          cout << "Break: Chain number " << iC+1 << " didn't have a squark or gluino" << endl;
+          for (int iQuarkChild = 0; iQuarkChild < event.daughterList(quark).size(); iQuarkChild++)
+          {
+            int QuarkChild = event.daughterList(quark)[iQuarkChild];
+            if (iQuarkChild == 0) 
+            { 
+              quarkMomentumSum = event[QuarkChild].p(); 
+            } 
+            else 
+            { 
+              quarkMomentumSum = quarkMomentumSum + event[QuarkChild].p(); 
+            }
+          }
+        }
+        else
+        {
+          quarkMomentumSum = event[quark].p();
+        }
+
+        // if (iEvent == 17) 
+        // {
+        //   cout << "Event 17: sister list of neutralino2" << endl; 
+        //   cout << event[neutralino2Final].sisterList(true).size() << endl;
+        //   for (unsigned int i = 0; i < event[neutralino2Final].sisterList(true).size(); i++)
+        //   {
+        //     cout << event[event[neutralino2Final].sisterList(true)[i]].id() << event[event[neutralino2Final].sisterList(true)[i]].p() << endl;
+        //   }
+        // }
+
+        lepton1 = event[lepton1].iBotCopy();
+        if (event.daughterList(lepton1).size() > 0)
+        {
+          for (int iLepton1Child = 0; iLepton1Child < event.daughterList(lepton1).size(); iLepton1Child++)
+          {
+            int Lepton1Child = event.daughterList(lepton1)[iLepton1Child];
+            if (iLepton1Child == 0) 
+            { 
+              lepton1MomentumSum = event[Lepton1Child].p(); 
+            } 
+            else 
+            { 
+              lepton1MomentumSum = lepton1MomentumSum + event[Lepton1Child].p(); 
+            }          }
+        }
+        else
+        {
+          lepton1MomentumSum = event[lepton1].p();
+        }
+
+
+
+        lepton2 = event[lepton2].iBotCopy();
+        if (event.daughterList(lepton2).size() > 0)
+        {
+          for (int iLepton2Child = 0; iLepton2Child < event.daughterList(lepton2).size(); iLepton2Child++)
+          {
+            int Lepton2Child = event.daughterList(lepton2)[iLepton2Child];
+            if (iLepton2Child == 0) 
+            { 
+              lepton2MomentumSum = event[Lepton2Child].p(); 
+            } 
+            else 
+            { 
+              lepton2MomentumSum = lepton2MomentumSum + event[Lepton2Child].p(); 
+            }          
+          }
+        }
+        else
+        {
+          lepton2MomentumSum = event[lepton2].p();
+        }
+
+        neutralino1 = event[neutralino1].iBotCopy();
+        if (event.daughterList(neutralino1).size() > 0)
+        {
+          for (int iNeutralino1Child = 0; iNeutralino1Child < event.daughterList(neutralino1).size(); iNeutralino1Child++)
+          {
+            int Neutralino1Child = event.daughterList(neutralino1)[iNeutralino1Child];
+            if (iNeutralino1Child == 0)
+            {
+              neutralino1MomentumSum = event[Neutralino1Child].p();
+            }
+            else
+            {
+              neutralino1MomentumSum = neutralino1MomentumSum + event[Neutralino1Child].p();
+            }
+            // cout << event[Neutralino1Child].id() << event[Neutralino1Child].p() << endl;
+          }
+        }
+        else
+        {
+          neutralino1MomentumSum = event[neutralino1].p();
+        }
+
+
+        // Calculate momentum sum
+        Vec4 momentumSumSquarkToFinals = event[squark].p() - quarkMomentumSum - lepton1MomentumSum - lepton2MomentumSum - neutralino1MomentumSum;
+
+
+        // if (iEvent == 1 && iC == 0) 
+        // {
+        //   Vec4 momentumSumTest = event[200].p() 
+        //   - ( event[227].p() + event[224].p() + event[222].p() + event[223].p() + event[220].p() + event[221].p() + event[216].p() + event[217].p() );
+        //   cout << "momentumSumTest = " << momentumSumTest << endl;
+        // }
+
+        bool momentumConservedSquarkToFinals = (abs(momentumSumSquarkToFinals.px()) < epsilon && abs(momentumSumSquarkToFinals.py()) < epsilon && abs(momentumSumSquarkToFinals.pz()) < epsilon && abs(momentumSumSquarkToFinals.e()) < epsilon);
+
+        if (!momentumConservedSquarkToFinals)
+        {
+          cout << "Break: Momentum is not conserved." << endl;
+          ++nMomentumNotConserved;
           goto GENERATE;
         }
+
+        cout << "Squark to finals: " << momentumSumSquarkToFinals << endl;
+
+
+        // Save the momenta of outgoing chain particles
+        quarkMomentumSumArray[iC].p = quarkMomentumSum;
+        lepton1MomentumSumArray[iC].p = lepton1MomentumSum;
+        lepton2MomentumSumArray[iC].p = lepton2MomentumSum;
+        neutralino1MomentumSumArray[iC].p = neutralino1MomentumSum;
+        // and the id's
+        quarkMomentumSumArray[iC].id = event[quark].id();
+        lepton1MomentumSumArray[iC].id = event[lepton1].id();
+        lepton2MomentumSumArray[iC].id = event[lepton2].id();
+        neutralino1MomentumSumArray[iC].id = event[neutralino1].id();
 
 
       } // END FOR loop over chains
 
       // If we have made it this far, both chains are correct
       ++nCorrect;
-      
+
+
+
+
+
+      // Write both chains to file
+      textOutput << "=== Chain event number " << nCorrect << ", total event number " << iEvent << " ===" << endl;
+      // Write parseable 4-momenta to file
+    textOutput << quarkMomentumSumArray[0].id << "\t"
+               << quarkMomentumSumArray[0].p.px() << "\t"
+               << quarkMomentumSumArray[0].p.py() << "\t"
+               << quarkMomentumSumArray[0].p.pz() << "\t"
+               << quarkMomentumSumArray[0].p.e() << "\t"
+               << quarkMomentumSumArray[0].p.mCalc() << "\t"
+               << endl;
+    textOutput << lepton1MomentumSumArray[0].id << "\t"
+               << lepton1MomentumSumArray[0].p.px() << "\t"
+               << lepton1MomentumSumArray[0].p.py() << "\t"
+               << lepton1MomentumSumArray[0].p.pz() << "\t"
+               << lepton1MomentumSumArray[0].p.e() << "\t"
+               << lepton1MomentumSumArray[0].p.mCalc() << "\t"
+               << endl;
+    textOutput << lepton2MomentumSumArray[0].id << "\t"
+               << lepton2MomentumSumArray[0].p.px() << "\t"
+               << lepton2MomentumSumArray[0].p.py() << "\t"
+               << lepton2MomentumSumArray[0].p.pz() << "\t"
+               << lepton2MomentumSumArray[0].p.e() << "\t"
+               << lepton2MomentumSumArray[0].p.mCalc() << "\t"
+               << endl;
+    textOutput << neutralino1MomentumSumArray[0].id << "\t"
+               << neutralino1MomentumSumArray[0].p.px() << "\t"
+               << neutralino1MomentumSumArray[0].p.py() << "\t"
+               << neutralino1MomentumSumArray[0].p.pz() << "\t"
+               << neutralino1MomentumSumArray[0].p.e() << "\t"
+               << neutralino1MomentumSumArray[0].p.mCalc() << "\t"
+               << endl;
+    textOutput << quarkMomentumSumArray[1].id << "\t"
+               << quarkMomentumSumArray[1].p.px() << "\t"
+               << quarkMomentumSumArray[1].p.py() << "\t"
+               << quarkMomentumSumArray[1].p.pz() << "\t"
+               << quarkMomentumSumArray[1].p.e() << "\t"
+               << quarkMomentumSumArray[1].p.mCalc() << "\t"
+               << endl;
+    textOutput << lepton1MomentumSumArray[1].id << "\t"
+               << lepton1MomentumSumArray[1].p.px() << "\t"
+               << lepton1MomentumSumArray[1].p.py() << "\t"
+               << lepton1MomentumSumArray[1].p.pz() << "\t"
+               << lepton1MomentumSumArray[1].p.e() << "\t"
+               << lepton1MomentumSumArray[1].p.mCalc() << "\t"
+               << endl;
+    textOutput << lepton2MomentumSumArray[1].id << "\t"
+               << lepton2MomentumSumArray[1].p.px() << "\t"
+               << lepton2MomentumSumArray[1].p.py() << "\t"
+               << lepton2MomentumSumArray[1].p.pz() << "\t"
+               << lepton2MomentumSumArray[1].p.e() << "\t"
+               << lepton2MomentumSumArray[1].p.mCalc() << "\t"
+               << endl;
+    textOutput << neutralino1MomentumSumArray[1].id << "\t"
+               << neutralino1MomentumSumArray[1].p.px() << "\t"
+               << neutralino1MomentumSumArray[1].p.py() << "\t"
+               << neutralino1MomentumSumArray[1].p.pz() << "\t"
+               << neutralino1MomentumSumArray[1].p.e() << "\t"
+               << neutralino1MomentumSumArray[1].p.mCalc() << "\t"
+               << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       
 
@@ -353,6 +621,12 @@ int main() {
 
   // End of event loop.
   }
+
+
+  textOutput << "Total number of events generated = " << iEvent-iAbort << endl;
+  textOutput << "Number of events discarded due to momentum non-conservation = " << nMomentumNotConserved << endl;
+  textOutput.close();
+
 
   // Final statistics and histogram output.
   // pythia.stat();
