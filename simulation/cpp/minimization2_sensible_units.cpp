@@ -56,8 +56,7 @@ double ** make_simplex(double * point, int dim)
 		for (j = 0; j < dim; j++)
 			simplex[i][j] = point[j];
 	for (i = 0; i < dim; i++)
-		// simplex[i][i] += 1.0;
-		simplex[i][i] *= 1.1;
+		simplex[i][i] += 1.0;
 	return simplex;
 }
 void evaluate_simplex(double ** simplex, int dim,double * fx,  double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &),
@@ -210,7 +209,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 	vec M;
 	M << Masses[0]*Masses[0] << Masses[1]*Masses[1] << Masses[2]*Masses[2] << Masses[3]*Masses[3] 
 		<< Masses[0]*Masses[0] << Masses[1]*Masses[1] << Masses[2]*Masses[2] << Masses[3]*Masses[3];
-	M = M/pow(Mnorm, 2);
+	M = M;
 
 	double xisquared = 0;
 
@@ -324,9 +323,9 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 
 
 	string line;
-	// ifstream events ("../python/on-shell_decay_squarks_at_rest_10000_events.dat");
+	ifstream events ("../events/simple_2500_events_gauss_and_exp_mass_smearing_20150214.dat");
 	// ifstream events ("../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat");
-	ifstream events ("../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat");
+	// ifstream events ("../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat");
 	// ifstream events ("../python/Pythia_cascade_events_20150120.dat");
 	// ifstream events ("../events/Herwig_chain_20150116_with_gluinos_and_no_threebody_decay_and_discarded_momentum-nonconservation_GeV-corrected_only_opposite_flavour_leptons.dat");
 
@@ -349,7 +348,6 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 			for (int iParticle = 0; iParticle < 9; iParticle++)
 			{
 				getline(events,line);
-				// cout << iParticle << " " << line << endl;
 				istringstream iss(line);
 				particle = {istream_iterator<string>{iss}, istream_iterator<string>{}};
 
@@ -361,13 +359,11 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 				if (iParticle == 2)
 				{
 					p2.id = stoi(particle[0]);
-					// cout << abs(p2.id) << endl;
 					p2.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
 				if (iParticle == 3)
 				{
 					p3.id = stoi(particle[0]);
-					// cout << abs(p3.id) << endl;
 					p3.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
 				if (iParticle == 4)
@@ -383,13 +379,11 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 				if (iParticle == 6)
 				{
 					p6.id = stoi(particle[0]);
-					// cout << abs(p6.id) << endl;
 					p6.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
 				if (iParticle == 7)
 				{
 					p7.id = stoi(particle[0]);
-					// cout << abs(p7.id) << endl;
 					p7.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
 				if (iParticle == 8)
@@ -497,10 +491,10 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 	
 				if (all_leptons_equal_list[iEvent])
 				{
-					bool p67_was_flipped = false;
+					// bool p67_was_flipped = false;
 					if (p3.id*p7.id < 0)
 					{
-						p67_was_flipped = true;
+						// p67_was_flipped = true;
 						MomentumVector p6copy = p6;
 						p6 = p7;
 						p7 = p6copy;
@@ -587,7 +581,7 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 			} // END IF combinatorics
 			else
 			{
-				// Don't need to do anythinge else
+				// Don't need to do anything else
 			}
 
 
@@ -611,7 +605,7 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 	// double debug_xisquared = xisquared(&masses_exact[0], 1, 0, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
 	// cout << "DEBUG xisquared-true = " << debug_xisquared << endl;
 
-	double tol = 1e-1;
+	double tol = 1e-12;
 	for (int iBin=0; iBin<Nbins; iBin++)
 	{
 		cout << "Minimizing bin number " << iBin+1 << endl;
@@ -639,7 +633,7 @@ int main()
 	int Nbins = 100;
 	int Nevents = 25;
 	bool combinatorics = true;
-	vector<double> masses_initial = {568, 180, 144, 97};
+	vector<double> masses_initial = {5.68, 1.80, 1.44, 0.97};
 	double Mnorm = 100;
 
 	vector<double> best_fit_value;
@@ -659,7 +653,7 @@ int main()
 	textOutput.open("../best_fit_results/TEST.dat", ios::out);
 	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
 
-	textOutput << "# Pythia no-IFSR events minimized by cpp, with combinatorics" << endl;
+	textOutput << "# Pythia with-IFSR events minimized by cpp, with combinatorics" << endl;
 	textOutput << "# Selection of events shifted by 0 " << endl;
 	for (int iBin = 0; iBin < Nbins; iBin++)
 	{
