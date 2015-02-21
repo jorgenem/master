@@ -685,7 +685,6 @@ void Foo::analyze(tEventPtr event, long ieve, int loop, int state) {
 
 
   textOutput.close();  
-  // adOut.close();
 }
 
 
