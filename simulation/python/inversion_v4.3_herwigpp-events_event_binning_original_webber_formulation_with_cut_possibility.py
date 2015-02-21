@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from math import pi
 from iminuit import Minuit
 import scipy.optimize as sciopt
+import sys
 np.random.seed(2) # set seed for reproducibility
 
 
@@ -74,7 +75,7 @@ def smear2(p):
 #import the Herwig .txt file of events
 import sys
 # file = open("on-shell_decay_squarks_at_rest_10000_events.txt",'r')
-file = open("Pythia_cascade_events_no_ISR_or_FSR_20150120.log", 'r')
+file = open("Pythia_cascade_events_no_ISR_or_FSR_20150120.dat", 'r')
 herwig = False
 lines = file.readlines()
 
@@ -206,6 +207,15 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		m6square = minkowskinorm(p6)
 		m7square = minkowskinorm(p7)
 
+		print "Masses squared = "
+		print m1square
+		print m2square
+		print m3square
+		print m5square
+		print m6square
+		print m7square
+
+
 		# Check invariant mass of initial colliding partons?
 		#print minkowskinorm(p1+p2+p3+p4+p5+p6+p7+p8)
 		# Check that the invariant mass of particles is close to shell mass
@@ -237,12 +247,12 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 		# need the pxmiss and pymiss, taken from the actual neutralino transverse momenta 
 		# (this is cheating, of course)
-		# pxmiss = p4[0,1]+p8[0,1]
-		# pymiss = p4[0,2]+p8[0,2]
+		pxmiss = p4[0,1]+p8[0,1]
+		pymiss = p4[0,2]+p8[0,2]
 
 		# Calculate missing transverse from (smeared) visible particles
-		pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
-		pymiss = - p1[0,2] - p2[0,2] - p3[0,2] - p5[0,2] - p6[0,2] - p7[0,2]
+		# pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
+		# pymiss = - p1[0,2] - p2[0,2] - p3[0,2] - p5[0,2] - p6[0,2] - p7[0,2]
 
 		# print "pxmiss", pxmisstrue - pxmiss
 		# print "pymiss", pymisstrue - pymiss
@@ -257,11 +267,13 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 						 [ 0	, 0 , 0 , 0 , p7[0,1] , p7[0,2] , p7[0,3] , -p7[0,0] ],
 						 [ 0 ,0.5, 0 , 0 , 0 	  , 0.5	, 0		  , 0 ]])
 		# A = A/Mnorm # normalize A
-		# print A
-		# print np.linalg.det(A)
+		print "A = "
+		print A
+		print "det(A) = ", np.linalg.det(A)
 		#A inverse
 		Ainv = A.I
-		# print Ainv
+		print "Ainv = "
+		print Ainv
 
 		#B matrix
 		B = np.matrix([[-1,1,0,0,0,0,0,0],
@@ -294,6 +306,37 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		# store D and E
 		Dlist.append(D)
 		Elist.append(E)
+
+		MZ = 568.0
+		MY = 180.0
+		MX = 144.0
+		MN = 97.0
+
+		M = np.matrix([MZ**2, MY**2, MX**2, MN**2, MZ**2, MY**2, MX**2, MN**2]).T
+		print "M = "
+		print M
+		S = B*M + C.T
+		print "S = "
+		print S
+
+		# calculate S manually to compare:
+		print "p1*p3 = ", minkowskidot(p1,p3)
+		s1 = MY**2 - MZ**2 + 2*minkowskidot(p1, p2) + 2*minkowskidot(p1,p3) + m1square
+		s2 = MX**2 - MY**2 + 2*minkowskidot(p2,p3) + m2square
+		s3 = MN**2 - MX**2 + m3square
+		s5 = MY**2 - MZ**2 + 2*minkowskidot(p5,p6) + 2*minkowskidot(p5,p7) + m5square
+		s6 = MX**2 - MY**2 + 2*minkowskidot(p6,p7) + m6square
+		s7 = MN**2 - MX**2 + m7square
+		s4 = pxmiss
+		s8 = pymiss
+
+		Smanual = np.matrix([s1,s2,s3,s4,s5,s6,s7,s8])
+
+		print "Smanual ="
+		print Smanual # They are identical. Tried subtracting, was zero exactly.
+
+
+
 
 		# Store determinants of A w&w/o smearing
 		# Adetlist = np.append(Adetlist, np.linalg.det(A))
@@ -414,7 +457,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		# offshell = [] # list to store p4nsquared - MN**2
 		for n in range(i*Nevents, (i+1)*Nevents):
 			Pn = np.dot(Dlist[n],M.T) + Elist[n]
-			# print Pn
+			print Pn
 			# P.append(Pn) #store in case needed
 		
 		
@@ -428,13 +471,15 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 			# offshell.append(abs(p4nsquared-MN**2))
 			# offshell.append(abs(p8nsquared-MNprim**2))
 		# xisquared = xisquared/(float(Nevents))
-		return xisquared/(100**4)/float(Nevents)
+		return xisquared
 
-	# print "calling test"
-	# Mtest=[447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959]
-	# print xisquared_identical_chains(Mtest,1,0)
+	print "calling test"
+	Mtest=[568,180,144,97]
+	print xisquared_identical_chains(Mtest,1,0)
 	best_fit = np.zeros((Nbins,6))
 	relative_fit_error = np.zeros((Nbins,4))
+
+	sys.exit(0)
 
 	for i in range(Nbins):
 
@@ -479,8 +524,8 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 
 # Initialize run
-Nevents = 25
-Nbins = 10
+Nevents = 1
+Nbins = 1
 # mass_offset = 0.99
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan. 
   # Make all mass guesses be equally far off, percentage-wise.
@@ -490,11 +535,13 @@ smearing_resolution = 0
 for mass_offset in [1]:
 	Minitial = true_values*np.array([mass_offset,mass_offset,mass_offset,mass_offset])
 	# Minitial=np.array([447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959])*mass_offset
-	print Minitial
+	# print Minitial
 	best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial,M_explowbound)
-	for i in range(Nbins):
-		# print "%3d % .6e   % .6e   % .6e   % .6e   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
-		print "%3d %2.1f   %2.1f   %2.1f   %2.1f   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
+	# for i in range(Nbins):
+	# 	# print "%3d % .6e   % .6e   % .6e   % .6e   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
+	# 	print "%3d %2.1f   %2.1f   %2.1f   %2.1f   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
+
+	sys.exit(0)
 
 	# Get true mass values
 	Msquark = true_values[0]

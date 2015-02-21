@@ -123,6 +123,18 @@ def decayfun(m1,P1,m2,m3):
 	# Finished!
 
 	return P2, P3
+
+def smear_BW(m0, gamma):
+	# Smears particle mass around m0 according to a Breit-Wigner distribution of width gamma
+	return 0;
+def smear_gaussian(m0, gamma):
+	# Smear particle according to gaussian distribution, approximation to BW
+	return np.random.normal(m0,gamma)
+def smear_FSR(m0):
+	# Models the quark mass smearing stemming from final-state radiation of gluons (off-shellness of the quarks)
+	# Model as an exponential distribution
+	return np.random.exponential(m0)
+
 def smear(p,resolution):
 	# Smears 4-momentum according to AcerDET manual
 	r = np.random.randn()
@@ -152,9 +164,9 @@ def smear(p,resolution):
 # Set known parameters
 # SM particle masses
 # u-quark and electron mass set to zero
-mquark = m1 = m5 = 0;
-mlepton1 = m2 = m3 = 0;
-mlepton2 = m6 = m7 = 0;
+mquark = m1 = m5 = 1.29; # charm quark
+mlepton1 = m2 = m3 = 105.66e-3; # tau lepton
+mlepton2 = m6 = m7 = 105.66e-3;
 
 
 # Now to make a mass hypothesis (guess the correct one)
@@ -169,6 +181,9 @@ MZprim = MZ
 MYprim = MY
 MXprim = MX
 MNprim = MN
+gammasquark = 5.47719539E+00
+gammaneutralino2 = 2.07770048E-02
+gammaslepton = 2.13682161E-01
 
 true_values = np.array([MZ,MY,MX,MN])
 
@@ -194,7 +209,7 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 	write_to_file = True
 	# Open file for writing 4-momenta
 	if write_to_file == True:
-		outfile = open("on-shell_decay_squarks_with_pz_14TeV-CoM_2500_events_possibly_corrected.dat","w")
+		outfile = open("../events/simple_2500_events_exp_only_mass_smearing_20150219.dat","w")
 
 	# N - How much loop?
 	for i in range(N):
@@ -213,29 +228,45 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 		#p1 = [float(p1[9]), float(p1[6]), float(p1[7]), float(p1[8])]
 		# psquark1 = np.matrix([ float(psquark1[9]), float(psquark1[6]), float(psquark1[7]), float(psquark1[8])])
 
-		Ecm = 14000.0
+		Ecm = 0.0
 
-		psquark1 = np.matrix([np.sqrt(Msquark**2 + (Ecm/2)**2),Ecm/2,0,0])
+		# Msquarkcurrent = smear_gaussian(Msquark, gammasquark)
+		# MN2current = smear_gaussian(MN2,gammaneutralino2)
+		# MseRcurrent = smear_gaussian(MseR,gammaslepton)
+		Msquarkcurrent, MN2current, MseRcurrent = Msquark, MN2, MseR
+		mquarkcurrent = smear_FSR(mquark)
+		# mquarkcurrent = mquark
+
+
+		psquark1 = np.matrix([np.sqrt(Msquarkcurrent**2 + (Ecm/2)**2),Ecm/2,0,0])
 
 		# #DEBUG
 		# psquark1 = np.matrix([ Msquark, 0, 0, 0]) # overwrite CompHEP data to start squarks at rest
 		# #/DEBUG
 
 		# Decay squark to quark and neutralino2
-		p1, pN21 = decayfun(Msquark,psquark1,mquark,MN2)
+		p1, pN21 = decayfun(Msquarkcurrent ,psquark1,mquarkcurrent,MN2current)
 		# Decay neutralino2 to lepton1 and slepton
-		p2, pseR1 = decayfun(MN2,pN21,mlepton1,MseR)
+		p2, pseR1 = decayfun(MN2current,pN21,mlepton1,MseRcurrent)
 		# Decay slepton to (anti)lepton1 and neutralino1
-		p3, p4 = decayfun(MseR,pseR1,mlepton1,MN1)
+		p3, p4 = decayfun(MseRcurrent,pseR1,mlepton1,MN1)
 
 
 
 
 		#2nd chain, p5-8
+
+		# Msquarkcurrent = smear_gaussian(Msquark, gammasquark)
+		# MN2current = smear_gaussian(MN2,gammaneutralino2)
+		# MseRcurrent = smear_gaussian(MseR,gammaslepton)
+		Msquarkcurrent, MN2current, MseRcurrent = Msquark, MN2, MseR
+		mquarkcurrent = smear_FSR(mquark)
+		# mquarkcurrent = mquark
+
 		# psquark2 = str(lines[5]).split()
 		# # print "PDG number of particle 5: ",psquark2[0] # just to check
 		# psquark2 = np.matrix([ float(psquark2[9]), float(psquark2[6]), float(psquark2[7]), float(psquark2[8])])
-		psquark2 = np.matrix([np.sqrt(Msquark**2 + (Ecm/2)**2),-Ecm/2,0,0])
+		psquark2 = np.matrix([np.sqrt(Msquarkcurrent**2 + (Ecm/2)**2),-Ecm/2,0,0])
 
 		# #DEBUG
 		# psquark2 = np.matrix([ Msquark, 0, 0, 0]) # overwrite CompHEP data to start squarks at rest
@@ -246,17 +277,17 @@ def minimize(Nbins, Nevents, resolution, Minitial, Mlowbound):
 		# print minkowskinorm(psquark2) - Msquark**2
 
 		# Decay (anti)squark to (anti)quark and neutralino2
-		p5, pN22 = decayfun(Msquark,psquark2,mquark,MN2)
+		p5, pN22 = decayfun(Msquarkcurrent,psquark2,mquarkcurrent,MN2current)
 		# Decay neutralino2 to lepton2 and slepton
-		p6, pseR2 = decayfun(MN2,pN22,mlepton2,MseR)
+		p6, pseR2 = decayfun(MN2current,pN22,mlepton2,MseRcurrent)
 		# Decay slepton to (anti)lepton2 and neutralino1
-		p7, p8 = decayfun(MseR,pseR2,mlepton2,MN1)
+		p7, p8 = decayfun(MseRcurrent,pseR2,mlepton2,MN1)
 
 
 
 		# Write 4-momenta to file
 		if write_to_file == True:
-			outfile.write("== Event number %d ==\n" %i)
+			outfile.write("== Event number %d ==\n" %(i+1))
 			outfile.write("1\t %.4f %.4f %.4f %.4f %.4f \n" %(p1[0,1],p1[0,2],p1[0,3],p1[0,0],minkowskinorm(p1)))
 			outfile.write("-11\t %.4f %.4f %.4f %.4f %.4f \n" %(p2[0,1],p2[0,2],p2[0,3],p2[0,0],minkowskinorm(p2)))
 			outfile.write("11\t %.4f %.4f %.4f %.4f %.4f \n" %(p3[0,1],p3[0,2],p3[0,3],p3[0,0],minkowskinorm(p3)))

@@ -85,7 +85,7 @@ def smear2(p):
 # 			Pn = np.dot(D, M) + E
 # 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 # 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
-# 			xisquared +=  (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 # p4/p8 is normalized by Mnorm.
+# 			xisquared +=  (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 # p4/p8 is normalized by Mnorm.
 
 # 	xisquared = xisquared/(float(Nevents))
 # 	return xisquared
@@ -136,10 +136,9 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 
 	
 	# Import masses
-	MZ, MY, MX, MN, MZp, MYp, MXp, MNp = Masses
+	MZ, MY, MX, MN = Masses
 	# Set up the M vector of current mass guess
-	# M = 1/float(Mnorm)**2 * np.matrix([ MZ**2 , MY**2 , MX**2 , MN**2 , MZp**2 , MYp**2 , MXp**2 , MNp**2 ])
-	M = Masses/float(Mnorm**2)
+	M = np.matrix([MZ**2, MY**2, MX**2, MN**2, MZ**2, MY**2, MX**2, MN**2])/float(Mnorm**2)
 	M = M.T
 
 	best_fit_combination = [] # list of best-fit combination for each event
@@ -162,7 +161,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -170,7 +169,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -178,7 +177,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -186,7 +185,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 
 			# Case 2 - A2/C2
@@ -198,7 +197,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -206,7 +205,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -214,7 +213,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -222,7 +221,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 
 			# Case 3 - A3/C3
@@ -234,7 +233,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -242,7 +241,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -250,7 +249,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -258,7 +257,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 
 			# Case 4 - A4/C4
@@ -270,7 +269,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -278,7 +277,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -286,7 +285,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -294,7 +293,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 
 
@@ -311,7 +310,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -319,7 +318,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -327,7 +326,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -335,7 +334,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 
 			# Case 2 - A2/C2
@@ -347,7 +346,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 2 - permute 23
 			Pn = np.dot( np.dot(permute23 * Ainv, B), M ) + np.dot(permute23 * Ainv, permute23 * C)
@@ -355,7 +354,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 3 - permute 67
 			Pn = np.dot( np.dot(permute67 * Ainv, B), M ) + np.dot(permute67 * Ainv, permute67 * C)
@@ -363,7 +362,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 			# Subcase 4 - permute 23 and 67
 			Pn = np.dot( np.dot(permute23and67 * Ainv, B), M ) + np.dot(permute23and67 * Ainv, permute23and67 * C)
@@ -371,7 +370,7 @@ def xisquared_identical_chains_with_combinatorics(Masses, Ainv_lists, C_lists, N
 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
 
-			xisquared_current_tmp.append( (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 )
+			xisquared_current_tmp.append( (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 )
 
 
 			
@@ -619,6 +618,7 @@ def best_fit(Nbins, Nevents, Mtrue, Minitial, Mnorm):
 	# Loop over bins to analyze each bin. Store best-fit values in matrix best_fit.
 	best_fit = np.zeros((Nbins,6))
 	for j in range(Nbins):
+		print "bin = ", j+1
 		m = sciopt.minimize(xisquared_identical_chains_with_combinatorics, Minitial, 
 						  args=(Ainv_lists, C_lists ,Nevents, j, all_leptons_equal_list, Mnorm), method='Nelder-Mead', 
 						  # bounds=((0, None), (0, None), (0, None), (0, None))
@@ -652,11 +652,11 @@ MXprim = MX
 MNprim = MN
 # Define normalizing mass (characteristic mass scale of the problem)
 Mnorm = 100.0
-true_values = np.array([MZ, MY, MX, MN, MZ, MY, MX, MN])
+true_values = np.array([MZ, MY, MX, MN])
 
 # Choose bin size, number of bins and start value
-Nbins = 10
-Nevents = 10
+Nevents = 25
+Nbins = 100
 
 
 # === RUN BEST-FIT ===
@@ -770,7 +770,7 @@ plt.text(50,MZ+5,r'$\tilde q$',fontsize=20)
 plt.text(MY+1,320,r'$\tilde\chi_2^0$',fontsize=20)
 plt.text(MX+1,320,r'$\tilde l$',fontsize=20)
 plt.text(MN+1,320,r'$\tilde \chi_1^0$',fontsize=20)
-plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR_xisquared-cut.pdf'%mass_offset, format='pdf')
+# plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR_xisquared-cut.pdf'%mass_offset, format='pdf')
 
 # plt.hold('off')
 # plt.close()
@@ -946,6 +946,6 @@ plt.show()
 	# 			Pn = np.dot(D, M) + E
 	# 			p4nsquared = Pn[3,0]**2 - Pn[0,0]**2 - Pn[1,0]**2 - Pn[2,0]**2
 	# 			p8nsquared = Pn[7,0]**2 - Pn[4,0]**2 - Pn[5,0]**2 - Pn[6,0]**2
-	# 			xisquared +=  (p4nsquared - (MN/Mnorm)**2)**2 + (p8nsquared - (MN/Mnorm)**2)**2 # p4/p8 is normalized by Mnorm.
+	# 			xisquared +=  (p4nsquared - M[3])**2 + (p8nsquared - M[3])**2 # p4/p8 is normalized by Mnorm.
 
 	# 	xisquared = xisquared/(float(Nevents))

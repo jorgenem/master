@@ -29,11 +29,21 @@ def smear(p,resolution):
 	return p_smeared
 
 
+generator=4
+generators = ["Herwig", "Pythia-full", "Pythia-noIFSR","Simple","Simple-14TeV"]
+
+Nevents=25
+bin_number=2
 
 
 #import the Herwig .txt file of events
 import sys
-file = open("../herwigpp/LHC-MSSM-analysis_20150105_corrected_lepton_instance.log",'r')
+files = ["../herwigpp/LHC-MSSM-analysis_20150116_added_gluinos_and_turned_off_threebody_and_discarded_momentum-nonconserving_events.log",
+		 "Pythia_cascade_events_20150120.dat",
+		 "Pythia_cascade_events_no_ISR_or_FSR_20150120.dat",
+		 "on-shell_decay_squarks_at_rest_2500_events_possibly_corrected.dat",
+		 "on-shell_decay_squarks_with_pz_14TeV-CoM_2500_events_possibly_corrected.dat"]
+file = open(files[generator],'r')
 lines = file.readlines()
 
 
@@ -54,7 +64,7 @@ resolution = 0 # smearing resolution, 0 means no smearing
 
 
 
-N = 150
+N = Nevents*bin_number
 Dlist = []
 Elist = []
 Adetlist = np.zeros(0)
@@ -97,14 +107,15 @@ for i in range(N):
 	p8 = np.matrix([ float(neutralino2[4]), float(neutralino2[1]), float(neutralino2[2]), float(neutralino2[3]), float(neutralino2[5]), int(neutralino2[0]) ])
 
 	# Take care of units - Herwig++ likes MeV, we like GeV (avoid disturbing the pdg code entry)
-	p1[0,0:5] /= 1000
-	p2[0,0:5] /= 1000
-	p3[0,0:5] /= 1000
-	p4[0,0:5] /= 1000
-	p5[0,0:5] /= 1000
-	p6[0,0:5] /= 1000
-	p7[0,0:5] /= 1000
-	p8[0,0:5] /= 1000
+	if generators[generator]=="Herwig":
+		p1[0,0:5] /= 1000
+		p2[0,0:5] /= 1000
+		p3[0,0:5] /= 1000
+		p4[0,0:5] /= 1000
+		p5[0,0:5] /= 1000
+		p6[0,0:5] /= 1000
+		p7[0,0:5] /= 1000
+		p8[0,0:5] /= 1000
 
 	# Save stuff for plotting
 	quark1mass[i,0] = p1[0,5]
@@ -267,7 +278,7 @@ def xisquared_identical_chains(MZ, MY, MX, MN, Nevents, i): #, MZp, MYp, MXp, MN
 
 		# offshell.append(abs(p4nsquared-MN**2))
 		# offshell.append(abs(p8nsquared-MNprim**2))
-	xisquared = xisquared/float(Nevents)
+	xisquared = xisquared
 	return xisquared
 
 
@@ -277,11 +288,11 @@ def xisquared_identical_chains(MZ, MY, MX, MN, Nevents, i): #, MZp, MYp, MXp, MN
 # Plot xi^2 as function of some masses to see how bumpy
 from mpl_toolkits.mplot3d import Axes3D
 
+true_offset = 1
+
 minm = 0.0
 maxm = 3
 Nlinspace = 300
-Nevents=25
-bin_number=6
 
 msquark_linspace = np.linspace(Msquark*minm, Msquark*maxm, Nlinspace)
 mchi2_linspace   = np.linspace(Mchi2*minm, Mchi2*maxm, Nlinspace)
@@ -292,50 +303,55 @@ msquark_mesh2, mslepton_mesh = np.meshgrid(msquark_linspace, mslepton_linspace)
 msquark_mesh3, mchi1_mesh = np.meshgrid(msquark_linspace, mchi1_linspace)
 # mslepton_mesh2, mchi1_mesh2 = np.meshgrid(mslepton_linspace, mchi1_linspace)
 
-xi2_plot_squarkchi2 = np.log(xisquared_identical_chains(msquark_mesh1, mchi2_mesh, Mslepton, Mchi1, Nevents,bin_number-1))
-xi2_plot_squarkslepton = np.log(xisquared_identical_chains(msquark_mesh2, Mchi2, mslepton_mesh, Mchi1, Nevents, bin_number-1))
-xi2_plot_squarkchi1 = np.log(xisquared_identical_chains(msquark_mesh3, Mchi2, Mslepton, mchi1_mesh, Nevents, bin_number-1))
+xi2_plot_squarkchi2 = np.log(xisquared_identical_chains(msquark_mesh1, mchi2_mesh, true_offset*Mslepton, true_offset*Mchi1, Nevents,bin_number-1))
+xi2_plot_squarkslepton = np.log(xisquared_identical_chains(msquark_mesh2, true_offset*Mchi2, mslepton_mesh, true_offset*Mchi1, Nevents, bin_number-1))
+xi2_plot_squarkchi1 = np.log(xisquared_identical_chains(msquark_mesh3, true_offset*Mchi2, true_offset*Mslepton, mchi1_mesh, Nevents, bin_number-1))
 # xi2_plot_sleptonchi1 = np.log(xisquared_identical_chains(480, 150, mslepton_mesh2, mchi1_mesh2, Nevents, bin_number-1))
 
 # Plot 1: squark-chi2
-fig = plt.figure()
+fig = plt.figure(1)
 ax = fig.add_subplot(111, projection='3d', )
 ax.set_zscale(u'linear')
 ax.plot_wireframe(msquark_mesh1, mchi2_mesh, xi2_plot_squarkchi2, rstride=10, cstride=10, color='k')
-# plt.title('test')
+plt.title(r'Generator = %s, $\tilde q - \tilde \chi_2^0$'%generators[generator],{'fontsize':16})
 
 ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
 ax.set_ylabel(r'$m_{\tilde \chi_2^0}$', {'fontsize':20})
 ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
 
-plt.show()
+plt.savefig('xisquared_surf_plots/20150123_xisquared-surface_%s_squark-chi2.pdf'%generator, format='pdf')
+
+
+# plt.show()
 
 
 # Plot 2: squark-slepton
-fig = plt.figure()
+fig = plt.figure(2)
 ax = fig.add_subplot(111, projection='3d', )
 ax.set_zscale(u'linear')
 ax.plot_wireframe(msquark_mesh2, mslepton_mesh, xi2_plot_squarkslepton, rstride=10, cstride=10, color='k')
-# plt.title('test')
+plt.title(r'Generator = %s, $\tilde q - \tilde l$'%generators[generator],{'fontsize':16})
 
 ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
 ax.set_ylabel(r'$m_{\tilde l}$', {'fontsize':20})
 ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
 
-plt.show()
+plt.savefig('xisquared_surf_plots/20150123_xisquared-surface_%s_squark-slepton.pdf'%generator, format='pdf')
+# plt.show()
 
 
 # Plot 3: squark-chi1
-fig = plt.figure()
+fig = plt.figure(3)
 ax = fig.add_subplot(111, projection='3d', )
 ax.set_zscale(u'linear')
 ax.plot_wireframe(msquark_mesh3, mchi1_mesh, xi2_plot_squarkchi1, rstride=10, cstride=10, color='k')
-# plt.title('test')
+plt.title(r'Generator = %s, $\tilde q - \tilde \chi_1^0$'%generators[generator],{'fontsize':16})
 
 ax.set_xlabel(r'$m_{\tilde q}$', {'fontsize':20})
 ax.set_ylabel(r'$m_{\tilde \chi_1^0}$', {'fontsize':20})
 ax.set_zlabel(r'$\log (\xi^2)$', {'fontsize':18})
 
+plt.savefig('xisquared_surf_plots/20150123_xisquared-surface_%s_squark-chi1.pdf'%generator, format='pdf')
 plt.show()
 
 

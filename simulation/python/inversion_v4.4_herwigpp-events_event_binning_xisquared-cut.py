@@ -1,9 +1,11 @@
 #import stuff
+from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 from math import pi
 from iminuit import Minuit
 import scipy.optimize as sciopt
+import sys
 np.random.seed(2) # set seed for reproducibility
 
 
@@ -71,10 +73,13 @@ def smear2(p):
 # tree = ET.parse('pptiluskvarkL-produksjon/20140529-1.txt')
 # root = tree.getroot()
 
-#import the Herwig .txt file of events
+#import the file of events
 import sys
 # file = open("on-shell_decay_squarks_at_rest_10000_events.txt",'r')
-file = open("Pythia_cascade_events_no_ISR_or_FSR_20150120.log", 'r')
+# file = open("on-shell_decay_squarks_with_pz_14TeV-CoM_2500_events_possibly_corrected.dat",'r')
+# file = open("Pythia_cascade_events_no_ISR_or_FSR_20150120.dat", 'r')
+file = open("Pythia_cascade_events_20150120.dat",'r')
+# file = open("../herwigpp/LHC-MSSM-analysis_20150116_added_gluinos_and_turned_off_threebody_and_discarded_momentum-nonconserving_events.log",'r')
 herwig = False
 lines = file.readlines()
 
@@ -184,6 +189,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 
 
+
 		# Smear
 		# r = resolution # percent/100 momentum smearing
 		# p1 = smear2(p1)
@@ -238,12 +244,12 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 		# need the pxmiss and pymiss, taken from the actual neutralino transverse momenta 
 		# (this is cheating, of course)
-		# pxmiss = p4[0,1]+p8[0,1]
-		# pymiss = p4[0,2]+p8[0,2]
+		pxmiss = p4[0,1]+p8[0,1]
+		pymiss = p4[0,2]+p8[0,2]
 
 		# Calculate missing transverse from (smeared) visible particles
-		pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
-		pymiss = - p1[0,2] - p2[0,2] - p3[0,2] - p5[0,2] - p6[0,2] - p7[0,2]
+		# pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
+		# pymiss = - p1[0,2] - p2[0,2] - p3[0,2] - p5[0,2] - p6[0,2] - p7[0,2]
 
 		# print "pxmiss", pxmisstrue - pxmiss
 		# print "pymiss", pymisstrue - pymiss
@@ -262,6 +268,8 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		# print np.linalg.det(A)
 		#A inverse
 		Ainv = A.I
+		# print A
+		# print np.linalg.det(A)
 		# print Ainv
 
 		#B matrix
@@ -433,7 +441,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		return xisquared
 
 	# print "calling test"
-	# Mtest=[447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959]
+	# Mtest=[568,180,144,97]
 	# print xisquared_identical_chains(Mtest,1,0)
 	best_fit = np.zeros((Nbins,6))
 	relative_fit_error = np.zeros((Nbins,4))
@@ -473,7 +481,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 						  args=(Nevents, i), method='Nelder-Mead', 
 						  #bounds=((Mlowbound[0], None), (Mlowbound[1], None), (Mlowbound[2], None), (Mlowbound[3], None)),
 						  #tol=1e-40,
-						  options={'maxfev': 2000,'xtol': 1e-8,
+						  options={'maxiter': 2000,'maxfev': 2000,'xtol': 1e-8,
 						  		   'ftol':1e-8, 'disp': True}
 						  )
 		best_fit[i,:] = m.x[0], m.x[1], m.x[2], m.x[3], m.nfev, m.fun
@@ -487,7 +495,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 # Initialize run
 Nevents = 25
-Nbins = 10
+Nbins = 100
 # mass_offset = 0.99
 # Minitial = [5.5e2, 1.8e2, 1.5e2, 1e2, 5.5e2, 1.8e2, 1.5e2, 1e2] # Starting point for parameter scan. 
   # Make all mass guesses be equally far off, percentage-wise.
@@ -497,14 +505,17 @@ M_explowbound=[400,94,94,46]
 smearing_resolution = 0
 
 plot_counter = 1
-for mass_offset in [1]:
-	Minitial = true_values*np.array([2-mass_offset,mass_offset,mass_offset,mass_offset])
+for mass_offset in [1.0]:
+	Minitial = true_values*np.array([mass_offset,mass_offset,mass_offset,mass_offset])
 	# Minitial=np.array([447.429941541876, 115.38434233639869, 94.00228334374647, 48.25627489449959])*mass_offset
 	print Minitial
 	best_fit, relative_fit_error = minimize(Nbins, Nevents, smearing_resolution, Minitial,M_explowbound)
 	for i in range(Nbins):
 		# print "%3d % .6e   % .6e   % .6e   % .6e   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
 		print "%3d %2.1f   %2.1f   %2.1f   %2.1f   %3d   % .6e" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5])
+
+	# print "Exit"
+	# sys.exit(0)
 
 	# Get true mass values
 	Msquark = true_values[0]
@@ -532,7 +543,7 @@ for mass_offset in [1]:
 	mchi2_passcut = []
 	mslepton_passcut = []
 	mchi1_passcut = []
-	cut = 1e-9 # xi^2 cut value in units of (100 GeV)^4
+	cut = 100**10 # xi^2 cut value in units of (100 GeV)^4
 	for i in range(len(best_fit[:,0])):
 		if best_fit[i,5] < float(cut):
 			msquark_passcut.append(best_fit[i,0])
@@ -581,7 +592,7 @@ for mass_offset in [1]:
 
 	# ylim = [np.min(msquark)-30, np.max(msquark)+30]
 	# xlim = [np.min(np.append(mslepton,np.append(mchi1,mchi2)))-30, np.max(np.append(mslepton,np.append(mchi1,mchi2)))+30]
-	ylim=[300,700]
+	ylim=[400,650] # MODIFIED 20150203
 	xlim=[0,300]
 	#print xlim, ylim
 
@@ -604,7 +615,7 @@ for mass_offset in [1]:
 	plt.text(MY+1,320,r'$\tilde\chi_2^0$',fontsize=20)
 	plt.text(MX+1,320,r'$\tilde l$',fontsize=20)
 	plt.text(MN+1,320,r'$\tilde \chi_1^0$',fontsize=20)
-	# plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR_xisquared-cut.pdf'%mass_offset, format='pdf')
+	plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR_xisquared-cut.pdf'%mass_offset, format='pdf')
 
 	# plt.hold('off')
 	# plt.close()
