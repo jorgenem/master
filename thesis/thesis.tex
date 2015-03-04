@@ -11,7 +11,8 @@
 %\bibliography{references}
 
 \author{J\o rgen Eriksson Midtb\o}
-\title{Thesis}
+\title{How to not minimize a function \\
+-- and get away with it.}
 \date{June 2015}
 
 \begin{document}
@@ -175,7 +176,7 @@ The matrix $\mathbf{D}$ and vector $\mathbf{E}$ contain only measurable quantiti
 \end{align}
 So by calculating $\mathbf{D}_n$ and $\mathbf{E}_n$ for each event $n$, and making a {\it hypothesis} $\mathbf{M}$ for the unknown masses, we can measure the goodness of fit for our hypothesis by the quantity
 \begin{align}
-	\xi^2(\mathbf{M}) = \sum_n \left[(p_{A}^2)_n - M_A^2\right]^2 + \left[(p_{A'}^2)_n - M_{A'}^2\right]^2. 
+	\xi^2(\mathbf{M}) = \sum_n \left[(p_{A}^2)_n - M_A^2\right]^2 + \left[(p_{A'}^2)_n - M_{A'}^2\right]^2. \label{eq:xisquared}
 \end{align}
 Note that this quantity measures the goodness-of-fit of all the unknown masses equally, since it follows from the constraint equations \eqref{eq:constraints} that {\it e.g.}
 \begin{align}
@@ -187,7 +188,7 @@ Note that this quantity measures the goodness-of-fit of all the unknown masses e
 
 The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a very complicated function, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. 
 
-\section{Making sense of dimensions}\label{sec:dimension_fixing}\marginpar{NOTE TO SELF: I have tested the minimization with and without these modifications, and they give exactly the same results. So there is no reason anymore to doubt that they have been done right.}
+\section{Making sense of dimensions}\label{sec:dimension_fixing}
 The aptness of the method hangs on the invertibility of the matrix $\mathbf{A}$. However, the matrix as it stands in \eqref{eq:Amatrix_orig}, is ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$ \eqref{eq:Svec_orig}, have no dimension, while the other rows have dimension $(\mathrm{mass})^1$. This is reflected in the components of $\mathbf{S}$, which all except 4 and 8 have dimension $(\mathrm{mass})^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale (since some rows have non-zero dimension) and that it does not scale properly (since not all rows have the same dimension). This is something that Webber does not comment on, but we take steps to amend both problems.
 
 For the first, we redefine $S_4$ and $S_8$ to be 
@@ -239,7 +240,34 @@ To obtain numbers of order 1, which is optimal for numerical purposes, we should
 \begin{align}
 	M_\mathrm{norm} = 100 \,\mathrm{GeV},
 \end{align}
-the same order of magnitude as the supersymmetric masses.
+the same order of magnitude as we expect for the supersymmetric masses ($\sim$ electroweak scale). 
+
+
+
+
+
+
+
+
+
+\section{Taking account of combinatorics}
+\label{sec:combinatorics}
+In a real detector event, the ordering of the quarks and leptons in and between chains is not known -- all we have are the measured particle's type and momenta. We must take this into account when applying the method. Webber does this by evaluating all possible combinations in each event and selecting the combination which gives the lowest $\xi^2$ value, choosing to add this value to the sum in Eq. \eqref{eq:xisquared_modified}. The number of possible combinations are 8 or 16, depending on whether the lepton pairs in the two chains are the same flavour or not. 
+
+For two pairs of different-generation leptons, the possible orderings are (given some `base ordering' which we permute from): Switching the ordering of the leptons in the upper chain; switching the ordering of the leptons in the lower chain; or switching the leptons in both chains. For each of these permutations we have the option to switch the two quarks, so the total number of combinations is 8. In the case of identical leptons, we may additionally interchange leptons between the chains -- but this only increases the total combinations by a factor of 2 because the same-chain leptons must have opposite charge.
+
+Note that in order to switch the ordering of leptons within the same chain, all we need to do is permute the rows of the matrix $\mathbf{A}$. The vector $\mathbf{C}$ is invariant as long as the same-chain leptons have the same mass. When the quarks are flipped, however, or when leptons are interchanged between chains, then we must redefine $\mathbf{A}$ and $\mathbf{C}$. Webber makes a point that this property can save computer memory, since one only has to store two or four versions of the matrix and vector for each event. This is however not really a big issue with the amount of memory available in modern computers. 
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Outline of the plan}
 In this thesis we wish to investigate and hopefully develop this method further. We will begin by reproducing Webber's parton level results using Monte Carlo simulations. We will then add layers of realism and complexety approaching something closer to the real experimental situastion, in order to investigate its full potential. In the end we will focus on well motivated scenarios that can be discovered in Run II of the LHC.  Along the way we will also make some improvements on the method.
@@ -267,7 +295,108 @@ The plan of attack is as follows:
 \chapter{Investigating Webber's method by Monte Carlo simulation}
 \label{ch:MC}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Webber demonstrates the aptitude of the method on a Monte Carlo generated dataset. We wish to reproduce his results. 
+Webber demonstrates the aptitude of the method on a Monte Carlo generated dataset. A natural starting point for our study is thus to try to reproduce his results. 
+
+\section{Reproducing Webber's results}
+There are several ways in which a pair of squarks can be produced in $pp$ collisions: direct pair production (both s- and t-channel), squark plus gluino with subsequent gluino decay, {\it etc}. The mechanism of production affects how much momentum goes into the squark, and thus the subsequent decay chain. But our method deals mainly with the internal kinematics of the squark decay, which by Lorentz invariance is independent of squark momentum. The only variables in our analysis which explicitly depends on the overall event kinematics is the missing transverse momentum.
+
+Webber uses Fortran HERWIG \cite{Corcella:2000bw} to produce events. He does his analysis, {\it i.e.} minimization of the $\xi^2$, on 100 samples of 25 events each, using the Minuit Simplex \cite{James:1975dr} routine for minimization. He models the effects of measurement errors in a real detector by applying momentum smearing according to a gaussian distribution, and he puts a cut on the total $\xi^2$ obtained at the minimum to eliminate samples which give a bad result. His results are summarized in table 1 of \cite{Webber:2009vm}, which we for convenience show in table \ref{table:webber_original}. The column $\delta p/p$ indicates the standard deviation of the gaussian smearing applied on the momenta, $xi^2_\mathrm{max}$ indicates the cut value of the $\xi^2$, $f_\xi$ is the fraction of samples surviving the cut and $f_\mathrm{cor}$ is the fraction of events where the chosen particle combination (selected as described in section \ref{sec:combinatorics}) is the correct one. 
+
+
+\begin{table}[hbt]
+	\centering
+	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
+		\hline
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (540)$ & $m_{\tilde \chi_2^0} (177)$ & $m_{\tilde l} (143)$ & $m_{\tilde \chi_1^0} (96)$ \\
+		\hline \hline
+		0 & 	$\infty$ &	100 \%	& 72 \%	& $538 \pm 20$	&	$176 \pm 12$	&	$143 \pm 7$	& 	$95 \pm 10$	\\
+		0 &		100 &		80 \%	& 76 \% & $539 \pm 7$	&	$177 \pm 1$		&	$144 \pm 1$	&	$96 \pm 2$	\\
+		5 \% &	$\infty$ &	100 \%	& 52 \% & $534 \pm 28$	& 	$176 \pm 11$	&	$143 \pm 10$&	$95 \pm 13$ \\
+		5 \% &	100 &		57 \%	& 55 \% & $539 \pm 9$	&	$178 \pm 3$		& 	$144 \pm 2$	&	$96 \pm 4$	\\
+		10 \% &	$\infty$ &	100 \%	& 40 \% & $522 \pm 37$	&	$171 \pm 18$	&	$140 \pm 17$&	$88 \pm 26$	\\
+		10 \% &	200 &		42 \%	& 43 \% & $530 \pm 22$	& 	$173 \pm 12$	&	$140 \pm 12$&	$89 \pm 20$ \\
+		\hline
+	\end{tabular}
+	\caption{Webber's table of results, taken from p. 6 of \cite{Webber:2009vm}.}
+	\label{table:webber_original}
+\end{table}
+
+
+We have made a thorough investigation of these results using a variety of tools. We have generated Monte Carlo events using both Herwig++ 2.7.1  \cite{Bahr:2008pv} and Pythia 8.2 \cite{Sjostrand:2014zea}. We have implemented the Simplex algorithm in various versions as well as other minimization algorithms for the fit. But rather than confirm table \ref{table:webber_original}, we have discovered what appears to be an error in the analysis. The difficulties have to do with the fact that we do not know what tolerance and maximum number of iterations Webber has used in his Simplex fit. To understand this, we have to briefly discuss the Simplex algorithm.
+
+Simplex is a heuristic minimization search method for minimizing a scalar function of $N$ variables. It takes a starting parameter point as input from the user. From this parameter point it erects a {\it simplex}, an `$N+1$-dimensional triangle'. It then begins to evaluate the function in the vertices of this simplex. A new triangle is constructed by reflecting the vertex with the highest function value around the `line' made out of the other $N$ vertices. Hopefully this new simplex lies lower in the function terrain, and thus the algorithm iterates towards a local minimum. In case of trouble, it may also try contracting the simplex or distorting its shape in various ways to obtain points of lower function values. Since the method is heuristic, so is the convergence criterion. Convergence is said to be obtained when the discrepancy in function value between the highest and lowest point of the simplex is smaller than some set tolerance value. Usually there is also a predefined maximal number of iterations before the method gives up, to avoid going on forever on non-converging problems.
+
+One large pitfall of the standard Minuit implementation of Simplex is that the tolerance is defined as an absolute quantity, rather than relative to the function value. This has to do with the fact that it traditionally is used for minimizing $\chi^2$ and log-likelihood functions, where the scale of the function is predetermined. For our problem, however, there is no such absolute scale. We have chosen to normalize the $\xi^2$ in units of $100 \, \mathrm{MeV}$, but this is just an ad-hoc choice that we observe gives numbers of order one. There is no probabilistic interpretation of $\xi^2$, as Webber himself notes (footnote 1, p. 4 of \cite{Webber:2009vm}). 
+
+The default tolerance in Minuit Simplex is 0.1. \marginpar{Really it is 0.1*EDM, the estimated vertical distance to minimum, but I cannot find any definition of EDM, and the code is full of GOTO's...} This appears to be what Webber has used, since we obtain much the same results when choosing a similar value. But this does not resolve the function well enough, and leads to convergence at a non-minimal point. If additionally, as is the case here, the search is started at or close to the best-fit point we believe in (in our case, the masses used to generate the Monte Carlo), then we run the risk of the fit `converging' to the first place it finds where the function is flatter than the tolerance. 
+
+This appears to be what has happened in Webber's analysis. Refer to the scatter plot in figure 2 of \cite{Webber:2009vm}, displayed in figure \ref{fig:webber_scatter} for convenience. When we try to reproduce the results, we discover that we get very similar behaviour with a tolerance of order 0.1, while decreasing the tolerance dramatically alters the results. This is illustrated in the scatter plots shown in figure \ref{fig:webber_rec_scatter_tolerance-comparison}, where the same Herwig++ dataset is minimized with high and low tolerance, respectively. (Note that the SUSY masses used for the Monte Carlo, here and in the following, differ slightly from those Webber uses -- this is due to differences between RGE running programs.) We see that the former case compares well to Webber's scatter plot, and also the mean value and errors on the masses agree quite well. When the tolerance is decreased, however, the minimization search spreads out, and there is a bias toward lower mass values. These tendencies can be understood physically, as we will come back to. \marginpar{Remember to discuss the degenerate direction, valley behaviour and LSP resolution at some point}
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/webber_rec_table/webber_scatter.png} 
+	\caption{Figure 2 from \cite{Webber:2009vm}, displayed here for convenience.}
+	\label{fig:webber_scatter}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/webber_rec_table/high-tol.pdf} 
+		\caption{ }
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/webber_rec_table/low-tol.pdf}
+		\caption{ } 
+	\end{subfigure}
+	\caption{Minimization on the same dataset for high tolerance (a) and lower tolerance (b).}
+	\label{fig:webber_rec_scatter_tolerance-comparison}
+\end{figure}
+
+In the process of understanding Webber's results we have compiled a similar table to \ref{table:webber_original}, table \ref{table:webber_rec}. [discuss differences and features: choice of tol, fraction of passcut, fraction of correct-combo]\marginpar{Redo plots with correct fraction of correct-combo after cut}
+
+\begin{table}[hbt]
+	\centering
+	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
+		\hline
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
+		\hline \hline
+		0 & 	$\infty$ &	100 \%	& 37 \%	& $565 \pm 20$	&	$180 \pm 8$		&	$149 \pm 6$	& 	$99 \pm 4$	\\
+		0 &		100 &		27 \%	& X \% & $565 \pm 8$	&	$180 \pm 2$		&	$146 \pm 2$	&	$99 \pm 3$	\\
+		5 \% &	$\infty$ &	100 \%	& 29 \% & $563 \pm 22$	& 	$180 \pm 10$	&	$149 \pm 6$&	$99 \pm 4$ \\
+		5 \% &	100 &		10 \%	& X \% & $565 \pm 5$	&	$180 \pm 2$		& 	$144 \pm 1$	&	$98 \pm 2$	\\
+		10 \% &	$\infty$ &	100 \%	& 25 \% & $561 \pm 26$	&	$181 \pm 8$		&	$151 \pm 7$&	$99 \pm 5$	\\
+		10 \% &	200 &		5 \%	& X \% & $565 \pm 20$	& 	$180 \pm 2$		&	$149 \pm 2$&	$101 \pm 3$ \\
+		\hline
+	\end{tabular}
+	\caption{Reproduction of the fit results from \cite{Webber:2009vm}.}
+	\label{table:webber_rec}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{OLD version of MC chapter}
 
 \section{Production mechanisms}
 There are several ways in which a pair of squarks can be produced in $pp$ collisions. Figure \ref{fig:squark_production_diagrams} shows Feynman diagrams of different processes that contribute.\footnote{The diagrams are made using JaxoDraw \cite{Binosi:2003yf}.} In (a) and (c) the squarks are opposite sign and in (a) also same flavour, while in (b) and (d) we have no such guarantee. Additionally, in (b) and (d) the squarks are produced along with additional quarks.\marginpar{If this is kept, make sure to include all diagrams from article.}
@@ -878,6 +1007,144 @@ We see that the combinatorical issues introduces sharp edges and less pronounced
 
 
 
+\chapter{TEMP: This is what I get}
+This is not part of the thesis, just a temporary display of what I get and trying to systematicize it.
+
+I have done the minimization on five different datasets: simplistic events generated according to the algorithm in the appendix; the same simplistic events with a gaussian smearing of the unstable particle masses (to mimic a Breit-Wigner smearing) and an exponential smearing of the quark mass (using the pdf $f(m) = \frac{1}{m_0}\exp(-m/m_0)$) to mimic the virtuality of the quark due to gluon radiation; Herwig++ generated events; Pythia-events without ISR or FSR; and Pythia-events with everything turned on.
+
+The minimization is done using a C++ implementation of Nelder-Mead Simplex. 
+
+For the following plots I have selected only events where the two chains have different generations of leptons (except for the simplistic events, where there is only one lepton mass). I have done the minimization both with and without taking combinatorical issues into account. I have also tested applying cuts at $\xi^2 < 100$ in units of (100 GeV)$^4$. Where this is done it is stated in the caption, and the fraction of events passing the cut is given above the plot.
+
+Update: Are has implemented the minimization in ROOT. It reproduces Webber's tendency of symmetry around the y axis, but with somewhat larger spread. However, when the tolerance required for convergence is turned down in the ROOT code, i.e. we get closer to the actual minimal points, then the results become similar to mine. These two cases are shown in figure \ref{root}. When I set the tolerance in my C++ implementation to a similar value as the original ROOT value, then the results begin to look quite a lot like Webber's. This is shown in figure \ref{pythia-high} for the Pythia dataset with FSR.
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=1.0]{figures/making-sense/webber_nosmear.png} 
+\caption{This is what Webber gets, using fortran Herwig with FSR and all. Note that there is no sign here of the ``valley of degeneracy'' that is so apparent going southwest-northeast in all my plots -- the best-fit points are distributed symmetrically around the $x$-axis, centered on the true mass point.}
+\end{figure}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=0.7]{figures/making-sense/simple_combinatorics-OFF_nocut.pdf} 
+\caption{Simplistic events. No cut, no combinatorics taken into account. Fits `perfectly'.}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_cut-100.pdf} 
+		\caption{Combinatorics OFF. Cut ON.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_nocut.pdf} 
+		\caption{Combinatorics OFF. Cut OFF.}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_cut-100_combinatorics-ON.pdf} 
+		\caption{Combinatorics ON. Cut ON.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_nocut_combinatorics-ON.pdf} 
+		\caption{Combinatorics ON. Cut OFF.}
+	\end{subfigure}
+	\caption{Simplistic events with gaussian smearing of unstable particle masses and exponential smearing of quark mass}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-OFF_cut-100.pdf} 
+		\caption{Combinatorics OFF. Cut ON.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-OFF_nocut.pdf} 
+		\caption{Combinatorics OFF. Cut OFF. }
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-ON_cut-100.pdf} 
+		\caption{Combinatorics ON. Cut ON.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-ON_nocut.pdf} 
+		\caption{Combinatorics ON. Cut OFF.}
+	\end{subfigure}
+	\caption{Pythia without ISR/FSR}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/pythia_combinatorics-OFF_nocut.pdf} 
+		\caption{Combinatorics OFF. Cut OFF. }
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/pythia_combinatorics-ON_cut-100.pdf} 
+		\caption{Combinatorics ON. Cut ON.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/pythia_combinatorics-ON_nocut.pdf} 
+		\caption{Combinatorics ON. Cut OFF.}
+	\end{subfigure}
+	\caption{Pythia with ISR/FSR}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/herwig_combinatorics-OFF_nocut.pdf} 
+		\caption{Combinatorics OFF. Cut OFF. }
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/herwig_combinatorics-ON_cut-100.pdf} 
+		\caption{Combinatorics ON. Cut ON.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/herwig_combinatorics-ON_nocut.pdf} 
+		\caption{Combinatorics ON. Cut OFF.}
+	\end{subfigure}
+	\caption{Herwig++}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/root-fit_pythia-full_tol-original.png} 
+		\caption{ROOT minimization with original tolerance.}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/root-fit_tol-1e-4_pythia-full_2000iter.png} 
+		\caption{ROOT minimization with reduced tolerance.}
+	\end{subfigure}
+	\label{root}
+	\caption{ROOT}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/20150220_pythia_with_FSR_tol-0p1.pdf} 
+		\caption{Pythia with high tolerance, combinatorics OFF.}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/making-sense/20150220_pythia_with_FSR_combinatorics-ON_tol-0p1.pdf} 
+		\caption{Pythia with high tolerance, combinatorics ON.}
+	\end{subfigure}
+	\label{pythia-high}
+	\caption{Pythia with high tolerance. No cuts are applied here}.
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{figures/making-sense/simplistic_with_mass_smearing_comparison.png}
+	\caption{ROOT vs C++ comparison for low tolerance ($10^{-8}$ for both) on the simplistic dataset with mass smearing.}
+\end{figure}
 
 
 
