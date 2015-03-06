@@ -297,9 +297,10 @@ The plan of attack is as follows:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Webber demonstrates the aptitude of the method on a Monte Carlo generated dataset. A natural starting point for our study is thus to try to reproduce his results. 
 
-\section{Reproducing Webber's results}
+\section{Collider physics}
 There are several ways in which a pair of squarks can be produced in $pp$ collisions: direct pair production (both s- and t-channel), squark plus gluino with subsequent gluino decay, {\it etc}. The mechanism of production affects how much momentum goes into the squark, and thus the subsequent decay chain. But our method deals mainly with the internal kinematics of the squark decay, which by Lorentz invariance is independent of squark momentum. The only variables in our analysis which explicitly depends on the overall event kinematics is the missing transverse momentum.
 
+\section{Reproducing Webber's results}
 Webber uses Fortran HERWIG \cite{Corcella:2000bw} to produce events. He does his analysis, {\it i.e.} minimization of the $\xi^2$, on 100 samples of 25 events each, using the Minuit Simplex \cite{James:1975dr} routine for minimization. He models the effects of measurement errors in a real detector by applying momentum smearing according to a gaussian distribution, and he puts a cut on the total $\xi^2$ obtained at the minimum to eliminate samples which give a bad result. His results are summarized in table 1 of \cite{Webber:2009vm}, which we for convenience show in table \ref{table:webber_original}. The column $\delta p/p$ indicates the standard deviation of the gaussian smearing applied on the momenta, $xi^2_\mathrm{max}$ indicates the cut value of the $\xi^2$, $f_\xi$ is the fraction of samples surviving the cut and $f_\mathrm{cor}$ is the fraction of events where the chosen particle combination (selected as described in section \ref{sec:combinatorics}) is the correct one. 
 
 
@@ -355,7 +356,7 @@ This appears to be what has happened in Webber's analysis. Refer to the scatter 
 	\label{fig:webber_rec_scatter_tolerance-comparison}
 \end{figure}
 
-In the process of understanding Webber's results we have compiled a similar table to \ref{table:webber_original}, table \ref{table:webber_rec}. [discuss differences and features: choice of tol, fraction of passcut, fraction of correct-combo]\marginpar{Redo plots with correct fraction of correct-combo after cut}
+In the process of understanding Webber's results we have compiled a similar table to \ref{table:webber_original}, table \ref{table:webber_rec}. We have played with the tolerance until we obtained something which resembles Webber's results, mainly focusing on the mean value and standard error on the best-fit masses. We note that we consistently get a significantly lower fraction of events accepted by $\xi^2$ cuts, and also significantly less events where the best-fit point has the correct combinatorical choice. The reasons for these discrepancies are not apparent -- generally it is very difficult to reproduce these kinds of results without knowing the details of the settings in the Monte Carlo event generation and minimization.
 
 \begin{table}[hbt]
 	\centering
@@ -363,23 +364,48 @@ In the process of understanding Webber's results we have compiled a similar tabl
 		\hline
 		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
 		\hline \hline
-		0 & 	$\infty$ &	100 \%	& 37 \%	& $565 \pm 20$	&	$180 \pm 8$		&	$149 \pm 6$	& 	$99 \pm 4$	\\
-		0 &		100 &		27 \%	& X \% & $565 \pm 8$	&	$180 \pm 2$		&	$146 \pm 2$	&	$99 \pm 3$	\\
-		5 \% &	$\infty$ &	100 \%	& 29 \% & $563 \pm 22$	& 	$180 \pm 10$	&	$149 \pm 6$&	$99 \pm 4$ \\
-		5 \% &	100 &		10 \%	& X \% & $565 \pm 5$	&	$180 \pm 2$		& 	$144 \pm 1$	&	$98 \pm 2$	\\
-		10 \% &	$\infty$ &	100 \%	& 25 \% & $561 \pm 26$	&	$181 \pm 8$		&	$151 \pm 7$&	$99 \pm 5$	\\
-		10 \% &	200 &		5 \%	& X \% & $565 \pm 20$	& 	$180 \pm 2$		&	$149 \pm 2$&	$101 \pm 3$ \\
+		0 & 	$\infty$ &	100 \%	& 36 \%	& $549 \pm 40$	&	$174 \pm 15$	&	$145\pm 10$	& 	$103 \pm 9$	\\
+		0 &		100 &		35 \%	& 52 \% & $562 \pm 9$	&	$180 \pm 2$		&	$146 \pm 2$	&	$98 \pm 4$	\\
+		5 \% &	$\infty$ &	100 \%	& 31 \% & $549 \pm 53$	& 	$174 \pm 15$	&	$146 \pm 7$&	$103 \pm 10$ \\
+		5 \% &	100 &		13 \%	& 43 \% & $563 \pm 9$	&	$180 \pm 2$		& 	$147 \pm 2$	&	$99 \pm 4$	\\
+		10 \% &	$\infty$ &	100 \%	& 29 \% & $540 \pm 57$	&	$177 \pm 14$	&	$150 \pm 9$&	$104 \pm 13$	\\
+		10 \% &	200 &		15 \%	& 33 \% & $565 \pm 14$	& 	$182 \pm 3$		&	$149 \pm 2$&	$97 \pm 6$ \\
 		\hline
 	\end{tabular}
-	\caption{Reproduction of the fit results from \cite{Webber:2009vm}.}
+	\caption{Attempt at achieving similar fit results as in \cite{Webber:2009vm}.}
 	\label{table:webber_rec}
 \end{table}
 
+But what is really the problem with Webber's analysis? After all, he gets great results: He shows that the method very often yields best-fit values close to the true values, which is what we want. But of course, this is no free lunch. The problem is that he (and we) know where to expect the best-fit point to be, since it is input into the Monte Carlo by us. And this is where we start the best-fit search. In a real experiment, these parameters are exactly the unknowns we wish to find. The reason that we end up close to the true masses in most cases above is that we begin the search there. If we had started looking in some other more or less random point, we would not have gotten anywhere near as good results -- {\it because there is no minimum where we seem to have found it}. As an illustration, consider the scatter plot in figure \ref{fig:webber_rec_wrong_starting_point}, where the same dataset as above (without momentum smearing) is minimized with the same tolerance settings -- only we have started the search at the point $\vec M = (800, 500, 300, 50)$. There is no system in the points, and most of them end up outside the plotting region. 
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/webber_rec_table/wrong_starting_point.pdf} 
+	\caption{Minimization with the same tolerance as was used to produce table \ref{table:webber_rec}, but started far from the true mass point.}
+	\label{fig:webber_rec_wrong_starting_point}
+\end{figure}
 
 
+\section{Moving on}
+The objective of this thesis is to investigate and {\it improve} Webber's method. Having shown that there are problematic issues with Webber's demonstration of the method, we seem to be at odds with this goal. We have to try to pick up the pieces: Given that we from now on do a proper minimization, what can we hope to get out of the method? 
 
+The first thing to check is that choosing a proper tolerance in fact gives meaningful results when we begin the minimization at other points than the true mass values. If it does not, then we may dealing with a function that has no well-defined minimum -- which might well be the case, since we have included combinatorics, making the relatively simple polynomial of eq. \eqref{eq:xisquared} into something much more complicated. 
 
+And we do seem to be in trouble, because the minimization performance depends heavily on the choice of starting point, as figure \ref{fig:moving_on-starting_point_sensitivity} shows. 
 
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/moving_on/herwig-400-300-200-100-maxiter500-comb-nocut.pdf} 
+		\caption{ }
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/moving_on/herwig-800-500-300-50-maxiter500-comb-nocut.pdf}
+		\caption{ } 
+	\end{subfigure}
+	\caption{Minimization on the same dataset for different starting points: $\vec M = (400, 300, 200, 100)$ in {\bf (a)} and $\vec M = (800, 500, 300, 50)$ in {\bf (b)}.}
+	\label{fig:moving_on-starting_point_sensitivity}
+\end{figure}
 
 
 
@@ -1272,7 +1298,7 @@ The decay algorithm, in python notation, is as follows. Particle 1 of 4-momentum
 
 
 
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{thesis-bibliography}
 
 \end{document}
