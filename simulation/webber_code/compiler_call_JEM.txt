@@ -1,0 +1,2 @@
+gfortran -c hermass_rev.f \n
+gfortran -o hermass_rev.exe hermass_rev.o herwig6521.o -L/home/jorgenem/tools/cernlib/2006b/x86_64-slc5-gcc43-opt/lib/ -lkernlib -lpacklib \n
