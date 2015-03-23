@@ -130,7 +130,7 @@ void contract_simplex(double ** simplex, int dim, double * fx, int ilo, double (
 }
 
 
-#define ZEPS 1e-10
+#define ZEPS 1e-15
 int check_tol(double fmax, double fmin, double ftol)
 {
 double delta = fabs(fmax - fmin);
@@ -139,8 +139,8 @@ double accuracy = (fabs(fmax) + fabs(fmin)) * ftol;
 return (delta < (accuracy + ZEPS));
 }
 
-double amoeba(double *point, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &), 
-	double tol, 
+bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &), 
+	double tol, int maxiter,
 	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists)
 {
 	// Usage: Point is an allocated dim-dimensional array of doubles
@@ -148,7 +148,7 @@ double amoeba(double *point, double (*func)(double *, int, int, double, bool, ve
 	// func is the function to minimize. 
 	int dim = 4;
 	int ihi, ilo, inhi, j;
-	double fmin;
+	// double fmin;
 	double * fx = alloc_vector(dim + 1);
 	double * midpoint = alloc_vector(dim);
 	double * line = alloc_vector(dim);
@@ -156,7 +156,8 @@ double amoeba(double *point, double (*func)(double *, int, int, double, bool, ve
 	evaluate_simplex(simplex, dim, fx, func, 
 		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
 
-	while (true)
+	int iter = 0;
+	while (iter < maxiter)
 	{
 		simplex_extremes(fx, dim, ihi, ilo, inhi);
 		simplex_bearings(simplex, dim, midpoint, line, ihi);
@@ -170,6 +171,7 @@ double amoeba(double *point, double (*func)(double *, int, int, double, bool, ve
 		else if (fx[ihi] >= fx[inhi])
 			if (!update_simplex(simplex[ihi], dim, fx[ihi], midpoint, line, 0.5, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists))
 				contract_simplex(simplex, dim, fx, ilo, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+		iter += 1;
 	}
 
 	for (j = 0; j < dim; j++)
@@ -179,7 +181,13 @@ double amoeba(double *point, double (*func)(double *, int, int, double, bool, ve
 	free_vector(midpoint, dim);
 	free_vector(line, dim);
 	free_matrix(simplex, dim + 1, dim);
-	return fmin;
+
+	if (iter < maxiter)
+	{
+		return true;
+	}
+	else
+		return false;
 }
 
 
@@ -266,7 +274,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 
 }
 
-void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point)
+void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point)
 {
 	int N = Nbins*Nevents;
 	cout << "N = " << endl;
@@ -324,12 +332,7 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 
 
 	string line;
-	// ifstream events ("../python/on-shell_decay_squarks_at_rest_10000_events.dat");
-	// ifstream events ("../events/simple_2500_events_gauss_and_exp_mass_smearing.dat");
-	// ifstream events ("../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat");
-	ifstream events ("../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat");
-	// ifstream events ("../python/Pythia_cascade_events_20150120.dat");
-	// ifstream events ("../events/Herwig_chain_20150116_with_gluinos_and_no_threebody_decay_and_discarded_momentum-nonconservation_GeV-corrected_only_opposite_flavour_leptons.dat");
+	ifstream events (eventfile);
 
 	if (events.is_open())
 	{
@@ -612,7 +615,8 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 	// double debug_xisquared = xisquared(&masses_exact[0], 1, 0, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
 	// cout << "DEBUG xisquared-true = " << debug_xisquared << endl;
 
-	double tol = 1e-8;
+	// double tol = 0.1;
+	// double maxiter = 500;
 	for (int iBin=0; iBin<Nbins; iBin++)
 	{
 		cout << "Minimizing bin number " << iBin+1 << endl;
@@ -620,10 +624,16 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 		vector<double> masses_current = masses_initial;
 		// cout << xisquared(&masses_initial[0], Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists) << endl;
 		// double *Masses_current = Masses_initial;
-		best_fit_current = amoeba(&masses_current[0], xisquared, tol, Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
 
-		best_fit_value.push_back(best_fit_current);
-		best_fit_point.push_back(masses_current);
+
+		double fmin;
+		if (amoeba(&masses_current[0], fmin, xisquared, tol, maxiter, Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists)) 
+		{
+			best_fit_value.push_back(fmin);
+			best_fit_point.push_back(masses_current);
+		}
+
+
 	}
 
 
@@ -642,13 +652,26 @@ int main()
 	bool combinatorics = true;
 	vector<double> masses_initial = {568, 180, 144, 97};
 	double Mnorm = 100;
+	double tol = 0.001;
+	double maxiter = 500;
 
 	vector<double> best_fit_value;
 	vector<vector<double> > best_fit_point; 
 
-	best_fit(Nbins, Nevents, masses_initial, combinatorics, Mnorm, best_fit_value, best_fit_point);
+	string eventfile;
+	// eventfile = "../python/on-shell_decay_squarks_at_rest_10000_events.dat";
+	// eventfile = "../events/simple_2500_events_gauss_and_exp_mass_smearing.dat";
+	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
+	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
+	// eventfile = "../python/Pythia_cascade_events_20150120.dat";
+	// eventfile = "../events/Herwig_chain_20150116_with_gluinos_and_no_threebody_decay_and_discarded_momentum-nonconservation_GeV-corrected_only_opposite_flavour_leptons.dat";
+	eventfile = "../events/herwigpp_9385_events_20150225-5percent_momentum_smearing.dat";
 
-	for (int iBin = 0; iBin<Nbins; iBin++)
+	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point);
+
+	int Naccepted = best_fit_value.size();
+
+	for (int iBin = 0; iBin<Naccepted; iBin++)
 	{
 		cout << iBin+1 << "\t " << best_fit_value[iBin] << "\t ";
 		cout << best_fit_point[iBin][0] << "\t " << best_fit_point[iBin][1] << "\t " << best_fit_point[iBin][2] << "\t " << best_fit_point[iBin][3] << endl;
@@ -662,7 +685,7 @@ int main()
 
 	textOutput << "# Pythia no-IFSR events minimized by cpp, with combinatorics" << endl;
 	textOutput << "# Selection of events shifted by 0 " << endl;
-	for (int iBin = 0; iBin < Nbins; iBin++)
+	for (int iBin = 0; iBin < Naccepted; iBin++)
 	{
 		textOutput << iBin+1 << "\t" << best_fit_point[iBin][0] << "\t" << best_fit_point[iBin][1] << "\t" << best_fit_point[iBin][2] << "\t" << best_fit_point[iBin][3] << "\t " << 0 << "\t " << best_fit_value[iBin] << endl;
 	}

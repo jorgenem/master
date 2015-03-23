@@ -13,7 +13,7 @@ using namespace arma;
 
 
 
-// Method for couting vectors of doubles
+// Method for couting vectors of doubles 
 std::ostream& operator<<(std::ostream &stream, vector<double> vec) {
 	stream << "[";
 	for (auto val:vec)
@@ -21,6 +21,39 @@ std::ostream& operator<<(std::ostream &stream, vector<double> vec) {
 		stream << val << ", " ;
 	}
 	return stream << "]";
+}
+// Method for couting vectors of ints 
+std::ostream& operator<<(std::ostream &stream, vector<int> vec) {
+	stream << "[";
+	for (auto val:vec)
+	{
+		stream << val << ", " ;
+	}
+	return stream << "]";
+}
+// Method for couting vectors of bool 
+std::ostream& operator<<(std::ostream &stream, vector<bool> vec) {
+	stream << "[";
+	for (auto val:vec)
+	{
+		if (val)
+			stream << 1 << ", " ;
+		else
+			stream << 0 << ", " ;
+	}
+	return stream << "]";
+}
+// Count the number of true in a vector<bool>
+int number_of_true(vector<bool> a)
+{
+	int number = 0;
+	for (auto ai:a)
+		if (ai)
+		{
+			number += 1;
+		}
+	return number;
+
 }
 
 
@@ -60,13 +93,17 @@ double ** make_simplex(double * point, int dim)
 		simplex[i][i] *= 1.1;
 	return simplex;
 }
-void evaluate_simplex(double ** simplex, int dim,double * fx,  double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &),
-	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists)
+void evaluate_simplex(double ** simplex, int dim,double * fx,  double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &),
+	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
 {
 	int i;
 	for (i = 0; i < dim + 1; i++)
-	fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+	{
+		correct_combinatorics.clear();
+		fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+	}
 }
+
 void simplex_extremes(double *fx, int dim, int & ihi, int & ilo,int & inhi)
 {
 	int i;
@@ -98,14 +135,15 @@ void simplex_bearings(double ** simplex, int dim,double * midpoint, double * lin
 		line[j] = simplex[ihi][j] - midpoint[j];
 	}
 }
-int update_simplex(double * point, int dim, double & fmax,double * midpoint, double * line, double scale, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &),
-	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists)
+int update_simplex(double * point, int dim, double & fmax,double * midpoint, double * line, double scale, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &),
+	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
 {
 	int i, update =	0; 
 	double * next = alloc_vector(dim), fx;
 	for (i = 0; i < dim; i++)
 		next[i] = midpoint[i] + scale * line[i];
-	fx = (*func)(next, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+	correct_combinatorics.clear();
+	fx = (*func)(next, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
 	if (fx < fmax)
 	{
 		for (i = 0; i < dim; i++)	
@@ -117,7 +155,7 @@ int update_simplex(double * point, int dim, double & fmax,double * midpoint, dou
 	return update;
 }
 
-void contract_simplex(double ** simplex, int dim, double * fx, int ilo, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &),	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists)
+void contract_simplex(double ** simplex, int dim, double * fx, int ilo, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &),	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
 {
 	int i, j;
 	for (i = 0; i < dim + 1; i++)
@@ -125,12 +163,13 @@ void contract_simplex(double ** simplex, int dim, double * fx, int ilo, double (
 		{
 			for (j = 0; j < dim; j++)
 				simplex[i][j] = (simplex[ilo][j]+simplex[i][j])*0.5;
-			fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+			correct_combinatorics.clear();
+			fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
 		}
 }
 
 
-#define ZEPS 1e-10
+#define ZEPS 1e-30
 int check_tol(double fmax, double fmin, double ftol)
 {
 double delta = fabs(fmax - fmin);
@@ -139,37 +178,39 @@ double accuracy = (fabs(fmax) + fabs(fmin)) * ftol;
 return (delta < (accuracy + ZEPS));
 }
 
-double amoeba(double *point, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &), 
-	double tol, 
-	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists)
+bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &), 
+	double tol, int maxiter,
+	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
 {
 	// Usage: Point is an allocated dim-dimensional array of doubles
 	// to be filled with coordinates of the best-fit point,
 	// func is the function to minimize. 
 	int dim = 4;
 	int ihi, ilo, inhi, j;
-	double fmin;
+	// double fmin;
 	double * fx = alloc_vector(dim + 1);
 	double * midpoint = alloc_vector(dim);
 	double * line = alloc_vector(dim);
 	double ** simplex = make_simplex(point, dim);
 	evaluate_simplex(simplex, dim, fx, func, 
-		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
 
-	while (true)
+	int iter = 0;
+	while (iter < maxiter)
 	{
 		simplex_extremes(fx, dim, ihi, ilo, inhi);
 		simplex_bearings(simplex, dim, midpoint, line, ihi);
 		if (check_tol(fx[ihi], fx[ilo], tol)) { /*cout << "below tol = " << tol << endl;*/ break; }
 		update_simplex(simplex[ihi], dim, fx[ihi],
 		midpoint, line, -1.0, func, 
-		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
 		if (fx[ihi] < fx[ilo])
 			update_simplex(simplex[ihi], dim, fx[ihi], midpoint, line, -2.0, func,
-				Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+				Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
 		else if (fx[ihi] >= fx[inhi])
-			if (!update_simplex(simplex[ihi], dim, fx[ihi], midpoint, line, 0.5, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists))
-				contract_simplex(simplex, dim, fx, ilo, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
+			if (!update_simplex(simplex[ihi], dim, fx[ihi], midpoint, line, 0.5, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics))
+				contract_simplex(simplex, dim, fx, ilo, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+		iter += 1;
 	}
 
 	for (j = 0; j < dim; j++)
@@ -179,7 +220,13 @@ double amoeba(double *point, double (*func)(double *, int, int, double, bool, ve
 	free_vector(midpoint, dim);
 	free_vector(line, dim);
 	free_matrix(simplex, dim + 1, dim);
-	return fmin;
+
+	if (iter < maxiter)
+	{
+		return true;
+	}
+	else
+		return false;
 }
 
 
@@ -205,7 +252,7 @@ double minkowskidot(vec a, vec b)
 	return a[3]*b[3]-a[0]*b[0]-a[1]*b[1]-a[2]*b[2];
 }
 
-double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists)
+double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
 {
 	vec M;
 	M << Masses[0]*Masses[0] << Masses[1]*Masses[1] << Masses[2]*Masses[2] << Masses[3]*Masses[3] 
@@ -213,6 +260,16 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 	M = M/pow(Mnorm, 2);
 
 	double xisquared = 0;
+
+	// Avoid regions of unphysical mass combinations by adding a huge contribution in a continuous way
+	double hugefactor = 10000000.0;
+	if (Masses[0] < 0) xisquared = xisquared + hugefactor*M[0]*M[0];
+	if (Masses[1] < 0) xisquared = xisquared + hugefactor*M[1]*M[1];
+	if (Masses[2] < 0) xisquared = xisquared + hugefactor*M[2]*M[2];
+	if (Masses[3] < 0) xisquared = xisquared + hugefactor*M[3]*M[3];
+	if (M[0] < M[1]) xisquared = xisquared + hugefactor*(M[0]-M[1])*(M[0]-M[1]);
+	if (M[1] < M[2]) xisquared = xisquared + hugefactor*(M[1]-M[2])*(M[1]-M[2]);
+	if (M[2] < M[3]) xisquared = xisquared + hugefactor*(M[2]-M[3])*(M[2]-M[3]);
 
 	if (combinatorics)
 	{
@@ -226,6 +283,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 	
 			vector<double> xisquared_current_list;
 			// xisquared_current_list.clear();
+			int iSmallest = 0;
 			for (int iCombinations = 0; iCombinations < Ncombinations; iCombinations++)
 			{
 
@@ -237,8 +295,19 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 	
 				xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
 				xisquared_current_list.push_back(xisquared_current);
+				if (xisquared_current_list[iCombinations] < xisquared_current_list[iSmallest])
+					iSmallest = iCombinations;
+
 			}
-	
+			// cout << "hei" << endl;
+			if (iSmallest == 0)
+				correct_combinatorics.push_back(1);
+			else
+				correct_combinatorics.push_back(0);
+
+			
+			// cout << "iEvent = " << iEvent << ", xisquared_current_list = " << xisquared_current_list << ", iSmallest = " << iSmallest << endl;
+
 			xisquared = xisquared + *min_element(xisquared_current_list.begin(), xisquared_current_list.end());
 		}
 	}
@@ -256,6 +325,8 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 
 			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
 			xisquared = xisquared + xisquared_current;	
+
+			correct_combinatorics.push_back(1);
 		}
 		
 	}
@@ -266,7 +337,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 
 }
 
-void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point)
+void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point, vector<double> &correct_combinatorics_fraction)
 {
 	int N = Nbins*Nevents;
 	cout << "N = " << endl;
@@ -324,12 +395,7 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 
 
 	string line;
-	// ifstream events ("../python/on-shell_decay_squarks_at_rest_10000_events.dat");
-	// ifstream events ("../events/simple_2500_events_gauss_and_exp_mass_smearing.dat");
-	// ifstream events ("../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat");
-	ifstream events ("../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat");
-	// ifstream events ("../python/Pythia_cascade_events_20150120.dat");
-	// ifstream events ("../events/Herwig_chain_20150116_with_gluinos_and_no_threebody_decay_and_discarded_momentum-nonconservation_GeV-corrected_only_opposite_flavour_leptons.dat");
+	ifstream events (eventfile);
 
 	if (events.is_open())
 	{
@@ -347,7 +413,7 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 			MomentumVector p1, p2, p3, p4, p5, p6, p7, p8;
 
 
-			for (int iParticle = 0; iParticle < 9; iParticle++)
+			for (int iParticle = 0; iParticle < 11; iParticle++)
 			{
 				getline(events,line);
 				// cout << iParticle << " " << line << endl;
@@ -356,44 +422,52 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 
 				if (iParticle == 1)
 				{	
+					continue;
+				}				
+				if (iParticle == 2)
+				{	
 					p1.id = stoi(particle[0]);
 					p1.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
-				if (iParticle == 2)
+				if (iParticle == 3)
 				{
 					p2.id = stoi(particle[0]);
 					// cout << abs(p2.id) << endl;
 					p2.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
-				if (iParticle == 3)
+				if (iParticle == 4)
 				{
 					p3.id = stoi(particle[0]);
 					// cout << abs(p3.id) << endl;
 					p3.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
-				if (iParticle == 4)
+				if (iParticle == 5)
 				{
 					p4.id = stoi(particle[0]);
 					p4.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
-				if (iParticle == 5)
+				if (iParticle == 6)
+				{	
+					continue;
+				}		
+				if (iParticle == 7)
 				{
 					p5.id = stoi(particle[0]);
 					p5.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
-				if (iParticle == 6)
+				if (iParticle == 8)
 				{
 					p6.id = stoi(particle[0]);
 					// cout << abs(p6.id) << endl;
 					p6.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
-				if (iParticle == 7)
+				if (iParticle == 9)
 				{
 					p7.id = stoi(particle[0]);
 					// cout << abs(p7.id) << endl;
 					p7.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
 				}
-				if (iParticle == 8)
+				if (iParticle == 10)
 				{
 					p8.id = stoi(particle[0]);
 					p8.p << stod(particle[1]) << stod(particle[2]) << stod(particle[3]) << stod(particle[4]);
@@ -448,11 +522,11 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 			// cout << test(0,0) << test(0,1) << endl;
 
 			// Check if event is uninvertible
-			if (abs(det(A1))<1e-5)
-			{
-				cout << "det(A1) = " << det(A1) << endl;
-				cout << "Event number " << iEvent << endl;
-			}
+			// if (abs(det(A1))<1e-5)
+			// {
+			// 	cout << "det(A1) = " << det(A1) << endl;
+			// 	cout << "Event number " << iEvent << endl;
+			// }
 
 			D11_list.push_back(inv(A1)*B);
 			D12_list.push_back(inv(permute23*A1)*B);
@@ -612,7 +686,9 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 	// double debug_xisquared = xisquared(&masses_exact[0], 1, 0, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
 	// cout << "DEBUG xisquared-true = " << debug_xisquared << endl;
 
-	double tol = 1e-8;
+	// double tol = 0.1;
+	// double maxiter = 500;
+	vector<bool> correct_combinatorics;
 	for (int iBin=0; iBin<Nbins; iBin++)
 	{
 		cout << "Minimizing bin number " << iBin+1 << endl;
@@ -620,11 +696,22 @@ void best_fit(int Nbins, int Nevents, vector<double> masses_initial, bool combin
 		vector<double> masses_current = masses_initial;
 		// cout << xisquared(&masses_initial[0], Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists) << endl;
 		// double *Masses_current = Masses_initial;
-		best_fit_current = amoeba(&masses_current[0], xisquared, tol, Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
 
-		best_fit_value.push_back(best_fit_current);
-		best_fit_point.push_back(masses_current);
+
+		double fmin;
+		if (amoeba(&masses_current[0], fmin, xisquared, tol, maxiter, Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics)) 
+		{
+			best_fit_value.push_back(fmin);
+			best_fit_point.push_back(masses_current);
+		}
+
+		// cout << "correct_combinatorics = " << correct_combinatorics << endl;
+		double fraction_of_correct_combinatorics = number_of_true(correct_combinatorics)/(double)Nevents;
+		// cout << fraction_of_correct_combinatorics << endl;
+		correct_combinatorics_fraction.push_back(fraction_of_correct_combinatorics);
+
 	}
+
 
 
 
@@ -640,33 +727,48 @@ int main()
 	int Nbins = 100;
 	int Nevents = 25;
 	bool combinatorics = true;
-	vector<double> masses_initial = {568, 180, 144, 97};
+	// vector<double> masses_initial = {568, 180, 144, 97};
+	vector<double> masses_initial = {400, 300, 200, 100};
+	// vector<double> masses_initial = {800, 500, 300, 50};
+	// vector<double> masses_initial = {1000, 100, 80, 30};
 	double Mnorm = 100;
+	double tol = 1e-12;
+	double maxiter = 500;
 
 	vector<double> best_fit_value;
 	vector<vector<double> > best_fit_point; 
+	vector<double> correct_combinatorics_fraction;
 
-	best_fit(Nbins, Nevents, masses_initial, combinatorics, Mnorm, best_fit_value, best_fit_point);
+	string eventfile;
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314.dat";
 
-	for (int iBin = 0; iBin<Nbins; iBin++)
+	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction);
+
+	cout << "correct_combinatorics_fraction = " << endl << correct_combinatorics_fraction << endl;
+
+	int Naccepted = best_fit_value.size();
+
+	for (int iBin = 0; iBin<Naccepted; iBin++)
 	{
 		cout << iBin+1 << "\t " << best_fit_value[iBin] << "\t ";
-		cout << best_fit_point[iBin][0] << "\t " << best_fit_point[iBin][1] << "\t " << best_fit_point[iBin][2] << "\t " << best_fit_point[iBin][3] << endl;
+		cout << best_fit_point[iBin][0] << "\t " << best_fit_point[iBin][1] << "\t " << best_fit_point[iBin][2] << "\t " << best_fit_point[iBin][3] << "\t " << correct_combinatorics_fraction[iBin] << endl;
 	}
 
 
 	/** Make and open text output file */
 	ofstream textOutput;
-	textOutput.open("../best_fit_results/TEST.dat", ios::out);
+	textOutput.open("../best_fit_results/TEMP.dat", ios::out);
 	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
 
-	textOutput << "# Pythia no-IFSR events minimized by cpp, with combinatorics" << endl;
-	textOutput << "# Selection of events shifted by 0 " << endl;
-	for (int iBin = 0; iBin < Nbins; iBin++)
+	textOutput << "# Events minimized by cpp, combinatorics = " << combinatorics << " (true/false = 1/0)" << endl;
+	textOutput << "# Event file name = " << eventfile << ", SIMPLEX tolerance = " << tol << endl;
+	for (int iBin = 0; iBin < Naccepted; iBin++)
 	{
-		textOutput << iBin+1 << "\t" << best_fit_point[iBin][0] << "\t" << best_fit_point[iBin][1] << "\t" << best_fit_point[iBin][2] << "\t" << best_fit_point[iBin][3] << "\t " << 0 << "\t " << best_fit_value[iBin] << endl;
+		textOutput << iBin+1 << "\t" << best_fit_point[iBin][0] << "\t" << best_fit_point[iBin][1] << "\t" << best_fit_point[iBin][2] << "\t" << best_fit_point[iBin][3] << "\t " << 0 << "\t " << best_fit_value[iBin] << "\t" << correct_combinatorics_fraction[iBin] << endl;
 	}
 	textOutput.close();
+
+	cout << "Mean correct-combo fraction = " << accumulate(correct_combinatorics_fraction.begin(), correct_combinatorics_fraction.end(), 0.0)/correct_combinatorics_fraction.size() << endl;
 
 	return 1;
 }

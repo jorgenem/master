@@ -48,40 +48,40 @@ int fit( ){
   TCanvas * c2 = new TCanvas("c2","",800,400);
 
   // Histograms
-  TH2D * h_fit_MN_MZ = new TH2D("h_fit_MN_MZ","",200,0,200,200,400,600);
+  TH2D * h_fit_MN_MZ = new TH2D("h_fit_MN_MZ","",300,0,300,300,400,650);
   h_fit_MN_MZ->SetMarkerStyle(4);
   h_fit_MN_MZ->SetMarkerColor(kBlue);
   h_fit_MN_MZ->SetMarkerSize(0.25);
-  TH2D * h_fit_MX_MZ = new TH2D("h_fit_MX_MZ","",200,0,200,200,400,600);
+  TH2D * h_fit_MX_MZ = new TH2D("h_fit_MX_MZ","",300,0,300,300,400,650);
   h_fit_MX_MZ->SetMarkerStyle(4);
   h_fit_MX_MZ->SetMarkerColor(kRed);
   h_fit_MX_MZ->SetMarkerSize(0.25);
-  TH2D * h_fit_MY_MZ = new TH2D("h_fit_MY_MZ","",200,0,200,200,400,600);
+  TH2D * h_fit_MY_MZ = new TH2D("h_fit_MY_MZ","",300,0,300,300,400,650);
   h_fit_MY_MZ->SetMarkerStyle(4);
   h_fit_MY_MZ->SetMarkerColor(kGreen);
   h_fit_MY_MZ->SetMarkerSize(0.25);
-  TH1D * hmsq = new TH1D("hmsq","",300,0,600);
-  TH1D * hmchi02 = new TH1D("hmchi02","",300,0,600);
+  TH1D * hmsq = new TH1D("hmsq","",300,0,650);
+  TH1D * hmchi02 = new TH1D("hmchi02","",300,0,650);
   hmchi02->SetLineColor(kGreen);
   
   // Decorations
-  TLine * lMZ = new TLine(0,565,200,565);
+  TLine * lMZ = new TLine(0,565,300,565);
   //lsquark->SetLineWidth(3);
   lMZ->SetLineStyle(2);
-  TLine * lMN = new TLine(97,400,97,600);
+  TLine * lMN = new TLine(97,400,97,650);
   lMN->SetLineStyle(2);
   lMN->SetLineColor(kBlue);
-  TLine * lMX = new TLine(143,400,143,600);
+  TLine * lMX = new TLine(143,400,143,650);
   lMX->SetLineStyle(2);
   lMX->SetLineColor(kRed);
-  TLine * lMY = new TLine(177,400,177,600);
+  TLine * lMY = new TLine(177,400,177,650);
   lMY->SetLineStyle(2);
   lMY->SetLineColor(kGreen);
   
   // Open file
-  // dFile = fopen("/home/jorgenem/git-repos/master/simulation/events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat","r");
-  // dFile = fopen("/home/jorgenem/git-repos/master/simulation/events/simple_2500_events_no_mass_smearing.dat","r");
-  dFile = fopen("/home/jorgenem/git-repos/master/simulation/events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat","r");
+  dFile = fopen("/home/jorgenem/git-repos/master/simulation/events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat","r");
+  // dFile = fopen("/home/jorgenem/git-repos/master/simulation/events/simple_2500_events_gauss_and_exp_mass_smearing.dat","r");
+  // dFile = fopen("/home/jorgenem/git-repos/master/simulation/events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat","r");
   
   TLorentzVector pp[9];
   for(int iFits = 0; iFits < 100; iFits++){
@@ -111,7 +111,8 @@ int fit( ){
     double arglist[10];
     int ierflg = 0;
   
-    arglist[0] = 0.0001;
+    arglist[0] = 0.00000001;
+    // arglist[0] = 1;
     gMinuit->mnexcm("SET ERR", arglist, 1, ierflg); // Set error definition
     arglist[0] = 2;
     gMinuit->mnexcm("SET PRI", arglist, 1, ierflg); // Set verbosity
@@ -125,8 +126,10 @@ int fit( ){
     gMinuit->mnparm(3, "MZ", vstart[3], step[3], 0, 0, ierflg);
   
     // Now ready for minimization step
-    arglist[0] = 500;
-    arglist[1] = 1.;
+    // arglist[0] = 5000;
+    // arglist[1] = 1.;
+    arglist[0] = 0;
+    arglist[1] = 0;
     gMinuit->mnexcm("SIMPLEX", arglist ,1, ierflg);
     //gMinuit->mnexcm("MIGRAD", arglist ,2, ierflg);
     cout << "Fit status: " << ierflg << endl;
@@ -224,7 +227,7 @@ void fcn(int &npar, double* gin, double &f, double* par, int iflag){
   }
 
   // chi2 to return
-  cout << chi2/pow(100.,4) << endl;
+  // cout << chi2/pow(100.,4) << endl;
   f = chi2/pow(100.,4);
 }
 
