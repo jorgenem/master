@@ -8,13 +8,13 @@ C---Debug and test program for new versions of Herwig
      $     1706,1800,1999,2000,2100,2150,2200,2399,2400,2599,2699,2799,
      $     2800,2810,2820,2915,5000,5500,8000,9000,9010,9130,9599/
       RSUD=.TRUE.
-CJEM      RSUD=.FALSE.
+c      RSUD=.FALSE.
       JMIN=1
-CJEM      PRINT *,' NUMBER OF RUNS?'
-CJEM      READ *, JMAX      
-      JMAX=20
-CJEM      PRINT *,' RANDOM NUMBER SEEDS?'
-CJEM      READ *, NRS
+c      PRINT *,' NUMBER OF RUNS?'
+c      READ *, JMAX      
+      JMAX=100
+c      PRINT *,' RANDOM NUMBER SEEDS?'
+c      READ *, NRS
       NRS(1)=54321
       NRS(2)=98765
       OPEN(UNIT=56,FILE='hermass.txt')
@@ -32,23 +32,26 @@ C---USER CAN RESET PARAMETERS AT
 C   THIS POINT, OTHERWISE VALUES
 C   SET IN HWIGIN WILL BE USED.
       EFFMIN=1D-5
-      LWSUD=0
-CJEM      LRSUD=77
-      LRSUD=0
+CJEM      LWSUD=0
+CJEM      LWSUD=77
+      LRSUD=77
+CJEM      LRSUD=0
       LWDEC=0
-      LRDEC=0
-CJEM      LRDEC=88
+CJEM      LWDEC=88
+      LRDEC=88
+CJEM      LRDEC=0
       DO 999 J=JMIN,JMAX
          NRN(1)=NRS(1)
          NRN(2)=NRS(2)
-CJEM         REWIND(LRDEC)
+         PRINT *,LRDEC
+         REWIND(LRDEC)
          IF (RSUD) THEN
             RSUD=.FALSE.
          ELSE
 C---LRSUD.lt.0 suppresses reading and computing sud
             LRSUD=-1
          ENDIF
-         MAXPR=0
+         MAXPR=100
          PRVTX=.FALSE.
          MAXER=100
          TLOUT=15.
@@ -58,18 +61,12 @@ C---LRSUD.lt.0 suppresses reading and computing sud
          TMNISR=1D-2
 C---READ IN SUSY INPUT FILE, IN THIS CASE SNOWMASS POINT 1a
          OPEN(UNIT=LRSUSY,FORM='FORMATTED',STATUS='UNKNOWN',
-     &        FILE='susyhit_softsusy_ISAWIG-test_mod.out')
-CJEM CHANGED SUSY INPUT FILE TO SOFTSUSY
-CJEM     &        FILE='../sps_pt1a_force.in')
+     &        FILE='susyhit_softsusy_ISAWIG-test.out')
 C     &        FILE='sps_pt1a.1200.in')
          CALL HWISSP
-CJEM         WRITE(6,71)
-CJEM   71    FORMAT(/10X,'JEM: Read inn SUSY input, called HWISSP')
          CLOSE(UNIT=LRSUSY)
 C---COMPUTE PARAMETER-DEPENDENT CONSTANTS
          CALL HWUINC
-CJEM         WRITE(6,72)
-CJEM   72    FORMAT(/10X,'JEM: called HWUINC')
 C---CALL HWUSTA TO MAKE ANY PARTICLE STABLE
          CALL HWUSTA('PI0     ')
 C---USER'S INITIAL CALCULATIONS
@@ -87,13 +84,13 @@ C---GENERATE PARTON CASCADES
 C---DO HEAVY OBJECT DECAYS
             CALL HWDHOB
 C---DO CLUSTER HADRONIZATION
-c            CALL HWCFOR
+c     CALL HWCFOR
 C---DO CLUSTER DECAY
-c            CALL HWCDEC
+c     CALL HWCDEC
 C---DO UNSTABLE PARTICLE DECAYS
-c            CALL HWDHAD
+c     CALL HWDHAD
 C---DO HEAVY FLAVOUR DECAYS
-c            CALL HWDHVY
+c     CALL HWDHVY
 C---ADD SOFT UNDERLYING EVENT IF NEEDED
 c     CALL HWMEVT
 C---FINALISE EVENT
@@ -101,8 +98,6 @@ C---FINALISE EVENT
             NRS(1)=NRN(1)
             NRS(2)=NRN(2)
 C---USER'S EVENT ANALYSIS
-CJEM            WRITE (6,70)
-CJEM 70         FORMAT (/10X,'JEM: Calling HWANAL.')
             CALL HWANAL
 C---CHECK TO SEE IF ENOUGH GOOD EVENTS GENERATED
             IF (IERROR.EQ.191) GOTO 200
@@ -150,9 +145,10 @@ C----------------------------------------------------------------------
 C     USER'S ROUTINE TO ANALYSE DATA FROM EVENT
 C----------------------------------------------------------------------
       INCLUDE 'HERWIG65.INC'
-      INTEGER IHEP,I,IDP,IP1,IP2,ISQ,IC,IDCH(8)
+      INTEGER IHEP,I,IDP,IP1,IP2,ISQ,IC,IDCH(8),IDCHP(8)
       DOUBLE PRECISION PCH(5,8),PTM(2),MCH(8),PST(5),HWRGAU,RESLN,RESCA
-      PARAMETER (RESLN=2.0D0)
+CJEM      PARAMETER (RESLN=0.05D0)
+      PARAMETER (RESLN=0.05D0)
       IF (IERROR.NE.0) RETURN
       ISQ=0
       DO IHEP=1,NHEP
@@ -170,19 +166,28 @@ C--FOUND LEFT SQUARK (NOT ST OR SB) N.B. RIGHT SQUARKS HAVE SMALL B.R.
                ENDIF
                IC=4*ISQ-3
                IP1=JDAHEP(1,IHEP)
+CJEM               PRINT *,IDHEP(IP1)
                IP2=JDAHEP(2,IHEP)
+CJEM               PRINT *,IDHEP(IP2)
                IP2=JDAHEP(1,IP2)
                MCH(IC)=PHEP(5,IHEP)
                IDCH(IC)=IDHW(IP2)
+CJEM               PRINT *,IDHEP(IP2)
+               IDCHP(IC)=IDHEP(IP2)
                CALL HWVEQU(5,PHEP(1,IP2),PCH(1,IC))
                IC=IC+1
                IP1=JDAHEP(1,IP1)
+CJEM               PRINT *,IDHEP(IP1)
                IP1=JDAHEP(1,IP1)
+CJEM               PRINT *,IDHEP(IP1)
                MCH(IC)=PHEP(5,IP1)
                IP1=JDAHEP(1,IP1)
+CJEM               PRINT *,IDHEP(IP1)
                IP2=JDAHEP(2,IP1)
+CJEM               PRINT *,IDHEP(IP2)
 C--NEAR LEPTON
                IDCH(IC)=IDHW(IP2)
+               IDCHP(IC)=IDHEP(IP2)
                CALL HWVEQU(5,PHEP(1,IP2),PCH(1,IC))
                IC=IC+1
                IP1=JDAHEP(1,IP1)
@@ -191,19 +196,27 @@ C--NEAR LEPTON
                MCH(IC)=PHEP(5,IP1)
 C--FAR LEPTON
                IDCH(IC)=IDHW(IP2)
+               IDCHP(IC)=IDHEP(IP2)
                CALL HWVEQU(5,PHEP(1,IP2),PCH(1,IC))
                IC=IC+1
 C--LSP
                IP2=JDAHEP(1,IP1)
                MCH(IC)=PHEP(5,IP2)
                IDCH(IC)=IDHW(IP2)
+               IDCHP(IC)=IDHEP(IP2)
+CJEM               PRINT *,IDCH(1),IDCH(2),IDCH(3),IDCH(4)
+CJEM               PRINT *,IDCHP(1),IDCHP(2),IDCHP(3),IDCHP(4)
                CALL HWVEQU(5,PHEP(1,IP2),PCH(1,IC))
             ENDIF
          ENDIF
       ENDDO
       IF (ISQ.NE.2) RETURN
 C--KEEP ONLY UNLIKE-FLAVOUR LEPTONS
+CJEM      PRINT *,"Got two chains!"
+CJEM      PRINT *,IDCH(2),IDCH(6),IDCH(7)
+CJEM      PRINT *,IDCHP(2),IDCHP(6),IDCHP(7)
       IF (IDCH(2).EQ.IDCH(6).OR.IDCH(2).EQ.IDCH(7)) RETURN
+CJEM      PRINT *,"Got two chains with OF leptons!"
 C--NEGLECT JET MASSES: RESCALE ENERGY
 C      PCH(4,1)=SQRT(PCH(1,1)**2+PCH(2,1)**2+PCH(3,1)**2)
 C      PCH(4,5)=SQRT(PCH(1,5)**2+PCH(2,5)**2+PCH(3,5)**2)
@@ -219,7 +232,6 @@ C      ENDDO
 C      PCH(5,1)=0D0
 C      PCH(5,5)=0D0
 C--RESCALE MOMENTA WITH RMS SMEARING RESLN
-      RESLN = 0.1
       IF (RESLN.GT.0D0) THEN
          DO IC=1,8
             RESCA=HWRGAU(IC,ONE,RESLN)

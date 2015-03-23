@@ -1,4 +1,6 @@
 #!/bin/bash
-rm hermass_rev.exe
-gfortran -o hermass_rev.exe hermass_rev.f herwig6521.o -L/home/jorgenem/tools/cernlib/2006b/x86_64-slc5-gcc43-opt/lib/ -lkernlib -lpacklib
+rm hermass_rev.exe hermass_rev_orig.o
+gfortran -c herwig6510.f
+gfortran -c hermass_rev_orig.f
+gfortran -o hermass_rev.exe hermass_rev_orig.o herwig6510.o /home/jorgenem/tools/minuit/libminuit.a
 ./hermass_rev.exe

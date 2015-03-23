@@ -4,6 +4,7 @@ C
 C            a Monte Carlo event generator for simulating
 C        +---------------------------------------------------+
 C        | Hadron Emission Reactions With Interfering Gluons |
+C        +---------------------------------------------------+
 C I.G. Knowles(*), G. Marchesini(+), M.H.Seymour($,&) and B.R. Webber(#)
 C-----------------------------------------------------------------------
 C with Minimal Supersymmetric Standard Model Matrix Elements by
@@ -32,7 +33,7 @@ C(@)  Dipartimento di Fisica, Universita di Bologna
 C(%)  Dipartimento di Fisica, Universita di Padova
 C(~)  Institute of Physics, Prague
 C-----------------------------------------------------------------------
-C                  Version 6.521 - 11th March 2013
+C                  Version 6.510 - 31st October 2005
 C-----------------------------------------------------------------------
 C Main references:
 C
@@ -43,7 +44,7 @@ C    G.Marchesini,  B.R.Webber,  G.Abbiendi,  I.G.Knowles,  M.H.Seymour,
 C    and L.Stanco, Computer Physics Communications 67 (1992) 465.
 C-----------------------------------------------------------------------
 C Please see the official HERWIG information page:
-C    http://www.hep.phy.cam.ac.uk/theory/webber/Herwig/
+C    http://hepwww.rl.ac.uk/theory/seymour/herwig/
 C-----------------------------------------------------------------------
 CDECK  ID>, CIRCEE.
 *CMZ :-        -03/07/01  17.07.47  by  Bryan Webber
@@ -58,7 +59,7 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION CIRCEE, X1, X2
       WRITE (6,10)
    10 FORMAT(/10X,'CIRCEE CALLED BUT NOT LINKED')
-      CIRCEE = 0.0D0+X1+X2
+      CIRCEE = 0.0D0
       STOP
       END
 CDECK  ID>, CIRCES.
@@ -75,7 +76,6 @@ C-----------------------------------------------------------------------
       INTEGER XACC, XVER, XREV, XCHAT
       WRITE (6,10)
    10 FORMAT(/10X,'CIRCES CALLED BUT NOT LINKED')
-      IF (XX1M.GT.1D10) WRITE (6,*) XX2M,XROOTS,XACC,XVER,XREV,XCHAT
       STOP
       END
 CDECK  ID>, CIRCGG.
@@ -91,7 +91,7 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION CIRCGG, X1, X2
       WRITE (6,10)
    10 FORMAT(/10X,'CIRCGG CALLED BUT NOT LINKED')
-      CIRCGG = 0.0D0+X1+X2
+      CIRCGG = 0.0D0
       STOP
       END
 CDECK  ID>, DECADD.
@@ -107,7 +107,6 @@ C-----------------------------------------------------------------------
       LOGICAL LOGI
       WRITE (6,10)
    10 FORMAT(/10X,'DECADD CALLED BUT NOT LINKED')
-      IF (LOGI) STOP
       STOP
       END
 CDECK  ID>, DEXAY.
@@ -124,7 +123,6 @@ C-----------------------------------------------------------------------
       REAL POL(4)
       WRITE (6,10)
    10 FORMAT(/10X,'DEXAY CALLED BUT NOT LINKED')
-      IF (IMODE.GT.1000) WRITE (6,*) POL
       STOP
       END
 CDECK  ID>, EUDINI.
@@ -220,7 +218,6 @@ C-----------------------------------------------------------------------
       INTEGER I,J,K
       WRITE (6,10)
    10 FORMAT(/10X,'FRAGMT CALLED BUT NOT LINKED')
-      IF (I.GT.1000) WRITE (6,*) J,K
       STOP
       END
 CDECK  ID>, HVCBVI.
@@ -1248,7 +1245,7 @@ C---MAKE TWO-JET EVENTS LOOK LIKE ONE-JET EVENTS
  999  RETURN
       END
 CDECK  ID>, HWBDYP.
-*CMZ :-        -02/10/08  14.45.41  by  Mike Seymour
+*CMZ :-        -26/10/99  17.46.56  by  Mike Seymour
 *-- Author :    Gennaro Corcella
 C-----------------------------------------------------------------------
       SUBROUTINE HWBDYP(IOPT)
@@ -1262,9 +1259,8 @@ C-----------------------------------------------------------------------
      & COMWGT1,COMWGT2,WW,COS3,MODP,RN,BETA1,SIN3,R3(3,3),CTH,STH,M1,
      & M2,M3,GAMMA1,R5(3,3),CW,SW,R4(3,3),SCALE1,X1,X2,X3,MM,
      & PHAD1(5),PHAD2(5),P1(5),P2(5),P3(5),P4(5),PF(5),PV(5),PK(5),
-     & PR(5),PNE(5),PE(5),PP1(5),PP2(5),PZ(3),PS(5),PD(5),P2N(5),
-     & PBOS(5),PLAB(5),PTOT(5),P3N(5),SVNTN,PM1(4),PM2(4),HWULDO,
-     & PPDOT,GAM,PMDOT,PTMP(4),EMSQ1,EMSQ2
+     & PR(5),PNE(5),PE(5),PP1(5),PP2(5),PZ(5),PS(5),PD(5),P2N(5),
+     & PBOS(5),PLAB(5),PTOT(5),P3N(5),SVNTN
       LOGICAL GLUIN,GP
       INTEGER EMIT,NOEMIT,IHEP,JHEP,KHEP,ICMF,IOPT,CHEP,
      & ID2,ID1,K,ID4,ID5,IDBOS,IHAD1,IHAD2,NTMP
@@ -1577,27 +1573,6 @@ C----FIND A STATIONARY VECTOR PLAB IN THE LAB FRAME
         ENDIF
         CALL HWVSCA(4,1/XI1,PP1,PP1)
         CALL HWVSCA(4,1/XI2,PP2,PP2)
-        CALL HWUMAS(PP1)
-        CALL HWUMAS(PP2)
-C---SUBTRACT A LITTLE EXTRA TO PUT THEM BACK ON MASS-SHELL
-        PPDOT=HWULDO(PP1,PP2)
-        GAM=PPDOT**2-(PP1(5)*PP2(5))**2
-        IF (GAM.LT.0.OR.PP1(5).LE.0.OR.PP2(5).LE.0) THEN
-          CALL HWWARN('HWBDYP',100)
-          GOTO 999
-        ENDIF
-        GAM=PPDOT-SQRT(GAM)
-        CALL HWVSCA(4,GAM/PP2(5)**2,PP2,PM1)
-        CALL HWVDIF(4,PP1,PM1,PM1)
-        CALL HWVSCA(4,GAM/PP1(5)**2,PP1,PM2)
-        CALL HWVDIF(4,PP2,PM2,PM2)
-        PMDOT=HWULDO(PM1,PM2)
-        EMSQ1=SIGN(PHEP(5,IHAD1)**2,PHEP(5,IHAD1))
-        CALL HWVSCA(4,(PP1(5)**2-EMSQ1)/(2*HWULDO(PP1,PM2)),PM2,PTMP)
-        CALL HWVDIF(4,PP1,PTMP,PP1)
-        EMSQ2=SIGN(PHEP(5,IHAD2)**2,PHEP(5,IHAD2))
-        CALL HWVSCA(4,(PP2(5)**2-EMSQ2)/(2*HWULDO(PP2,PM1)),PM1,PTMP)
-        CALL HWVDIF(4,PP2,PTMP,PP2)
         CALL HWVSUM(4,PP1,PP2,PLAB)
         CALL HWUMAS(PLAB)
 C------BOOST TO PLAB REST FRAME
@@ -1607,14 +1582,25 @@ C------BOOST TO PLAB REST FRAME
         CALL HWULOF(PLAB,PS,PS)
         CALL HWULOF(PLAB,PF,PF)
         CALL HWULOF(PLAB,PV,PV)
-        CALL HWULOF(PLAB,PP1,PP1)
-C----PUT HADRON 1 ON THE Z-AXIS
-        CALL HWVEQU(3,PP1,PZ)
-        MODP=SQRT(PZ(1)**2+PZ(2)**2)
-        IF (MODP.EQ.0) THEN
-          CALL HWWARN('HWBDYP',101)
-          GOTO 999
+C----PUT THE INITIAL PARTON BELONGING TO HADRON 1 ON THE Z-AXIS
+        IF (.NOT.GLUIN) THEN
+          IF (EMIT.EQ.1) THEN
+            CALL HWVEQU(5,PE,PZ)
+          ELSE
+            CALL HWVEQU(5,PNE,PZ)
+          ENDIF
+        ELSE
+          IF (GP) THEN
+            CALL HWVEQU(5,PK,PZ)
+          ELSE
+            IF (EMIT.EQ.1) THEN
+              CALL HWVEQU(5,PE,PZ)
+            ELSE
+              CALL HWVEQU(5,PNE,PZ)
+            ENDIF
+          ENDIF
         ENDIF
+        MODP=SQRT(PZ(1)**2+PZ(2)**2)
         CTH=PZ(1)/MODP
         STH=PZ(2)/MODP
         CALL HWUROT(PZ,CTH,STH,R3)
@@ -1865,7 +1851,6 @@ C--special for spin correlations(relabel in spin common block)
         NHEP=NHEP+2
         EMIT=0
       ENDIF
- 999  RETURN
       END
 CDECK  ID>, HWBFIN.
 *CMZ :-        -26/04/91  10.18.56  by  Bryan Webber
@@ -2059,25 +2044,7 @@ C---FOUND A PARTON TO EVOLVE
 C---SET UP EVOLUTION SCALE AND FRAME
         JHEP=JMOHEP(2,IHEP)
         IF (ID.EQ.13) THEN
-C--BRW mod 15/12/06 for Nason method
-          IF (TRUNSH) THEN
-C--If truncated shower added, use smaller of 2 scales for gluon jet
-            IF (JHEP.LE.0.OR.JHEP.GT.NHEP) THEN
-              CALL HWWARN('HWBGEN',101)
-              RETURN
-            ENDIF
-            ERTXI=HWULDO(PHEP(1,IHEP),PHEP(1,JHEP))/PHEP(4,JHEP)
-            JHEP=JDAHEP(2,IHEP)
-            IF (JHEP.LE.0.OR.JHEP.GT.NHEP) THEN
-              CALL HWWARN('HWBGEN',102)
-              RETURN
-            ENDIF
-            IF (ERTXI.LT.HWULDO(PHEP(1,IHEP),PHEP(1,JHEP))/PHEP(4,JHEP))
-     &         JHEP=JMOHEP(2,IHEP)
-          ELSE
-            IF (HWRLOG(HALF)) JHEP=JDAHEP(2,IHEP)
-          ENDIF
-C--end mod
+          IF (HWRLOG(HALF)) JHEP=JDAHEP(2,IHEP)
         ELSEIF (IST.GT.112) THEN
           IF ((ID.GT.6.AND.ID.LT.13).OR.
      &        (ID.GT.214.AND.ID.LT.221)) JHEP=JDAHEP(2,IHEP)
@@ -2408,23 +2375,6 @@ C--options for self connected gluons
       ENDIF
 C--perform the shower
  30   CALL HWBGEN
-C--recompute spectator etc if process was direct photoproduction
-      J=JDAHEP(1,1)
-      IF (J.LE.0) RETURN
-      IF (IDHEP(J).NE.22) RETURN
-      DO I=J+1,NHEP
-         IF (IDHEP(I).EQ.22.AND.ISTHEP(I).EQ.3) THEN
-            K=I
-            GOTO 40
-         ENDIF
-      ENDDO
-      RETURN
- 40   CALL HWVEQU(4,PHEP(1,K),PHEP(1,J))
-      CALL HWVSUM(4,PHEP(1,K),PHEP(1,2),PHEP(1,3))
-      CALL HWUMAS(PHEP(1,3))
-      J=JDAHEP(2,1)
-      CALL HWVDIF(4,PHEP(1,1),PHEP(1,K),PHEP(1,J))
-      CALL HWUMAS(PHEP(1,J))
  999  RETURN
       END
 CDECK  ID>, HWBJCO.
@@ -2439,11 +2389,11 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION HWULDO,EPS,PTX,PTY,PF,PTINF,PTCON,CN,CP,SP,PP0,
      & PM0,ET0,DET,ECM,EMJ,EMP,EMS,DMS,ES,DPF,ALF,AL(2),ET(2),PP(2),
      & PT(3),PA(5),PB(5),PC(5),PQ(5),PR(5),PS(5),RR(3,3),RS(3,3),ETC,
-     & PJ(NMXJET),PM(NMXJET),PBR(5),RBR(3,3),DISP(4),PLAB(5),HWUSQR
+     & PJ(NMXJET),PM(NMXJET),PBR(5),RBR(3,3),DISP(4),PLAB(5)
       INTEGER LJET,IJ1,IST,IP,ICM,IP1,IP2,NP,IHEP,MHEP,JP,KP,LP,KHEP,
      & JHEP,NE,IJT,IEND(2),IJET(NMXJET),IPAR(NMXJET)
       LOGICAL AZCOR,JETRAD,DISPRO,DISLOW
-      EXTERNAL HWULDO,HWUSQR
+      EXTERNAL HWULDO
       PARAMETER (EPS=1.D-4)
       IF (IERROR.NE.0) RETURN
       AZCOR=AZSOFT.OR.AZSPIN
@@ -2695,18 +2645,12 @@ C Special to preserve photon momentum
         ELSE
 C--change to preserve either long mom or rapidity rather than long mom
 C--by PR and BRW 30/9/02
-C--BRW fix 6/11/08: reset CM pL (may have been rescaled already)
-          PHEP(3,ICM)=PHEP(3,IP1)+PHEP(3,IP2)
-C--End BRW fix 6/11/08
           IF (PRESPL) THEN
 C--PRESERVE LONG MOM OF CMF
             PHEP(4,ICM)=
      &            SQRT(PTX**2+PTY**2+PHEP(3,ICM)**2+PHEP(5,ICM)**2)
           ELSE
 C--PRESERVE RAPIDITY OF CMF
-C--BRW fix 6/11/08: reset CM E (may have been rescaled already)
-            PHEP(4,ICM)=PHEP(4,IP1)+PHEP(4,IP2)
-C--End BRW fix 6/11/08
             DET=SQRT(ONE+(PTX**2+PTY**2)/(PHEP(4,ICM)**2
      &                -PHEP(3,ICM)**2))
             CALL HWVSCA(2,DET,PHEP(3,ICM),PHEP(3,ICM))
@@ -2720,7 +2664,7 @@ C---NOW BOOST TO REQUIRED Q**2 AND X-F
             FROST=.TRUE.
             RETURN
           ENDIF
-          DET=HWUSQR(DET)+ET0
+          DET=SQRT(DET)+ET0
           AL(1)= 2.*PM0*PP(1)/DET
           AL(2)=(PM0/PP(2))*(1.-2.*ET(1)/DET)
           PB(1)=0.
@@ -2789,14 +2733,8 @@ C---FIND JET CM MOMENTA
 C---N.B. ROUNDING ERRORS HERE AT HIGH ENERGIES
           PJ(KP)=(HWULDO(PHEP(1,IPAR(KP)),PQ)/ECM)**2-EMP**2
           IF (PJ(KP).LE.ZERO) THEN
-C--BRW FIX 12/06/08
-             IF (PJ(KP).GT.-EPS*EPS) THEN
-                PJ(KP)=ZERO
-             ELSE
-                CALL HWWARN('HWBJCO',104)
-                GOTO 999
-             ENDIF
-C--END FIX
+            CALL HWWARN('HWBJCO',104)
+            GOTO 999
           ENDIF
   180     CONTINUE
           PF=1.
@@ -3576,7 +3514,7 @@ C--BRANCHING STOPS
           PPAR(5,KPAR)=RMASS(ID)**2
         ENDIF
         PMOM=PPAR(4,KPAR)**2-PPAR(5,KPAR)
-        IF (PMOM.LT.-1E-6.AND.IS.NE.0) THEN
+        IF (PMOM.LT.-1E-6) THEN
           CALL HWWARN('HWBRAN',104)
           GOTO 999
         ENDIF
@@ -4806,7 +4744,6 @@ C-----------------------------------------------------------------------
       SAVE NQOLD,NSOLD,NCOLD,NFOLD,SDOLD,QCOLD,VGOLD,VQOLD,RMOLD,ACOLD,
      & INOLD
       COMMON/HWSINT/QRAT,QLAM
-      PRINT *,'LRSUD=',LRSUD
       IF (LRSUD.EQ.0) THEN
         POWER=1./FLOAT(NQEV-1)
         AFAC=6.*CAFAC/BETAF
@@ -6485,10 +6422,6 @@ C BRW FIX 12/03/99
             CALL HWWARN('HWCGSP',103)
             GOTO 999
           ENDIF
-C BRW FIX 13/07/10
-          CALL HWWARN('HWCGSP',13)
-          JHEP=JMOHEP(2,IHEP)
-C END FIX
         ENDIF
 C END FIX
 C---CHECK FOR DECAYED HEAVY ANTIQUARKS
@@ -6520,10 +6453,6 @@ C BRW FIX 12/03/99
             CALL HWWARN('HWCGSP',105)
             GOTO 999
           ENDIF
-C BRW FIX 13/07/10
-          CALL HWWARN('HWCGSP',15)
-          JHEP=JMOHEP(2,IHEP)
-C END FIX
           KHEP=JDAHEP(2,IHEP)
         ENDIF
 C END FIX
@@ -6936,7 +6865,7 @@ C--unrecognised issue warning
 C--put the information in the common block
       WT2MAX(IMODE) = MWGT
 C--output the information
-      IF(IPRINT.GE.2) THEN
+      IF(IPRINT.EQ.2) THEN
         WRITE(*,3010) WGT
         WRITE(*,3020) MWGT
         WRITE(*,3030) WGT/HBAR/BRFRAC(ID2PRT(IMODE))*
@@ -7071,7 +7000,7 @@ C--particles from boson decay
         IDP(4) = ID2
 C--only do the decay if possible for an on-shell boson
         IF(RMASS(ID1)+RMASS(ID2).GT.MR(1)) RETURN
-        IF(IPRINT.GE.2.AND..NOT.GENEV)
+        IF(IPRINT.EQ.2.AND..NOT.GENEV)
      &        WRITE(6,3000) RNAME(IDP(5)),RNAME(IDP(3)),RNAME(IDP(4))
         MA(3) = RMASS(IDP(3))
         MA(4) = RMASS(IDP(4))
@@ -7108,7 +7037,7 @@ C--compute width and maximum weight
         WSSUM = MAX(ZERO,WSSUM/DBLE(NSEARCH)-WSUM**2)
         WSSUM = SQRT(WSSUM/DBLE(NSEARCH))
 C--if required output results
-        IF(IPRINT.GE.2) THEN
+        IF(IPRINT.EQ.2) THEN
           WRITE(6,3010) WSUM,WSSUM
           WRITE(6,3020) WMAX
           IF(ITYPE.EQ.0) THEN
@@ -8423,7 +8352,7 @@ C--id's of outgoing particles
  1    M2(I) = M(I)**2
       IF(M(1).LT.M(2)+M(3)+M(4)+M(5).OR.MR(1).LT.M(2)+M(3).OR.
      &     MR(2).LT.M(4)+M(5)) RETURN
-      IF(IPRINT.GE.2.AND..NOT.GENEV)
+      IF(IPRINT.EQ.2.AND..NOT.GENEV)
      &        WRITE(6,3000) RNAME(IDP(6)),RNAME(IDP(2)),RNAME(IDP(3)),
      &                      RNAME(IDP(7)),RNAME(IDP(4)),RNAME(IDP(5))
 C--compute the width and maximum weight if initialising
@@ -8442,8 +8371,8 @@ C--compute the width and maximum weight if initialising
         WSUM = WSUM/DBLE(NSEARCH)
         WSSUM = MAX(ZERO,WSSUM/DBLE(NSEARCH)-WSUM**2)
         WSSUM = SQRT(WSSUM/DBLE(NSEARCH))
-        IF(IPRINT.GE.2) WRITE(6,3010) WSUM,WSSUM
-        IF(IPRINT.GE.2) WRITE(6,3020) WMAX
+        IF(IPRINT.EQ.2) WRITE(6,3010) WSUM,WSSUM
+        IF(IPRINT.EQ.2) WRITE(6,3020) WMAX
         TEMP = BRFRAC(ID4PRT(IMODE))*HBAR/RLTIM(IDK(ID4PRT(IMODE)))
         DO J=1,2
           IF(I4MODE(J,IMODE).EQ.200) THEN
@@ -8452,7 +8381,7 @@ C--compute the width and maximum weight if initialising
             TEMP = TEMP*BRW(ITYPE(J))
           ENDIF
         ENDDO
-        IF(IPRINT.GE.2) WRITE(6,3030) WSUM/TEMP,WSSUM/TEMP
+        IF(IPRINT.EQ.2) WRITE(6,3030) WSUM/TEMP,WSSUM/TEMP
 C--set up the maximum weight
         WT4MAX(ITYPE(1),ITYPE(2),IMODE) = WMAX
       ELSE
@@ -8713,14 +8642,13 @@ C     USES SPIN DENSITY MATRIX IN RHOHEP (1ST CMPT=>-VE,2=>LONG,3=>+VE)
 C     IF BOSON CAME FROM HIGGS DECAY, GIVE BOTH THE SAME HELICITY (EPR)
 C     IF BOSON CAME FROM W+1JET, GIVE IT THE CORRECT DECAY CORRELATIONS
 C--BRW FIX 20/07/04: ADD FULL DECAY CORRELATIONS FOR W/Z+HIGGS
-C--BRW FIX 18/07/07: ADD FULL DECAY CORRELATIONS IN HIGGS->VV
 C-----------------------------------------------------------------------
       INCLUDE 'HERWIG65.INC'
       DOUBLE PRECISION HWRGEN,HWRUNI,HWUPCM,HWULDO,R(3,3),CV,CA,BR,PCM,
      & PBOS(5),PMAX,PROB,RRLL,RLLR
       INTEGER HWRINT,IBOS,IBOSON,IPAIR,ICMF,IOPT,IHEL,IMOTH,
-     & I,IQRK,IANT,ID,IQ,ITRY,JBOS
-      LOGICAL QUARKS,HIGV2
+     & I,IQRK,IANT,ID,IQ
+      LOGICAL QUARKS
       EXTERNAL HWRGEN,HWRUNI,HWUPCM,HWULDO,HWRINT
       IBOS=IBOSON
       IF (IDHW(IBOS).LT.198.OR.IDHW(IBOS).GT.200) THEN
@@ -8829,32 +8757,8 @@ C---V + 1JET, V+HIGGS DECAYS ARE NOW HANDLED HERE !
         IF (PMAX*HWRGEN(0).GT.PROB) GOTO 1
       ELSE
 C---SELECT HELICITY, UNLESS IT IS THE SECOND OF A HIGGS DECAY (EPR)
-      ITRY=0
-      HIGV2=IPAIR.EQ.IBOS.AND.IDHW(ICMF).EQ.201
-      IF (HIGV2) THEN
-        IQRK=JDAHEP(1,JBOS)
-        IANT=JDAHEP(2,JBOS)
-        IF (IDHW(IBOS).EQ.200) THEN
-          ID=IDN(1)
-          IF (ID.GT.120) ID=ID-110
-          IQ=IDHW(IQRK)
-          IF (IQ.GT.120) IQ=IQ-110
-          RRLL=(VFCH(IQ,1)**2+AFCH(IQ,1)**2)*
-     $         (VFCH(ID,1)**2+AFCH(ID,1)**2)
-     $         +4*VFCH(IQ,1)*AFCH(IQ,1)*
-     $         VFCH(ID,1)*AFCH(ID,1)
-          RLLR=(VFCH(IQ,1)**2+AFCH(IQ,1)**2)*
-     $         (VFCH(ID,1)**2+AFCH(ID,1)**2)
-     $         -4*VFCH(IQ,1)*AFCH(IQ,1)*
-     $          VFCH(ID,1)*AFCH(ID,1)
-        ELSE
-          RRLL=ONE
-          RLLR=ZERO
-        ENDIF
-        PMAX=(RRLL+RLLR)* HWULDO(PHEP(1,IANT),PHEP(1,IBOS))*
-     &                    HWULDO(PHEP(1,IQRK),PHEP(1,IBOS))
-      ELSE
-       IF (RHOHEP(1,IBOS)+RHOHEP(2,IBOS)+RHOHEP(3,IBOS).LE.ZERO) THEN
+      IF (IPAIR.NE.IBOS .OR. IDHW(ICMF).NE.201) THEN
+      IF (RHOHEP(1,IBOS)+RHOHEP(2,IBOS)+RHOHEP(3,IBOS).LE.ZERO) THEN
 C---COPY PARENT HELICITY IF IT WAS A GAUGE BOSON
         IF (IDHW(IMOTH).GE.198.AND.IDHW(IMOTH).LE.200) THEN
           CALL HWVEQU(3,RHOHEP(1,IMOTH),RHOHEP(1,IBOS))
@@ -8867,23 +8771,17 @@ C---MAY BE FROM A SUSY DECAY
         RHOHEP(1,IBOS)=1.
         RHOHEP(2,IBOS)=1.
         RHOHEP(3,IBOS)=1.
-       ENDIF
- 20    IHEL=HWRINT(1,3)
-       IF (HWRGEN(0).GT.RHOHEP(IHEL,IBOS)) GOTO 20
+      ENDIF
+ 20   IHEL=HWRINT(1,3)
+      IF (HWRGEN(0).GT.RHOHEP(IHEL,IBOS)) GOTO 20
       ENDIF
 C---SELECT DIRECTION OF FERMION
- 25   ITRY=ITRY+1
-      IF (ITRY.GT.NDTRY) THEN
-           CALL HWWARN('HWDBOS',105)
-           GOTO 999
-      ENDIF
  30   COSTH=HWRUNI(0,-ONE,ONE)
-      IF (HIGV2) GOTO 32
       IF (IHEL.EQ.1 .AND. (ONE+COSTH)**2.LT.HWRGEN(0)*FOUR) GOTO 30
       IF (IHEL.EQ.2 .AND. (ONE-COSTH**2).LT.HWRGEN(0)     ) GOTO 30
       IF (IHEL.EQ.3 .AND. (ONE-COSTH)**2.LT.HWRGEN(0)*FOUR) GOTO 30
 C---GENERATE DECAY RELATIVE TO Z-AXIS
- 32   PHEP(5,NHEP+1)=RMASS(IDN(1))
+      PHEP(5,NHEP+1)=RMASS(IDN(1))
       PHEP(5,NHEP+2)=RMASS(IDN(2))
       PCM=HWUPCM(PHEP(5,IBOS),PHEP(5,NHEP+1),PHEP(5,NHEP+2))
       IF (PCM.LT.ZERO) THEN
@@ -8898,23 +8796,8 @@ C---ROTATE SO THAT Z-AXIS BECOMES BOSON'S DIRECTION IN ORIGINAL CM FRAME
       CALL HWUROT(PBOS, ONE,ZERO,R)
       CALL HWUROB(R,PHEP(1,NHEP+1),PHEP(1,NHEP+1))
 C---BOOST BACK TO LAB
-C--BRW FIX 30/11/08: BOOST FIRST TO HIGGS RF, THEN TO LAB
-      CALL HWULOB(PBOS,PHEP(1,NHEP+1),PHEP(1,NHEP+1))
-      CALL HWULOB(PHEP(1,ICMF),PHEP(1,NHEP+1),PHEP(1,NHEP+1))
-C--END BRW FIX
+      CALL HWULOB(PHEP(1,IBOS),PHEP(1,NHEP+1),PHEP(1,NHEP+1))
       CALL HWVDIF(4,PHEP(1,IBOS),PHEP(1,NHEP+1),PHEP(1,NHEP+2))
-      IF (HIGV2) THEN
-C---HIGGS->VV DECAY CORRELATION
-         PROB=RRLL* HWULDO(PHEP(1,IANT),PHEP(1,NHEP+2))*
-     &              HWULDO(PHEP(1,IQRK),PHEP(1,NHEP+1))+
-     &        RLLR* HWULDO(PHEP(1,IANT),PHEP(1,NHEP+1))*
-     &              HWULDO(PHEP(1,IQRK),PHEP(1,NHEP+2))
-         IF (PROB.GT.PMAX.OR.PROB.LT.ZERO) THEN
-           CALL HWWARN('HWDBOS',106)
-           GOTO 999
-         ENDIF
-         IF (PMAX*HWRGEN(0).GT.PROB) GOTO 25
-      ENDIF
       ENDIF
 C---STATUS, IDs AND POINTERS
       ISTHEP(IBOS)=195
@@ -8943,7 +8826,6 @@ C--END FIX
       ENDIF
 C---IF FIRST OF A PAIR, DO SECOND DECAY
       IF (IPAIR.NE.0 .AND. IPAIR.NE.IBOS) THEN
-        JBOS=IBOS
         IBOS=IPAIR
         GOTO 10
       ENDIF
@@ -9322,13 +9204,9 @@ C-----------------------------------------------------------------------
      &              .OR.(IDKY.GE.209.AND.IDKY.LE.220)
      &              .OR.(IDKY.GE.401.AND.IDKY.LE.424)) QS=QS/3.
       DM=RMASS(IDKY)
-CJEM      WRITE(6,60) IDKY
-CJEM  60  FORMAT(/1X,'JEM: Got this far inside HWDCHK. IDKY = ',I8)
       NPRODS(L)=0
       DO 10 I=1,5
       ID=IDKPRD(I,L)
-CJEM      WRITE(6,61) ID
-CJEM  61  FORMAT(/1X,'JEM: Got this far inside HWDCHK. ID = 'I8)
       IF (ID.LT.0.OR.ID.EQ.20.OR.ID.GT.NRES) THEN
         WRITE(6,20) L,RNAME(IDKY),(RNAME(IDKPRD(J,L)),J=1,5)
         IFAULT=IFAULT+1
@@ -11137,7 +11015,7 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION GAMHPM
       DOUBLE PRECISION HWULDO,HWRGEN,XS,XB,EMWSQ,GMWSQ,EMLIM,PW(4),
      & EMTST,X1,X2,X3,TEST,HWDWWT,HWDHWT,HWDPWT
-      INTEGER IST(3),I,IHEP,IM,ID,IDQ,IQ,IS,J,IDS
+      INTEGER IST(3),I,IHEP,IM,ID,IDQ,IQ,IS,J
       EXTERNAL HWRGEN,HWDWWT,HWDHWT,HWDPWT,HWULDO
       SAVE IST
       DATA IST/113,114,114/
@@ -11227,14 +11105,8 @@ C and weak decay product jets
         JDAHEP(2,NHEP-1)=NHEP-2
         JMOHEP(2,NHEP  )=IQ
         JDAHEP(2,NHEP  )=IQ
-C Share momenta in ratio of masses, preserving spectator mass
-C--BW fix 13/07/10: give diquarks extra mass in heavy baryon decays
-        IDS=IDHW(IS)
-        IF (IDS.GT.108.AND.IDS.LT.121) THEN
-           XS=(RMASS(IDS)+DQXTRA)/PHEP(5,IHEP)
-        ELSE
-           XS=RMASS(IDS)/PHEP(5,IHEP)
-        ENDIF
+C Share momenta in ratio of masses, preserving specator mass
+        XS=RMASS(IDHW(IS))/PHEP(5,IHEP)
         XB=ONE-XS
         CALL HWVSCA(5,XB,PHEP(1,IHEP),PHEP(1,IQ))
         CALL HWVSCA(5,XS,PHEP(1,IHEP),PHEP(1,IS))
@@ -12252,12 +12124,12 @@ CDECK  ID>, HWDPWT.
 *CMZ :-        -26/04/91  11.11.55  by  Bryan Webber
 *-- Author :    Bryan Webber
 C-----------------------------------------------------------------------
-      FUNCTION HWDPWT(EMSQ,DUMMYA,DUMMYB,DUMMYC)
+      FUNCTION HWDPWT(EMSQ,A,B,C)
 C-----------------------------------------------------------------------
 C     MATRIX ELEMENT SQUARED FOR PHASE SPACE DECAY
 C-----------------------------------------------------------------------
       IMPLICIT NONE
-      DOUBLE PRECISION HWDPWT,EMSQ,DUMMYA,DUMMYB,DUMMYC
+      DOUBLE PRECISION HWDPWT,EMSQ,A,B,C
       HWDPWT=1.
       END
 CDECK  ID>, HWDSIN.
@@ -13006,12 +12878,12 @@ C-----------------------------------------------------------------------
       DOUBLE COMPLEX RHOIN(2,2),S,D,ME(2,2,2),F1(2,2,8),F0(2,2,8),
      &     F2M(2,2,8),F1M(2,2,8),F1F(2,2,8),F2(2,2,8,8),F0B(2,2,8,8)
       COMMON/HWHEWP/XMASS(10),PLAB(5,10),PRW(5,2),PCM(5,10)
-      COMMON/HWHEWS/S(8,8,2),D(8,8)
-      PARAMETER(EPS=1D-20)
-      EXTERNAL HWUPCM,HWULDO,HWVDOT,HWRGEN
       SAVE O,PREF
       DATA PREF/1.0D0,0.0D0,0.0D0,1.0D0,0.0D0/
       DATA O/2,1/
+      COMMON/HWHEWS/S(8,8,2),D(8,8)
+      PARAMETER(EPS=1D-20)
+      EXTERNAL HWUPCM,HWULDO,HWVDOT,HWRGEN
 C--first setup if this is the start of a new spin chain
       IF(NSPN.EQ.0) THEN
 C--zero the elements of the array
@@ -13726,7 +13598,6 @@ C--common blocks for TAUOLA
       COMMON /TAUPOS/ NP1, NP2
       DOUBLE PRECISION Q1(4),Q2(4),P1(4),P2(4),P3(4),P4(4)
       COMMON / MOMDEC / Q1,Q2,P1,P2,P3,P4
-      DOUBLE PRECISION DIST(4),VERTX(4)
 C--initialisation
       IF(IOPT.EQ.-1) THEN
 C--initialise TAUOLA
@@ -13778,9 +13649,6 @@ C--energies
 C--perform the decay and generate QED radiation if needed
         NHEPPO=NHEP
         CALL DEXAY(ITAU,POL1)
-C--add tau decay vertex info.
-        CALL HWUDKL(125,PHEP(1,IHEP),DIST)
-        CALL HWVSUM(4,VHEP(1,IHEP),DIST,VERTX)
         IF(IFPHOT.EQ.1) THEN
           IF(ID.EQ.1) THEN
             CALL PHOTOS(NP1)
@@ -13790,7 +13658,7 @@ C--add tau decay vertex info.
         ENDIF
         IF(NHEPPO.NE.NHEP) THEN
           DO 2 I=NHEPPO+1,NHEP
-          CALL HWVEQU(4,VERTX,VHEP(1,I))
+          CALL HWVEQU(4,VHEP(1,IHEP),VHEP(1,I))
  2        CALL HWUIDT(1,IDHEP(I),IDHW(I),DUMMY)
         ENDIF
 C--write out info at end
@@ -15247,7 +15115,7 @@ C     SETS UP 2->2 HARD SUBPROCESS
 c BRW change 18/8/04: BW smearing of mass i only if SMRi is true
 C-----------------------------------------------------------------------
       INCLUDE 'HERWIG65.INC'
-      DOUBLE PRECISION HWUMBW,HWUPCM,PCM
+      DOUBLE PRECISION HWUMBW,HWUPCM,PA,PCM
       INTEGER ICMF,IBM,I,J,K,IHEP,NTRY
       LOGICAL SMR3,SMR4
       EXTERNAL HWUPCM
@@ -15272,12 +15140,12 @@ C---SPECIAL - IF INCOMING PARTON IS INCOMING BEAM THEN COPY IT
         PHEP(1,IHEP)=0.
         PHEP(2,IHEP)=0.
         PHEP(5,IHEP)=RMASS(IDN(I))
-C--BRW fix 5/11/08: define x as fraction of p_3 not p_+
-        PHEP(3,IHEP)=XX(I)*PHEP(3,IBM)
-        PHEP(4,IHEP)=SQRT(PHEP(3,IHEP)**2+PHEP(5,IHEP)**2)
-C--End BRW fix 5/11/08
+        PA=XX(I)*(PHEP(4,IBM)+ABS(PHEP(3,IBM)))
+        PHEP(4,IHEP)=0.5*(PA+PHEP(5,IHEP)**2/PA)
+        PHEP(3,IHEP)=PA-PHEP(4,IHEP)
       ENDIF
  15   CONTINUE
+      PHEP(3,NHEP+2)=-PHEP(3,NHEP+2)
 C---HARD CENTRE OF MASS
       IDHW(ICMF)=IDCMF
       IDHEP(ICMF)=IDPDG(IDCMF)
@@ -23351,10 +23219,9 @@ C--Les Houches Common Block
      &              SPINUP(MAXNUP)
 C--Local variables
       COMMON /HWGUP/ILOC(NMXHEP),JLOC(MAXNUP)
-      INTEGER ILOC,JLOC,JHEP,ID,IPHO,LTRY
+      INTEGER ILOC,JLOC,JHEP,ID
       INTEGER IHEP,IDIN(2),I,IDRES(2,MAXPUP),IRES,ICMF,ISTART,JRES,J
-      COMMON/PHOCOM/XEPHO
-      DOUBLE PRECISION PTEMP(5),XEPHO
+      DOUBLE PRECISION PTEMP(5)
       CHARACTER *8 DUMMY
       LOGICAL HWRLOG
       EXTERNAL HWRLOG
@@ -23447,39 +23314,7 @@ C--require two incoming particles
         CALL HWWARN('HWHGUP',101)
         GOTO 999
       ENDIF
-C--special for MC@NLO photoproduction
-      IF (ABS(IDPRUP/100).EQ.51) THEN
-         IF (IDUP(IDIN(1)).EQ.22) THEN
-            IPHO=IDIN(1)
-         ELSE
-            IPHO=NUP+1
-            CALL HWVZRO(5,PUP(1,IPHO))
-            PUP(4,IPHO)=XEPHO
-            PUP(3,IPHO)=PUP(4,IPHO)
-         ENDIF
-C--recompute cmf
-         CALL HWVSUM(4,PHEP(1,2),PUP(1,IPHO),PHEP(1,NHEP))
-            CALL HWUMAS(PHEP(1,NHEP))
-            JMOHEP(1,NHEP)=NHEP+1
-C--insert photon
-         NHEP=NHEP+1
-         CALL HWVEQU(5,PUP(1,IPHO),PHEP(1,NHEP))
-         IDHEP(NHEP)=22
-         CALL HWUIDT(1,IDHEP(NHEP),IDHW(NHEP),DUMMY)
-         ISTHEP(NHEP)=3
-         JMOHEP(1,NHEP)=1
-         JDAHEP(1,1)=NHEP
-C--insert outgoing beam particle
-         NHEP=NHEP+1
-         CALL HWVDIF(4,PHEP(1,1),PUP(1,IPHO),PHEP(1,NHEP))
-         CALL HWUMAS(PHEP(1,NHEP))
-         IDHEP(NHEP)=IDHEP(1)
-         IDHW(NHEP)=IDHW(1)
-         ISTHEP(NHEP)=1
-         JMOHEP(1,NHEP)=1
-         JDAHEP(2,1)=NHEP
-      ENDIF
-C--Now write incoming particles into the event record
+C--Now write these particles into the event record
       DO I=1,2
         IDHEP(NHEP+I) = IDUP(IDIN(I))
         ISTHEP(NHEP+I) = 110+I
@@ -23488,7 +23323,7 @@ C--Now write incoming particles into the event record
         JMOHEP(1,NHEP+I) = NHEP+3
         ILOC(NHEP+I) = IDIN(I)
         JLOC(I) = NHEP+I
-C--special for particles which are identical to the beam
+C--special for pairtcles which are identical to the beam
         DO J=1,2
           IF(IDHEP(NHEP+I).EQ.IDHEP(J)) THEN
             JDAHEP(1,J) = NHEP+I
@@ -23500,7 +23335,6 @@ C--special for particles which are identical to the beam
       CALL HWUMAS(PHEP(1,NHEP+3))
 C--add the hard entry
       IDHW(NHEP+3) = 15
-      IDHEP(NHEP+3)=0
       ISTHEP(NHEP+3) = 110
       JMOHEP(1,NHEP+3) = NHEP+1
       JMOHEP(2,NHEP+3) = NHEP+2
@@ -23577,20 +23411,12 @@ C--End mod
       EMSCA = SCALUP
 C--generate parton shower
       CALL HWBGUP(ISTART,ICMF)
-      IF (IERROR.NE.0) RETURN
 C--now we need to sort out the resonances
       IF(IRES.EQ.0) RETURN
       JRES = 1
  35   ID = IDHEP(IDRES(1,JRES))
-C--BRW fix to close ticket 51 caused problems: revert to Kluth solution
-      LTRY=0
  36   IF(JDAHEP(1,IDRES(1,JRES)).NE.0.AND.
      &     JDAHEP(1,IDRES(1,JRES)).NE.IDRES(1,JRES)) THEN
-        LTRY=LTRY+1
-        IF (LTRY.GT.NSNTRY) THEN
-           CALL HWWARN('HWHGUP',199)
-           GOTO 999
-        ENDIF
         IF(IDHEP(IDRES(1,JRES)).EQ.94) THEN
           DO IHEP=JDAHEP(1,IDRES(1,JRES)),JDAHEP(2,IDRES(1,JRES))
             IF(IDHEP(IHEP).EQ.ID) THEN
@@ -23671,10 +23497,7 @@ C--special for top decays to ensure b is second and W is first, this seems
 C--to cause problems if the order is the other way around
       IF(ABS(IDHEP(IDRES(1,JRES))).EQ.6.AND.
      &     NHEP-IDRES(1,JRES).EQ.2) THEN
-C--BW fix 01/08/12 (allows for non-b decays)
-C        IF(ABS(IDHEP(NHEP-1)).EQ.5) THEN
-        IF(ABS(IDHEP(NHEP-1)).LE.5) THEN
-C--end fix
+        IF(ABS(IDHEP(NHEP-1)).EQ.5) THEN
 C--swap momenta
            CALL HWVEQU(5,PHEP(1,NHEP),PTEMP)
            CALL HWVEQU(5,PHEP(1,NHEP-1),PHEP(1,NHEP))
@@ -23703,10 +23526,8 @@ C--resonances
       ENDDO
       JDAHEP(2,IDRES(1,JRES)) = NHEP
       ISTART = IDRES(1,JRES)
-C--BRW mod 21/11/06 for pt-veto
-      IF (.NOT.PTVETO) EMSCA = PHEP(4,IDRES(1,JRES))
+      EMSCA = PHEP(4,IDRES(1,JRES))
       CALL HWBGUP(ISTART,0)
-      IF (IERROR.NE.0) RETURN
       IF(JRES.NE.IRES) THEN
         JRES = JRES+1
         GOTO 35
@@ -23729,8 +23550,7 @@ C-----------------------------------------------------------------------
       INTEGER IQ1,IQ2,ID1,ID2
       LOGICAL HQ1,HQ2
       EXTERNAL HWRGEN,HWRUNI,HWUALF
-C---BRW mod 30/01/07: save IQ1
-      SAVE HCS,ASTU,AUST,CSTU,CSUT,CTSU,CTUS,S,T,TU,U,US,IQ1
+      SAVE HCS,ASTU,AUST,CSTU,CSUT,CTSU,CTUS,S,T,TU,U,US
       PARAMETER (EPS=1.D-9)
       IF (GENEV) THEN
         RCS=HCS*HWRGEN(0)
@@ -26062,18 +25882,18 @@ C-----------------------------------------------------------------------
 C     CHOOSE HIGGS MASS:
 C     IF (IOPHIG.EQ.0.OR.IOPHIG.EQ.2) THEN
 C       CHOOSE HIGGS MASS ACCORDING TO
-C       EM**4       /  ((EM**2-EMH**2)**2 + (GAMH*EMH)**2)
+C       EM**4       /  (EM**2-EMH**2)**2 + (GAMH*EMH)**2
 C     ELSE
 C       CHOOSE HIGGS MASS ACCORDING TO
-C       EMH * GAMH  /  ((EM**2-EMH**2)**2 + (GAMH*EMH)**2)
+C       EMH * GAMH  /  (EM**2-EMH**2)**2 + (GAMH*EMH)**2
 C     ENDIF
 C     IF (IOPHIG.EQ.0.OR.IOPHIG.EQ.1) THEN
 C       SUPPLY WEIGHT FACTOR TO YIELD
-C       EM * GAM(EM)/  ((EM**2-EMH**2)**2 + (GAM(EM)*EM)**2)
+C       EM * GAM(EM)/  (EM**2-EMH**2)**2 + (GAM(EM)*EM)**2
 C     ELSE
 C       SUPPLY WEIGHT FACTOR TO YIELD
 C       EM*(EMH/EM)**4 * GAM(EM)
-C                   /  ((EM**2-EMH**2)**2 + (GAM(EM)*EMH**2/EM)**2)
+C                   /  (EM**2-EMH**2)**2 + (GAM(EM)*EMH**2/EM)**2
 C       AS SUGGESTED IN M.H.SEYMOUR, PHYS.LETT.B354(1995)409.
 C     ENDIF
 C-----------------------------------------------------------------------
@@ -26140,11 +25960,11 @@ C---NOW CALCULATE WEIGHT FACTOR FOR NON-CONSTANT HIGGS WIDTH
       ELSEIF (IOPHIG.EQ.2) THEN
         EMM=EM*(EMH/EM)**4
         WEIGHT=W0*GAMOFS*EMM/EM**4 *((EM**2-EMH**2)**2 + GAMEM**2)
-     &                             /((EM**2-EMH**2)**2+GAMOFS**2*EMM*EM)
+     &                             /((EM**2-EMH**2)**2 +(GAMOFS*EMM)**2)
       ELSEIF (IOPHIG.EQ.3) THEN
         EMM=EM*(EMH/EM)**4
         WEIGHT=W1*GAMOFS*EMM/GAMEM *((EM**2-EMH**2)**2 + GAMEM**2)
-     &                             /((EM**2-EMH**2)**2+GAMOFS**2*EMM*EM)
+     &                             /((EM**2-EMH**2)**2 +(GAMOFS*EMM)**2)
       ELSE
         CALL HWWARN('HWHIGM',500)
       ENDIF
@@ -26723,7 +26543,7 @@ C-----------------------------------------------------------------------
           GFACTR=GEV2NB*HWUAEM(EMH**2)/(576.*SWEIN*RMASS(198)**2)
 C--MOD BY BRW 16/07/03 TO USE RUNNING MASSES
           CALL HWURQM(EMH,RQM)
-          DO 20 I=13,13
+          DO 20 I=1,13
             IF (I.EQ.13) THEN
               CSFAC(I)=-GFACTR*HWHIGT(  EMH)*XLMIN
      &                        *HWUALF(1,EMH)**2*EMFAC
@@ -27157,10 +26977,9 @@ C-----------------------------------------------------------------------
      & K2MAX2,K2MIN2,K22,EMW2,EMW,ROOTS,EMH2,EMH,ROOTS2,P1,PHI1,PHI2,
      & COSPHI,COSTH1,SINTH1,COSTH2,SINTH2,P2,WEIGHT,TAU,TAULN,CSFAC,
      & PSUM,PROB,Q1(5),Q2(5),H(5),A,B,C,TERM2,BRHIGQ,G1WW,G2WW,G1ZZ(6),
-     & G2ZZ(6),AWW(2),AZZ(2,6),PWW,PZZ(6),EMZ,EMZ2,RSUM,
-     & GLUSQ,GRUSQ,GLDSQ,GRDSQ,GLESQ,GRESQ,
-     & CW,CZ,EMFAC,CV,CA,BR,X2,ETA,P1JAC,FACTR,EH2,K22JAC,COSMIN
-      INTEGER HWRINT,IDEC,I,ID1,ID2,IHAD,NPOW
+     & G2ZZ(6),AWW,AZZ(6),PWW,PZZ(6),EMZ,EMZ2,RSUM,GLUSQ,GRUSQ,GLDSQ,
+     & GRDSQ,GLESQ,GRESQ,CW,CZ,EMFAC,CV,CA,BR,X2,ETA,P1JAC,FACTR,EH2
+      INTEGER HWRINT,IDEC,I,ID1,ID2,IHAD
       LOGICAL EE,EP
       EXTERNAL HWULDO,HWRUNI,HWRGEN,HWUAEM,HWRINT
       SAVE EMW2,EMZ2,EE,GLUSQ,GRUSQ,GLDSQ,GRDSQ,GLESQ,GRESQ,G1ZZ,G2ZZ,
@@ -27236,12 +27055,11 @@ C---CALCULATE COSTH1 FROM K1^2
         COSTH1=1+K12/(P1*ROOTS)
         SINTH1=SQRT(1-COSTH1**2)
 C---CHOOSE K2^2
-        IF (COSPHI.GT.0 .OR. HWRGEN(0).GT.HALF) THEN
-        K2MAX2=ROOTS*(ROOTS2-EMH2-2*P1*ROOTS)/(ROOTS-P1*(1-COSTH1))
+        K2MAX2=ROOTS*(ROOTS2-EMH2-2*ROOTS*P1)*(ROOTS-P1-P1*COSTH1)
+     &        /((ROOTS-P1)**2-(P1*COSTH1)**2-(P1*SINTH1*COSPHI)**2)
         K2MIN2=0
         K22=EMW2-(EMW2+K2MAX2)*(EMW2+K2MIN2)/
      &           ((K2MAX2-K2MIN2)*HWRGEN(0)+(EMW2+K2MIN2))
-        K22JAC=(K2MAX2-K2MIN2)/((K2MAX2+EMW2)*(K2MIN2+EMW2))
 C---CALCULATE A,B,C FACTORS, AND...
         A=-2*K22*P1*COSTH1 - ROOTS*(ROOTS2-EMH2-2*ROOTS*P1)
         B=-2*K22*P1*SINTH1*COSPHI
@@ -27250,29 +27068,9 @@ C---SOLVE A*COSTH2 + B*SINTH2 + C = 0 FOR COSTH2
         TERM2=B**2 + A**2 - C**2
         IF (TERM2.LT.ZERO) RETURN
         TERM2=B*SQRT(TERM2)
+        IF (A.GE.ZERO) RETURN
         COSTH2=(-A*C + TERM2)/(A**2+B**2)
-        SINTH2=-(C+A*COSTH2)/B
-        IF (ABS(COSTH2).GE.1.OR.SINTH2.LT.0) RETURN
-        K22JAC=K22JAC
-     $       /(1-(1+COSTH2)*(P1*(COSTH1-SINTH1*COSTH2/SINTH2*COSPHI))
-     $       /(ROOTS-P1*(1-COSTH1*COSTH2-SINTH1*SINTH2*COSPHI)) )
-        IF (COSPHI.LE.0) K22JAC=K22JAC*2
-        ELSE
-          A=ROOTS-P1*(1+COSTH1)
-          B=2*P1*SINTH1*COSPHI
-          COSMIN=(A**2-B**2)/(A**2+B**2)
-          IF (ABS(COSMIN).GE.1) RETURN
-          NPOW=-3
-          COSTH2=(TWO**NPOW
-     $         -(TWO**NPOW-(1+COSMIN)**NPOW)*HWRGEN(0))**(ONE/NPOW)-1
-          IF (ABS(COSTH2).GE.1) RETURN
-          SINTH2=SQRT(1-COSTH2**2)
-          K22=-ROOTS*(1+COSTH2)*(ROOTS2-EMH2-2*ROOTS*P1)/
-     $         (2*ROOTS-2*P1*(1-COSTH1*COSTH2-SINTH1*SINTH2*COSPHI))
-          K22JAC=-K22/(1+COSTH2)/(K22-EMW2)**2
-     $        *(1+COSTH2)**(1-NPOW)/(-NPOW)*((1+COSMIN)**NPOW-TWO**NPOW)
-          K22JAC=K22JAC*2
-        ENDIF
+        SINTH2=SQRT(1-COSTH2**2)
 C---FINALLY, GET P2
         IF (COSTH2.EQ.-ONE) RETURN
         P2=-K22/(ROOTS*(1+COSTH2))
@@ -27293,24 +27091,19 @@ C---LOAD UP CMF MOMENTA
         H(4)=-Q1(4)-Q2(4)+ROOTS
         CALL HWUMAS(H)
 C---CALCULATE MATRIX ELEMENTS SQUARED
-        AWW(1)=ENHANC(10)**2 * CW*(ROOTS2/2*HWULDO(Q1,Q2)*G1WW
+        AWW=ENHANC(10)**2 * CW*(ROOTS2/2*HWULDO(Q1,Q2)*G1WW
      &         +ROOTS2/4*P1*P2*(1+COSTH1)*(1-COSTH2)*G2WW)
-        AWW(2)=ENHANC(10)**2 * CW*(ROOTS2/2*HWULDO(Q1,Q2)*G2WW
-     &         +ROOTS2/4*P1*P2*(1+COSTH1)*(1-COSTH2)*G1WW)
         DO 10 I=1,6
-          AZZ(1,I)=ENHANC(11)**2 * CZ*(ROOTS2/2*HWULDO(Q1,Q2)*G1ZZ(I)
+          AZZ(I)=ENHANC(11)**2 * CZ*(ROOTS2/2*HWULDO(Q1,Q2)*G1ZZ(I)
      &               +ROOTS2/4*P1*P2*(1+COSTH1)*(1-COSTH2)*G2ZZ(I))
-     &          *((K12-EMW2)/(K12-EMZ2)*(K22-EMW2)/(K22-EMZ2))**2
-          AZZ(2,I)=ENHANC(11)**2 * CZ*(ROOTS2/2*HWULDO(Q1,Q2)*G2ZZ(I)
-     &               +ROOTS2/4*P1*P2*(1+COSTH1)*(1-COSTH2)*G1ZZ(I))
      &          *((K12-EMW2)/(K12-EMZ2)*(K22-EMW2)/(K22-EMZ2))**2
  10     CONTINUE
 C---CALCULATE WEIGHT IN INTEGRAL
         WEIGHT=FACTR*P2*P1JAC/(ROOTS2**2*HWULDO(H,Q2))
      &              *(K1MAX2-K1MIN2)/((K1MAX2+EMW2)*(K1MIN2+EMW2))
-     &              *K22JAC
+     &              *(K2MAX2-K2MIN2)/((K2MAX2+EMW2)*(K2MIN2+EMW2))
      &              * EMFAC
-        EMSCA=EMH
+        EMSCA=EMW
         XXMIN=(ROOTS/PHEP(5,3))**2
         XLMIN=LOG(XXMIN)
 C---INCLUDE BRANCHING RATIO OF HIGGS
@@ -27335,14 +27128,7 @@ C---INCLUDE BRANCHING RATIO OF HIGGS
         END IF
         IF (EE) THEN
           CSFAC=WEIGHT
-          IF (IDHW(1).EQ.IDHW(2)) THEN
-            PWW=AWW(1)
-            PZZ(4)=AZZ(1,4)
-          ELSE
-            PWW=AWW(2)
-            PZZ(4)=AZZ(2,4)
-          ENDIF
-          PSUM=PWW+PZZ(4)
+          PSUM=AWW+AZZ(4)
           EVWGT=CSFAC*PSUM
         ELSEIF (EP) THEN
           CSFAC=-WEIGHT*TAULN
@@ -27350,57 +27136,33 @@ C---INCLUDE BRANCHING RATIO OF HIGGS
           XX(2)=XXMIN
           CALL HWSFUN(XX(2),EMSCA,IDHW(IHAD),NSTRU,DISF(1,2),2)
           IF (IDHW(1).LE.126) THEN
-            PWW=(DISF(2,2)+DISF( 4,2))*AWW(1)+
-     &          (DISF(7,2)+DISF( 9,2))*AWW(2)
-            PZZ(5)=(DISF(2,2)+DISF( 4,2))*AZZ(1,5)+
-     &             (DISF(8,2)+DISF(10,2))*AZZ(2,5)
-            PZZ(6)=(DISF(1,2)+DISF( 3,2))*AZZ(1,6)+
-     &             (DISF(7,2)+DISF( 9,2))*AZZ(2,6)
+            PWW=(DISF(2,2)+DISF(4,2)+DISF(7,2)+DISF( 9,2))*AWW
           ELSE
-            PWW=(DISF(8,2)+DISF(10,2))*AWW(1)+
-     &          (DISF(1,2)+DISF( 3,2))*AWW(2)
-            PZZ(5)=(DISF(8,2)+DISF(10,2))*AZZ(1,5)+
-     &             (DISF(2,2)+DISF( 4,2))*AZZ(2,5)
-            PZZ(6)=(DISF(7,2)+DISF( 9,2))*AZZ(1,6)+
-     &             (DISF(1,2)+DISF( 3,2))*AZZ(2,6)
+            PWW=(DISF(1,2)+DISF(3,2)+DISF(8,2)+DISF(10,2))*AWW
           ENDIF
+          PZZ(5)=(DISF(2,2)+DISF(4,2)+DISF(8,2)+DISF(10,2))*AZZ(5)
+          PZZ(6)=(DISF(1,2)+DISF(3,2)+DISF(7,2)+DISF( 9,2))*AZZ(6)
           PSUM=PWW+PZZ(5)+PZZ(6)
           EVWGT=CSFAC*PSUM
         ELSE
           CSFAC=WEIGHT*TAULN*XLMIN
           CALL HWSGEN(.TRUE.)
-          PWW=((DISF(2,1)+DISF( 4,1))*(DISF(1,2)+DISF( 3,2))
-     &        +(DISF(1,1)+DISF( 3,1))*(DISF(2,2)+DISF( 4,2))
-     &        +(DISF(7,1)+DISF( 9,1))*(DISF(8,2)+DISF(10,2))
-     &        +(DISF(8,1)+DISF(10,1))*(DISF(7,2)+DISF( 9,2)))
-     &        *AWW(1)+
-     &        ((DISF(2,1)+DISF( 4,1))*(DISF(8,2)+DISF(10,2))
-     &        +(DISF(1,1)+DISF( 3,1))*(DISF(7,2)+DISF( 9,2))
-     &        +(DISF(7,1)+DISF( 9,1))*(DISF(1,2)+DISF( 3,2))
-     &        +(DISF(8,1)+DISF(10,1))*(DISF(2,2)+DISF( 4,2)))
-     &        *AWW(2)
-          PZZ(1)=((DISF(2,1)+DISF( 4,1))*(DISF(2,2)+DISF( 4,2))
-     &           +(DISF(8,1)+DISF(10,1))*(DISF(8,2)+DISF(10,2)))
-     &           *AZZ(1,1)+
-     &           ((DISF(2,1)+DISF( 4,1))*(DISF(8,2)+DISF(10,2))
-     &           +(DISF(8,1)+DISF(10,1))*(DISF(2,2)+DISF( 4,2)))
-     &           *AZZ(2,1)
-          PZZ(2)=((DISF(2,1)+DISF( 4,1))*(DISF(1,2)+DISF( 3,2))
-     &           +(DISF(1,1)+DISF( 3,1))*(DISF(2,2)+DISF( 4,2))
-     &           +(DISF(8,1)+DISF(10,1))*(DISF(7,2)+DISF( 9,2))
-     &           +(DISF(7,1)+DISF( 9,1))*(DISF(8,2)+DISF(10,2)))
-     &           *AZZ(1,2)+
-     &           ((DISF(2,1)+DISF( 4,1))*(DISF(7,2)+DISF( 9,2))
-     &           +(DISF(1,1)+DISF( 3,1))*(DISF(8,2)+DISF(10,2))
-     &           +(DISF(8,1)+DISF(10,1))*(DISF(1,2)+DISF( 3,2))
-     &           +(DISF(7,1)+DISF( 9,1))*(DISF(2,2)+DISF( 4,2)))
-     &           *AZZ(2,2)
-          PZZ(3)=((DISF(1,1)+DISF(3,1))*(DISF(1,2)+DISF(3,2))
-     &           +(DISF(7,1)+DISF(9,1))*(DISF(7,2)+DISF(9,2)))
-     &           *AZZ(1,3)+
-     &           ((DISF(1,1)+DISF(3,1))*(DISF(7,2)+DISF(9,2))
-     &           +(DISF(7,1)+DISF(9,1))*(DISF(1,2)+DISF(3,2)))
-     &           *AZZ(2,3)
+          PWW=((DISF(2,1)+DISF(4, 1)+DISF(7,1)+DISF(9,1))
+     &        *(DISF(8,2)+DISF(10,2)+DISF(1,2)+DISF(3,2))
+     &        +(DISF(8,1)+DISF(10,1)+DISF(1,1)+DISF(3,1))
+     &        *(DISF(2,2)+DISF(4, 2)+DISF(7,2)+DISF(9,2)))
+     &        *AWW
+          PZZ(1)=((DISF(2,1)+DISF(4,1)+DISF(8,1)+DISF(10,1))
+     &           *(DISF(2,2)+DISF(4,2)+DISF(8,2)+DISF(10,2)))
+     &           *AZZ(1)
+          PZZ(2)=((DISF(2,1)+DISF(4,1)+DISF(8,1)+DISF(10,1))
+     &           *(DISF(1,2)+DISF(3,2)+DISF(7,2)+DISF(9, 2))
+     &           +(DISF(1,1)+DISF(3,1)+DISF(7,1)+DISF(9, 1))
+     &           *(DISF(2,2)+DISF(4,2)+DISF(8,2)+DISF(10,2)))
+     &           *AZZ(2)
+          PZZ(3)=((DISF(1,1)+DISF(3,1)+DISF(7,1)+DISF(9,1))
+     &           *(DISF(1,2)+DISF(3,2)+DISF(7,2)+DISF(9,2)))
+     &           *AZZ(3)
           PSUM=PWW+PZZ(1)+PZZ(2)+PZZ(3)
 C---EVENT WEIGHT IS SUM OVER ALL COMBINATIONS
           EVWGT=CSFAC*PSUM
@@ -27414,7 +27176,7 @@ C---ELECTRON BEAMS?
           IDN(1)=IDHW(1)
           IDN(2)=IDHW(2)
 C---WW FUSION?
-          IF (RSUM.LT.PWW) THEN
+          IF (RSUM.LT.AWW) THEN
             IDN(3)=IDN(1)+1
             IDN(4)=IDN(2)+1
 C---ZZ FUSION?
@@ -27430,12 +27192,7 @@ C---WW FUSION?
  24         IDN(2)=HWRINT(1,8)
             IF (IDN(2).GE.5) IDN(2)=IDN(2)+2
             IF (ICHRG(IDN(1))*ICHRG(IDN(2)).GT.0) GOTO 24
-            IF (IDN(1).LE.126.AND.IDN(2).LE.6
-     $      .OR.IDN(1).GE.127.AND.IDN(2).GE.7) THEN
-              PROB=DISF(IDN(2),2)*AWW(1)/PWW
-            ELSE
-              PROB=DISF(IDN(2),2)*AWW(2)/PWW
-            ENDIF
+            PROB=DISF(IDN(2),2)*AWW/PWW
             IF (HWRGEN(0).GT.PROB) GOTO 24
             IDN(3)=IDN(1)+1
             IF (HWRGEN(0).GT.SCABI) THEN
@@ -27447,12 +27204,7 @@ C---ZZ FUSION FROM U-TYPE QUARK?
           ELSEIF (RSUM.LT.PWW+PZZ(5)) THEN
  26         IDN(2)=2*HWRINT(1,4)
             IF (IDN(2).GE.5) IDN(2)=IDN(2)+2
-            IF (IDN(1).LE.126.AND.IDN(2).LE.6
-     $      .OR.IDN(1).GE.127.AND.IDN(2).GE.7) THEN
-              PROB=DISF(IDN(2),2)*AZZ(1,5)/PZZ(5)
-            ELSE
-              PROB=DISF(IDN(2),2)*AZZ(2,5)/PZZ(5)
-            ENDIF
+            PROB=DISF(IDN(2),2)*AZZ(5)/PZZ(5)
             IF (HWRGEN(0).GT.PROB) GOTO 26
             IDN(3)=IDN(1)
             IDN(4)=IDN(2)
@@ -27460,12 +27212,7 @@ C---ZZ FUSION FROM D-TYPE QUARK?
           ELSE
  28         IDN(2)=2*HWRINT(1,4)-1
             IF (IDN(2).GE.5) IDN(2)=IDN(2)+2
-            IF (IDN(1).LE.126.AND.IDN(2).LE.6
-     $      .OR.IDN(1).GE.127.AND.IDN(2).GE.7) THEN
-              PROB=DISF(IDN(2),2)*AZZ(1,6)/PZZ(6)
-            ELSE
-              PROB=DISF(IDN(2),2)*AZZ(2,6)/PZZ(6)
-            ENDIF
+            PROB=DISF(IDN(2),2)*AZZ(6)/PZZ(6)
             IF (HWRGEN(0).GT.PROB) GOTO 28
             IDN(3)=IDN(1)
             IDN(4)=IDN(2)
@@ -27479,12 +27226,7 @@ C---WW FUSION?
               IF (IDN(I).GE.5) IDN(I)=IDN(I)+2
  32         CONTINUE
             IF (ICHRG(IDN(1))*ICHRG(IDN(2)).GT.0) GOTO 31
-            IF (IDN(1).LE.6.AND.IDN(2).LE.6
-     $      .OR.IDN(1).GE.7.AND.IDN(2).GE.7) THEN
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AWW(1)/PWW
-            ELSE
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AWW(2)/PWW
-            ENDIF
+            PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AWW/PWW
             IF (HWRGEN(0).GT.PROB) GOTO 31
 C---CHOOSE OUTGOING QUARKS
             DO 33 I=1,2
@@ -27500,12 +27242,7 @@ C---ZZ FUSION FROM U-TYPE QUARKS?
               IDN(I)=2*HWRINT(1,4)
               IF (IDN(I).GE.5) IDN(I)=IDN(I)+2
  42         CONTINUE
-            IF (IDN(1).LE.6.AND.IDN(2).LE.6
-     $      .OR.IDN(1).GE.7.AND.IDN(2).GE.7) THEN
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(1,1)/PZZ(1)
-            ELSE
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(2,1)/PZZ(1)
-            ENDIF
+            PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(1)/PZZ(1)
             IF (HWRGEN(0).GT.PROB) GOTO 41
             IDN(3)=IDN(1)
             IDN(4)=IDN(2)
@@ -27515,12 +27252,7 @@ C---ZZ FUSION FROM D-TYPE QUARKS?
               IDN(I)=2*HWRINT(1,4)-1
               IF (IDN(I).GE.5) IDN(I)=IDN(I)+2
  52         CONTINUE
-            IF (IDN(1).LE.6.AND.IDN(2).LE.6
-     $      .OR.IDN(1).GE.7.AND.IDN(2).GE.7) THEN
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(1,3)/PZZ(3)
-            ELSE
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(2,3)/PZZ(3)
-            ENDIF
+            PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(3)/PZZ(3)
             IF (HWRGEN(0).GT.PROB) GOTO 51
             IDN(3)=IDN(1)
             IDN(4)=IDN(2)
@@ -27535,12 +27267,7 @@ C---ZZ FUSION FROM UD-TYPE PAIRS?
             ENDIF
             DO 62 I=1,2
  62           IF (IDN(I).GE.5) IDN(I)=IDN(I)+2
-            IF (IDN(1).LE.6.AND.IDN(2).LE.6
-     $      .OR.IDN(1).GE.7.AND.IDN(2).GE.7) THEN
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(1,2)/PZZ(2)
-            ELSE
-              PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(2,2)/PZZ(2)
-            ENDIF
+            PROB=DISF(IDN(1),1)*DISF(IDN(2),2)*AZZ(2)/PZZ(2)
             IF (HWRGEN(0).GT.PROB) GOTO 61
             IDN(3)=IDN(1)
             IDN(4)=IDN(2)
@@ -27557,9 +27284,9 @@ C---CMF POINTERS
         JMOHEP(1,NHEP+2)=NHEP
         JMOHEP(1,NHEP+3)=NHEP
 C---OUTGOING MOMENTA (GIVE QUARKS MASS NON-COVARIANTLY!)
-        Q1(5)=RMASS(IDN(3))
+        Q1(5)=RMASS(IDN(1))
         Q1(4)=SQRT(Q1(4)**2+Q1(5)**2)
-        Q2(5)=RMASS(IDN(4))
+        Q2(5)=RMASS(IDN(2))
         Q2(4)=SQRT(Q2(4)**2+Q2(5)**2)
         H(4)=-Q1(4)-Q2(4)+PHEP(5,NHEP)
         CALL HWUMAS(H)
@@ -27664,7 +27391,7 @@ C---SET UP CONSTANTS
         CVE=VFCH(11,1)
         CAE=AFCH(11,1)
         POL1=1.-EPOLN(3)*PPOLN(3)
-        POL2=PPOLN(3)-EPOLN(3)
+        POL2=EPOLN(3)-PPOLN(3)
         CE1=(POL1*(CVE**2+CAE**2)+POL2*2.*CVE*CAE)
         CE2=(POL1*2.*CVE*CAE+POL2*(CVE**2+CAE**2))
         IF ((IDHW(IN1).GT.IDHW(IN2).AND.PHEP(3,IN1).LT.ZERO).OR.
@@ -28440,9 +28167,7 @@ C-----------------------------------------------------------------------
         T=-0.5*S*(1.-COSTH)
         U=-S-T
         EMSCA=SQRT(2.*S*T*U/(S*S+T*T+U*U))
-C--BRW fix 15/07/10 put in ident particle factor of 1/2
-        FACT=GEV2NB*PIFAC*0.25*ET*EJ*(YJ1SUP-YJ1INF)*(YJ2SUP-YJ2INF)
-C--end fix
+        FACT=GEV2NB*PIFAC*0.5*ET*EJ*(YJ1SUP-YJ1INF)*(YJ2SUP-YJ2INF)
      &      *(ALPHEM/S)**2
         CALL HWSGEN(.FALSE.)
         CSTU=2.*(U/T+T/U)/CAFAC
@@ -40025,10 +39750,7 @@ C---OTHER HADRONIC DECAY
         ENDIF
         EVWGT=0.
 c---mhs---implement cut on number of widths from nominal mass
-C--BRW fix 4/12/07: allow GAMMAX>Mass/Gamma
-        IF (GAMW*GAMMAX.LT.RMASS(199))
-     &       TMIN=MAX(TMIN,-ATAN(2*GAMMAX-GAMW*GAMMAX**2/RMASS(199)))
-C--End BRW fix 4/12/07
+        TMIN=MAX(TMIN,-ATAN(2*GAMMAX-GAMW*GAMMAX**2/RMASS(199)))
         TMAX=ATAN(2*GAMMAX+GAMW*GAMMAX**2/RMASS(199))
         EMW=GAMW*TAN(HWRUNI(0,TMIN,TMAX))+RMASS(199)
         IF (EMW.LE.ZERO) RETURN
@@ -40193,7 +39915,7 @@ C----------------------------------------------------------------------
       INTEGER I,J,N,L
       CHARACTER*28 TITLE
       SAVE TITLE
-      DATA TITLE/'HERWIG 6.521  11th Mar. 2013'/
+      DATA TITLE/'HERWIG 6.510  31st Oct. 2005'/
       WRITE (6,10) TITLE
   10  FORMAT(//10X,A28//,
      &         10X,'Please reference:  G. Marchesini, B.R. Webber,',/,
@@ -40229,7 +39951,6 @@ C---MAX NO OF EVENTS TO PRINT
 C---UNIT FOR READING SUDAKOV FORM FACTORS (IF ZERO THEN COMPUTE THEM)
       LRSUD=0
 C---UNIT FOR WRITING SUDAKOV FORM FACTORS (IF ZERO THEN NOT WRITTEN)
-CJEM      LWSUD=0
       LWSUD=77
 C---UNIT FOR WRITING EVENT DATA IN HWANAL (IF ZERO THEN NOT WRITTEN)
       LWEVT=0
@@ -40440,8 +40161,6 @@ C---LOWER LIMIT FOR SPACELIKE EVOLUTION
       QSPAC=2.5
 C---SWITCH OFF SPACE-LIKE SHOWERS
       NOSPAC=.FALSE.
-C--NEW IN V6.521: Rescale factor for PDFs in initial-state showers ONLY
-      FSHWR=1.0
 C---INTRINSIC PT OF SPACELIKE PARTONS (RMS)
       PTRMS=0.0
 C---MASS PARAMETER IN REMNANT FRAGMENTATION
@@ -40468,8 +40187,6 @@ C   PARAMETER FOR B CLUSTER DECAY TO 1 HADRON. IF MCL IS CLUSTER MASS
 C   AND MTH IS THRESHOLD FOR 2-HADRON DECAY, THEN PROBABILITY IS
 C   1 IF MCL<MTH, 0 IF MCL>(1+B1LIM)*MTH, WITH LINEAR INTERPOLATION,
       B1LIM=0.0
-C--EXTRA MASS FOR DIQUARKS IN B & C BARYON PARTONIC DECAYS
-      DQXTRA=0.2D0
 C---B DECAY PACKAGE ('HERW'=>HERWIG, 'EURO'=>EURODEC, 'CLEO'=>CLEO)
       BDECAY='HERW'
 C---TAU DECAY PACKAGE ('HERWIG'=>HERWIG, 'TAUOLA'=> TAUOLA)
@@ -40798,9 +40515,6 @@ C--generate the soft event (.TRUE.) or don't (.FALSE.)
       LHSOFT = .TRUE.
 C--conserve longitudinal momentum (.true.) or rapidity of hard process
       PRESPL = .TRUE.
-C--BRW mod 21/11/06 to allow for truncated shower and pt-veto
-      TRUNSH = .FALSE.
-      PTVETO = .FALSE.
       END
 CDECK  ID>, HWIGUP.
 *CMZ :-        -15/07/02  16.42.23  by  Peter Richardson
@@ -40823,11 +40537,11 @@ C----------------------------------------------------------------------
       INTEGER I,IDB(2)
       SAVE PDFNUC,PDFPI ,PDFPHT
       DATA PDFNUC/ 'DO','DFLM','MRS','CTEQ','GRV','ABFOW','BM',
-     &             '       ','       '/
-      DATA PDFPI / 'OW-P','       ','SMRS-P','       ','GRV-P',
-     &             'ABFKW-P','       ','       ','       '/
+     &             '        ','         '/
+      DATA PDFPI / 'OW-P','        ','SMRS-P','        ','GRV-P',
+     &             'ABFKW-P','        ','        ','        '/
       DATA PDFPHT /'DO-G','DG-G','LAC-G','GS-G','GRV-G','ACG-G',
-     &             '       ','WHIT-G','SaSph'/
+     &             '         ','WHIT-G','SaSph'/
 C--call the user routine to do the initialisation
       CALL UPINIT
 C--setup the beam particles and momentum
@@ -42829,7 +42543,7 @@ C--fermion antifermion decay modes
  1000 CONTINUE
 C--now find the maximum weights and compute the decay rates
       DO 2000 I=1,N2MODE
-      IF(IPRINT.GE.2) WRITE(6,5010) RNAME(IDK(ID2PRT(I))),
+      IF(IPRINT.EQ.2) WRITE(6,5010) RNAME(IDK(ID2PRT(I))),
      &   RNAME(IDKPRD(1,ID2PRT(I))),RNAME(IDKPRD(2,ID2PRT(I)))
  2000 CALL HWD2ME(I)
       RETURN
@@ -44872,7 +44586,7 @@ C--now compute the maximum weights for the three body decays found
       PHEP(1,1) = 100.0D0
       PHEP(2,1) = 0.0D0
       PHEP(3,1) = 0.0D0
-      IF(IPRINT.GE.2) WRITE(6,5000) RNAME(IDK(ID3PRT(I))),
+      IF(IPRINT.EQ.2) WRITE(6,5000) RNAME(IDK(ID3PRT(I))),
      &   RNAME(IDKPRD(1,ID3PRT(I))),RNAME(IDKPRD(2,ID3PRT(I))),
      &   RNAME(IDKPRD(3,ID3PRT(I)))
  3000 CALL HWD3ME(1,0,I,RHOIN,1)
@@ -44895,7 +44609,7 @@ C--and for the two body gauge boson modes
       PHEP(1,1) = 100.0D0
       PHEP(2,1) = 0.0D0
       PHEP(3,1) = 0.0D0
-      IF(IPRINT.GE.2) WRITE(6,5010) RNAME(IDK(IDBPRT(I))),
+      IF(IPRINT.EQ.2) WRITE(6,5010) RNAME(IDK(IDBPRT(I))),
      & RNAME(IDKPRD(1,IDBPRT(I))),RNAME(IDKPRD(2,IDBPRT(I)))
       IL = 12
       IF(IBMODE(I).NE.200) IL = 6
@@ -44997,7 +44711,7 @@ C--compute the maximum weights
       PHEP(1,1) = 100.0D0
       PHEP(2,1) = 0.0D0
       PHEP(3,1) = 0.0D0
-      IF(IPRINT.GE.2) WRITE(6,5010) RNAME(IDK(ID4PRT(I))),
+      IF(IPRINT.EQ.2) WRITE(6,5010) RNAME(IDK(ID4PRT(I))),
      &            RNAME(IDKPRD(1,ID4PRT(I))),RNAME(IDKPRD(2,ID4PRT(I)))
       IL = 12
       IF(I4MODE(1,I).NE.200) IL = 6
@@ -45052,13 +44766,8 @@ C
       IF (NSSP.LE.0) RETURN
       RMMAX=SQRT(HALF*(EBEAM1*EBEAM2+PBEAM1*PBEAM2))
       RMMNSS=RMMAX
-CJEM      WRITE (6,71)
-CJEM 71   FORMAT (/10X,'JEM: Beginning first read.')
-CJEM 72   FORMAT (/10X,'Read NSSP line')
       DO I=1,NSSP
-CJEM        WRITE (6,72)
         READ (LRSUSY,1) IHW,RMASS(IHW),RLTIM(IHW)
-        PRINT *,IHW,RLTIM(IHW)
 C  Negative gaugino mass means physical field is gamma_5*psi
 C  Store the signs
         IF ((IHW.GE.450).AND.(IHW.LE.457)) THEN
@@ -45078,11 +44787,7 @@ C  Store the signs
           NRES=IHW
         ENDIF
       ENDDO
-CJEM      WRITE (6, 12)
-CJEM 12   FORMAT (/10X,'JEM: Got past first read')
       XLMNSS=TWO*LOG(RMMNSS/RMMAX)
-CJEM MY OWN FORMAT STRING TO HANDLE PYSLHA IS THE TOP ONE
-CJEM    1 FORMAT(I4,E16.8,E15.8)
     1 FORMAT(I5,F12.4,E15.5)
 C
 C  Input decay modes
@@ -45099,14 +44804,8 @@ C
             ENDIF
             READ (LRSUSY,11) IDK(NDKYS),BRFRAC(NDKYS),NME(NDKYS),
      &      (IDKPRD(K,NDKYS),K=1,5)
-            PRINT *,IDK(NDKYS),BRFRAC(NDKYS),NME(NDKYS),
-     &      (IDKPRD(K,NDKYS),K=1,5)
-CJEM MY EDIT OF FORMAT 11 IS THE TOP ONE, CHANGED 6I6 to 6I8
-CJEM   11       FORMAT(I6,F16.8,6I8)
    11       FORMAT(I6,F16.8,6I6)
           ENDDO
-CJEM        WRITE (6,73)
-CJEM   73   FORMAT (/10X,'JEM: Read NDEC block.')
         ENDIF
       ENDDO
 C
@@ -45259,14 +44958,7 @@ C--Evaluating Higgs parameters and couplings
  50     CONTINUE
  40   CONTINUE
 C--Rparity violation
-CJEM      WRITE (6, 74)
-CJEM74    FORMAT (/10X,'JEM: Ready to read logical rparity')
-CJEM EDITED L5 to L1 OR REMOVED BOTH AND SET RPARTY = TRUE MANUALLY
-CJEM      READ (LRSUSY,'(L5)') RPARTY
-CJEM      READ (LRSUSY,'(L5)') RPARTY
-      RPARTY = .TRUE.
-CJEM      WRITE (6, 75)
-CJEM75    FORMAT (/10X,'JEM: Read logical rparity')
+      READ (LRSUSY,'(L5)') RPARTY
       IF(.NOT.RPARTY) THEN
         READ(LRSUSY,20) (((LAMDA1(I,J,K),K=1,3),J=1,3),I=1,3)
         READ(LRSUSY,20) (((LAMDA2(I,J,K),K=1,3),J=1,3),I=1,3)
@@ -46477,11 +46169,11 @@ C  IS CAPABLE OF BEING THE HARDEST SO FAR
            QTMP=-1
            DO 300 IREJ=1,NREJ
 C--FIND NEW VALUE OF SUD/DIST
-            CALL HWSFUN(XLAST,QMIN*FSHWR,IDHAD,NSTRU,DIST,JNHAD)
+            CALL HWSFUN(XLAST,QMIN,IDHAD,NSTRU,DIST,JNHAD)
             IF (ID.EQ.13) DIST(ID)=DIST(ID)*HWSGQQ(QMIN)
             IF (DIST(ID).LT.DMIN) DIST(ID)=DMIN
             SMAX=HWUTAB(SUD(N1,IS),QEV(N1,IS),MQ,QMIN,INTER)/DIST(ID)
-            CALL HWSFUN(XLAST,QLST*FSHWR,IDHAD,NSTRU,DIST,JNHAD)
+            CALL HWSFUN(XLAST,QLST,IDHAD,NSTRU,DIST,JNHAD)
             IF (ID.EQ.13) DIST(ID)=DIST(ID)*HWSGQQ(QLST)
             IF (DIST(ID).LT.DMIN) DIST(ID)=DMIN
             SLST=HWUTAB(SUD(N1,IS),QEV(N1,IS),MQ,QLST,INTER)/DIST(ID)
@@ -46509,7 +46201,7 @@ C--BRANCHING OCCURS. FIRST CHECK FOR MONOTONIC FORM FACTOR
                 CALL HWWARN('HWSBRN',103)
                 GOTO 999
               ENDIF
-              CALL HWSFUN(XLAST,QEV(NB,IS)*FSHWR,IDHAD,NSTRU,DIST,JNHAD)
+              CALL HWSFUN(XLAST,QEV(NB,IS),IDHAD,NSTRU,DIST,JNHAD)
               IF (ID.EQ.13) DIST(ID)=DIST(ID)*HWSGQQ(QEV(NB,IS))
               IF (DIST(ID).LT.DMIN) DIST(ID)=DMIN
               SUDB=SUD(NB,IS)/DIST(ID)
@@ -47018,7 +46710,7 @@ C---SET UP TABLES FOR CHOOSING BRANCHING
       WZ=1./WR
       ZZ=WZ*EZ
       AZ=WZ*ZZ*HWUALF(5-2*SUDORD,MAX(WZ*QQ,QG))
-      CALL HWSFUN(X*ZR,QQ*FSHWR,IDHAD,NSTRU,DIST,JNHAD)
+      CALL HWSFUN(X*ZR,QQ,IDHAD,NSTRU,DIST,JNHAD)
       IF (ID.NE.13) THEN
 C---SPLITTING INTO QUARK
         DO 10 IP=1,ID-1
@@ -52314,8 +52006,8 @@ C
       DATA (IDK(I),BRFRAC(I),NME(I),(IDKPRD(J,I),J=1,5),I=1882,1900)/
      & 320,0.030D0,  0,246, 38, 30,  0,  0,
      & 320,0.020D0,  0,246, 21, 21,  0,  0,
-     & 321,0.500D0,  0,275, 34,  0,  0,  0,
-     & 321,0.500D0,  0,274, 42,  0,  0,  0,
+     & 321,0.500D0,  0,266, 46,  0,  0,  0,
+     & 321,0.500D0,  0,265, 50,  0,  0,  0,
      & 322,1.000D0,  0,254, 59,  0,  0,  0,
      & 323,0.540D0,  0,266, 38,  0,  0,  0,
      & 323,0.270D0,  0,265, 21,  0,  0,  0,
@@ -52334,8 +52026,8 @@ C
       DATA (IDK(I),BRFRAC(I),NME(I),(IDKPRD(J,I),J=1,5),I=1901,1919)/
      & 324,0.030D0,  0,222, 38, 30,  0,  0,
      & 324,0.020D0,  0,222, 21, 21,  0,  0,
-     & 325,0.500D0,  0,266, 46,  0,  0,  0,
-     & 325,0.500D0,  0,265, 50,  0,  0,  0,
+     & 325,0.500D0,  0,275, 34,  0,  0,  0,
+     & 325,0.500D0,  0,274, 42,  0,  0,  0,
      & 326,1.000D0,  0,230, 59,  0,  0,  0,
      & 327,0.667D0,  0, 50, 38,  0,  0,  0,
      & 327,0.333D0,  0, 46, 21,  0,  0,  0,
@@ -59522,11 +59214,7 @@ C Allow for different order in matching
      &        MATCH(4).AND.MATCH(5)) GOTO 100
   90      L=LNEXT(L)
         ENDIF
-CJEM      WRITE(6,754)
-CJEM  754 FORMAT(/1X,'JEM: Got this far.')
         CALL HWDCHK(IDKY,J,IFGO)
-CJEM      WRITE(6,755)
-CJEM  755 FORMAT(/1X,'JEM: But not this far?')
         IF(IFGO) GOTO 120
         NMODES(IDKY)=NMODES(IDKY)+1
         IF (NMODES(IDKY).GT.NMXMOD) THEN
@@ -62962,7 +62650,7 @@ C-----------------------------------------------------------------------
       INTEGER IEUPDG,I
       WRITE (6,10)
    10 FORMAT(/10X,'IEUPDG CALLED BUT NOT LINKED')
-      IEUPDG=I
+      IEUPDG=0
       STOP
       END
 CDECK  ID>, IPDGEU.
@@ -62978,7 +62666,7 @@ C-----------------------------------------------------------------------
       INTEGER IPDGEU,I
       WRITE (6,10)
    10 FORMAT(/10X,'IPDGEU CALLED BUT NOT LINKED')
-      IPDGEU=I
+      IPDGEU=0
       STOP
       END
 CDECK  ID>, INIETC.
@@ -62994,7 +62682,6 @@ C-----------------------------------------------------------------------
       INTEGER JAK1,JAK2,ITDKRC,IFPHOT
       WRITE (6,10)
    10 FORMAT(/10X,'INIETC CALLED BUT NOT LINKED')
-      IF (JAK1.GT.1000) WRITE (6,*) JAK2,ITDKRC,IFPHOT
       STOP
       END
 CDECK  ID>, INIMAS.
@@ -63024,7 +62711,6 @@ C-----------------------------------------------------------------------
       DOUBLE PRECISION CUT
       WRITE (6,10)
    10 FORMAT(/10X,'INIPHX CALLED BUT NOT LINKED')
-      IF (CUT.GT.1D10) CUT=0
       STOP
       END
 CDECK  ID>, INITDK.
@@ -63045,20 +62731,19 @@ CDECK  ID>, PDFSET.
 *CMZ :-        -26/04/91  11.11.54  by  Bryan Webber
 *-- Author :    Bryan Webber
 C----------------------------------------------------------------------
-c      SUBROUTINE PDFSET(PARM,VAL)
+CJEM      SUBROUTINE PDFSET(PARM,VAL)
 C----------------------------------------------------------------------
 C     DUMMY SUBROUTINE: DELETE AND SET MODPDF(I)
 C     IN MAIN PROGRAM IF YOU USE PDFLIB CERN-LIBRARY
 C     PACKAGE FOR NUCLEON STRUCTURE FUNCTIONS
 C----------------------------------------------------------------------
-c      IMPLICIT NONE
-c      DOUBLE PRECISION VAL(20)
-c      CHARACTER*20 PARM(20)
-c      WRITE (6,10)
-c   10 FORMAT(/10X,'PDFSET CALLED BUT NOT LINKED')
-c      IF (PARM(1).EQ.'DUMMY') VAL(1)=0
-c      STOP
-c      END
+CJEM      IMPLICIT NONE
+CJEM      DOUBLE PRECISION VAL(20)
+CJEM      CHARACTER*20 PARM(20)
+CJEM      WRITE (6,10)
+CJEM   10 FORMAT(/10X,'PDFSET CALLED BUT NOT LINKED')
+CJEM      STOP
+CJEM      END
 CDECK  ID>, PHOINI.
 *CMZ :-        -17/10/01  10.03.37  by  Peter Richardson
 *-- Author :    Peter Richardson
@@ -63086,7 +62771,6 @@ C-----------------------------------------------------------------------
       INTEGER IHEP
       WRITE (6,10)
    10 FORMAT(/10X,'PHOTOS CALLED BUT NOT LINKED')
-      IF (IHEP.GT.1000) IHEP=0
       STOP
       END
 CDECK  ID>, QQINIT.
@@ -63102,7 +62786,6 @@ C-----------------------------------------------------------------------
       LOGICAL QQLERR
       WRITE (6,10)
    10 FORMAT(/10X,'QQINIT CALLED BUT NOT LINKED')
-      IF (QQLERR) WRITE (6,*)
       STOP
       END
 CDECK  ID>, QQLMAT.
@@ -63185,19 +62868,17 @@ CDECK  ID>, STRUCTM.
 *CMZ :-        -26/04/91  11.11.54  by  Bryan Webber
 *-- Author :    Bryan Webber
 C-----------------------------------------------------------------------
-c      SUBROUTINE STRUCTM(X,QSCA,UPV,DNV,USEA,DSEA,STR,CHM,BOT,TOP,GLU)
+CJEM      SUBROUTINE STRUCTM(X,QSCA,UPV,DNV,USEA,DSEA,STR,CHM,BOT,TOP,GLU)
 C-----------------------------------------------------------------------
 C     DUMMY SUBROUTINE: DELETE IF YOU USE PDFLIB CERN-LIBRARY
 C     PACKAGE FOR NUCLEON STRUCTURE FUNCTIONS
 C-----------------------------------------------------------------------
-c      IMPLICIT NONE
-c      DOUBLE PRECISION X,QSCA,UPV,DNV,USEA,DSEA,STR,CHM,BOT,TOP,GLU
-c      WRITE (6,10)
-c  10  FORMAT(/10X,'STRUCTM CALLED BUT NOT LINKED')
-c      IF (X.GT.1D10) WRITE (6,*)
-c     $     QSCA,UPV,DNV,USEA,DSEA,STR,CHM,BOT,TOP,GLU
-c      STOP
-c      END
+CJEM      IMPLICIT NONE
+CJEM      DOUBLE PRECISION X,QSCA,UPV,DNV,USEA,DSEA,STR,CHM,BOT,TOP,GLU
+CJEM      WRITE (6,10)
+CJEM  10  FORMAT(/10X,'STRUCTM CALLED BUT NOT LINKED')
+CJEM      STOP
+CJEM      END
 C-----------------------------------------------------------------------
 C...SaSgam version 2 - parton distributions of the photon
 C...by Gerhard A. Schuler and Torbjorn Sjostrand
@@ -63945,30 +63626,28 @@ CDECK  ID>,  UPINIT.
 *CMZ :-        -16/07/02  10.30.48  by  Peter Richardson
 *-- Author :    Peter Richardson
 C-----------------------------------------------------------------------
-C      SUBROUTINE UPINIT
+CJEM      SUBROUTINE UPINIT
 C-----------------------------------------------------------------------
 C     DUMMY UPINIT ROUTINE DELETE AND REPLACE IF USING LES HOUCHES
 C     INTERFACE
-CJEM COMMENTED OUT FOR WEBBER PROGRAM
 C-----------------------------------------------------------------------
-c      IMPLICIT NONE
-c      WRITE (6,10)
-c   10 FORMAT(/10X,'UPINIT CALLED BUT NOT LINKED')
-c      STOP
-C      END
+CJEM      IMPLICIT NONE
+CJEM      WRITE (6,10)
+CJEM   10 FORMAT(/10X,'UPINIT CALLED BUT NOT LINKED')
+CJEM      STOP
+CJEM      END
 C-----------------------------------------------------------------------
 CDECK  ID>,  UPEVNT.
 *CMZ :-        -16/07/02  10.30.48  by  Peter Richardson
 *-- Author :    Peter Richardson
 C-----------------------------------------------------------------------
-C      SUBROUTINE UPEVNT
+CJEM      SUBROUTINE UPEVNT
 C-----------------------------------------------------------------------
 C     DUMMY UPEVNT ROUTINE DELETE AND REPLACE IF USING LES HOUCHES
 C     INTERFACE
-CJEM COMMENTED OUT FOR WEBBER PROGRAM
 C-----------------------------------------------------------------------
-c      IMPLICIT NONE
-c      WRITE (6,10)
-c   10 FORMAT(/10X,'UPEVNT CALLED BUT NOT LINKED')
-c      STOP
-C      END
+CJEM      IMPLICIT NONE
+CJEM      WRITE (6,10)
+CJEM   10 FORMAT(/10X,'UPEVNT CALLED BUT NOT LINKED')
+CJEM      STOP
+CJEM      END

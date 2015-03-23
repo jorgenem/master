@@ -8,18 +8,18 @@ C---Debug and test program for new versions of Herwig
      $     1706,1800,1999,2000,2100,2150,2200,2399,2400,2599,2699,2799,
      $     2800,2810,2820,2915,5000,5500,8000,9000,9010,9130,9599/
       RSUD=.TRUE.
-CJEM      RSUD=.FALSE.
+c      RSUD=.FALSE.
       JMIN=1
-CJEM      PRINT *,' NUMBER OF RUNS?'
-CJEM      READ *, JMAX      
+c      PRINT *,' NUMBER OF RUNS?'
+c      READ *, JMAX      
       JMAX=20
-CJEM      PRINT *,' RANDOM NUMBER SEEDS?'
-CJEM      READ *, NRS
+c      PRINT *,' RANDOM NUMBER SEEDS?'
+c      READ *, NRS
       NRS(1)=54321
       NRS(2)=98765
       OPEN(UNIT=56,FILE='hermass.txt')
       OPEN(UNIT=57,FILE='hermass.top')
-      MAXEV=1000
+      MAXEV=10000
       IPROC=13010
       JPRO=MOD(IPROC,10000)
       PBEAM1=7000.
@@ -33,15 +33,17 @@ C   THIS POINT, OTHERWISE VALUES
 C   SET IN HWIGIN WILL BE USED.
       EFFMIN=1D-5
       LWSUD=0
-CJEM      LRSUD=77
-      LRSUD=0
+CJEM      LWSUD=77
+      LRSUD=77
+CJEM      LRSUD=0
       LWDEC=0
-      LRDEC=0
-CJEM      LRDEC=88
+CJEM      LWDEC=88
+      LRDEC=88
+CJEM      LRDEC=0
       DO 999 J=JMIN,JMAX
          NRN(1)=NRS(1)
          NRN(2)=NRS(2)
-CJEM         REWIND(LRDEC)
+         REWIND(LRDEC)
          IF (RSUD) THEN
             RSUD=.FALSE.
          ELSE
@@ -58,18 +60,12 @@ C---LRSUD.lt.0 suppresses reading and computing sud
          TMNISR=1D-2
 C---READ IN SUSY INPUT FILE, IN THIS CASE SNOWMASS POINT 1a
          OPEN(UNIT=LRSUSY,FORM='FORMATTED',STATUS='UNKNOWN',
-     &        FILE='susyhit_softsusy_ISAWIG-test_mod.out')
-CJEM CHANGED SUSY INPUT FILE TO SOFTSUSY
-CJEM     &        FILE='../sps_pt1a_force.in')
+     &        FILE='susyhit_softsusy_ISAWIG-test.out')
 C     &        FILE='sps_pt1a.1200.in')
          CALL HWISSP
-CJEM         WRITE(6,71)
-CJEM   71    FORMAT(/10X,'JEM: Read inn SUSY input, called HWISSP')
          CLOSE(UNIT=LRSUSY)
 C---COMPUTE PARAMETER-DEPENDENT CONSTANTS
          CALL HWUINC
-CJEM         WRITE(6,72)
-CJEM   72    FORMAT(/10X,'JEM: called HWUINC')
 C---CALL HWUSTA TO MAKE ANY PARTICLE STABLE
          CALL HWUSTA('PI0     ')
 C---USER'S INITIAL CALCULATIONS
@@ -87,13 +83,13 @@ C---GENERATE PARTON CASCADES
 C---DO HEAVY OBJECT DECAYS
             CALL HWDHOB
 C---DO CLUSTER HADRONIZATION
-c            CALL HWCFOR
+c     CALL HWCFOR
 C---DO CLUSTER DECAY
-c            CALL HWCDEC
+c     CALL HWCDEC
 C---DO UNSTABLE PARTICLE DECAYS
-c            CALL HWDHAD
+c     CALL HWDHAD
 C---DO HEAVY FLAVOUR DECAYS
-c            CALL HWDHVY
+c     CALL HWDHVY
 C---ADD SOFT UNDERLYING EVENT IF NEEDED
 c     CALL HWMEVT
 C---FINALISE EVENT
@@ -101,8 +97,6 @@ C---FINALISE EVENT
             NRS(1)=NRN(1)
             NRS(2)=NRN(2)
 C---USER'S EVENT ANALYSIS
-CJEM            WRITE (6,70)
-CJEM 70         FORMAT (/10X,'JEM: Calling HWANAL.')
             CALL HWANAL
 C---CHECK TO SEE IF ENOUGH GOOD EVENTS GENERATED
             IF (IERROR.EQ.191) GOTO 200
@@ -152,7 +146,7 @@ C----------------------------------------------------------------------
       INCLUDE 'HERWIG65.INC'
       INTEGER IHEP,I,IDP,IP1,IP2,ISQ,IC,IDCH(8)
       DOUBLE PRECISION PCH(5,8),PTM(2),MCH(8),PST(5),HWRGAU,RESLN,RESCA
-      PARAMETER (RESLN=2.0D0)
+      PARAMETER (RESLN=0.05D0)
       IF (IERROR.NE.0) RETURN
       ISQ=0
       DO IHEP=1,NHEP
@@ -219,7 +213,6 @@ C      ENDDO
 C      PCH(5,1)=0D0
 C      PCH(5,5)=0D0
 C--RESCALE MOMENTA WITH RMS SMEARING RESLN
-      RESLN = 0.1
       IF (RESLN.GT.0D0) THEN
          DO IC=1,8
             RESCA=HWRGAU(IC,ONE,RESLN)

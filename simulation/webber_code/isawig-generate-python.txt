@@ -1,0 +1,3 @@
+import pyslha
+slhafile = pyslha.readSLHAFile("susyhit_softsusy_slha.out")
+pyslha.writeISAWIGFile("susyhit_softsusy_ISAWIG-test.out", slhafile)
