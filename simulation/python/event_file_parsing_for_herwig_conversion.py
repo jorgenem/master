@@ -1,8 +1,8 @@
 from __future__ import division
 import sys
 from math import floor
-infile = open("../herwigpp/LHC-MSSM-analysis_20150116_added_gluinos_and_turned_off_threebody_and_discarded_momentum-nonconserving_events.log",'r')
-outfile = open("../events/Herwig_chain_20150116_with_gluinos_and_no_threebody_decay_and_discarded_momentum-nonconservation_GeV-corrected.dat", 'w')
+infile = open("../events/herwigpp_9385_events_20150225.dat",'r')
+outfile = open("../events/herwigpp_9385_events_20150225.dat_GeV", 'w')
 
 lines = infile.readlines()
 

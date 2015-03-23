@@ -103,7 +103,8 @@ set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV
 # Other parameters for run
 cd /Herwig/Generators
 set LHCGenerator:NumberOfEvents 10000000
-set LHCGenerator:RandomNumberGenerator:Seed 31122001
+#set LHCGenerator:RandomNumberGenerator:Seed 31122001
+set LHCGenerator:RandomNumberGenerator:Seed 322001
 set LHCGenerator:PrintEvent 500
 set LHCGenerator:MaxErrors 10000
 set LHCGenerator:EventHandler:LuminosityFunction:Energy 14000.0

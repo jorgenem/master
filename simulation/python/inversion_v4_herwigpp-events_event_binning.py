@@ -73,9 +73,11 @@ def smear2(p):
 
 #import the Herwig .txt file of events
 import sys
-# file = open("on-shell_decay_squarks_at_rest_10000_events.txt",'r')
-file = open("Pythia_cascade_events_no_ISR_or_FSR_20150120.log", 'r')
-herwig = False
+# file = open("../events/herwigpp_only_OFL_20150305.dat", 'r')
+file = open("../events/HERWIG-events-10pmomsmear.dat", 'r')
+# file = open("../events/HERWIG-events.dat", 'r')
+
+MeV = False
 lines = file.readlines()
 
 # Set known parameters
@@ -129,28 +131,49 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		# (the lepton/antilepton ordering is arbitrary in each chain, the lepton has been 
 		# chosen as 2/6 and the antilepton as 3/7)
 
-		# Read all particles from file
+
+		# # Read all particles from file
+		# # chain 1
+		# quark1 = lines[9*i + 1].split()
+		# p1 = np.matrix([ float(quark1[4]), float(quark1[1]), float(quark1[2]), float(quark1[3]), float(quark1[5]), int(quark1[0]) ])
+		# lepton11 = lines[9*i + 2].split()
+		# p2 = np.matrix([ float(lepton11[4]), float(lepton11[1]), float(lepton11[2]), float(lepton11[3]), float(lepton11[5]), int(lepton11[0]) ])
+		# lepton12 = lines[9*i + 3].split()
+		# p3 = np.matrix([ float(lepton12[4]), float(lepton12[1]), float(lepton12[2]), float(lepton12[3]), float(lepton12[5]), int(lepton12[0]) ])
+		# neutralino1 = lines[9*i + 4].split()
+		# p4 = np.matrix([ float(neutralino1[4]), float(neutralino1[1]), float(neutralino1[2]), float(neutralino1[3]), float(neutralino1[5]), int(neutralino1[0]) ])
+		# #chain2
+		# quark2 = lines[9*i + 5].split()
+		# p5 = np.matrix([ float(quark2[4]), float(quark2[1]), float(quark2[2]), float(quark2[3]), float(quark2[5]), int(quark2[0]) ])
+		# lepton21 = lines[9*i + 6].split()
+		# p6 = np.matrix([ float(lepton21[4]), float(lepton21[1]), float(lepton21[2]), float(lepton21[3]), float(lepton21[5]), int(lepton21[0]) ])
+		# lepton22 = lines[9*i + 7].split()
+		# p7 = np.matrix([ float(lepton22[4]), float(lepton22[1]), float(lepton22[2]), float(lepton22[3]), float(lepton22[5]), int(lepton22[0]) ])
+		# neutralino2 = lines[9*i + 8].split()
+		# p8 = np.matrix([ float(neutralino2[4]),
+
+		# Read all particles from file WITHOUT INVARIANT MASS
 		# chain 1
 		quark1 = lines[9*i + 1].split()
-		p1 = np.matrix([ float(quark1[4]), float(quark1[1]), float(quark1[2]), float(quark1[3]), float(quark1[5]), int(quark1[0]) ])
+		p1 = np.matrix([ float(quark1[4]), float(quark1[1]), float(quark1[2]), float(quark1[3]), int(quark1[0]) ])
 		lepton11 = lines[9*i + 2].split()
-		p2 = np.matrix([ float(lepton11[4]), float(lepton11[1]), float(lepton11[2]), float(lepton11[3]), float(lepton11[5]), int(lepton11[0]) ])
+		p2 = np.matrix([ float(lepton11[4]), float(lepton11[1]), float(lepton11[2]), float(lepton11[3]), int(lepton11[0]) ])
 		lepton12 = lines[9*i + 3].split()
-		p3 = np.matrix([ float(lepton12[4]), float(lepton12[1]), float(lepton12[2]), float(lepton12[3]), float(lepton12[5]), int(lepton12[0]) ])
+		p3 = np.matrix([ float(lepton12[4]), float(lepton12[1]), float(lepton12[2]), float(lepton12[3]), int(lepton12[0]) ])
 		neutralino1 = lines[9*i + 4].split()
-		p4 = np.matrix([ float(neutralino1[4]), float(neutralino1[1]), float(neutralino1[2]), float(neutralino1[3]), float(neutralino1[5]), int(neutralino1[0]) ])
+		p4 = np.matrix([ float(neutralino1[4]), float(neutralino1[1]), float(neutralino1[2]), float(neutralino1[3]), int(neutralino1[0]) ])
 		#chain2
 		quark2 = lines[9*i + 5].split()
-		p5 = np.matrix([ float(quark2[4]), float(quark2[1]), float(quark2[2]), float(quark2[3]), float(quark2[5]), int(quark2[0]) ])
+		p5 = np.matrix([ float(quark2[4]), float(quark2[1]), float(quark2[2]), float(quark2[3]), int(quark2[0]) ])
 		lepton21 = lines[9*i + 6].split()
-		p6 = np.matrix([ float(lepton21[4]), float(lepton21[1]), float(lepton21[2]), float(lepton21[3]), float(lepton21[5]), int(lepton21[0]) ])
+		p6 = np.matrix([ float(lepton21[4]), float(lepton21[1]), float(lepton21[2]), float(lepton21[3]), int(lepton21[0]) ])
 		lepton22 = lines[9*i + 7].split()
-		p7 = np.matrix([ float(lepton22[4]), float(lepton22[1]), float(lepton22[2]), float(lepton22[3]), float(lepton22[5]), int(lepton22[0]) ])
+		p7 = np.matrix([ float(lepton22[4]), float(lepton22[1]), float(lepton22[2]), float(lepton22[3]), int(lepton22[0]) ])
 		neutralino2 = lines[9*i + 8].split()
-		p8 = np.matrix([ float(neutralino2[4]), float(neutralino2[1]), float(neutralino2[2]), float(neutralino2[3]), float(neutralino2[5]), int(neutralino2[0]) ])
+		p8 = np.matrix([ float(neutralino2[4]), float(neutralino2[1]), float(neutralino2[2]), float(neutralino2[3]), int(neutralino2[0]) ])
 
 		# Take care of units - Herwig++ likes MeV, we like GeV (avoid disturbing the pdg code entry)
-		if herwig:
+		if MeV:
 			p1[0,0:5] /= 1000
 			p2[0,0:5] /= 1000
 			p3[0,0:5] /= 1000
@@ -161,10 +184,10 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 			p8[0,0:5] /= 1000
 
 		# Save stuff for plotting
-		quark1mass[i,0] = p1[0,5]
-		quark1mass[i,1] = p1[0,4]
-		quark2mass[i,0] = p5[0,5]
-		quark2mass[i,1] = p5[0,4]
+		# quark1mass[i,0] = p1[0,5]
+		# quark1mass[i,1] = p1[0,4]
+		# quark2mass[i,0] = p5[0,5]
+		# quark2mass[i,1] = p5[0,4]
 
 
 		# DETERMINANT TEST 
@@ -237,12 +260,12 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 
 		# need the pxmiss and pymiss, taken from the actual neutralino transverse momenta 
 		# (this is cheating, of course)
-		# pxmiss = p4[0,1]+p8[0,1]
-		# pymiss = p4[0,2]+p8[0,2]
+		pxmiss = p4[0,1]+p8[0,1]
+		pymiss = p4[0,2]+p8[0,2]
 
 		# Calculate missing transverse from (smeared) visible particles
-		pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
-		pymiss = - p1[0,2] - p2[0,2] - p3[0,2] - p5[0,2] - p6[0,2] - p7[0,2]
+		# pxmiss = - p1[0,1] - p2[0,1] - p3[0,1] - p5[0,1] - p6[0,1] - p7[0,1]
+		# pymiss = - p1[0,2] - p2[0,2] - p3[0,2] - p5[0,2] - p6[0,2] - p7[0,2]
 
 		# print "pxmiss", pxmisstrue - pxmiss
 		# print "pymiss", pymisstrue - pymiss
@@ -437,6 +460,7 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 	relative_fit_error = np.zeros((Nbins,4))
 
 	for i in range(Nbins):
+		print "Minimizing bin number",i+1
 
 		# m = Minuit(xisquared_identical_chains, 
 		# 		MZ=Minitial[0], #limit_MZ=(300, 700),
@@ -465,9 +489,10 @@ def minimize(Nbins, Nevents,resolution,Minitial,Mlowbound):
 		# Scipy minimization
 		m = sciopt.minimize(xisquared_identical_chains, Minitial, 
 						  args=(Nevents, i), method='Nelder-Mead', 
+						  jac=False, #if false BFGS estimates the gradient numerically
 						  bounds=((Mlowbound[0], None), (Mlowbound[1], None), (Mlowbound[2], None), (Mlowbound[3], None)),
-						  #tol=1e-40,
-						  options={'maxiter': 2000}
+						  tol=1e-12,
+						  options={'maxiter': 500}
 						  )
 		best_fit[i,:] = m.x[0], m.x[1], m.x[2], m.x[3], m.nfev, m.fun
 		relative_fit_error = 0
@@ -580,7 +605,7 @@ for mass_offset in [1]:
 	plt.text(MY+1,320,r'$\tilde\chi_2^0$',fontsize=20)
 	plt.text(MX+1,320,r'$\tilde l$',fontsize=20)
 	plt.text(MN+1,320,r'$\tilde \chi_1^0$',fontsize=20)
-	plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR.pdf'%mass_offset, format='pdf')
+	# plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR.pdf'%mass_offset, format='pdf')
 	plt.show()
 
 

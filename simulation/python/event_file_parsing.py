@@ -1,6 +1,6 @@
 import sys
-infile = open("../events/Pythia_cascade_events_no_ISR_or_FSR_20150120.dat",'r')
-outfile = open("../events/Pythia_cascade_events_no_ISR_or_FSR_20150120.dat_only_opposite_flavour_leptons.dat", 'w')
+infile = open("../events/herwigpp-9563-events-complete-momcons-20150314.dat",'r')
+outfile = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat", 'w')
 
 lines = infile.readlines()
 

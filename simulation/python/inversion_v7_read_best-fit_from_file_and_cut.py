@@ -4,12 +4,13 @@ import sys
 from matplotlib import pyplot as plt
 
 Nevents = 25
-Nbins = 100
 
 plot_counter = 1
 
 file = open("../best_fit_results/TEST.dat",'r')
 lines = file.readlines()
+
+Nbins = len(lines) - 2
 
 best_fit = np.empty((Nbins, 6))
 for i in range(Nbins):
@@ -42,7 +43,7 @@ msquark_passcut = []
 mchi2_passcut = []
 mslepton_passcut = []
 mchi1_passcut = []
-cut = 100**100 # xi^2 cut value in units of (100 GeV)^4
+cut = 100 # xi^2 cut value in units of (100 GeV)^4
 for i in range(len(best_fit[:,0])):
 	if best_fit[i,5] < float(cut):
 		msquark_passcut.append(best_fit[i,0])
@@ -56,7 +57,7 @@ def rmse_est(estimate_vector):
 	# rms deviation from mean
 	n = len(estimate_vector)
 	mean = np.mean(estimate_vector)
-	rmse = np.sqrt( np.mean( np.power( mean*np.ones(n)-estimate_vector , 2) ) )
+	rmse = np.sqrt( np.mean( np.power( mean*np.ones(n) - estimate_vector , 2) ) )
 	return rmse
 
 mean_msquark = np.mean(msquark_passcut)
@@ -95,29 +96,35 @@ xlim=[0,300]
 #print xlim, ylim
 
 plt.figure(plot_counter)
-plt.plot(mchi2_passcut, msquark_passcut, 'ro')
+plt.scatter(mchi2_passcut, msquark_passcut, s=12, c = 'r')
 # plt.xticks([100],[r'$\pi$'],fontsize=32)
 plt.xlim(xlim[0],xlim[1])
 plt.ylim(ylim[0],ylim[1])
 plt.hold('on')
-plt.plot(mslepton_passcut, msquark_passcut, 'bo')
-plt.plot(mchi1_passcut, msquark_passcut, 'yo')
+plt.scatter(mslepton_passcut, msquark_passcut, s=12, c='b')
+plt.scatter(mchi1_passcut, msquark_passcut, s=12, c='y')
 plt.plot(Mchi2*np.ones(2), ylim, 'r--')
 plt.plot(Mslepton*np.ones(2), ylim, 'b--')
 plt.plot(Mchi1*np.ones(2), ylim, 'y--')
 plt.plot(xlim, Msquark*np.ones(2), 'k--')
 plt.xlabel(r'$m_i \mathrm{[GeV]}$',fontsize=20)
 plt.ylabel(r'$m_{\tilde q} \mathrm{[GeV]}$',fontsize=20)
-plt.title("Nevents = %d, cut = %.2e, passcut-fraction = %.3f"%(Nevents,cut,len(msquark_passcut)/float(Nbins)))
+plt.text(236, 638, r"$N_\mathrm{events} = %d$" % Nevents, fontsize=14)
+plt.text(236, 624, r"$N_\mathrm{bins(total)} = %d$" % (Nbins), fontsize=14)
+if cut > 1e10:
+	plt.text(236, 610, r"$\mathrm{\xi^2_\mathrm{max}} = \infty$", fontsize=14)
+else:
+	plt.text(236, 610, r"$\mathrm{\xi^2_\mathrm{max}} = %d$" % cut, fontsize=14)
+plt.text(236, 596, r"$f_\xi = %d \%%  $" % (len(msquark_passcut)/float(Nbins)*100) , fontsize=14)
 plt.text(50,MZ+5,r'$\tilde q$',fontsize=20)
 plt.text(MY+1,420,r'$\tilde\chi_2^0$',fontsize=20)
 plt.text(MX+1,420,r'$\tilde l$',fontsize=20)
 plt.text(MN+1,420,r'$\tilde \chi_1^0$',fontsize=20)
-plt.text(5,460, "Best-fit values:")
-plt.text(5,450,r"squark : %d $\pm$ %d" %(round(mean_msquark), round(rmse_est_msquark)),fontsize=10)
-plt.text(5,440,r"chi2   : %d $\pm$ %d" %(round(mean_mchi2), round(rmse_est_mchi2)),fontsize=10)
-plt.text(5,430,r"slepton: %d $\pm$ %d" %(round(mean_mslepton), round(rmse_est_mslepton)),fontsize=10)
-plt.text(5,420,r"chi1   : %d $\pm$ %d" %(round(mean_mchi1), round(rmse_est_mchi1)),fontsize=10)
+# plt.text(5,460, "Best-fit values (%d bins):" %Nbins)
+plt.text(5,440,r"$m_{\tilde q} = %d \pm %d$" %(round(mean_msquark), round(rmse_est_msquark)),fontsize=14)
+plt.text(5,430,r"$m_{\tilde \chi_2^0} = %d \pm %d$" %(round(mean_mchi2), round(rmse_est_mchi2)),fontsize=14)
+plt.text(5,420,r"$m_{\tilde l} =  %d \pm %d$" %(round(mean_mslepton), round(rmse_est_mslepton)),fontsize=14)
+plt.text(5,410,r"$m_{\tilde \chi_1^0} =  %d \pm %d$" %(round(mean_mchi1), round(rmse_est_mchi1)),fontsize=14)
 # plt.savefig('100_bins_25_events_pythia_events_nelder-mead_%1.2f_initial_guess_no_ISR_or_FSR_xisquared-cut.pdf'%mass_offset, format='pdf')
 
 # plt.hold('off')

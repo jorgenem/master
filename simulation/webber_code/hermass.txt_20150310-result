@@ -1,0 +1,78 @@
+ ***************************************************************************
+  MINUIT RELEASE 96.03  INITIALIZED.   DIMENSIONS 100/ 50  EPSMAC=  0.89E-15
+ ***************************************************************************
+                          MINUIT DATA BLOCK NO.   1
+ ***************************************************************************
+ ENTER MINUIT TITLE, or "SET INPUT n" : 
+ SPS 1a force fit                                  
+ ******************************************************************************
+ ENTER MINUIT PARAMETER DEFINITION:     
+     1 'Msquark   '    540.00      0.10000         no limits
+ ENTER MINUIT PARAMETER DEFINITION:     
+     2 'Mneutr2   '    177.00      0.10000         no limits
+ ENTER MINUIT PARAMETER DEFINITION:     
+     3 'Msleptn   '    143.00      0.10000         no limits
+ ENTER MINUIT PARAMETER DEFINITION:     
+     4 'Mlsp      '    96.000      0.10000         no limits
+ ENTER MINUIT PARAMETER DEFINITION:     
+
+ MINUIT: FIRST CALL TO USER FUNCTION, WITH IFLAG=1
+
+ FCN=   0.000000     FROM PARAMETR  STATUS=RESET          2 CALLS        2 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME        VALUE          ERROR       NEGATIVE      POSITIVE  
+   1   Msquark      540.00       0.10000    
+   2   Mneutr2      177.00       0.10000    
+   3   Msleptn      143.00       0.10000    
+   4   Mlsp         96.000       0.10000    
+ ENTER MINUIT COMMAND:                  
+ **********
+ **    1 **SIMPLEX 
+ **********
+ START SIMPLEX MINIMIZATION.    CONVERGENCE WHEN EDM .LT.  0.10E+00
+   FUNCTION VALUE DOES NOT SEEM TO DEPEND ON ANY OF THE  4 VARIABLE PARAMETERS.
+          VERIFY THAT STEP SIZES ARE BIG ENOUGH AND CHECK FCN LOGIC.
+ *******************************************************************************
+ *******************************************************************************
+
+
+ FCN=   0.000000     FROM SIMPLEX   STATUS=UNCHANGED     12 CALLS       14 TOTAL
+                     EDM=  0.00E+00    STRATEGY= 1      NO ERROR MATRIX       
+
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME        VALUE          ERROR       NEGATIVE      POSITIVE  
+   1   Msquark      540.00       0.10000    
+   2   Mneutr2      177.00       0.10000    
+   3   Msleptn      143.00       0.10000    
+   4   Mlsp         96.000       0.10000    
+   FUNCTION VALUE DOES NOT SEEM TO DEPEND ON ANY OF THE  4 VARIABLE PARAMETERS.
+          VERIFY THAT STEP SIZES ARE BIG ENOUGH AND CHECK FCN LOGIC.
+ *******************************************************************************
+ *******************************************************************************
+
+   FUNCTION VALUE DOES NOT SEEM TO DEPEND ON ANY OF THE  4 VARIABLE PARAMETERS.
+          VERIFY THAT STEP SIZES ARE BIG ENOUGH AND CHECK FCN LOGIC.
+ *******************************************************************************
+ *******************************************************************************
+
+ SIMPLEX MINIMIZATION HAS CONVERGED.
+
+ FCN=   0.000000     FROM SIMPLEX   STATUS=UNCHANGED     17 CALLS       19 TOTAL
+                     EDM=  0.00E+00    STRATEGY= 1      NO ERROR MATRIX       
+
+  EXT PARAMETER               CURRENT GUESS      PHYSICAL LIMITS       
+  NO.   NAME        VALUE          ERROR       NEGATIVE      POSITIVE  
+   1   Msquark      540.00       0.10000    
+   2   Mneutr2      177.00       0.10000    
+   3   Msleptn      143.00       0.10000    
+   4   Mlsp         96.000       0.10000    
+ ENTER MINUIT COMMAND:                  
+ **********
+ **    2 **RETURN 
+ **********
+
+ CALL TO USER FUNCTION WITH IFLAG = 3
+
+ ..........MINUIT TERMINATED AND RETURNS TO USER PROGRAM.            
