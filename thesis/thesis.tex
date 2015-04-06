@@ -34,7 +34,7 @@ This is an abstract text.
 %\end{dedication}
 
 % \begin{acknowledgements}
-% Takk til Are Raklev for rettleiing, til Lars Dal og Anders Kvellestad for god hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk til Janne og pappa for alt. Takk også til Bryan Webber, Mona Semb, Tor Gjerrestad, Arild 
+% Takk til Are Raklev for god rettleiing, til Lars Dal og Anders Kvellestad for god hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk til Janne for at du er du. Takk til pappa. Takk også til Bryan Webber, Mona Semb, Tor Gjerrestad, Arild [], 
 % \end{acknowledgements}
 
 \tableofcontents
@@ -66,6 +66,7 @@ This is an abstract text.
 
 \chapter{Determination of SUSY particle masses from cascade decays}
 \label{chap:introducing_the_method}
+\marginpar{Better reformulate ``confirming'' the method since that is not what I do}
 In the following chapters we will present and discuss a method for determining the masses of supersymmetric particles in certain types of cascade decays. The present chapter formulates the type of process we are studying and the problems we face, and presents a novel method proposed by B. Webber \cite{Webber:2009vm} for making inferrals about the unknown masses. The subsequent chapters deal with confirmation and improvements on the method. We begin by simulating events, adding complexities layer by layer, confirming the method and getting some feeling for its aptitude. We then discuss some problems with the original formulation, suggest ways to amend these and look at ways to develop the method further.
 
 \section{The problem}
@@ -83,7 +84,7 @@ Many methods have been investigated for the purpose of measuring supersymmetric 
 \begin{align}
 	(m_{ll}^\mathrm{max})^2 = \frac{ \left( m^2_{\tilde{\chi}_2^0} - m^2_{\tilde{l}} \right) \left( m^2_{\tilde{l}} - m^2_{\tilde{\chi}_1^0} \right)}{m^2_{\tilde{l}}}, \label{eq:invariant_mass_endpoint}
 \end{align}
-thus constraining $m_{\tilde{\chi}_2^0}$, $m_{\tilde{l}}$ and $m_{\tilde{\chi}_1^0}$. Similar constraints may be obtained for the two other visible particle combinations, giving three equations with three unknowns. This method is very dependent on statistics, since each measured event only contributes one point to the distribution. A large number of events is required to get a reliable value.
+thus constraining $m_{\tilde{\chi}_2^0}$, $m_{\tilde{l}}$ and $m_{\tilde{\chi}_1^0}$. Similar constraints may be obtained for the two other visible particle combinations, giving three equations with three unknowns. This method is very dependent on statistics, since each measured event only contributes one point to the distribution. A large number of events is required to get a reliable value. However, the number of events contributing to the measurement is also much larger, since each side of the decay chain contribute individually, thus making use of one-sided chain events as well.
 
 \begin{figure}[hbt]
 \centering
@@ -188,10 +189,10 @@ Note that this quantity measures the goodness-of-fit of all the unknown masses e
 				  &= (p_A^2)_n - M_A^2.\nonumber
 \end{align}
 
-The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a very complicated function, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. 
+The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a potentially very complicated function, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. This is a realistic assumption in many SUSY scenarios.
 
-\section{Making sense of dimensions}\label{sec:dimension_fixing}
-The aptness of the method hangs on the invertibility of the matrix $\mathbf{A}$. However, the matrix as it stands in \eqref{eq:Amatrix_orig}, is ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$ \eqref{eq:Svec_orig}, have no dimension, while the other rows have dimension $(\mathrm{mass})^1$. This is reflected in the components of $\mathbf{S}$, which all except 4 and 8 have dimension $(\mathrm{mass})^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale (since some rows have non-zero dimension) and that it does not scale properly (since not all rows have the same dimension). This is something that Webber does not comment on, but we take steps to amend both problems.
+\section{Two technical modifications}\label{sec:dimension_fixing}
+The aptness of the method hangs on the invertibility of the matrix $\mathbf{A}$. However, the matrix as it stands in \eqref{eq:Amatrix_orig}, is technically ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$ \eqref{eq:Svec_orig}, have no dimension, while the other rows have dimension $(\mathrm{mass})^1$. This is reflected in the components of $\mathbf{S}$, which all except 4 and 8 have dimension $(\mathrm{mass})^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale (since some rows have non-zero dimension) and that it does not scale properly (since not all rows have the same dimension). This is something that Webber does not comment on (and the method works fine in this way), but we make some minor reformulations of the method in order to amend both problems.
 
 For the first, we redefine $S_4$ and $S_8$ to be 
 \begin{align}
@@ -223,7 +224,7 @@ This redefinition does not alter the solvability of the problem, since the only 
 	C_8 &\equiv (p_\mathrm{miss}^y)^2. \nonumber
 \end{align}
 
-The other problem was to make the mathematics dimensionless. All elements of $\mathbf{A}$ and $\mathbf{P}$ now have mass dimension 1, while all elements of $\mathbf{S}$, and thus $\mathbf{M}$ and $\mathbf{C}$, have dimension 2. We are free to multiply both sides of Eq. \eqref{eq:APS} by some normalization mass $M_\mathrm{norm}$ squared,
+The other problem is to make the mathematics dimensionless. All elements of $\mathbf{A}$ and $\mathbf{P}$ now have mass dimension 1, while all elements of $\mathbf{S}$, and thus $\mathbf{M}$ and $\mathbf{C}$, have dimension 2. We are free to multiply both sides of Eq. \eqref{eq:APS} by some normalization mass $M_\mathrm{norm}$ squared,
 \begin{align}
 	\frac{1}{M_\mathrm{norm}^2} \mathbf{A}\mathbf{P} = \frac{1}{M_\mathrm{norm}^2} \mathbf{S},
 \end{align}
@@ -244,6 +245,8 @@ To obtain numbers of order 1, which is optimal for numerical purposes, we should
 \end{align}
 the same order of magnitude as we expect for the supersymmetric masses ($\sim$ electroweak scale). 
 
+We have made thorough checks that this formulation and the original one produce identical results, so that indeed the formulations are equivalent.
+
 
 
 
@@ -254,11 +257,11 @@ the same order of magnitude as we expect for the supersymmetric masses ($\sim$ e
 
 \section{Taking account of combinatorics}
 \label{sec:combinatorics}
-In a real detector event, the ordering of the quarks and leptons in and between chains is not known -- all we have are the measured particle's type and momenta. We must take this into account when applying the method. Webber does this by evaluating all possible combinations in each event and selecting the combination which gives the lowest $\xi^2$ value, choosing to add this value to the sum in Eq. \eqref{eq:xisquared_modified}. The number of possible combinations are 8 or 16, depending on whether the lepton pairs in the two chains are the same flavour or not. 
+In a real detector event, the ordering of the quarks and leptons in and between chains is not known -- all we have are the measured particle types and their momenta. We must take this into account when applying the method to Monte Carlo simulated datasets. Webber does this by evaluating all possible combinations in each event at each mass point and selecting the combination which gives the lowest $\xi^2$ value, choosing to add this value to the sum in Eq. \eqref{eq:xisquared_modified}. The number of possible combinations are 8 or 16, depending on whether the lepton pairs in the two chains are the same flavour or not. 
 
 For two pairs of different-generation leptons, the possible orderings are (given some `base ordering' which we permute from): Switching the ordering of the leptons in the upper chain; switching the ordering of the leptons in the lower chain; or switching the leptons in both chains. For each of these permutations we have the option to switch the two quarks, so the total number of combinations is 8. In the case of identical leptons, we may additionally interchange leptons between the chains -- but this only increases the total combinations by a factor of 2 because the same-chain leptons must have opposite charge.
 
-Note that in order to switch the ordering of leptons within the same chain, all we need to do is permute the rows of the matrix $\mathbf{A}$. The vector $\mathbf{C}$ is invariant as long as the same-chain leptons have the same mass. When the quarks are flipped, however, or when leptons are interchanged between chains, then we must redefine $\mathbf{A}$ and $\mathbf{C}$. Webber makes a point that this property can save computer memory, since one only has to store two or four versions of the matrix and vector for each event. This is however not really a big issue with the amount of memory available in modern computers. 
+Note that in order to switch the ordering of leptons within the same chain, all we need to do is permute the rows of the matrix $\mathbf{A}$. The vector $\mathbf{C}$ is invariant as long as the same-chain leptons have the same mass. When the quarks are flipped, however, or when leptons are interchanged between chains, then we must redefine $\mathbf{A}$ and $\mathbf{C}$. Webber makes a point that this property can save computer memory, since one only has to store two or four versions of the matrix and vector for each event. We have not found this to be an issue.
 
 
 
@@ -272,7 +275,8 @@ Note that in order to switch the ordering of leptons within the same chain, all 
 
 
 \section{Outline of the plan}
-In this thesis we wish to investigate and hopefully develop this method further. We will begin by reproducing Webber's parton level results using Monte Carlo simulations. We will then add layers of realism and complexety approaching something closer to the real experimental situastion, in order to investigate its full potential. In the end we will focus on well motivated scenarios that can be discovered in Run II of the LHC.  Along the way we will also make some improvements on the method.
+\marginpar{Better reformulate away from ``reproduce'', and also modify to be what I actually do}
+In this thesis we wish to investigate and hopefully develop this method further. We will begin by reproducing Webber's parton level results using Monte Carlo simulations. We will then add layers of realism and complexety approaching something closer to the real experimental situation, in order to investigate its full potential. In the end we will focus on well motivated scenarios that can be discovered in Run II of the LHC.  Along the way we will also make some improvements on the method.
 
 The plan of attack is as follows:
 \begin{enumerate}
@@ -354,60 +358,77 @@ Webber uses Fortran {\scshape HERWIG} version 6.510 \cite{Corcella:2000bw,Morett
 	\label{fig:webber_scatter}
 \end{figure}
 
-We have made a thorough investigation of these results using a variety of tools. We have generated Monte Carlo events using both Herwig++ 2.7.1  \cite{Bahr:2008pv} and Pythia 8.2 \cite{Sjostrand:2014zea}. We have implemented the Simplex algorithm in various versions as well as other minimization algorithms for the fit. Webber himself also very generously sent us his own MC generation code, so we were able to make a quite close reconstruction of his analysis. But in the process of confirming his results, we have discovered what appears to be an error in the analysis. The error has to do with the choice of tolerance in the minimization routine. To understand this, we have to briefly discuss the Simplex algorithm.
+We have made a thorough investigation of these results using a variety of tools. We have generated Monte Carlo events using both Herwig++ 2.7.1  \cite{Bahr:2008pv} and Pythia 8.2 \cite{Sjostrand:2014zea}.\marginpar{Make use of Pythia or don't mention?} We have used the Simplex algorithm in various versions as well as other minimization algorithms for the fit. Webber himself also very generously sent us his own MC generation code, so we were able to make a quite close reconstruction of his analysis. But in the process of confirming his results, we have discovered what appears to be an error in the analysis. The error has to do with the choice of tolerance in the minimization routine. To understand this, we have to briefly discuss the Simplex algorithm.
 
 \subsubsection{The Nelder-Mead Simplex algorithm}
 
-{\scshape Simplex} \cite{nelder1965simplex} is a heuristic minimization search method for minimizing a scalar function of $N$ variables. It takes a starting parameter point as input from the user. From this parameter point it erects a {\it simplex}, an ``$N+1$-dimensional triangle''. It then begins to evaluate the function in the vertices of this simplex. A new simplex is constructed by reflecting the vertex with the highest function value around the (hyper)line made out of the other $N$ vertices. Hopefully this new simplex lies lower in the function terrain, and thus the algorithm iterates towards a local minimum. In case of trouble, it may also try contracting the simplex or distorting its shape in various ways to obtain points of lower function values. Since the method is heuristic, so is the convergence criterion. Convergence is said to be obtained when the {\it estimated distance to minimum (EDM)} is smaller than some set tolerance value. Usually there is also a predefined maximal number of iterations before the method gives up, to avoid going on forever on non-converging problems. The EDM is defined as
+{\scshape Simplex} \cite{nelder1965simplex} is a heuristic minimization search method for minimizing a scalar function of $N$ variables. It takes a starting parameter point as input from the user. From this parameter point it erects a {\it simplex}, an ``$N+1$-dimensional triangle''. It then begins to evaluate the function in the vertices of this simplex. A new simplex is constructed by reflecting the vertex with the highest function value around the (hyper)line made out of the other $N$ vertices. Hopefully this new simplex lies lower in the function terrain, and thus the algorithm iterates towards a local minimum. In case of trouble, it may also try contracting the simplex or distorting its shape in various ways to obtain points of lower function values. 
+
+Since the method is heuristic, so is the convergence criterion. Convergence is said to be obtained when the {\it estimated distance to minimum (EDM)} is smaller than some set tolerance value. Usually there is also a predefined maximal number of iterations before the method gives up, to avoid going on forever on non-converging problems. The EDM is defined as
 
 \begin{align}
 	\mathrm{EDM}(f_\mathrm{min},f_\mathrm{max}) = \frac{|f_\mathrm{max}-f_\mathrm{min}|}{|f_\mathrm{max}| + |f_\mathrm{min}|},
 \end{align}
-where $f_\mathrm{min}$ and $f_\mathrm{max}$ are the function values at the lowest and highest point of the current simplex, respectively. This means that the convergence criterion really measures how ``flat'' the function is. If the tolerance is too high, then, we run the risk of obtaining convergence in a region far from the minimum, but where the gradient is not steep enough to be resolved by the set tolerance.
+where $f_\mathrm{min}$ and $f_\mathrm{max}$ are the function values at the lowest and highest point of the current simplex, respectively. This means that the convergence criterion really measures how ``flat'' the function is. If the tolerance is too high, then, we run the risk of obtaining convergence in a region where the gradient is not steep enough to be resolved by the set tolerance, but which may still be far from the minimum.
 
-A pitfall of any minimization routine, also for Minuit Simplex, is that it has a default tolerance value which is used automatically unless the user specifically changes it. Minuit is often used for minimizing $\chi^2$ and log-likelihood functions, where the scale of the function is predetermined. For our problem, however, there is no such absolute scale. We have chosen to normalize the $\xi^2$ in units of $100 \, \mathrm{MeV}$, but this is just an ad-hoc choice that we observe gives numbers of order one in our calculations. There is no probabilistic interpretation of $\xi^2$, as Webber himself notes (footnote 1, p. 4 of \cite{Webber:2009vm}). The normalization 
+A pitfall of any minimization routine, also for Minuit Simplex, is that it has a default tolerance value which is used automatically unless the user specifically changes it. The default tolerance in Minuit Simplex is 0.1. This appears to be what Webber has used, since we obtain much the same results when choosing a similar value. But this does not resolve this particular function well enough, and leads to convergence at a non-minimal point. If, additionally, the search is started at or close to the best-fit point we believe in (in our case, the masses used to generate the Monte Carlo), then the minimization may obtain ``convergence'' at points very close to the optimal, but these points are not minimal points, just regions where the function is not very steep. If our goal is to get the minimal to be close to the true value, then we might be easily fooled.
 
-The default tolerance in Minuit Simplex is 0.1. This appears to be what Webber has used, since we obtain much the same results when choosing a similar value. But this does not resolve the function well enough, and leads to convergence at a non-minimal point. If additionally, as is the case here, the search is started at or close to the best-fit point we believe in (in our case, the masses used to generate the Monte Carlo), then the minimization may obtain ``convergence'' at points very close to the optimal, but these points are not minimal points, just quite flat. If our goal is to get the minimal to be close to the true value, then we might be easily fooled.
-
-% This appears to be what has happened in Webber's analysis. Refer to the scatter plot in figure 2 of \cite{Webber:2009vm}, displayed in figure \ref{fig:webber_scatter} for convenience. When we try to reproduce the results, we discover that we get very similar behaviour with a tolerance of order 0.1, while decreasing the tolerance dramatically alters the results. This is illustrated in the scatter plots shown in figure \ref{fig:webber_rec_scatter_tolerance-comparison}, where the same Herwig++ dataset is minimized with high and low tolerance, respectively.\footnote{Note that the SUSY masses used for the Monte Carlo, here and in the following, differ slightly from those Webber uses -- this is due to differences between RGE running programs.} We see that the former case compares well to Webber's scatter plot, and also the mean value and errors on the masses agree quite well. When the tolerance is decreased, however, the minimization search spreads out, and there is a bias toward lower mass values. These tendencies can be understood physically, as we will come back to. \marginpar{Remember to discuss the degenerate direction, valley behaviour and LSP resolution at some point}
 
 \subsubsection{The tolerance is too high}
 
-This appears to be what has happened in Webber's analysis. Refer to the scatter plot in figure 2 of \cite{Webber:2009vm}, displayed in figure \vref{fig:webber_scatter} for convenience. This scatter plot shows the fit corresponding to the first row of table \ref{table:webber_original}. We have reproduced this fit using Webber's own code -- albeit with one modification: Since we don't have access to the old ISAJET and ISAWIG software for RGE running of SUSY parameters, we have generated our SPS 1a parameter point using {\scshape SoftSUSY} version 3.4.1 \cite{Allanach:2001kg}, and converted the resulting SLHA \cite{Skands:2003cj} model file to ISAWIG format using the package {\scshape PySLHA} version 3.0.2\footnote{We actually had to do some work on the {\scshape PySLHA} code to fix quite a few errors in the formatting of the ISAWIG file. We have sent our edits to the {\scshape PySLHA} author, and they will be included in a future version.} \cite{Buckley:2013jua}. The effects of using a different RGE runner is that the SUSY masses are not exactly equal. The most significant shift is the squarks, which in Webber's case have a mass of 540 GeV, compared to 565 GeV in our case. We find that we get much the same type of results as Webber gives in his article.\marginpar{Should we reproduce Webber's original table for our ISAWIG file, i.e. minimize with default settings, just to have strict scrutiny?} Our reproduction of figure \ref{fig:webber_scatter} is shown in figure \vref{fig:webber_rec_scatter_tolerance-comparison} (subfigure a). 
+This appears to be what has happened in Webber's analysis. Refer to the scatter plot in figure 2 of \cite{Webber:2009vm}, displayed in figure \vref{fig:webber_scatter} for convenience. This scatter plot shows the fit corresponding to the first row of table \ref{table:webber_original}. We have reproduced this fit using Webber's own code -- albeit with one modification: Since we don't have access to the old ISAJET and ISAWIG software for RGE running of SUSY parameters, we have generated our SPS 1a parameter point using {\scshape SoftSUSY} version 3.4.1 \cite{Allanach:2001kg}, and converted the resulting SLHA \cite{Skands:2003cj} model file to ISAWIG format using the package {\scshape PySLHA} version 3.0.2\footnote{We actually had to do some work on the {\scshape PySLHA} code to fix quite a few errors in the formatting of the ISAWIG file. We have sent our edits to the {\scshape PySLHA} author, and they will be included in a future version.} \cite{Buckley:2013jua}. The effects of using a different RGE runner is that the SUSY masses are not exactly equal. The most significant shift is the squarks, which in Webber's case have a mass of 540 GeV, compared to 565 GeV in our case. We find that we get much the same type of results as Webber gives in his article when we run his code with the original settings for our SUSY parameter point.\marginpar{Should I reproduce Webber's original table for my ISAWIG file, i.e. minimize with default settings, to have strict scrutiny?} Our reproduction of figure \ref{fig:webber_scatter} is shown in figure \vref{fig:webber_rec_scatter_tolerance-comparison_a}. 
 
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.6\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_hightol_nocut.pdf} 
 		\caption{ }
+		\label{fig:webber_rec_scatter_tolerance-comparison_a}
 	\end{subfigure}
 
 	\begin{subfigure}[b]{0.6\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_nocut.pdf}
 		\caption{ } 
+		\label{fig:webber_rec_scatter_tolerance-comparison_b}
 	\end{subfigure}
 	\caption{Reproduction of Webber's fit (corresponding to figure \ref{fig:webber_scatter} and the first row of table \ref{table:webber_original}) for (a) original convergence tolerance and (b) a lower tolerance criterion.}
 	\label{fig:webber_rec_scatter_tolerance-comparison}
 \end{figure}
 
-However, the tolerance setting in {\scshape Minuit} can be adjusted. When we rerun the code used to produce figure \ref{fig:webber_rec_scatter_tolerance-comparison} (a) with the tolerance set to $10^{-12}$, we get the fit shown in \ref{fig:webber_rec_scatter_tolerance-comparison} (b). The results are not dramatically altered, but there are some features to notice: There is a clear tendency that the points lie along a line making about $45^\circ$ with the vertical, going southwest-northeast. This is a feature we should expect physically: If the fit reduces one of the masses, {\it e.g.\ } the squark, then this should affect the fit of the other masses, reducing them correspondingly.\footnote{This is part of the reason why these kinds of mass reconstruction methods very often reconstruct the squared mass {\it difference} rather than the masses themselves.} We also note that the masses are almost always lower than the true value, {\it i.e.\ } there is a bias in the fit. The fact that this physically reasonable degenerate direction appears when the tolerance is reduced indicates that a such a reduction is necessary to acheive correct results. Finally we note that while the mean value and errors on the masses are not that much worse than in the original fit, their accuracy is somewhat reduced. Particularly so for the LSP, where the fit is reduced from $99 \pm 3$ GeV to $83 \pm 19$ GeV (true value 97 GeV).
+However, the tolerance setting in {\scshape Minuit} can be adjusted. When we rerun the code used to produce figure \ref{fig:webber_rec_scatter_tolerance-comparison_a} with the tolerance set to $10^{-12}$, we get the fit shown in \ref{fig:webber_rec_scatter_tolerance-comparison_b}. The results are not dramatically altered, but there are some features to notice: There is a clear tendency that the points lie along a line making about $45^\circ$ with the vertical, going southwest-northeast. This is a feature we should expect physically: If the fit reduces one of the masses, {\it e.g.\ } the squark, then this should affect the fit of the other masses, reducing them correspondingly.\footnote{This is part of the reason why these kinds of mass reconstruction methods very often reconstruct the squared mass {\it difference} rather than the masses themselves.} The fact that this physically reasonable degenerate direction appears when the tolerance is reduced indicates that a such a reduction is necessary to achieve correct results. We also note that the fitted masses are slightly biased toward lower values. Finally we note that while the mean value and errors on the masses are not that much worse than in the original fit, their accuracy is somewhat reduced. Particularly so for the LSP, where the fit is reduced from $99 \pm 3$ GeV to $83 \pm 19$ GeV (true value 97 GeV).
 
-These fit results, with the low tolerance setting, are still not bad. However, in table \ref{table:webber_original}, Webber also gives best-fit values where he has applied smearing to the 4-momenta, as a crude approximation to the effects of limited detector resolution, {\it etc}. In figure \ref{fig:webber_rec_scatter_tolerance-comparison_10pmomsmear} we show scatter plots of the fits to the dataset smeared with $\delta p/p = 10 \%$, minimized with original and reduced tolerance, again using Webber's own code for event generation and minimization. The fit with original tolerance is consistent with figure 3 of \cite{Webber:2009vm}, as it should be. However, when the tolerance is reduced, the fit results are worsened considerably. Since each event is smeared individually, this appears to greatly affect the position of the minimum. Again we see that the LSP (yellow) recieves the roughest treatment, being pushed to much lower values than the true one in most cases.
+These fit results, with the low tolerance setting, are still not bad. However, in table \ref{table:webber_original}, Webber also gives best-fit values where he has applied smearing to the 4-momenta, as a crude approximation to the effects of limited detector resolution, {\it etc}. In figure \ref{fig:webber_rec_scatter_tolerance-comparison_5pmomsmear} we show scatter plots of the fits to the dataset smeared with $\delta p/p = 5 \%$, minimized with original and reduced tolerance, again using Webber's own code for event generation and minimization. The fit with original tolerance is consistent with figure 3 of \cite{Webber:2009vm}, as it should be. However, when the tolerance is reduced, the fit results are worsened considerably. Since each event is smeared individually, this appears to greatly affect the position of the minimum. Again we see that the LSP (yellow) recieves the roughest treatment, being pushed to much lower values than the true one in most cases. It gets even worse for the 10 \% smeared dataset. We also note that in the HERWIG code Webber uses, initial-state radiation of photons in SUSY decays is switched off, which contributes to making the measurement unrealistically good.
 
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_hightol_10pmomsmear_nocut.pdf} 
+		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_hightol_5pmomsmear_nocut.pdf} 
 		\caption{ }
 	\end{subfigure}
 
 	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_lowtol_10pmomsmear_nocut.pdf}
+		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_lowtol_5pmomsmear_nocut.pdf}
 		\caption{ } 
 	\end{subfigure}
-	\caption{Reproduction of Webber's momentum-smeared fit (corresponding to figure 3 of \cite{Webber:2009vm} and the fifth row of table \ref{table:webber_original}) for (a) original convergence tolerance and (b) a lower tolerance criterion.}
-	\label{fig:webber_rec_scatter_tolerance-comparison_10pmomsmear}
+	\caption{Reproduction of Webber's 5\% momentum-smeared fit (corresponding to the third row of table \ref{table:webber_original}) for (a) original convergence tolerance and (b) a lower tolerance criterion.}
+	\label{fig:webber_rec_scatter_tolerance-comparison_5pmomsmear}
 \end{figure}
+
+
+% \begin{figure}[hbt]
+% 	\centering
+% 	\begin{subfigure}[b]{0.6\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_hightol_10pmomsmear_nocut.pdf} 
+% 		\caption{ }
+% 	\end{subfigure}
+
+% 	\begin{subfigure}[b]{0.6\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_lowtol_10pmomsmear_nocut.pdf}
+% 		\caption{ } 
+% 	\end{subfigure}
+% 	\caption{Reproduction of Webber's 10 \% momentum-smeared fit (corresponding to figure 3 of \cite{Webber:2009vm} and the fifth row of table \ref{table:webber_original}) for (a) original convergence tolerance and (b) a lower tolerance criterion.}
+% 	\label{fig:webber_rec_scatter_tolerance-comparison_10pmomsmear}
+% \end{figure}
 
 However, Webber also investigates the effects of imposing a {\it cut} on the $\xi^2$ value obtained at the minimum. In his fits, this cut tends to remove the bad events, giving a better fit. Applying a cut also helps for the reduced-tolerance fit, although it doesn't salvage everything. In table \ref{table:webber_rec_lowtol} we reproduce table \ref{table:webber_original} for the reduced-tolerance fit. We note that the fraction of samples passing the $\xi^2$ cut is drastically reduced compared to table \ref{table:webber_original}. The fraction of events where the best-fit combination is the true one is also reduced by about half. 
 
@@ -426,48 +447,13 @@ However, Webber also investigates the effects of imposing a {\it cut} on the $\x
 		10 \% &	200 &		15 \%	& 33 \% & $549 \pm 20$	& 	$155 \pm 12$	&	$116 \pm 12$&	$38 \pm 25$ \\
 		\hline
 	\end{tabular}
-	\caption{Reproduction of the fits in table \ref{table:webber_original} but with reduced convergence tolerance.}
+	\caption{Reproduction of the fits in table \vref{table:webber_original}, but with reduced convergence tolerance.}
 	\label{table:webber_rec_lowtol}
 \end{table}
 
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.6\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/webber_rec_table/high-tol.pdf} 
-% 		\caption{ }
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.6\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/webber_rec_table/low-tol.pdf}
-% 		\caption{ } 
-% 	\end{subfigure}
-% 	\caption{Minimization on the same dataset for high tolerance (a) and lower tolerance (b).}
-% 	\label{fig:webber_rec_scatter_tolerance-comparison}
-% \end{figure}
-
-% In the process of understanding Webber's results we have compiled a similar table to \ref{table:webber_original}, table \ref{table:webber_rec}. We have played with the tolerance until we obtained something which resembles Webber's results, mainly focusing on the mean value and standard error on the best-fit masses. We note that we consistently get a significantly lower fraction of events accepted by $\xi^2$ cuts, and also significantly less events where the best-fit point has the correct combinatorical choice. The reasons for these discrepancies are not apparent -- generally it is very difficult to reproduce these kinds of results without knowing the details of the settings in the Monte Carlo event generation and minimization.
-
-% \begin{table}[hbt]
-% 	\centering
-% 	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
-% 		\hline
-% 		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
-% 		\hline \hline
-% 		0 & 	$\infty$ &	100 \%	& 36 \%	& $549 \pm 40$	&	$174 \pm 15$	&	$145\pm 10$	& 	$103 \pm 9$	\\
-% 		0 &		100 &		35 \%	& 52 \% & $562 \pm 9$	&	$180 \pm 2$		&	$146 \pm 2$	&	$98 \pm 4$	\\
-% 		5 \% &	$\infty$ &	100 \%	& 31 \% & $549 \pm 53$	& 	$174 \pm 15$	&	$146 \pm 7$&	$103 \pm 10$ \\
-% 		5 \% &	100 &		13 \%	& 43 \% & $563 \pm 9$	&	$180 \pm 2$		& 	$147 \pm 2$	&	$99 \pm 4$	\\
-% 		10 \% &	$\infty$ &	100 \%	& 29 \% & $540 \pm 57$	&	$177 \pm 14$	&	$150 \pm 9$&	$104 \pm 13$	\\
-% 		10 \% &	200 &		15 \%	& 33 \% & $565 \pm 14$	& 	$182 \pm 3$		&	$149 \pm 2$&	$97 \pm 6$ \\
-% 		\hline
-% 	\end{tabular}
-% 	\caption{Attempt at achieving similar fit results as in \cite{Webber:2009vm}.}
-% 	\label{table:webber_rec}
-% \end{table}
-
 \subsubsection{The starting-point dependence of the best-fit point}
 
-But what is really the problem with Webber's analysis? After all, he gets great results: He shows that the method very often yields best-fit values close to the true values, which is what we want. The problem is that he (and we) know where to expect the best-fit point to be, since it is input into the Monte Carlo by us. And this is where we start the best-fit search. In a real experiment, these parameters are exactly the unknowns we wish to find. So we must investigate what happens if we start our search in some other point. We have done this, and discover that this greatly affects the location of the best-fit points. In figure \ref{fig:starting_point_sensitivity_combinatorics} we show the best-fit points for four low-tolerance minimizations on the {\scshape HERWIG} dataset. Subfigure (a) is the same as \ref{fig:webber_rec_scatter_tolerance-comparison} (b), the minimization started from the true mass point (TMP). The other three are minimizations from other starting points, selected more or less at random. It is obvious that the fit is hugely dependent on where we start the search.
+There is, however, an even bigger issue with Webber's analysis. The problem is that he (and we) know where to expect the best-fit point to be, since it is input into the Monte Carlo by us. And this is where we start the best-fit search. In a real experiment, these parameters are exactly the unknowns we wish to find. So we must investigate what happens if we start our search in some other point. We have done this, and discover that this greatly affects the location of the best-fit points. In figure \ref{fig:starting_point_sensitivity_combinatorics} we show the best-fit points for four low-tolerance minimizations on the {\scshape HERWIG} dataset. Subfigure (a) is the same as \ref{fig:webber_rec_scatter_tolerance-comparison} (b), the minimization started from the true mass point (TMP). The other three are minimizations from other starting points, selected more or less at random. It is obvious that the fit is hugely dependent on where we start the search.
 
 \begin{figure}[hbt]
 	\centering
@@ -492,80 +478,178 @@ But what is really the problem with Webber's analysis? After all, he gets great 
 	\label{fig:starting_point_sensitivity_combinatorics}
 \end{figure}
 
-% The reason that we end up close to the true masses in most cases above is that we begin the search there. If we had started looking in some other more or less random point, we would not have gotten anywhere near as good results -- {\it because there is no minimum where we seem to have found it}. As an illustration, consider the scatter plot in figure \ref{fig:webber_rec_wrong_starting_point}, where the same dataset as above (without momentum smearing) is minimized with the same tolerance settings -- only we have started the search at the point $\vec M = (800, 500, 300, 50)$. There is no system in the points, and most of them end up outside the plotting region. 
 
 
-It might however be that the function has multiple local minima, giving rise to the behaviour in figure \ref{fig:starting_point_sensitivity_combinatorics}, but that the {\it global} minimum is the one we find by starting in the TMP. To investigate this, we have made a scan of many starting points, minimizing the whole 100 bin dataset from each starting point. We selected five different values for each of the four SUSY masses and checked all combinations which make physical sense ({\it i.e.\ }where the mass hierarchy is present). This gave a total of 132 different starting points, which were indexed from 1 to 132. The TMP was point number 34. For each bin we then checked which index had the lowest $\xi^2$ value. Figure \ref{fig:webber_rec_hist_starting_points} shows a histogram of this. We see that number 34, the TMP, indeed dominates, but it is only the lowest in 14 of the 100 bins. The other 86 bins are distributed quite evenly among the other starting points. This leads us to conclude that the minimization, using this technique, simply is not well defined: There is no reasonable hope that we will be able to find a reliable best-fit estimate in an experimental situation where the TMP is unknown. This is especially true given that this scan was done on the unsmeared dataset -- we should expect even worse results when the resolution gets blurred by uncertainties.
-
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=0.8\textwidth]{figures/webber_rec_table/histogram_of_starting_points_with_lowest_minimal_value.pdf}
-	\caption{A histogram of 100 data bins minimized from different starting points, showing distribution of lowest $\xi^2$ values. See the text for details.}
-	\label{fig:webber_rec_hist_starting_points}
-\end{figure}
-
-
+It might however be that the function has multiple local minima, giving rise to the behaviour in figure \ref{fig:starting_point_sensitivity_combinatorics}, but that the {\it global} minimum is the one we find by starting in the TMP. To investigate this, we have run minimizations (with low tolerance) where we perturb the starting point of each of the four parameters for each event sample away from the TMP by a gaussian distribution of width 10 or 20 GeV. This is a minor perturbation relative to the masses. The minimization results are shown in table \vref{table:webber_rec_lowtol_perturbedSP} for perturbations of 10 (top) and 20 (bottom) GeV. The standard errors of the fit increase considerably compared with \vref{table:webber_rec_lowtol}. This indicates that even with initial guesses that are this close to the TMP, we cannot trust the minimization algorithm to find the true minimum. This is a strong indication that the method is not usable. \marginpar{The error does not blow up as high as we might have anticipated. Use a larger smearing factor for larger effect, or does this prove the point?}
+ 
+% we have made a scan of many starting points, minimizing the whole 100 bin dataset from each starting point. We selected five different values for each of the four SUSY masses and checked all combinations which make physical sense ({\it i.e.\ }where the mass hierarchy is present). This gave a total of 132 different starting points, which were indexed from 1 to 132. The TMP was point number 34. For each bin we then checked which index had the lowest $\xi^2$ value. Figure \ref{fig:webber_rec_hist_starting_points} shows a histogram of this. We see that number 34, the TMP, indeed dominates, but it is only the lowest in 14 of the 100 bins. The other 86 bins are distributed quite evenly among the other starting points. This leads us to conclude that the minimization, using this technique, simply is not well defined: There is no reasonable hope that we will be able to find a reliable best-fit estimate in an experimental situation where the TMP is unknown. This is especially true given that this scan was done on the unsmeared dataset -- we should expect even worse results when the resolution gets blurred by uncertainties.
 
 % \begin{figure}[hbt]
 % 	\centering
-% 	\includegraphics[width=0.8\textwidth]{figures/webber_rec_table/wrong_starting_point.pdf} 
-% 	\caption{Minimization with the same tolerance as was used to produce table \ref{table:webber_rec}, but started far from the true mass point.}
-% 	\label{fig:webber_rec_wrong_starting_point}
+% 	\includegraphics[width=0.8\textwidth]{figures/webber_rec_table/histogram_of_starting_points_with_lowest_minimal_value.pdf}
+% 	\caption{A histogram of 100 data bins minimized from different starting points, showing distribution of lowest $\xi^2$ values. See the text for details.}
+% 	\label{fig:webber_rec_hist_starting_points}
 % \end{figure}
 
 
+\begin{table}[hbt]
+	\centering
+	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
+		\hline
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
+		\hline \hline
+		10 GeV: & & & & & & & \\ 
+		\hline
+		0 & 	$\infty$ &	100 \%	& 47 \%	& $559 \pm 29$	&	$170 \pm 19$	&	$131 \pm 20$	& 	$68 \pm 38$	\\
+		0 &		100 &		76 \%	& 48 \% & $564 \pm 12$	&	$175 \pm 13$		&	$137 \pm 14$	&	$83 \pm 25$	\\
+		5 \% &	$\infty$ &	100 \%	& 38 \% & $557 \pm 24$	& 	$163 \pm 18$	&	$123 \pm 20$&	$52 \pm 36$ \\
+		5 \% &	100 &		55 \%	& 37 \% & $559 \pm 16$	&	$168 \pm 13$	& 	$130 \pm 15$	&	$72 \pm 22$	\\
+		10 \% &	$\infty$ &	100 \%	& 28 \% & $542 \pm 42$	&	$153 \pm 19$	&	$113 \pm 21$&	$19 \pm 31$	\\
+		10 \% &	200 &		44 \%	& 26 \% & $550 \pm 21$	& 	$159 \pm 18$	&	$119 \pm 20$&	$38 \pm 36$ \\
+		\hline
+		20 GeV: & & & & & & & \\ 
+		\hline
+		0 & 	$\infty$ &	100 \%	& 42 \%	& $555 \pm 32$	&	$167 \pm 23$	&	$126 \pm 24$	& 	$60 \pm 41$	\\
+		0 &		100 &		67 \%	& 44 \% & $564 \pm 14$	&	$173 \pm 14$	&	$135 \pm 16$	&	$82 \pm 24$	\\
+		5 \% &	$\infty$ &	100 \%	& 34 \% & $550 \pm 45$	& 	$162 \pm 23$	&	$123 \pm 22$&	$46 \pm 39$ \\
+		5 \% &	100 &		54 \%	& 34 \% & $554 \pm 23$	&	$163 \pm 21$	& 	$125 \pm 21$	&	$63 \pm 31$	\\
+		10 \% &	$\infty$ &	100 \%	& 28 \% & $543 \pm 37$	&	$153 \pm 25$	&	$125 \pm 21$&	$16 \pm 32$	\\
+		10 \% &	200 &		37 \%	& 27 \% & $539 \pm 22$	& 	$151 \pm 20$	&	$113 \pm 18$&	$24 \pm 31$ \\
+		\hline
+	\end{tabular}
+	\caption{Reproduction of the fits in table \vref{table:webber_rec_lowtol} with perturbations of 10 and 20 GeV, respectively, on the starting points.}
+	\label{table:webber_rec_lowtol_perturbedSP}
+\end{table}
 
 
-\clearpage
+% 20 GeV perturbation on starting points:
+
+% nosmear nocut
+% squark : 555 \pm 32
+% chi2   : 167 \pm 23
+% slepton: 126 \pm 24
+% chi1   : 60 \pm 41
+
+% nosmear cut100
+% squark : 564 \pm 14
+% chi2   : 173 \pm 14
+% slepton: 135 \pm 16
+% chi1   : 82 \pm 24
+
+% 5psmear nocut
+% squark : 550 \pm 45
+% chi2   : 162 \pm 23
+% slepton: 123 \pm 22
+% chi1   : 46 \pm 39
+
+% 5psmear cut100
+% squark : 554 \pm 23
+% chi2   : 163 \pm 21
+% slepton: 125 \pm 21
+% chi1   : 63 \pm 31
+
+% 10psmear nocut
+% squark : 543 \pm 37
+% chi2   : 153 \pm 25
+% slepton: 113 \pm 25
+% chi1   : 16 \pm 32
+
+% 10psmear cut200
+% squark : 539 \pm 22
+% chi2   : 151 \pm 20
+% slepton: 113 \pm 18
+% chi1   : 24 \pm 31
+
+
+
+
+% 10 GeV perturbation on starting points:
+
+% nosmear nocut
+% squark : 559 \pm 29
+% chi2   : 170 \pm 19
+% slepton: 131 \pm 20
+% chi1   : 68 \pm 38
+
+% nosmear cut100
+% squark : 564 \pm 12
+% chi2   : 175 \pm 13
+% slepton: 137 \pm 14
+% chi1   : 83 \pm 25
+
+% 5psmear nocut
+% squark : 557 \pm 24
+% chi2   : 163 \pm 18
+% slepton: 123 \pm 20
+% chi1   : 52 \pm 36
+
+% 5psmear cut100
+% squark : 559 \pm 16
+% chi2   : 168 \pm 13
+% slepton: 130 \pm 15
+% chi1   : 72 \pm 22
+
+% 10psmear nocut
+% squark : 542 \pm 42
+% chi2   : 153 \pm 19
+% slepton: 113 \pm 21
+% chi1   : 19 \pm 31
+
+% 10psmear cut200
+% squark : 550 \pm 21
+% chi2   : 159 \pm 18
+% slepton: 119 \pm 20
+% chi1   : 38 \pm 36
 
 
 
 
 
 
-\section{Investigating improvements}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Investigating improvements}%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\marginpar{This chapter is in no way finished, and some parts are more like a discussion with myself than something I plan to include.}
 The objective of this thesis is to investigate and {\it improve} Webber's method. Having shown that there are problematic issues with Webber's demonstration of the method, we seem to be at odds with this goal. We have to try to pick up the pieces: Given that we from now on do a proper minimization ({\it i.e.\ } use a low enough tolerance), what can we hope to get out of the method? 
 
-% The first thing to check is that choosing a proper tolerance in fact gives meaningful results when we begin the minimization at other points than the true mass values. If it does not, then we may dealing with a function that has no well-defined minimum -- which might well be the case, since we have included combinatorics, making the relatively simple polynomial of eq. \eqref{eq:xisquared} into something much more complicated. (The polynomial itself, being fourth order in each of the squared masses, can have only a limited number of local minima and should have a well-defined global one.) 
-
-% And we do seem to be in trouble, because the minimization performance depends heavily on the choice of starting point. Figure \ref{fig:moving_on-starting_point_sensitivity_combinatorics} shows the minimization on the Herwig++ dataset, with combinatorics, for four different starting points. Subfigure {\bf (a)} is the true mass point, the other three are chosen somewhat randomly both over and under the true values. In all cases, the tolerance is set very low ($10^-12$) and the maximal number of iterations accepted is 500.
-
-We saw in the previous section that the minimization was not well-defined, since it depended heavily on the choice of starting point. This was however a minimization done with the full inclusion of combinatorical ambiguities (see section \ref{sec:combinatorics}). While these ambiguities are clearly unavoidable -- we do not know \`{a} priori which particles belong together -- there may be other ways to handle them than the crude method applied in the above analysis. For one thing, it may be possible to rule out certain combinations based on phase-space cuts -- if there is a large mass hierarchy between {\it e.g.} the squark and its daughter, then the subsequent chain will be quite colinear, thus possibly ruling out combinations with large angles between momenta. It might also be possible to use other kinematical constraints, like the end-point method mentioned in section \ref{chap:introducing_the_method}, to rule out combinations. 
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-568-180-144-97-maxiter500-comb-nocut.pdf} 
-% 		\caption{ }
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-800-500-300-50-maxiter500-comb-nocut.pdf}
-% 		\caption{ } 
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-400-300-200-100-maxiter500-comb-nocut.pdf} 
-% 		\caption{ }
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-1000-100-80-30-maxiter500-comb-nocut.pdf}
-% 		\caption{ } 
-% 	\end{subfigure}
-% 	\caption{Minimization on the same dataset for different starting points: $\vec M = (568, 180, 144, 97)$ (the true mass point) in {\bf (a)}, $\vec M = (800, 500, 300, 50)$ in {\bf (b)}, $\vec M = (400, 300, 200, 100)$ in {\bf (c)} and $\vec M = (1000, 100, 80, 30)$ in {\bf (d)}.}
-% 	\label{fig:moving_on-starting_point_sensitivity_combinatorics}
-% \end{figure}
-
-% This clearly does not work. The minimization does not find starting point-independent best-fit points. This means that the minimization problem is unsolvable. This may either indicate that the function is flat ({\it i.e.\ } the minimum is highly degenerate), that it has multiple local minima (they are highly non-trivial to classify because the function is so compliated) or that the Simplex method just cannot handle this problem ({\it e.g.\ } because the function is non-smooth). In any case, we must look for another approach.
 
 
+\section{What can be salvaged}
 
+There may still be hope, however. If we for a moment forget about the combinatorics, and evaluate only the true particle combination for each event, then the minimization is in fact well-defined. This is illustrated in figure \ref{fig:starting_point_sensitivity_no_combinatorics}, which shows minimization of 100 samples of 25 events minimized with low tolerance, but only evaluated with the correct combination of chain particles.\footnote{This dataset is generated with {\scshape Herwig++} version 2.7.1 \cite{Bahr:2008pv} and minimized using our own implementation of the {\scshape Simplex} algorithm in C++. We have made thorough checks that this gives identical results with the Fortran {\scshape HERWIG} program used above.} There are discrepancies between the fits, mainly between subfigure d and the others. In particular, while about 85 of the samples converge within the set limit of 500 iterations in each of the cases a, b and c (indicated by the value of $N_\mathrm{bins(total)}$ in the top right of each plot), this number is reduced to 67 in subfigure d. The starting point in case (d) is characterized by a much larger mass gap between the squark and the $\tilde\chi_2^0$ than in the TMP, which we might surmise would give rise to very different kinematics than we have in our events. In any case, the minimization is not a heavy calculation (the whole minimization of 100 bins, including combinatorics, is done in fractions of a second on a single CPU core), so doing a scan like the one we made above over different starting points is not unrealistic. 
 
-\subsection{What can be salvaged}
-
-There may still be hope, however. If we for a moment forget about the combinatorics, and evaluate only the true particle combination for each event, then the minimization is well-defined. This is illustrated in figure \ref{fig:starting_point_sensitivity_no_combinatorics}, which shows minimization of 100 samples of 25 events minimized with low tolerance, but only evaluated with the correct combination of chain particles.\footnote{This dataset is generated with {\scshape Herwig++} version 2.7.1 \cite{Bahr:2008pv} and minimized using our own implementation of the {\scshape Simplex} algorithm in C++. We have made thorough checks that this gives identical results with the Fortran {\scshape HERWIG} program used above.} There are discrepancies between the fits, mainly between subfigure d and the others. In particular, while about 85 of the samples converge within the set limit of 500 iterations in each of the cases a, b and c (indicated by the value of $N_\mathrm{bins(total)}$ in the top right of each plot), this number is reduced to 67 in subfigure d. The starting point in case (d) is characterized by a much larger mass gap between the squark and the $\tilde\chi_2^0$ than in the TMP, which we might surmise would give rise to very different kinematics than we have in our events. In any case, the minimization is not a heavy calculation (the whole minimization of 100 bins, including combinatorics, is done in fractions of a second on a single CPU core), so doing a scan like the one we made above over different starting points is not unrealistic. 
-
-
-% , but this appears to mainly concern the outlying points, where the fit is bad anyway, and which we might hope to remove by a cut on the $\xi^2$. The main clusters of points are fitted the same in all four cases, which shows that they are in fact real and well-defined best-fit points. 
 
 
 \begin{figure}[hbt]
@@ -588,72 +672,175 @@ There may still be hope, however. If we for a moment forget about the combinator
 		\caption{ } 
 	\end{subfigure}
 	\caption{An equivalent fit to figure \ref{fig:starting_point_sensitivity_combinatorics} (on a {\ttfamily Herwig++} dataset), but the $\xi^2$ contribution is only evaluated for the true particle combination in each event.}
-	\label{fig:moving_on-starting_point_sensitivity_no_combinatorics}
+	\label{fig:starting_point_sensitivity_no_combinatorics}
+\end{figure}
+
+We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 5 \% smeared dataset for the same four starting points.\footnote{The momentum smearing is done in the same way Webber does it, which is to smear the spatial components according to the gaussian, and then define the energy in such a way that the invariant mass is unchanged.} The plots are shown in figure \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. We find that it indeed is a well-defined minimization -- but the LSP mass is fitted to zero in most samples! It appears that when the data is smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to {\it the absolute mass scale} of the problem. This is a well-known problem with methods for mass reconstruction -- even in the Standard Model, where the masses of the neutrinos are not known, only the mass-square difference.
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_5psmear_lowtol_nocomb_TMP.pdf} 
+		\caption{ }
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_5psmear_lowtol_nocomb_400-300-200-100.pdf}
+		\caption{ } 
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_5psmear_lowtol_nocomb_800-500-300-50.pdf} 
+		\caption{ }
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_5psmear_lowtol_nocomb_1000-100-80-30.pdf}
+		\caption{ } 
+	\end{subfigure}
+	\caption{Again the same fit as in \ref{fig:starting_point_sensitivity_combinatorics} and \ref{fig:starting_point_sensitivity_no_combinatorics}, here with a 5 \% smeared dataset and no combinatorics.}
+	\label{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}
+\end{figure} 
+
+In a later article \cite{Nojiri:2010dk}, Webber and collaborators reformulate the method in terms of just these squared mass differences. There is no mention of the rationale behind this, but it is easy to suspect that they ran into the same problems as we have when developing the method further. In any case, we can borrow their idea and reformulate the problem as a mass-squared-difference fit. 
+
+Referring back to chapter one, and the way the reconstruction was formulated in terms of matrices, the only modifications we have to make are the following: Define a vector $\mathbf{M}$ of mass-squared {\it differences}
+
+\begin{align}
+	\mathbf{M} = (M_1, M_2, M_3),
+\end{align}
+where
+\begin{align}
+	M_1 = M_D^2 - M_C^2, \, M_2 = M_C^2 - M_B^2, \, M_3 = M_B^2 - M_A^2,
+\end{align}
+and observe that the vector $\mathbf{S}$ may still be written as
+\begin{align}
+	\mathbf{S} = \mathbf{B}\mathbf{M} + \mathbf{C},
+\end{align}
+provided we let
+\begin{align}
+	\mathbf{B} = \begin{pmatrix}
+					-1 & 0 & 0 \\
+					0 & -1 & 0 \\
+					0 & 0 & -1 \\
+					0 & 0 & 0 \\
+					-1 & 0 & 0  \\
+					0 & -1 & 0  \\
+					0 & 0 & -1  \\
+					0 & 0 & 0 \\
+	\end{pmatrix}.
+\end{align}
+Thus the reconstructed LSP momenta $\mathbf{P} = (p_A^x, p_A^y, p_A^z, E_A, p_{A'}^x, p_{A'}^y, p_{A'}^z, E_{A'})$ are still given as 
+\begin{align}
+	\mathbf{P} = \mathbf{A}^{-1}\mathbf{B}\mathbf{M} + \mathbf{A}^{-1}\mathbf{C},
+\end{align}
+where $\mathbf{M}$ and $\mathbf{B}$ are modified and $\mathbf{A}$ and $\mathbf{C}$ are as before.
+
+This means that we can reformulate our problem, with minimal code changes, to fit $M_{1,2,3}$ instead. A fit of the unsmeared dataset with this method, not considering combinatorics, is shown in figure \vref{fig:MD_nocomb}. We immediately investigate whether the reduction from four to three unknowns have amended the combinatorical problems so that Webber's method now works -- but alas, as figure \vref{fig:MD_starting_point_sensitivity_combinatorics} shows, the starting point dependence is still highly present.
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/improving_combinatorics/MD_hwpp_completemomcons_nosmear_nocut_nocomb.pdf} 
+	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset, without combinatorics.}
+	\label{fig:MD_nocomb}
+\end{figure}
+
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/MD_hwpp_completemomcons_nosmear_nocut_comb_TMP.pdf} 
+		\caption{ }
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/MD_hwpp_completemomcons_nosmear_nocut_comb_400-300-200-100.pdf}
+		\caption{ } 
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/MD_hwpp_completemomcons_nosmear_nocut_comb_800-500-300-50.pdf} 
+		\caption{ }
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/MD_hwpp_completemomcons_nosmear_nocut_comb_1000-100-80-30.pdf}
+		\caption{ } 
+	\end{subfigure}
+	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics done according to Webber, for the four different starting points used earlier.}
+	\label{fig:MD_starting_point_sensitivity_combinatorics}
 \end{figure}
 
 % \begin{figure}[hbt]
 % 	\centering
 % 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-568-180-144-97-maxiter1000-nocomb-nocut.pdf} 
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_TMP.pdf} 
 % 		\caption{ }
 % 	\end{subfigure}
 % 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-800-500-300-50-maxiter1000-nocomb-nocut.pdf}
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_400-300-200-100.pdf}
 % 		\caption{ } 
 % 	\end{subfigure}
 
 % 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-400-300-200-100-maxiter1000-nocomb-nocut.pdf} 
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_800-500-300-50.pdf} 
 % 		\caption{ }
 % 	\end{subfigure}
 % 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/moving_on/herwig-1000-100-80-30-maxiter1000-nocomb-nocut.pdf}
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_1000-100-80-30.pdf}
 % 		\caption{ } 
 % 	\end{subfigure}
-% 	\caption{The same fit as in figure \ref{fig:moving_on-starting_point_sensitivity_combinatorics}, but without taking combinatorics into account.}
-% 	\label{fig:moving_on-starting_point_sensitivity_no_combinatorics}
+% 	\caption{Again the same fit as in \ref{fig:starting_point_sensitivity_combinatorics} and \ref{fig:starting_point_sensitivity_no_combinatorics}, here with a 10 \% smeared dataset and no combinatorics.}
+% 	\label{fig:moving_on-starting_point_sensitivity_no_combinatorics_10pmomsmear}
 % \end{figure}
 
-We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 10 \% smeared dataset for the same four starting points.The plots are shown in figure \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_10pmomsmear}. We find that it indeed is a well-defined minimization -- but the LSP mass is fitted to zero! It appears that when the data is smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to {\it the absolute mass scale} of the problem. This is a well-known problem with methods for mass reconstruction -- in the Standard Model, the masses of the neutrinos are not known, only the mass-square difference. 
 
-\begin{figure}[hbt]
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_TMP.pdf} 
-		\caption{ }
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_400-300-200-100.pdf}
-		\caption{ } 
-	\end{subfigure}
-
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_800-500-300-50.pdf} 
-		\caption{ }
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_10psmear_lowtol_nocomb_1000-100-80-30.pdf}
-		\caption{ } 
-	\end{subfigure}
-	\caption{Again the same fit as in \ref{fig:starting_point_sensitivity_combinatorics} and \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics}, here with a 10 \% smeared dataset and no combinatorics.}
-	\label{fig:moving_on-starting_point_sensitivity_no_combinatorics_10pmomsmear}
-\end{figure}
-
+\clearpage
+\section{Loose ends and thoughts (very unfinished)}
 
 Of course, we still have to take the combinatorical ambiguities into account. But the approach where we evaluate all combinations at each point to determine the kinematically best combination, as outlined in section \ref{sec:combinatorics}, seems to be useless. 
 % What if we instead minimize the $\xi^2$ for each {\it event} separately, for all 
 
 
 
+We saw in the previous chapter that the minimization was not well-defined, since it depended heavily on the choice of starting point. This was however a minimization done with the full inclusion of combinatorical ambiguities (see section \ref{sec:combinatorics}). While these ambiguities are clearly unavoidable -- we do not know \`{a} priori which particles belong together -- there may be other ways to handle them than the intuitive method applied in the above analysis. It might be possible to use other kinematical constraints, like the end-point method mentioned in section \ref{chap:introducing_the_method}, to rule out combinations. We could also try to minimize a separate $\xi^2$ for each combination in each event, and select the combination which gives the lowest value as the true one -- {\bf if} this turns out to correlate with the correct combination. In \cite{Gripaios:2011jm} there is a comprehensive discussion of the relationship between different combinations -- maybe we can exploit these relationships to pin down the correct combination? Or borrow some other ideas from it?
+
+We should also investigate methods to identify events which contribute badly to the fit, so they can be dropped. We might try to use the event-wise $\xi^2$ for this, dropping events with a large minimum. We could also hope to use the determinant of the matrix A to identify events that are difficult to invert (small determinant), surmising that they also will give poor reconstruction. We should also investigate the determinant for the different combinatorical choices -- maybe we can rule out some combinations based on this? (Although several combinations share the same A.)
+
+Below it turns out that the method seems insensitive to the LSP mass -- I am starting to think that the way they do it in \cite{Nojiri:2010dk}, fitting the squared mass differences instead, is all we can hope to do. But this should be tried together with using the dilepton end-point to pin the LSP mass, which MAY give a full reconstruction again. Or at least some more plots.
+
 
 
 
 \begin{itemize}
 	\item Minimize separately for each event? Do something to make it steep enough?
-	\item combinatorical elimination: momentum cuts, angles, invariant mass edge. Angular selection: squarks produced more or less at rest (except if they come from gluino in a large mass-gap scenario). But if there is a mass gap further down, does this give anisotropies in angular distributions of opposite-chain particles?
+	\item combinatorical elimination: momentum cuts, angles, invariant mass edge. Angular selection: squarks produced more or less at rest (except if they come from gluino in a large mass-gap scenario). But if there is a mass gap further down, does this give anisotropies in angular distributions of opposite-chain particles? Don't focus on angles.
 	\item migrad or similar for minimization of 1-event bins? Provide gradient, analytical or numerical?
 	\item combinatorical issues with three or four hard squarks -- gluino-gluino vs gluino-squark vs squark-squark/squark-antisquark. Nllfast to give xsec. 
+	\item Examine correlation between det(A) and minimization performance. 
+	\item Include plots of the $\xi^2$ surface somewhere suitable -- maybe we can even compare combinatorics vs no combinatorics in a nice way?
 \end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1431,16 +1618,37 @@ Of course, we still have to take the combinatorical ambiguities into account. Bu
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Improvements of the method}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-To think about: How do we scan when we don't know true values? The fit is sensitive to initial values. Might it be fruitful to run many minimizations with different starting positions? That would essentially stack another 4-dimensional minimization on top of this one. Would scale CPU time enormously. Probably not that clever.
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \chapter{Improvements of the method}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% To think about: How do we scan when we don't know true values? The fit is sensitive to initial values. Might it be fruitful to run many minimizations with different starting positions? That would essentially stack another 4-dimensional minimization on top of this one. Would scale CPU time enormously. Probably not that clever.
 
-What about discarding events with large minima? Do they seem to ruin the fit or is the minimal value not that good a measurement? Webber does this. 
+% What about discarding events with large minima? Do they seem to ruin the fit or is the minimal value not that good a measurement? Webber does this. 
 
-I have not looked much into using Det(A) as a measure of invertibility. It seems like invertibility is not really the big issue, but it might be worth investigating never the less. Maybe discard events based on Det(A)?
+% I have not looked much into using Det(A) as a measure of invertibility. It seems like invertibility is not really the big issue, but it might be worth investigating never the less. Maybe discard events based on Det(A)?
 
-One very unchewed idea: How about fitting the more fundamental SUSY soft parameters instead of the physical masses? I.e. substitute the soft masses instead of the physical ones? Can we gain something under different model assumptions, extract some co-varying parameters or something?
+% One very unchewed idea: How about fitting the more fundamental SUSY soft parameters instead of the physical masses? I.e. substitute the soft masses instead of the physical ones? Can we gain something under different model assumptions, extract some co-varying parameters or something?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \appendix
 
