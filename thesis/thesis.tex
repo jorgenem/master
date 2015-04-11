@@ -214,7 +214,7 @@ such that $\mathbf{A}$ now is
 					\end{pmatrix}. \label{eq:Amatrix_modified}
 \end{align}
 
-This redefinition does not alter the solvability of the problem, since the only information lost in $\mathbf{S}$ is the sign of $p_\mathrm{miss}^i$ which is kept in $\mathbf{A}$ instead. Also it keeps the essential feature that $\mathbf{A}$ only contains measured quantities, so that it can be inverted prior to making a mass hypothesis. The redefinition of $\mathbf{S}$ means we also have to modify $\mathbf{C}$ to keep the relationship $\mathbf{S} = \mathbf{B} \mathbf{M} + \mathbf{C}$ (from eq. \eqref{eq:SBMC}). We thus make the same redefinitions here, {\it i.e.}
+This redefinition does not alter the solvability of the problem, since the only information lost in $\mathbf{S}$ is the sign of $p_\mathrm{miss}^i$ which is kept in $\mathbf{A}$ instead. Also it keeps the essential feature that $\mathbf{A}$ only contains measured quantities, so that it can be inverted prior to making a mass hypothesis. The redefinition of $\mathbf{S}$ means we also have to modify $\mathbf{C}$ to keep the relationship $\mathbf{S} = \mathbf{B} \mathbf{M} + \mathbf{C}$ (from eq.\ \eqref{eq:SBMC}). We thus make the same redefinitions here, {\it i.e.}
 \begin{align}
 	C_4 &\equiv (p_\mathrm{miss}^x)^2, \label{eq:Cvec_modified} \\
 	C_8 &\equiv (p_\mathrm{miss}^y)^2. \nonumber
@@ -230,7 +230,7 @@ and we choose to take it into the matrix and vectors such that they all become d
 	\mathbf{\hat P} = \frac{1}{M_\mathrm{norm}}\mathbf{P},\label{eq:vectors_normalized}\\
 	\mathbf{\hat S} = \frac{1}{M_\mathrm{norm}^2}\mathbf{S},\nonumber 
 \end{align}
-thus modifying $\mathbf{M}$ and $\mathbf{C}$ in the same way as $\mathbf{S}$ to comply with eq. \eqref{eq:SBMC}. We also modify the fitting function $\xi^2$ accordingly, so that it becomes
+thus modifying $\mathbf{M}$ and $\mathbf{C}$ in the same way as $\mathbf{S}$ to comply with eq.\ \eqref{eq:SBMC}. We also modify the fitting function $\xi^2$ accordingly, so that it becomes
 \begin{align}
 	\xi^2(\mathbf{M}) = \sum_n \left[(\hat p_{A}^2)_n - \frac{M_A^2}{M_\mathrm{norm}^2}\right]^2 + \left[(\hat p_{A'}^2)_n - \frac{M_{A'}^2}{M_\mathrm{norm}^2}\right]^2.\label{eq:xisquared_modified}
 \end{align}
@@ -478,8 +478,9 @@ However, Webber also investigates the effects of imposing a {\it cut} on the $\x
 \end{table}
 
 \subsection{The starting-point dependence of the best-fit point}
+\label{subsec:SP-dependence_webber}
 
-There is also another potential issue with Webber's analysis. It has to do with the fact that the best-fit search is started at the true mass values.  In a real experiment, these parameters are exactly the unknowns we wish to find. Starting the search here is in principle fine as long as we are sure that the algorithm always finds the true global minimum. So we must investigate what happens if we start our search in some other point. We have done this, and discover that this greatly affects the location of the best-fit points. In fig.\ \ref{fig:starting_point_sensitivity_combinatorics} we show the best-fit points for four low-tolerance minimizations on the {\tt HERWIG} dataset. Subfig.\ (a) is the same as \ref{fig:webber_rec_scatter_tolerance-comparison} (b), the minimization started from the true mass point (TMP). The other three are minimizations from other starting points, selected to illustrate other plausible mass spectra: one where both the masses and the mass differences are smaller (b); one where they are larger (c); and one where there is a large splitting between a heavy squark and three very light masses (d). It is obvious that the fit -- the location of the best-fit point, and also the number of samples where convergence is obtained, indicated by the number $N_\mathrm{bins}$ in each plot -- is hugely dependent on where we start the search.
+There is also another potential issue with Webber's analysis. It has to do with the fact that the best-fit search is started at the true mass values.  In a real experiment, these parameters are exactly the unknowns we wish to find. Starting the search here is in principle fine as long as we are sure that the algorithm always finds the true global minimum. So we must investigate what happens if we start our search in some other point. We have done this, and discover that this greatly affects the location of the best-fit points. In fig.\ \ref{fig:starting_point_sensitivity_combinatorics} we show the best-fit points for four low-tolerance minimizations on the {\tt HERWIG} dataset. Subfig.\ (a) is the same as \ref{fig:webber_rec_scatter_tolerance-comparison} (b), the minimization started from the true mass point (TMP). The other three are minimizations from other starting points, selected to illustrate other plausible mass spectra: one where both the masses and the mass differences are smaller (b); one where they are larger (c); and one where there is a large splitting between a heavy squark and three very light masses (d). It is obvious that the fit -- the location of the best-fit point, and also the number of samples where convergence is obtained, indicated by the number $N_\mathrm{bins}$ in each plot -- is hugely dependent on where we start the search. For instance, the mean value and standard errors of the squark masses for the samples range from $506 \pm 98 \mathrm{GeV}$ to $563 \pm 13 \mathrm{GeV}$. We also note that in the latter case, which is the minimization from the TMP, the mean values from the other three starting points fall outside the margin of error.\marginpar{Did I manage to get this sentence to make sense?}
 
 \begin{figure}[hbt]
 	\centering
@@ -659,7 +660,7 @@ If we for a moment forget about the combinatorics, and evaluate only the true pa
 	\label{fig:starting_point_sensitivity_no_combinatorics}
 \end{figure}
 
-We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 5 \% smeared dataset for the same four starting points. The plots are shown in fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. We find that it also in this case gives consistent results irrespective of starting point -- but the LSP mass is fitted to zero in most samples.\marginpar{Count number of zero-fits} It appears that when the data is smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to the absolute mass scale of the problem. This is a well-known problem with methods for mass reconstruction.
+We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 5 \% smeared dataset for the same four starting points. The plots are shown in fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. We find that it also in this case gives consistent results irrespective of starting point -- but the LSP mass is fitted to zero in most samples.\marginpar{Count number of zero-fits} It appears that when the data is smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to the absolute mass scale of the problem. This is a well-known problem with methods for mass reconstruction.\marginpar{Might want to cite something if this sentence is kept, or elaborate about mass-squared difference fitting.}
 
 \begin{figure}[hbt]
 	\centering
@@ -720,7 +721,7 @@ With the potentially significant errors inherent in Webber's original suggestion
 
 
 \section{Fitting mass squared differences}
-We saw in the previous chapter that, even without taking combinatorical ambiguities into account, the method is insensitive to the absolute mass scale of the decay in many of the samples. In a later article \cite{Nojiri:2010dk}, Webber {\it et al} reformulate the method in terms of squared mass differences. We can borrow their idea and reformulate the problem as a mass-squared-difference fit. Such a fit may be combined with measurements of the dilepton invariant mass edge to find the LSP mass, using eq. \eqref{eq:invariant_mass_endpoint}, which can be rewritten as
+We saw in the previous chapter that, even without taking combinatorical ambiguities into account, the method is insensitive to the absolute mass scale of the decay in many of the samples when the momentum resolution is smeared. In a later article \cite{Nojiri:2010dk}, Webber {\it et al} reformulate the method in terms of squared mass differences. We can borrow their idea and reformulate the problem as a mass-squared-difference fit. Such a fit may be combined with measurements of the dilepton invariant mass edge to find the LSP mass, using eq.\ \eqref{eq:invariant_mass_endpoint}, which can be rewritten as
 \begin{align}
 	m^2_{\tilde\chi_1^0} = (m^2_{\tilde l} - m^2_{\tilde \chi_1^0})\left(\frac{m^2_{\tilde\chi_2^0} - m^2_{\tilde l}}{(m_{ll}^\mathrm{max})^2} - 1\right),
 \end{align}
@@ -728,9 +729,9 @@ or in the more abstract notation of fig.\ \ref{fig:decaytree},
 \begin{align}
 	M^2_A = (M^2_B - M^2_A)\left(\frac{M^2_C - M^2_B}{(m_{ll}^\mathrm{max})^2} - 1\right).\label{eq:MLSP_dilepton_edge}
 \end{align}
-Thus we see that the LSP mass can be found from knowing only the mass-squared differences plus the invariant mass edge.
+Thus we see that the LSP mass can be found from knowing only the mass-squared differences plus the invariant mass edge. This idea is taken from \cite{Cheng:2009fw}.
 
-Referring back to Chapter \ref{ch:introducing_the_method}, and the way the reconstruction was formulated in terms of matrices, the only modifications we have to make are the following: Define a vector $\mathbf{M}$ of mass-squared differences
+Referring back to Chapter \ref{ch:introducing_the_method}, and the way the reconstruction was formulated in terms of matrices, the only modifications we have to make in order to reformulate the problem as a mass-squared-difference fit are the following: Define a vector $\mathbf{M}$ of mass-squared differences
 
 \begin{align}
 	\mathbf{M} = (M_1, M_2, M_3),
@@ -766,7 +767,7 @@ This means that we can reformulate our problem to fit $M_{1,2,3}$ instead. Howev
 \begin{align}
 	\xi^2(\mathbf{M}) = \sum_n \left[(\hat p_{A}^2)_n - \frac{M_A^2}{M_\mathrm{norm}^2}\right]^2 + \left[(\hat p_{A'}^2)_n - \frac{M_{A'}^2}{M_\mathrm{norm}^2}\right]^2,\label{eq:xisquared_modified_repeat}
 \end{align} 
-has an unknown variable $M_A$. We choose to use the dilepton mass edge constraint, eq. \eqref{eq:MLSP_dilepton_edge}, to calculate the value of $M_A^2$ from the squared mass difference at each function evaluation. In terms of the mass-squared differences $M_{1,2,3}$, $M_A^2$ is given as
+has an unknown variable $M_A$. We choose to use the dilepton mass edge constraint, eq.\ \eqref{eq:MLSP_dilepton_edge}, to calculate the value of $M_A^2$ from the squared mass difference at each function evaluation. In terms of the mass-squared differences $M_{1,2,3}$, $M_A^2$ is given as
 \begin{align}
 	M_A^2 = M_3\left( \frac{M_2}{(m_{ll}^\mathrm{max})^ 2} - 1 \right).
 \end{align}
@@ -775,12 +776,20 @@ We note that with these modifications, we have introduced another constraining e
 
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=0.8\textwidth]{figures/improving_combinatorics/herwigpp-MD-dileptonedge-fit-nocomb-nosmear-nocut.pdf} 
-	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset, without combinatorics.}
-	\label{fig:MD_nocomb}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-MD-dileptonedge-fit-nocomb-nosmear-nocut.pdf} 
+		\caption{ }
+		\label{fig:MD_nocomb-nosmear}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-MD-dileptonedge-fit-nocomb-5psmear-nocut.pdf} 
+		\caption{ }
+		\label{fig:MD_nocomb-5psmear}
+	\end{subfigure}
+	\caption{Mass-difference minimizations on the Herwig++ dataset (a) without smearing and (b) with 5 \% momentum smearing, without combinatorics.}
 \end{figure}
 
-A fit of the unsmeared dataset with this method, not considering combinatorics, is shown in figure \ref{fig:MD_nocomb}. We have used the theoretical value of $m_{ll}^\mathrm{max} \approx 80 \mathrm{GeV}$ for the SPS1a masses, calculated using eq. \eqref{eq:invariant_mass_endpoint}. We immediately investigate whether the modifications have amended the combinatorical problems we faced in the original formulation, where we pick the lowest among all combinations for each event in each point. This actually doesn't look so bad, judging by the means and errors.
+A fit of the unsmeared dataset with this method, not considering combinatorics, is shown in fig.\ \ref{fig:MD_nocomb-nosmear}. We have used the theoretical value of $m_{ll}^\mathrm{max} \approx 80 \mathrm{GeV}$ for the SPS1a masses, calculated using eq.\ \eqref{eq:invariant_mass_endpoint}. We have checked that the fit also in this case is independent of where we start the search. We also show the same fit on the dataset with 5 \% momentum smearing in fig.\ \ref{fig:MD_nocomb-5psmear}. In the last chapter we saw that with momentum smearing, the LSP mass was estimated to zero in many \marginpar{quantify} of the samples (fig. \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}) when we used the original formulation of the method. In this case all the samples have a nonzero LSP mass.
 
 \begin{figure}[hbt]
 	\centering
@@ -828,9 +837,24 @@ A fit of the unsmeared dataset with this method, not considering combinatorics, 
 	\label{fig:MD_starting_point_sensitivity_combinatorics_cut}
 \end{figure}
 
-Without combinatorics: Point out that dilepton edge fixes the problem of sensitivity to LSP mass. Include plots of smeared dataset. 
+We immediately investigate whether the modifications have affected the combinatorical problems we faced when using the original formulation, where we pick the lowest among all combinations for each event in each point. We saw in section \ref{subsec:SP-dependence_webber} that the results were dependent on where the minimization search was started. In fig. \ref{fig:MD_starting_point_sensitivity_combinatorics} we show plots of the best-fit points using the same method for handling the combinatorical ambiguities, but the mass-squared-difference formulation of the $\xi^2$, minimized from the four different starting points used earlier. In fig.\ \ref{fig:MD_starting_point_sensitivity_combinatorics_cut} we show the same plots with the standard 100 GeV cut applied on the $\xi^2$. The differences between the plots appear less significant than in fig.\ \ref{fig:starting_point_sensitivity_combinatorics}. This is reflected in the mean values, which for the no-cut case range from 507 to 519 GeV in the four plots, and in the standard errors, which all are about 60 GeV. We also see that in fig.\ \ref{fig:MD_starting_point_sensitivity_combinatorics_cut}, where the cut is applied, the best-fit points surviving the cut lie in the same region in all four plots. The four different starting points are also consistent with respect to how many samples obtain convergence in the minimization (about 50 of 100), how many samples survive the $\xi^2$ cut (about 50 \%), and how many events obtain the correct combinatorical choice in the best-fit point (about 25 \%). \marginpar{Note: Check whether the remaining 75 \% of events are evenly divided between the other three combinations with same lepton-quark pairing!}
 
-Possible way out of combinatorics: Sum all contributions. That actually works better than I thought. At LEAST something to include plots of. Note: Bias toward lower values, even after cut. Can be corrected by MC? 
+Statistically, the four plots in fig.\ \ref{fig:MD_starting_point_sensitivity_combinatorics} and \ref{fig:MD_starting_point_sensitivity_combinatorics_cut} are similar. But the individual event samples are not consistently fitted to the same points, and the same samples do not obtain convergence in all cases. In the case of fig.\ \ref{fig:MD_starting_point_sensitivity_combinatorics}, 32 of the 100 event samples obtain convergence from all four starting points, although each starting point has about 50 convergent samples. Only three of the samples obtain best-fit points less than $0.1$ GeV apart in all four masses in all four cases. The standard error between the four best-fit points for each event sample has an average of between 10 and 15 GeV for the four masses.\marginpar{Does this sentence make sense? Also, do the same analysis for the case with xisquared-cut.}
+
+
+
+\section{Handling the combinatorical ambiguities differently: Summing the combinations}
+\label{sec:combinatorics-sum_all_contributions}
+Introduce method.
+Points: Reducing from an eight-fold to a two-fold ambiguity. Much more handleable.
+Smooth minimization, finds same minimum always. Include plot showing this.
+Compare mean value and error to the original hopes of Webber, and to e.g. Cheng. 
+However, biased. Cite cheng, wrong combinations bias downward. Desireable to reduce wrong combinations also within same matrix.
+
+
+
+
+Possible way out of combinatorics: Sum all contributions with same matrix A. Select between the two matrices in some way, either by Webber-jumping or by selecting on samples of fewer events. That actually works better than I thought. At LEAST something to include plots of. Note: Bias toward lower values, even after cut. Can be corrected by MC? 
 
 
 % \begin{figure}[hbt]
@@ -920,761 +944,6 @@ Below it turns out that the method seems insensitive to the LSP mass -- I am sta
 
 
 
-
-
-
-
-
-
-% \chapter{OLD version of MC chapter}
-
-% \section{Production mechanisms}
-% There are several ways in which a pair of squarks can be produced in $pp$ collisions. Figure \ref{fig:squark_production_diagrams} shows Feynman diagrams of different processes that contribute.\footnote{The diagrams are made using JaxoDraw \cite{Binosi:2003yf}.} In (a) and (c) the squarks are opposite sign and in (a) also same flavour, while in (b) and (d) we have no such guarantee. Additionally, in (b) and (d) the squarks are produced along with additional quarks.\marginpar{If this is kept, make sure to include all diagrams from article.}
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.4\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/qqbar_to_tildeqqbar_s_channel.pdf} 
-% 		\caption{ }
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.4\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/qqbar_to_gluinos_to_qqtildeqq_s_channel.pdf}
-% 		\caption{ } 
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.4\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/qqbar_to_tildeqqbar.pdf} 
-% 		\caption{ }
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.4\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/qg_to_tildeqqbar.pdf}
-% 		\caption{ } 
-% 	\end{subfigure}
-% 	\caption{Diagrams for squark pair production.}
-% 	\label{fig:squark_production_diagrams}
-% \end{figure}
-
-% However, the production of additional quarks is irrelevant for the analysis and reconstruction of the cascade, because we only wish to reconstruct the chain back to the squark. So is the distinction between squark flavours. The only significance of the flavour of squark (apart from its mass, of course) is on the flavour of quark it decays to along with the $\chi_2^0$ -- the quark and squark must be of the same flavour and sign. The $\chi_2^0$ cannot transmit any information about the flavour of its squark mother, so the subsequent leptonic decay is independent of the previous history. The quark will hadronize to form a hadron jet, and the properties of this jet are in principle dependent on the type of quark. However, current detectors are not good at discriminating between quark flavours of the first two generations; it can only discover $b$ quarks using the technique of {\it b-tagging} and to some extent $c$ quarks via {\it c-tagging}. In our analysis we will veto events containing $b$ quarks as the mass splitting of the squarks between the first/second and third generation prevent a good fit with a single squark mass.
-
-
-
-% \section{The simplest possible case: Squarks decaying at rest}
-% The very simplest way to study this problem, when all the complications of reality are stripped away, consists of a pair of heavy particles which each decay in a series of on-shell two-body decays down to three light particles that are detected and one that escapes. This idealized situation constrains the possible performance of Webber's method on the most general level, so we choose to start here. To decay the particles we use the algorithm described in appendix \ref{ch:decayalgorithm}. The algorithm assumes that everything is completely on-shell, so there is no Breit-Wigner smearing of the unstable particle masses, no initial- or final state radiation of photons or gluons that could force particles off-shell and no loss of energy in the process.
-
-% We take the CMMSM benchmark point SPS 1a \cite{Allanach:2002nj} as our mass parameter point. As mentioned above, we will only consider the first two generations of squarks. We will also take them to be left-handed, primarily since right-handed squarks have low cross-sections at SPS 1a (see discussion in the next section). The squarks we end up studying are then $\tilde u_L, \tilde d_L, \tilde c_L$ and $\tilde s_L$. Their masses are $m_{\tilde u_L, \tilde c_L} = 565 \,\mathrm{GeV}$ and $m_{\tilde d_L, \tilde s_L} = 571 \, \mathrm{GeV}$, {\it i.e.}\ the up/down-type mass splitting $\Delta m = 6 \, \mathrm{GeV}$ is small. For this simplistic case, we take a single squark mass of $m_{\tilde q} = (m_{\tilde u_L, \tilde c_L}+m_{\tilde d_L, \tilde s_L})/2 = 568 \, \mathrm{GeV}$. 
-
-% Furthermore, we will assume only first- and second generation sleptons and leptons, on the basis that tau leptons are difficult to detect experimentally. The mass hierarchy of SPS1a is such that the left-handed sleptons $\tilde e_L, \tilde \mu_L$ are heavier than $\chi_2^0$, thus disabling those decay modes for the $\chi_2^0$. Since first- and second generation sleptons of the same chirality are mass-degenerate at this parameter point, it means that we only have one slepton mass to fit, namely $m_{\tilde e_R, \tilde \mu_R} = 144 \, \mathrm{GeV}$. Finally, the masses of the neutralinos at SPS 1a are $m_{\chi_2^0} = 180 \, \mathrm{GeV}$ and $m_{\chi_1^0} = 97 \, \mathrm{GeV}$. 
-
-% For one single event, the $\xi^2$ function detailed in the last chapter (which we are looking to minimize) takes the form shown in figure \ref{fig:3D_masses_simplistic_1event}\footnote{All plots are in vector format, so they are highly zoomable if the document is opened electronically.}. [Say something about that the LSP dependency is weirdy-weird]
-
-
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_1_simplistic_event_squark-chi2.pdf} 
-% 		\caption{}
-% 		% \label{fig:3D_masses1}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_1_simplistic_event_squark-slepton.pdf} 
-% 		\caption{}
-% 		% \label{fig:3D_masses2}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_1_simplistic_event_squark-chi1.pdf} 
-% 		\caption{}
-% 		% \label{fig:3D_masses3}
-% 	\end{subfigure}
-% 	% \begin{subfigure}[b]{0.49\textwidth}
-% 	% 	\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-chi1_rotated.pdf} 
-% 	% 	\caption{}
-% 	% 	\label{fig:3D_masses4}
-% 	% \end{subfigure}
-% 	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events. Note that the `spikes' are an artifact of the plotting style.}
-% 	\label{fig:3D_masses_simplistic_1event}
-% \end{figure}
-
-% Using the numerical minimization method Nelder-Mead, or `Simplex method', we find the numerical minimum of the $\xi^2$. This is non-trivial, and the problems of minimization will be thoroughly discussed throughout this thesis. The problem seems mainly to be that numerical minimization routines rely on getting a starting point from the user. When we have generated the events ourselves, we of course know the true value of the masses -- which we expect to be very close to the minimum of the function, if not exactly at the spot -- but in an experimental situation we will have little or no information about where to search. 
-
-% In table \ref{table:starting_point_fit_dependency_1event_simplistic} we present the results of numerical searches for the minimum of the $\xi^2$ shown in \ref{fig:3D_masses_simplistic_1event} for different starting points. The points are chosen as a multiple $x$ of the true mass values. \marginpar{This means we only vary them along a line in 4D. Worth trying other parametrizations.} We see that the fit is highly dependent on starting point. This might be explained by the `valley' shape of the $\xi^2$ seen in the plots -- it is plausible that the minimization algorithm has problems with resolving the true minimum when there are two directions with very different steepness as here.
-
-% \begin{table}[hbt]
-% 	\centering
-% 	\begin{tabular}{| l | l | l | l | l | l |}
-% 		\hline
-% 		Starting point  &&&&																					&  Minimal $\xi^2$ \\ 
-% 		 						& $\tilde q$	& $\tilde \chi_2^0$	& $\tilde l$	& $\tilde \chi_1^0$ & value \\ \hline
-% 		True mass [GeV]			& 568.0         & 180.3 			& 144.1			&  97.0				& \\ \hline
-% 		100 \% 					& 568.0  		& 180.3   			& 144.1  		&  97.0				& $7.2\times 10^{-30}$ \\ \hline
-% 		90 \% 					& 532.5  		& 164.9   			& 124.7  		&  90.0				& $2.4\times 10^{-28}$ \\ \hline
-% 		110 \%					& 620.1  		& 202.2   			& 163.2  		& 107.8				& $6.0\times 10^{-28}$ \\ \hline
-% 		50 \% 					& 515.0  		& 135.2   			&  74.1  		&   8.9				& $9.2\times 10^{-30}$ \\ \hline
-% 		150 \% 					& 810.1  		& 274.9   			& 229.5  		& 139.5				& $3.3\times 10^{-27}$ \\ \hline
-% 	\end{tabular}
-% 	\caption{The minimal point found by Scipy Nelder-Mead for a $\xi^2$ from one event of squarks decaying from rest, for different starting points.}
-% 	\label{table:starting_point_fit_dependency_1event_simplistic}
-% \end{table}
-
-% The strength in Webber's approach, however, lies in the ability to combine multiple events in one fit. We make the same plot again, but with 25 events combined, in figure \ref{fig:3D_masses_simplistic}. We immediately notice that most of the ``valley''-like features of the previous plot have disappeared, the surface is flatter, and the minima are more pronounced. When we now apply the minimization algorithm, we find a much better performance, and the correct best-fit point is found to 1 decimal point in most cases. The results are summarized in table \ref{table:starting_point_fit_dependency_25events_simplistic}. Note that for a starting point of $x = 0.5$, the algorithm finds the unphysical point $-97$ GeV for the LSP mass. This is probably an artifact due to that the $\xi^2$ is symmetric in mass sign, and that the Nelder-Mead algorithm is unable to handle constraints or bounds (so we cannot specify that the masses must be positive).
-
-% \begin{table}[hbt]
-% 	\centering
-% 	\begin{tabular}{| l | l | l | l | l | l |}
-% 		\hline
-% 		Starting point  &&&&																					&  Minimal $\xi^2$ \\ 
-% 		 						& $\tilde q$	& $\tilde \chi_2^0$	& $\tilde l$	& $\tilde \chi_1^0$ & value \\ \hline
-% 		True mass [GeV]			& 568.0         & 180.3 			& 144.1			& 97.0				& \\ \hline
-% 		100 \% 					& 568.0   		& 180.3   			& 144.1   		& 97.0      		& 1.482195e-26 \\ \hline
-% 		90 \%  					& 568.0   		& 180.3   			& 144.1   		& 97.0      		& 5.842969e-27 \\ \hline
-% 		110 \% 					& 568.0   		& 180.3   			& 144.1   		& 97.0      		& 4.779690e-27 \\ \hline
-% 		50 \%  					& 568.0   		& 180.3   			& 144.1   		& $-97.0$     		& 6.303178e-27 \\ \hline
-% 	\end{tabular}
-% 	\caption{The minimal point found by Scipy Nelder-Mead for a $\xi^2$ of 25 events of squarks decaying from rest, for different starting points.}
-% 	\label{table:starting_point_fit_dependency_25events_simplistic}
-% \end{table}
-
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_simplistic_events_squark-chi2.pdf} 
-% 		\caption{}
-% 		% \label{fig:3D_masses1}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_simplistic_events_squark-slepton.pdf} 
-% 		\caption{}
-% 		% \label{fig:3D_masses2}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_simplistic_events_squark-chi1.pdf} 
-% 		\caption{}
-% 		% \label{fig:3D_masses3}
-% 	\end{subfigure}
-% 	% \begin{subfigure}[b]{0.49\textwidth}
-% 	% 	\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-chi1_rotated.pdf} 
-% 	% 	\caption{}
-% 	% 	\label{fig:3D_masses4}
-% 	% \end{subfigure}
-% 	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events.}
-% 	\label{fig:3D_masses_simplistic}
-% \end{figure}
-
-% We now make a fit of 100 bins of 25 events of this simple kind. The results are summarized in table \ref{table:fits_100_bins_simplistic}, and scatter plots of the best-fit points are shown in figure \ref{fig:fits_100_bins_simplistic}. The fits are very good in most cases, except for $x = 50 \%$, where it fails to find the best-fit point in many cases. Also, the scatter plots reveal the tendency of the best-fit points to distribute themselves along lines in the southwest/northeast-direction of the mass planes, intersecting the points of true minimum. This is the same direction that the `valley' shape takes in the surface plots, indicating that the inaccuracy in the minimization is hardest to resolve in the direction of the valley.
-
-% \begin{table}[hbt]
-% 	\centering
-% 	\begin{tabular}{| l | l | l | l | l | l |}
-% 		\hline
-% 		Starting point &  $m_{\tilde{q}}$ & $m_{\tilde{\chi}_2^0}$ & $m_{\tilde{l}}$ & $m_{\tilde{\chi}_1^0}$ \\ \hline
-% 					   & True values [GeV] 	& 568 (avg.) 	& 180 	& 144 	& 97 \\ \hline
-% 		100 \%		   & $568 \pm 0$ & $180 \pm 0 $ & $144 \pm 0 $ & $97 \pm 0	$ \\ \hline
-% 		90 \% 		   & $568 \pm 0$ & $180 \pm 0 $ & $144 \pm 0 $ & $97 \pm 0	$ \\ \hline
-% 		110 \%		   & $568 \pm 1$ & $180 \pm 1 $ & $144 \pm 1 $ & $97 \pm 1	$ \\ \hline
-% 		50 \% 		   & $567 \pm 4$ & $175 \pm 36$ & $142 \pm 10$ & $-20 \pm 92$   \\ \hline
-% 		150 \%		   & $568 \pm 2$ & $181 \pm 4 $ & $145 \pm 5 $ & $98 \pm 6 $	 \\ \hline
-% 	\end{tabular}
-% 	\caption{Fit of 100 bins of 25 simplistic events using SciPy Nelder-Mead. Values are given as average $\pm$ r.m.s. deviation. }
-% 	\label{table:fits_100_bins_simplistic}
-% \end{table}
-
-
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_1p00_initial_guess.pdf} 
-% 		\caption{}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_0p90_initial_guess.pdf} 
-% 		\caption{}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_1p10_initial_guess.pdf} 
-% 		\caption{}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_0p50_initial_guess.pdf} 
-% 		\caption{}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/25_events_simplistic_scipy_nelder-mead_without_smearing_1p50_initial_guess.pdf} 
-% 		\caption{}
-% 	\end{subfigure}
-% 	\caption{Scatter plots of 100 bin fits of 25 simplistic events for different starting points, corresponding to table \ref{table:fits_100_bins_simplistic}.}
-% 	\label{fig:fits_100_bins_simplistic}
-% \end{figure}
-
-
-
-% % \section{Event generation using {\tt CompHEP}}
-% % We first begin by using {\ttfamily CompHEP 4.5.2} \cite{Pukhov:1999gg} to generate 1000 $pp \to \tilde{u}_L \bar{\tilde{u}}_L$ collisions at $\sqrt{s} = 14 \, \mathrm{TeV}$ with the supersymmetric parameter choice mSUGRA SPS1a $(\alpha)$ \cite{Allanach:2002nj} calculated using {\ttfamily SoftSUSY 3.4.1} \cite{Allanach:2001kg}.\footnote{Note that CompHEP uses the wrong squark mass: The value from SoftSUSY is $\sim 565 \,\mathrm{GeV}$, while CompHEP uses $\sim 545 \,\mathrm{GeV}$. This is due to how CompHEP is coded: The external RGE running done by SoftSUSY is only used by CompHEP up to the point of low-scale soft mass parameters. The calculation of physical squark masses from soft mass parameters is hard-coded in CompHEP using a tree-level formula. Trying to manually change the value has proven difficult since it disturbs the internal consistency of CompHEP.} \marginpar{TODO: Make CompHEP use the correct squark mass if possible.} {\ttfamily CompHEP} produces a file containing the 4-momenta of the squarks for each event. It is important to note that {\ttfamily CompHEP} produces the squarks on-shell -- possibly a major simplification for colour-charged particles, who might realistically be far off-shell when they come from a hard collision before they have a chance to shower off gluons. The squark 4-momenta are then read into a Python script where the rest of the chain is generated. We generate the chain as a succession of two-body decays where the decay products are on-shell, {\it e.g.}\ we work in a narrow width approximation. This is again a major simplification for the quark due to showering. Standard model particles are assumed massless. The algorithm for this generation is described in section \ref{sec:decayalgorithm}. The decay direction for the back-to-back decay in each step is drawn uniformly on a sphere. This is correct for the scalar particles, and for the fermions it is justified by averaging over spin directions. \marginpar{\color{purple} Note to self: Check that I understand this properly.} The resulting visible 4-momenta resemble an idealized decay situation. As a check to see that our algorithm is correct, we reproduce the dilepton invariant mass distribution for the upper chain as discussed in the previous section. The distribution is shown in figure \ref{fig:dilepton_invariant_mass_no_smearing}. We see that it resembles a triangle, and that it cuts sharply at $m_{ll}^{\mathrm{max}} \approx 80 \, \mathrm{GeV}$, which corresponds nicely with the theoretical prediction $m_{ll}^\text{max} = 80.2 \, \mathrm{GeV}$ from Eq. \ref{eq:invariant_mass_endpoint}.
-
-% % \begin{figure}[hbt]
-% % \centering
-% % \includegraphics[scale=0.7]{figures/dilepton_invariant_mass_comphep-data_smearing-0_events-1000.pdf} 
-% % \caption{Dilepton invariant mass distribution.}
-% % \label{fig:dilepton_invariant_mass_no_smearing}
-% % \end{figure} \marginpar{Redo dilepton invmass plot with fewer bins and larger font. Also change colour?}
-
-
-
-% % \section{$\xi^2$ minimization}
-% % \marginpar{This paragraph is up for deletion.}
-% % {\color{gray} We also test the mass reconstruction method on this idealized dataset. Webber uses the {\ttfamily MINUIT} algorithm {\ttfamily SIMPLEX}, which we also apply. We use it in the form of the python package {\ttfamily PyMinuit} \cite{PyMinuit,James:1975dr}. Applying {\ttfamily SIMPLEX} to the method, using the entire dataset of 1000 events, gives excellent results -- way too good to be realistic, as we might anticipate, given the high level of idealization and large number of events. Data from fitting 1000 events is shown in table \ref{table:fit_no_smear}. We see that the error in the fit is at the level of a few percent.}
-% % \marginpar{Note: The mass used for generation is the comphep-wrong one. Should redo with proper mass if I can fix the problem.}
-
-% % \begin{table}[hbt]
-% % 	\centering
-% % 	\begin{tabular}{| l | l | l | l | l |}
-% % 		\hline
-% % 							&  $m_{\tilde{q}}$ & $m_{\tilde{\chi}_2^0}$ & $m_{\tilde{l}}$ & $m_{\tilde{\chi}_1^0}$ \\ \hline
-% % 		True values [GeV] 	& 545.4 & 180.3 & 144.1 & 97.0 \\ \hline
-% % 		Best-fit values [GeV] & 546.8 & 184.2 & 148.9 & 104.0 \\ \hline
-% % 		Relative fit error  & 0.2 \% & 2.1 \% & 3.3 \% & 7.2 \% \\ \hline
-% % 	\end{tabular}
-% % 	\caption{SIMPLEX fit of 1000 events in an idealized situation.}
-% % 	\label{table:fit_no_smear}
-% % \end{table}
-
-% % We split the events in 25 event bins and apply the method to each bin. For the minimization we employ {\ttfamily SciPy} \cite{SciPy} with TNC \cite{Nash:1984}. We try several choices for the initial parameter guess, to investigate how different starting points affect minimization performance.
-
-% % \begin{table}[hbt]
-% % 	\centering
-% % 	\begin{tabular}{| l | l | l | l | l |}
-% % 		\hline 
-% % 		x $\backslash$ Particle   			& $\tilde q$ 	&$\tilde \chi_2^0$ 	& $\tilde l$ 	& $\tilde \chi_1^0$    	\\ \hline
-% % 		True mass [GeV]     & 568 (average) & 180				& 144			& 97					\\
-% % 		1.1 &	$570 \pm 15 [29]$ & $196 \pm 5 [17]$ & $159 \pm 4 [15]$ & $111 \pm 6 [16]$ \\
-% % 		0.9 &	$526 \pm 16 [25]$ & $166 \pm 5 [15]$ & $130 \pm 3 [15]$ & $80 \pm 6 [18]$ \\
-% % 		0.5 &	$445 \pm 75 [123]$ & $118 \pm 24 [67]$ & $84 \pm 17 [62]$ & $28 \pm 20 [72]$ \\
-% % 		2.0 &	$824 \pm 184 [334]$ & $334 \pm 37 [159]$ & $285 \pm 24 [143]$ & $221 \pm 34 [129]$ \\ \hline
-% % 	\end{tabular}
-% % 	\caption{Summary of TNC fits to 25 event bins corresponding to figure \ref{fig:comphep_scipy_TNC_fits}. Fitted parameters are given as `average over bins $\pm$ empirical rms variation [true rms variation]'. The true rms variation means rms deviation from the true mass value rather than the mean. The $x$'s are defined such that $M_\mathrm{initial}= x M_\mathrm{true}$ for all unknown masses, $M_\mathrm{initial}$ being the starting point of the search.}
-% % 	\label{table:comphep_scipy_TNC_fits}
-% % \end{table}
-
-% % \begin{figure}[hbt]
-% % 	\centering
-% % 	\begin{subfigure}[b]{0.49\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/comphep_scipy_TNC_fit_1p1_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:comphep_scipy_TNC_fits1}
-% % 	\end{subfigure}
-% % 	\begin{subfigure}[b]{0.49\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/comphep_scipy_TNC_fit_0p9_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:comphep_scipy_TNC_fits2}
-% % 	\end{subfigure}
-
-% % 	\begin{subfigure}[b]{0.49\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/comphep_scipy_TNC_fit_2p0_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:comphep_scipy_TNC_fits3}
-% % 	\end{subfigure}
-% % 	\begin{subfigure}[b]{0.49\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/comphep_scipy_TNC_fit_0p5_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:comphep_scipy_TNC_fits4}
-% % 	\end{subfigure}
-% % 	\caption{Best-fit points for 40 bins of 25 CompHEP generated events minimized with TNC, with different initial parameter guesses $M_\mathrm{initial} = x M_\mathrm{true}$, where $x = 1.1$ for (a), 0.9 for (b), 2.0 for (c) and 0.5 for (d). The points are summarized in table \ref{table:comphep_scipy_TNC_fits}.}
-% % 	\label{fig:comphep_scipy_TNC_fits}
-% % \end{figure} 
-
-
-
-
-% % \section{The effects of sorting out dimensions}\marginpar{Note: Consider dropping this section entirely? Or at least redo it with binning, with correct datasets, etc.}
-% % It is interesting to see whether our modifications of Webber's mathematics, discussed in section \ref{sec:dimension_fixing}, have any effect on computation time, accuracy or even whether {\ttfamily SIMPLEX} finds the minimum at all. We did a test of this, using 25 of the {\ttfamily CompHEP} events and running through the different smearings $s= 0,0.5,1,3,6$ and $10$. For the basic formulation without the dimension fixing and without normalizing, the {\ttfamily SIMPLEX} routine fails to find the minimum even for zero smearing. Normalizing the $\xi^2$ function by the number of events helps to make it past zero smearing and 0.5 smearing, but then it fails. For zero smearing the mean absolute relative fit error compared to the true masses is at the order of $10^{-7}$. Running with the dimensions of $\mathbf{A}$ fixed according to Eq. \eqref{eq:Amatrix_modified} also fails beyond 0.5 smearing, and the error even for 0 smearing is actually increased to the order of $10^{-2}$. By also including the normalization as given in Eqs. \eqref{eq:vectors_normalized}, the script runs through all smearings and manages to get a fit in every case. We note that the error in this fully dimensionless implementation is of the order $10^{-2}$ for 0 smearing, thus actually higher than for the original implementation. This is however only for one 25 event sample, and should be studied more carefully before drawing conclusions. The total run time for the dimensionless fit is a couple of seconds. By mistake we discovered that dividing the $\xi^2$ by a number of order $10^8$ actually decreased computation time further, by about a factor 2. This indicates that {\ttfamily SIMPLEX} prefers to work with small numbers, at least in the {\ttfamily PyMinuit} implementation.
-
-
-% \newpage
-
-% \section{Monte Carlo event generation with {\ttfamily Herwig++}}
-% % In our fit thus far, we have used events generated by {\ttfamily CompHEP} at squark level and decayed them in a very basic way. One obvious flaw in our model is the lack of {\it parton showering}---the radiation of gluons (and in turn quarks and antiquarks) emitted from the quark in the squark to quark decay process. If showering is taken into account, it means that the initial quark in the squark two-body decay can be off-shell, since it is really carrying the energy and momentum of not only itself, but also (several) other partons.\footnote{This statement should not be taken too literally, since the showering of a discrete number of gluons is just an approximate model of the re-summed contribution from higher-order diagrams in perturbation theory.}
-
-% We employ {\ttfamily Herwig++  2.7.1}~\cite{Bahr:2008pv} for Monte Carlo event generation. This is a complete simulation code for particle collisions, generating hard parton processes from parton distribution functions, handling decays, including (s)particle widths and mass smearing according to Breit-Wigner distributions, initial and final state radiation including parton showering, multiple interactions {\it etc}.\ The user has access to all the information from each event though a {\ttfamily C++} analysis function that can be linked as a library and run by {\ttfamily Herwig++} for each event.
-
-% \subsection{{\ttfamily Herwig++} setup}
-
-% We simulate $pp$ collisions at $\sqrt{s}=14 \, \mathrm{TeV}$. For the following, we turn off the hadronization module in {\ttfamily Herwig++}---treating quarks and gluons as final state particles. 
-% %We have to enter a list of the partons that we wish to be able to collide -- we choose $u,d,c,s$ and $g$ plus their antiparticles. 
-% We generate sparticle pair production, with the first two generations of left-handed squarks: $\tilde{u}_L,\tilde{d}_L,\tilde{c}_L$ and $\tilde{s}_L$ plus their antiparticles. The exclusion of third-generation squarks from the analysis is done because the difference in masses prevents a good fit under the assumption of a single squark mass. At SPS1a, there is mass degeneracy between left-handed squarks of up- and down-type respectively, for the first two generations. Also, the masses are $m_{\tilde u_L, \tilde c_L} = 565 \,\mathrm{GeV}$ and $m_{\tilde d_L, \tilde s_L} = 571 \, \mathrm{GeV}$, {\it i.e.}\ the up/down-type mass splitting $\Delta m = 6 \, \mathrm{GeV}$ is small. 
-
-% We use only left-handed squarks because the production of $\tilde \chi_2^0$ from right handed squarks is small---at SPS1a the 2nd generation neutralino is mostly wino whilst the 1st generation is mostly bino, and the wino only couples to left-handed squarks. For instance, the branching ratio for $\tilde u_R \to u \tilde \chi_2^0$ is $\sim 1 \%$, whilst for $\tilde u_L$ it is $\sim 30 \%$. The exclusion of events with unwanted squarks is done in the post-generation analysis.
-
-% Furthermore, the mass hierarchy of SPS1a is such that the left-handed sleptons $\tilde e_L, \tilde \mu_L$ are heavier than $\chi_2^0$, thus disabling those decay modes for the $\chi_2^0$. Since first- and second generation sleptons of the same chirality are mass-degenerate at this parameter point, it means that we only have one slepton mass to fit.
-
-% The choice of MSSM parameters is input into {\ttfamily Herwig++} using an SLHA model file~\cite{Skands:2003cj} for the SPS1a parameter point
-% generated by {\ttfamily SoftSusy 3.4.1}~\cite{Allanach:2001kg} and post-processed by {\ttfamily SUSY-HIT 1.4} \cite{Djouadi:2006bz} to calculate branching ratios. We disable all decay channels except those that produce our chain (\ref{eq:goldencascade}) by manually editing the branchings in the SLHA file. 
-
-% \subsection{{\ttfamily Herwig++} event analysis routine} 
-
-% A few technical aspects of the per-event analysis done with {\ttfamily Herwig++} should be mentioned. Even though we have disabled all but the relevant decay modes in the simulation, {\ttfamily Herwig++} resets some of the other branchings to small, nonzero values. This means that we must check each event to see that it really contains two instances of the correct cascade. This is done in an analysis routine linked by the {\ttfamily Herwig++} run. At each decay vertex we check that the PDG codes of the outgoing particles match what we expect.
-
-% {\ttfamily Herwig++} showers the squarks and quarks. For the purpose of internal bookkeeping, in the showering process, the event listing will contain several instances of the same particle, {\it e.g.}\ the quark, where the subsequent instances are in a mother-daughter relationship among the event particles. Care has to be taken to ensure that we pick the correct instance of the quark, and we have done tests of momentum conservation to check that we indeed pick the right instance.
-
-% There is also the possibility of photon bremsstrahlung in the other charged particle decays, {\it i.e.}\ the $\tilde \chi_2^0$ and $\tilde l$. This is treated as an $N$-body decay in {\ttfamily Herwig++}, with two massive decay products and $N-2$ photons. We allow these events past our vetoes, and discard the photons -- thus introducing an inaccuracy in the momentum conservation -- on the basis that they would be difficult to identify in a detector event. Since this will only remove energy from the budget, we expect it to potentially lead to some bias toward lower mass values. \marginpar{Note: Here we have the option in the code to veto events with large photon momenta. Should we pursue it?}
-
-
-% % \subsection{Parton showering}
-% % The distribution of quark invariant masses prior to their showering off gluons are shown in figure \ref{fig:invmass_offshellquarks}.
-
-% % \begin{figure}[hbt]
-% % \centering
-% % \includegraphics[scale=0.7]{figures/quark_invmass_before_showering_both_chains_combined_N1000.pdf} 
-% % \caption{Invariant mass distribution of offshell quarks from squark decays. Quarks from both chains in 1000 {\ttfamily Herwig++} generated events are shown. Quark flavours are $u,d,c$ and $s$.}
-% % \label{fig:invmass_offshellquarks}
-% % \end{figure}
-
-% \section{Fitting the {\ttfamily Herwig++} events}
-% The best-fit point is the point which minimizes the $\xi^2$ function, given in Eq. \eqref{eq:xisquared_modified}, for a selection of events. Evaluation of the function involves inverting the $8\times 8$ matrix $\mathbf{A}$ (Eq. \eqref{eq:Amatrix_modified}) for each event, so it is not trivially done by hand, although it is quick to do numerically. But in order to study the behaviour of the $\xi^2$ more in-depth, we implement the method in Mathematica \cite{Mathematica}, which is able to calculate symbolically. Using a sample of 25 events, Mathematica reveals that the $\xi^2$ is a polynomial of degree 8 in the four mass variables. 
-
-% Without taking combinatorical ambiguities into account, the $\xi^2$ function has a smooth surface and a well-defined global minimum\marginpar{Although sometimes it seems like the function is flat around the minimum, or something, since the routines have trouble finding the exact minimum.} -- although it may have several local minima. Figure \ref{fig:3D_masses_herwig} shows the $\log(\xi^2)$ surface as a function of pairs of masses. Notice that the minimum is significantly less pronounced for $m_{\chi_2^0}$ than for the other three masses -- it actually seems to form a slide down toward zero mass. Subfigure (d) shows a rotated view to illustrate this. The plotting limits for each mass is from $0.5$ to $1.5$ of the minimum, so it means that the steepness of $\xi^2$ relative to the lightest mass is less than the others. This may mean that it is more difficult to fit this mass than the others.
-% % , which is consistent with our earlier speculations and with the rms errors in table \ref{table:herwig_migrad_nosmear_1p01} -- more on that in a moment. It will be interesting to see how combinatorics affects this. \marginpar{Note to self: Or could this be the result of Migrad not finding a better guess than the initial value for the OTHER masses in many of the bins?}
-
-
-
-
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-chi2.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses1}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-slepton.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses2}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-chi1.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses3}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_squark-chi1_rotated.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses4}
-% 	\end{subfigure}
-% 	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value. The plot is for a sample of 25 events.}
-% 	\label{fig:3D_masses_herwig}
-% \end{figure}
-
-% To test the fit method, we split the {\ttfamily Herwig++} data into bins of 25 events each. This is the same approach that Webber takes. We use Mathematica's {\ttfamily Minimize} function to find the mass parameter values that minimize the $\xi^2$ for each bin. We study the minimization performance for each bin by making scatter plots and quantize the overall error by looking at the mean value and standard deviation over all the bins.
-
-% Our function seems to have multiple local minima\marginpar{Here I have done a lot of back-and-forth. I think I am landing on that the fitting difficulties seem to be a numerical issue and not due to local minima, although the function in some cases appear to have two or three minima. Also, it turns out that Mathematica's Minimize does NOT in fact do symbolic minimization, but automatically calls a numerical minimizer which uses none other than the Nelder-Mead/Simplex algorithm for minimization. So here I have gone a full round back to start. This sectio was last revised before I did the stuff with on-shell decays from the last section.}, which severely complicates minimization. Most numerical minimization algorithms, such as the Simplex algorithm that Webber uses, relies on getting a starting point from the user. For a function with several minima, a poorly chosen starting point might fool the algorithm to converge to a local minimum without discovering the global minimum. The Mathematica minimization has the advantage of symbolic calculation, so it should have no problem finding the true minimum for a function as simple (sic!) as an octic polynomial in four variables. Also, it does not require a user-supplied starting point, which is nice since we realistically have little idea \`{a} priori of what the mass values are.
-
-% We include an example to illustrate how toublesome the minimization is for the purely numerical routines that Python offer. We use the Truncated Newton's Conjugate Gradient (TNC) method from the Scipy \cite{SciPy} package to minimize three bins of 25 events of unsmeared {\ttfamily Herwig++} data. We choose three different starting points for the minimization, selected as 95 \%, 100 \% and 105 \% of the true mass values, respectively. We limit the parameter space by experimental mass bounds from below. The results are summarized in table \ref{table:starting_point_fit_dependency}. We see that the Scipy minimization depends to a large degree on the starting point. This we have found to be the case for all the numerical methods that are implemented in Scipy, such as Simplex/Nelder-Mead and BFGS. We also see that the Mathematica minimization in all cases performs better or equal to the Scipy method. This gives us confidence that the results obtained by Mathematica reflect the true minima. 
-
-% The explanation for the variable performance of Scipy we believe lies in that the function has local minima somewhere near the true one, at least for some of the events/bins -- it is hard to believe that it cannot handle minimizing a polynomial.\marginpar{But where are they in the plots? Are the plots tricking us since they show only two variables at a time??? Or maybe just the wrong bin is plotted.} It turns out that it is rather tricky to find all local minima of a four-variate function. The local minima are straight-forward to characterize, they are points where all partial derivatives of the function is zero and the Hesse matrix is positive-definite. But to actually find them all has proven to be numerically extensive, to the degree that it brought Mathematica to its knees. (Finding the local minima was the original motivation for employing Mathematica.) This also prompts the question of which starting point Webber uses in his analysis -- he does not mention the problem at all, even though he states that he uses Simplex.\marginpar{This haunts me a bit -- is it possible that Webber uses Simplex in some smart way (e.g. very high tolerance, although I have tried such things) so that it is insensitive to starting point? Since Mathematica has no problems, and it after all only is a polynomial we're minimizing, it seems strange that no numerical method I have tried can manage.}
-
-% % The bins used are the second, third and fourth 25-event bins of the Herwig data. The first Herwig bin fits badly, thus it is not used for this.
-% \begin{table}[hbt]
-% 	\centering
-% 	\begin{tabular}{| l | l | l | l | l | l |}
-% 		\hline
-% 		Starting point / &&&&																					&  Minimal $\xi^2$ \\ 
-% 		Bin number 						& $\tilde q$	& $\tilde \chi_2^0$	& $\tilde l$	& $\tilde \chi_1^0$ & value \\ \hline
-% 		True mass [GeV]					& 568 (average) & 180 				& 144 			& 97 				& \\ \hline
-% 		95 \%  / 1 						& 628.9   		& 200.0   			& 129.0   		& 46.0     			& 3.095839 \\ \hline
-% 		105 \% / 1 						& 634.0   		& 215.8   			& 152.2   		& 92.9     			& 3.108896 \\ \hline
-% 		100 \% / 1 						& 633.5   		& 214.0   			& 149.7   		& 88.8     			& 3.107357 \\ \hline
-% 		Mathematica / 1 			    & 628.8 		& 200.0				& 128.964,		& 46.				& 3.09584		\\ \hline
-% 		95 \%  / 2 						& 445.5   		& 155.3   			& 137.6   		& 112.8    			& 0.1093763 \\ \hline
-% 		100 \% / 2 						& 455.1   		& 165.7   			& 146.4   		& 120.9    			& 0.1159998 \\ \hline
-% 		105 \% / 2 						& 461.1   		& 170.1   			& 150.2   		& 124.9    			& 0.1214193 \\ \hline
-% 		Mathematica / 2 				& 434.1 		& 118.5 			& 94. 			& 51.3 				& 0.104346	\\ \hline
-% 		95 \%  / 3 						& 553.2   		& 173.0   			& 133.4   		& 83.5     			& 0.3065114 \\ \hline
-% 		100 \% / 3 						& 560.0   		& 179.4   			& 141.2   		& 93.8     			& 0.3074833 \\ \hline
-% 		105 \% / 3 				 		& 596.5   		& 192.5   			& 150.7   		& 97.4     			& 0.3432126 \\ \hline
-% 		Mathematica / 3 				& 549.3 		& 157.8 			& 113.7 		& 46. 				& 0.303138 \\ \hline	
-% 	\end{tabular}
-% 	\caption{Example of minimization performance for three different bins of 25 unsmeared {\ttfamily Herwig++} events, minimized using Scipy TNC with three different starting values plus Mathematica. See the text for details.}
-% 	\label{table:starting_point_fit_dependency}
-% \end{table}
-
-% \newpage % to allow all the \marginpar's to appear! Remove before finalizing.
-% \marginpar{Speaking of these bins where the best-fit is outside the allowed region -- should we consider throwing them out? Or maybe throwing 25 events is a little harsh - maybe we can do something on a per-event basis. Anyways, this is more of a discussion for later, when we have smeared and combinatoricized the data so they at least to some small degree resemble reality.} 
-
-% Even though the mathematica routine is clever, it is still a good idea to limit the parameter space as much as possible. Also, the lowest minimum of $\xi^2$ for some datasets lie outside the experimentally allowed region.Although we are using an unrealistic parameter point for our simulation, we apply the experimentally established limits on the supersymmetric masses listed by \cite{Beringer:1900zz}: $m_{\tilde \chi^0_1}>46 \, \mathrm{GeV}$, $m_{\tilde l} > 94$ and $m_{\tilde\chi^0_2} > 62.4 \, \mathrm{GeV}$. The limits for squarks are above our simulated value, so we choose to set an imaginary lower limit of 400 GeV. Also, since we assume a decay hierarchy, we implicitly assume the same mass hierarchy. Thus we apply the {\it variable} constraint $m_{\tilde q} > m_{\tilde \chi^0_2} > m_{\tilde l} > m_{\tilde \chi^0_1}$. Variable constraints is actually handled well by Mathematica's minimizer, unlike most algorithms. With all this, our results are summarized in table \ref{table:no_combinatorics_best_fit} and figure \ref{fig:no_combinatorics_best_fit}.\marginpar{Possible todo: Check data for biases. Expect a slight bias towards lower values because of escaping photons?}
-
-% \begin{table}[hbt]
-% 	\centering
-% 	\begin{tabular}{| l | l | l | l | l |}
-% 		\hline
-% 		Particle 			& $\tilde q$	& $\tilde \chi_2^0$	& $\tilde l$	& $\tilde \chi_1^0$ \\ \hline
-% 		True mass [GeV]		& 568 (average) & 180 				& 144 			& 97 				\\ \hline
-% 		Best-fit with Herwig bug, remove 	& $508 \pm 100$ 	& $149 \pm 44$ 	& $119 \pm 42$	& $72 \pm 52$ \\ \hline
-% 		Best-fit & $487 \pm 99$ 	& $144 \pm 50$ 	& $117 \pm 48$	& $78 \pm 56$ \\ \hline
-% 	\end{tabular}
-% 	\caption{Summary of the average best fit points for 100 bins of 25 events each using Mathematica. The values given are the bin-average best-fit point $\pm$ r.m.s. deviation. Combinatorical issues are not taken into account and no smearing is applied. This is corresponding to figure \ref{fig:no_combinatorics_best_fit}.}
-% 	\label{table:no_combinatorics_best_fit}
-% \end{table}
-
-
-% % We begin by using the Minuit method Migrad to minimize the $\xi^2$ for 100 bins of 25 events each. A plot of the fit is shown in figure \ref{fig:herwig_migrad_nosmear_1p01} for an initial mass guess of 1.01 times the true mass values, and the best-fit points are summarized in table \ref{table:herwig_migrad_nosmear_1p01}. This is probably an unrealistically well-educated guess. Still, we see in the plot that many of the fit points to squark mass lie along a horizontal line. This happens when the minimizer is unable to find a better fit point than the initial guess. It is very difficult to find the optimal (and realistic?) tradeoff here, because the minimization is extremely sensitive to the initial guess -- if it is too far off, the minimization fails, and if it is too close it will end up choosing the initial value.
-
-% % This leads us to investigate other minimization algorithms. We employ methods bundled in the Python package {\ttfamily Scipy} \cite{SciPy}. It features a minimization routine which contains as many as 12 different algorithms suitable for different purposes. The function we are minimizing is a quartic polynomial and thus differentiable. Also, we have bounds on the parameters since we know the masses should be positive. Hence we look at methods for minimizing differentiable functions over bounded areas. Two such methods are the {\it Truncated Newton algorithm/Newton Conjugate-Gradient (TNC)}\cite{Nash:1984} and {\it Sequential Least-Squares Programming (SLSQP)}\cite{Kraft:1988}. \marginpar{Say something about the actual mathematics of the two.} Figure \ref{fig:scipy_fit_nosmear} shows fits using these two methods. The performance is summarized in table \ref{table:herwig_scipy_comparison}. We see that the TNC method clearly seems to be performing better on our problem, so we will investigate further with this method. \marginpar{TODO: Do a minimization with x=1.0 initial mass guess, to see how well we possibly can do.}
-
-
-
-
-
-% \begin{figure}[hbt]
-% \centering
-% \includegraphics[scale=0.7]{figures/herwig_mathematica_no_smearing.pdf} 
-% \caption{Best-fit points of 100 bins of 25 events generated with {\ttfamily Herwig++}, without momentum smearing and with no combinatorics, minimized using Mathematica. [This fit is horrible, obviously. The reason for the vertical lines is that the best-fit lies outside the experimental bounds. This remains to be investigated further.]}
-% \label{fig:no_combinatorics_best_fit}
-% \end{figure}
-
-
-
-% % \begin{table}[hbt]
-% % 	\centering
-% % 	\begin{tabular}{| l | l | l | l | l |}
-% % 		\hline
-% % 		Particle 			& $\tilde q$	& $\tilde \chi_2^0$	& $\tilde l$	& $\tilde \chi_1^0$ \\ \hline
-% % 		True mass [GeV]		& 568 (average) & 180 				& 144 			& 97 				\\ \hline
-% % 		Migrad best-fit 	& $578 \pm 22 [24]$ 	& $181 \pm 15 [15]$ 	& $145 \pm 6 [6]$	& $101 \pm 19 [19]$ \\ \hline
-% % 	\end{tabular}
-% % 	\caption{Summary of Migrad fit to 25 event bins corresponding to figure \ref{fig:herwig_migrad_nosmear_1p01}.}
-% % 	\label{table:herwig_migrad_nosmear_1p01}
-% % \end{table}
-
-% % \begin{table}[hbt]
-% % 	\centering
-% % 	\begin{tabular}{| l | l | l | l | l |}
-% % 		\hline
-
-% % 		Particle   			& $\tilde q$ 	&$\tilde \chi_2^0$ 	& $\tilde l$ 	& $\tilde \chi_1^0$    	\\ \hline
-% % 		True mass [GeV]     & 568 (average) & 180				& 144			& 97					\\
-% % 		TNC, $x = 1.05$* &	$551 \pm 69 [71]$ & $179 \pm 18 [18]$ & $150 \pm 11 [12]$ & $111 \pm 23 [27]$ \\
-% % 		SLSQP, $x = 1.05$ &	$525 \pm 99 [108]$ & $176 \pm 26 [26]$ & $150 \pm 22 [23]$ & $114 \pm 38 [41]$ \\
-% % 		TNC, $x = 1.1$ &		$565 \pm 73 [73]$ & $184 \pm 25 [25]$ & $154 \pm 22 [24]$ & $114 \pm 24 [29]$ \\
-% % 		SLSQP, $x = 1.1$ &	$536 \pm 112 [116]$ & $193 \pm 92 [93]$ & $167 \pm 95 [97]$ & $133 \pm 103 [109]$ \\ \hline
-% % 	\end{tabular}
-% % 	\caption{Summary of TNC and SLSQP fits to 25 event bins corresponding to figure \ref{fig:scipy_fit_nosmear}. Fitted parameters are given as `average over bins $\pm$ empirical rms variation [true rms variation]'. The true rms variation means rms deviation from the true mass value. (*The given $x$ means $M_\mathrm{initial}= x M_\mathrm{true}$ for all unknown masses, $M_\mathrm{initial}$ being the starting point of the search.)}
-% % 	\label{table:herwig_scipy_comparison}
-% % \end{table}
-
-
-% % \begin{figure}[hbt]
-% % 	\centering
-% % 	\begin{subfigure}[b]{0.45\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/herwig_scipy_slsqp_minimization_1p05_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:scipy_fit_nosmear1}
-% % 	\end{subfigure}
-% % 	\begin{subfigure}[b]{0.45\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/herwig_scipy_tnc_minimization_1p05_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:scipy_fit_nosmear2}
-% % 	\end{subfigure}
-
-% % 	\begin{subfigure}[b]{0.45\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/herwig_scipy_slsqp_minimization_1p1_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:scipy_fit_nosmear3}
-% % 	\end{subfigure}
-% % 	\begin{subfigure}[b]{0.45\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/herwig_scipy_tnc_minimization_1p1_initial_guess.pdf} 
-% % 		\caption{}
-% % 		\label{fig:scipy_fit_nosmear4}
-% % 	\end{subfigure}
-% % 	\caption{Best-fit points for 100 bins of 25 Herwig++ generated events for initial guesses of $1.05 M_\mathrm{true}$ ((a), (b)) and $1.1 M_\mathrm{true}$ ((c), (d)) using Newton Conjugate-Gradient (TNC) ((a),(c)) and sequential least squares (SLSQP) ((b), (d)) methods for minimization. The fits are summarized in table \ref{table:herwig_scipy_comparison}. Note that figure (c) has outliers stretching the axes, making it seem more clustered compared to the others than it is.}
-% % 	\label{fig:scipy_fit_nosmear}
-% % \end{figure}
-
-
-
-% \section{Modelling the detector resolution by smearing momenta}
-% \marginpar{Get reference for smearing formulas for leptons from Are}
-% In a detector, the resolution with which we can measure momenta of the particles is limited. We model this limitation by smearing the particle momenta by multiplying it with some random number close to one. The smearing is different for different types of particles. For hadrons it is given by
-% \begin{align}
-% 	\tilde{p}^\mu = p^\mu \left( 1 + r_n \frac{s}{\sqrt{E \mathrm{[GeV]}}} \right) \label{eq:smear1}
-% \end{align}
-% where $r_n$ is a standard normal-distributed random variable, $s$ is given as
-% \begin{align}
-% 	s = \begin{cases}
-% 								0.5 &: \,\mathrm{for }\, \eta \leq 3.2,\\
-% 								1.0 &: \,\mathrm{for }\, \eta > 3.2,
-% 		\end{cases}
-% \end{align}
-
-% and $\eta$ is the pseudorapidity, given by
-% \begin{align}
-% 	\eta = \frac{1}{2} \ln \left(\frac{\left|\mathbf{p}\right|+p_\text{L}}{\left|\mathbf{p}\right|-p_\text{L}}\right)
-% \end{align}
-% Here $\mathbf{p}$ denotes the three-momentum, $p_L$ is the longitudinal momentum component with respect to the beam axis and $p_T$ is the transverse momentum component. For electrons the smearing formula is
-% \begin{align}
-% 	\tilde{p}^\mu = p^\mu \left(1 + r_n \sqrt{\frac{s^2}{E\mathrm{[GeV]}} + 0.0017^2}\right),
-% \end{align}
-% where $s$ is given as
-% \begin{align}
-% 	s = \begin{cases}
-% 					11.1 												&: \,\mathrm{for}\, \eta < 0.3,\\
-% 					11.1 + (15.4 - 11.1)\frac{\eta - 0.3}{1.1 - 0.3} 	&: \,\mathrm{for}\, 0.3 \leq \eta < 1.1,\\
-% 					15.4 + (16.1 - 15.4)\frac{\eta - 1.1}{2.0 - 1.1}		&: \,\mathrm{for}\, 1.1 \leq \eta < 2.0,\\
-% 					16.1 												&: \,\mathrm{for}\, \eta > 2.0,
-% 	\end{cases}
-% \end{align}
-% and finally the muons are smeared by
-% \begin{align}
-% 	\tilde p^\mu = p^\mu (1 + \sqrt{\frac{1}{\frac{1}{(0.000443|p_T|)^2 + 0.000497} + 
-%         \frac{1}{(0.0000935|p_T|)^2 + 0.001204}}} r_n
-% \end{align}
-
-%  All components $\mu$ are smeared with the same $r_n$ such that the direction is not altered. 
-
-% % Old:
-% % The first complication we add is that of momentum smearing. This is done to model the uncertainties that stem from the detectors. According to the prescription from the {\ttfamily AcerDET} manual \cite{RichterWas:2002ch} we use a smearing of the form
-% % \begin{align}
-% % 	\tilde{p}^\mu = p^\mu \left( 1 + r_n \frac{s}{\sqrt{E \mathrm{[GeV]}}} \right),\label{eq:smear}
-% % \end{align}
-% % where $r_n$ is a standard normal-distributed random variable and $s$ is the chosen smearing resolution. All components $\mu$ are smeared with the same $r_n$ such that the direction is not altered.\marginpar{TODO: Differentiate between types of particles, give different amounts of smearing. See AcerDET manual.} Table \ref{table:fit_smear} shows best-fit results for 10 \% and 30 \% smearing. We see that still the error, even at 30 \% smearing, are of the order of a few percent -- except for the lightest neutralino, where it is 32 \% off. It appears that the relative fit error increases with decreasing sparticle mass. This might indicate that {\ttfamily SIMPLEX} fits all masses with about the same absolute error -- which would make the relative error larger for smaller sparticle mass. The dilepton invariant mass distribution is shown again for the two smearing choices in figure \ref{fig:dilepton_invariant_mass_smearing}.
-
-% % \begin{table}[hbt]
-% % 	\centering
-% % 	\begin{tabular}{| l | l | l | l | l | l |}
-% % 		\hline
-% % 		Smearing resolution &					&  $m_{\tilde{q}}$ & $m_{\tilde{\chi}_2^0}$ & $m_{\tilde{l}}$ & $m_{\tilde{\chi}_1^0}$ \\ \hline
-% % 							& True values [GeV] 	& 545.4 & 180.3 & 144.1 & 97.0 \\ \hline
-% % 		10 \% 				& Best-fit values [GeV] & 547.0 & 185.5 & 149.8 & 103.1 \\ \hline
-% % 		10 \% 				& Relative fit error  & 0.3 \% & 2.8 \% & 4.0 \% & 6.3 \% \\ \hline
-% % 		30 \% 				& Best-fit values [GeV] & 565.4 & 177.7 & 135.2 & 65.8 \\ \hline
-% % 		30 \% 				& Relative fit error  & 3.7 \% & 1.5 \% & 6.1 \% & 32.2 \% \\ \hline
-% % 	\end{tabular}
-% % 	\caption{SIMPLEX fit of 1000 events with momentum smearing.}
-% % 	\label{table:fit_smear}
-% % \end{table}
-
-% % \begin{figure}[hbt]
-% % 	\centering
-% % 	\begin{subfigure}[b]{0.4\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/dilepton_invariant_mass_comphep-data_smearing-0point1_events-1000.pdf} 
-% % 		\caption{ }
-% % 	\end{subfigure}
-% % 	\begin{subfigure}[b]{0.4\textwidth}
-% % 		\includegraphics[width=\textwidth]{figures/dilepton_invariant_mass_comphep-data_smearing-0point3_events-1000.pdf}
-% % 		\caption{ } 
-% % 	\end{subfigure}
-% % 	\caption{Dilepton invariant mass distribution with 10 \% (a) and 30 \% (b) momentum smearing.}
-% % 	\label{fig:dilepton_invariant_mass_smearing}
-% % \end{figure}
-
-
-% \subsection{How does matrix invertibility depend on smearing?}
-% Given a 4-momentum vector $p^\mu_i$, what are its statistical properties after smearing with the prescription in Eq. \eqref{eq:smear1}? The stochastic variable $r_n$ in \eqref{eq:smear1} is drawn from a standard normal distribution, {\it e.g.}\
-% \begin{align}
-% 	r_n \sim N(\mu,\sigma) = N(0,1),
-% \end{align}
-% where $N$ denotes a normal distribution, $\mu$ is the expectation value and $\sigma$ is the standard deviation. From basic probability theory we know that for expectation values $\mathrm E(X)$ and variances $\mathrm{Var}(X)$ we have
-% \begin{align}
-% 	\mathrm E(aX+bY) = a\mathrm E(X) + b\mathrm E(Y),\\
-% 	\mathrm{Var}(aX + bY) = a^2\mathrm{Var}(X) + b^2\mathrm{Var}(Y).\nonumber
-% \end{align}
-% Thus for a smeared 4-vector $\tilde{p}^\mu_i$ we have
-% \begin{align}
-% 	\mathrm E(\tilde{p}^\mu_i) = p^\mu_i,\\
-% 	\mathrm{Var}(\tilde{p}^\mu_i) = \frac{s^2 (p^\mu_i)^2}{E_i\mathrm{[GeV]}}.
-% \end{align}
-% For a sum of smeared 4-vectors we thus get
-% \begin{align}
-% 		\mathrm E\left(\sum_i \tilde{p}^\mu_i\right) = \sum_i p^\mu_i,\\
-% 	\mathrm{Var}\left(\sum_i \tilde{p}^\mu_i\right) = \sum_i \frac{s^2 (p^\mu_i)^2}{E_i\mathrm{[GeV]}}.
-% \end{align}
-
-% \marginpar{TODO: Look at the analytical expressions for det(A), E(det(A)) and Var(det(A)) as a function of smearing, with the redefinitions in the next section for A4 / A8. Maybe use Mathematica to calculate?}
-
-
-
-% \section{Taking combinatorial issues into account}
-% In a real detector event, we will not have information about which of the measured particles belong to which chain. Therefore we must evaluate all allowed combinations and see which appears most likely to be the correct one. We have two possible cases, depending on whether the OSSF leptons on the two sides are of the same or different generations: If all four leptons are the same, then there are 16 possible combinations including the two-fold ambiguity in the quark assignments, while the number reduces to eight if the leptons come in two different generations. 
-
-% Webber chooses to include only the cases with different generation leptons in the analysis. But as that means discarding half the events, and since the golden cascade potentially is very rare, we choose to include everything. This means we have to do a quite extensive analysis of each event to select the correct particle combination. We do it in the following way: For each mass parameter point we guess, we evaluate the value of 
-% \begin{align}
-%  	\left[(\hat p_{A}^2)_n - \frac{M_A^2}{M_\mathrm{norm}^2}\right]^2 + \left[(\hat p_{A'}^2)_n - \frac{M_{A'}^2}{M_\mathrm{norm}^2}\right]^2
-%  \end{align} 
-%  for all 8/16 possible combinations for each event. Then we select the lowest among the values and add it to the $\xi^2$ sum. This procedure means that the same combination not necessarily will be picked for all parameter points, leading to a more complicated $\xi^2$ than in the no-combinatorics case.. We show the same 3D contour plot as above with combinatorics included in figure \ref{fig:3D_masses_with_combinatorics}.
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-chi2.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses_with_combinatorics1}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-slepton.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses_with_combinatorics2}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-chi1.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses_with_combinatorics3}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/3D_plot_xisquared_25_herwig_events_with_combinatorics_squark-chi1_rotated.pdf} 
-% 		\caption{}
-% 		\label{fig:3D_masses_with_combinatorics4}
-% 	\end{subfigure}
-% 	\caption{3D contour plot of $\log(\xi^2)$ with combinatorics included, in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value.}
-% 	\label{fig:3D_masses_with_combinatorics}
-% \end{figure}
-% We see that the combinatorical issues introduces sharp edges and less pronounced minima. The sharp edges most likely arise when the function experiences a sudden shift in best-fit combinations. The most striking difference between this and figure \ref{fig:3D_masses_herwig} is that the $m_{\tilde \chi_1^0}$ no longer shows a minimum - it just flattens out toward zero. This could have dramatic effects on the minimization. 
-
-
-
-% \chapter{TEMP: This is what I get}
-% This is not part of the thesis, just a temporary display of what I get and trying to systematicize it.
-
-% I have done the minimization on five different datasets: simplistic events generated according to the algorithm in the appendix; the same simplistic events with a gaussian smearing of the unstable particle masses (to mimic a Breit-Wigner smearing) and an exponential smearing of the quark mass (using the pdf $f(m) = \frac{1}{m_0}\exp(-m/m_0)$) to mimic the virtuality of the quark due to gluon radiation; Herwig++ generated events; Pythia-events without ISR or FSR; and Pythia-events with everything turned on.
-
-% The minimization is done using a C++ implementation of Nelder-Mead Simplex. 
-
-% For the following plots I have selected only events where the two chains have different generations of leptons (except for the simplistic events, where there is only one lepton mass). I have done the minimization both with and without taking combinatorical issues into account. I have also tested applying cuts at $\xi^2 < 100$ in units of (100 GeV)$^4$. Where this is done it is stated in the caption, and the fraction of events passing the cut is given above the plot.
-
-% Update: Are has implemented the minimization in ROOT. It reproduces Webber's tendency of symmetry around the y axis, but with somewhat larger spread. However, when the tolerance required for convergence is turned down in the ROOT code, i.e. we get closer to the actual minimal points, then the results become similar to mine. These two cases are shown in figure \ref{root}. When I set the tolerance in my C++ implementation to a similar value as the original ROOT value, then the results begin to look quite a lot like Webber's. This is shown in figure \ref{pythia-high} for the Pythia dataset with FSR.
-
-% \begin{figure}[hbt]
-% \centering
-% \includegraphics[scale=1.0]{figures/making-sense/webber_nosmear.png} 
-% \caption{This is what Webber gets, using fortran Herwig with FSR and all. Note that there is no sign here of the ``valley of degeneracy'' that is so apparent going southwest-northeast in all my plots -- the best-fit points are distributed symmetrically around the $x$-axis, centered on the true mass point.}
-% \end{figure}
-
-% \begin{figure}[hbt]
-% \centering
-% \includegraphics[scale=0.7]{figures/making-sense/simple_combinatorics-OFF_nocut.pdf} 
-% \caption{Simplistic events. No cut, no combinatorics taken into account. Fits `perfectly'.}
-% \end{figure}
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_cut-100.pdf} 
-% 		\caption{Combinatorics OFF. Cut ON.}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_nocut.pdf} 
-% 		\caption{Combinatorics OFF. Cut OFF.}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_cut-100_combinatorics-ON.pdf} 
-% 		\caption{Combinatorics ON. Cut ON.}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/20150214_simplistic_events_with_gauss_and_exp_smearing_nocut_combinatorics-ON.pdf} 
-% 		\caption{Combinatorics ON. Cut OFF.}
-% 	\end{subfigure}
-% 	\caption{Simplistic events with gaussian smearing of unstable particle masses and exponential smearing of quark mass}
-% \end{figure}
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-OFF_cut-100.pdf} 
-% 		\caption{Combinatorics OFF. Cut ON.}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-OFF_nocut.pdf} 
-% 		\caption{Combinatorics OFF. Cut OFF. }
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-ON_cut-100.pdf} 
-% 		\caption{Combinatorics ON. Cut ON.}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/pythia_noIFSR_combinatorics-ON_nocut.pdf} 
-% 		\caption{Combinatorics ON. Cut OFF.}
-% 	\end{subfigure}
-% 	\caption{Pythia without ISR/FSR}
-% \end{figure}
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/pythia_combinatorics-OFF_nocut.pdf} 
-% 		\caption{Combinatorics OFF. Cut OFF. }
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/pythia_combinatorics-ON_cut-100.pdf} 
-% 		\caption{Combinatorics ON. Cut ON.}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/pythia_combinatorics-ON_nocut.pdf} 
-% 		\caption{Combinatorics ON. Cut OFF.}
-% 	\end{subfigure}
-% 	\caption{Pythia with ISR/FSR}
-% \end{figure}
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/herwig_combinatorics-OFF_nocut.pdf} 
-% 		\caption{Combinatorics OFF. Cut OFF. }
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/herwig_combinatorics-ON_cut-100.pdf} 
-% 		\caption{Combinatorics ON. Cut ON.}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.49\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/herwig_combinatorics-ON_nocut.pdf} 
-% 		\caption{Combinatorics ON. Cut OFF.}
-% 	\end{subfigure}
-% 	\caption{Herwig++}
-% \end{figure}
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.6\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/root-fit_pythia-full_tol-original.png} 
-% 		\caption{ROOT minimization with original tolerance.}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.6\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/root-fit_tol-1e-4_pythia-full_2000iter.png} 
-% 		\caption{ROOT minimization with reduced tolerance.}
-% 	\end{subfigure}
-% 	\label{root}
-% 	\caption{ROOT}
-% \end{figure}
-
-% \begin{figure}[hbt]
-% 	\centering
-% 	\begin{subfigure}[b]{0.6\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/20150220_pythia_with_FSR_tol-0p1.pdf} 
-% 		\caption{Pythia with high tolerance, combinatorics OFF.}
-% 	\end{subfigure}
-
-% 	\begin{subfigure}[b]{0.6\textwidth}
-% 		\includegraphics[width=\textwidth]{figures/making-sense/20150220_pythia_with_FSR_combinatorics-ON_tol-0p1.pdf} 
-% 		\caption{Pythia with high tolerance, combinatorics ON.}
-% 	\end{subfigure}
-% 	\label{pythia-high}
-% 	\caption{Pythia with high tolerance. No cuts are applied here}.
-% \end{figure}
-
-% \begin{figure}
-% 	\centering
-% 	\includegraphics[width=\textwidth]{figures/making-sense/simplistic_with_mass_smearing_comparison.png}
-% 	\caption{ROOT vs C++ comparison for low tolerance ($10^{-8}$ for both) on the simplistic dataset with mass smearing.}
-% \end{figure}
 
 
 
