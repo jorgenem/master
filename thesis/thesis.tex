@@ -40,30 +40,112 @@ This is an abstract text.
 \listoftables
 
 
-\chapter{Supersymmetry}
-% \marginpar{Should probably include some math}
-% Supersymmetry is a hypothetical extension of the Standard model of particle physics. The present chapter gives a brief introduction to the theory of supersymmetry. The summary is largely based on \cite{Batzing:2013}.
 
-% \section{The Standard Model of Particle Physics}
-% The standard model of particle physics has been hugely successful in explaining what our universe consists of and how the constituents interact with each other. But it is well known that the standard model is incomplete, for instance since it gives no explanation for dark matter. There are also more technincal problems with the standard model, such as the hierarchy problem of the Higgs boson mass loop corrections and the arbitrariness of the model parameters.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Supersymmetry}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{ch:susyintro}
 
-% The standard model is a quantum field theoretic model and may be stated in terms of a Lagrangian density function $\mathcal{L}$. The features that define the standard model emerge by requiring that it is invariant under the action of certain {\it gauge groups} -- specifically the infamous $U(1)_Y\times SU(2)_L\times SU(3)_C$, where the subscripts stand for {\it hypercharge, left} and {\it colour}, respectively, and refer to the properties that the different fields must have in order to be acted upon by the group transformations. By inserting certain {\it fermionic} field content in the Lagrangian and imposing these symmetries, the model acquires a number of {\it gauge bosons} for the different gauge groups. All these particles are \`{a} priori massless, a requirement to fulfill the gauge symmetry. To give particles their observed mass, then, one adds a scalar field and a corresponding scalar potential of a certain shape. The shape of the potential is such that the $U(1)_Y\times SU(2)_L$ symmetry is {\it spontaneously broken} at a certain energy scale, shifting the degrees of freedom around to give a scalar Higgs boson along with the other gauge bosons, and also giving mass to all particles except the photon. The remaining unbroken symmetries are then the $U(1)_\mathrm{em}$ for electromagnetic and $SU(3)_C$ for strong interactions. 
+\marginpar{Should probably include some math}
+Supersymmetry is a proposed extension of the Standard model of particle physics. The present chapter gives a brief introduction to the theory of supersymmetry. The summary is largely based on \cite{Batzing:2013}.
 
-% The particles that make up the standard model are: the three generations of charged leptons, electron, muon and tau, and their three neutral counterparts, the neutrinos; the three generations of up- and down-type quarks up, down, charm, strange, top and bottom; the electroweak gauge bosons photon, Z and W; the strong gauge bosons, the gluons; and the Higgs boson. 
+\section{The Standard Model of Particle Physics}
+The standard model of particle physics has been hugely successful in explaining what our universe consists of and how the constituents interact with each other. But it is well known that the standard model is incomplete, for instance since it gives no explanation for dark matter. There are also more technincal problems with the standard model, such as the hierarchy problem of the Higgs boson mass loop corrections and the arbitrariness of the model parameters.
 
-% \section{Motivations for extending the standard model}
-% As mentioned, one of the big problems with the standard model is that is has no candidate for particle dark matter. Observations over the last century have given strong evidence for the existence of some as yet unkown form of matter which is distributed in large quantites all over the universe -- in fact four times as much as our ordinary matter. It is widely believed that this dark matter is some form of particle. Dark matter interacts primarily, or possibly even solely, via gravitation, so the particle has to be colourless and electrically neutral. It also has to be long-lived in order to explain the abundance of it that we still observe. These restrictions rule out most of the standard model particles, with the exception of neutrinos. But neutrinos are known to be very light, almost massless, and calculations of early-universe dynamics show that they are too light to be able to work as dark matter. 
+\begin{itemize}
+	\item Do the following section more mathematically. Introduce the general ingredients of a gauge theory: Gauge groups, transformations, covariant derivatives and fields. Representations. This also facilitates the discussion of the super-symmetry later by analogy.
+\end{itemize}
 
-% \section{Extending the standard model by supersymmetry}
-% Supersymmetry is a proposed extension of the standard model which increases the number of degrees of freedom by introducing a symmetry between fermions and bosons. The construction of supersymmetry is in a way a two-step process, where one first derives the Lagrangian of a theory with complete symmetry between fermions and bosons, meaning that every bosonic degree of freedom gets a corresponding `supersymmetric' fermionic degree of freedom, and {\it vice versa}. These fields only differ in spin. Then one realizes that this theory cannot be correct, since we have not observed {\it e.g.\ } scalar, colour charged particles with the same mass as the quarks. To make the theory physically viable, the supersymmetric partners must be significantly heavier than their standard model counterparts. 
+The standard model is a quantum field theoretic model, and may be stated in terms of a Lagrangian density function $\mathcal{L}$. The guiding principle for constructing the Lagrangian is {\it gauge invariance}. Gauge degrees of freedom are degrees of freedom which are ``superflous'', in the sense that they do not have any observable consequences. This is exploited by requiring that the Lagrangian, which determines the physical dynamics, does not change when the gauge degrees of freedom are varied -- the Lagrangian is gauge invariant.
 
-% \section{The Minimal Supersymmetric Standard Model}
+The standard model consists of three Lie groups of quadratic matrices, the infamous $U(1)_Y\times SU(2)_L\times SU(3)_C$. The number in the parenthesis gives the matrix dimension of the group. The symbols $U$ and $SU$ stand for {\it unitary} and {\it special unitary}, respectively. Unitary means that the matrices are unitary, and special means they have determinant 1. The groups are Lie groups, which means that they are continuous, and thus that any transformation of a group element may be constructed from infinitesimal transformations. The objects on which the group acts may be given in several {\it representations}. In the case of matrix groups this means vectors of different dimension. For an $SU(n)$ group, the two most important representations are the {\it fundamental} representation, where the vectors have dimension $n$, and the {\it adjoint} representation, where the vectors have dimension $n^2-1$. 
+
+A transformation by a group element may generally be written as 
+\begin{align}
+	\exp(something sum of generators),
+\end{align}
+where $T_a$ are called the generators of the Lie algebra corresponding to the group. The generators themselves are in the fundamental representation represented by $n^2-1$ traceless complex $n\times n$ matrices -- for $SU(2)$, these are the Pauli matrices $\sigma_i$, and for $SU(3)$ they are the Gell-Mann matrices $\lambda_i$ -- and in the adjoint representation by the {\it structure coefficients} $f_{abc}$ as $(T_a)_{bc} = f_{abc}$. The structure coefficients are determined from the Lie algebra as
+\begin{align}
+	[T_a, T_b] = i f_{abc}T_c,
+\end{align}
+where repeated indices are summed over.
+
+The standard model is a quantum field theoretic model and may be stated in terms of a Lagrangian density function $\mathcal{L}$. The features that define the standard model emerge by requiring that it is invariant under the action of certain {\it gauge groups} -- specifically the infamous $U(1)_Y\times SU(2)_L\times SU(3)_C$, where the subscripts stand for {\it hypercharge, left} and {\it colour}, respectively, and refer to the properties that the different fields must have in order to be acted upon by the group transformations. By inserting certain {\it fermionic} field content in the Lagrangian and imposing these symmetries, the model acquires a number of {\it gauge bosons} for the different gauge groups. All these particles are {\it a priori} massless, a requirement to fulfill the gauge symmetry. To give particles their observed mass, then, one adds a scalar field and a corresponding scalar potential of a certain shape. The shape of the potential is such that the $U(1)_Y\times SU(2)_L$ symmetry is {\it spontaneously broken} at a certain energy scale, shifting the degrees of freedom around to give a scalar Higgs boson along with the other gauge bosons, and also giving mass to all particles except the photon. The remaining unbroken symmetries are then the $U(1)_\mathrm{em}$ for electromagnetic and $SU(3)_C$ for strong interactions. 
+
+The particles that make up the standard model are: the three generations of charged leptons, electron, muon and tau, and their three neutral counterparts, the neutrinos; the three generations of up- and down-type quarks up, down, charm, strange, top and bottom; the electroweak gauge bosons photon, Z and W; the strong gauge bosons, the gluons; and the Higgs boson. 
+
+\section{Motivations for extending the standard model}
+\begin{itemize}
+	\item Dark matter
+	\item Also other things? Neutrino masses (although not explained)? EWSB? Hierarchy problem? 
+\end{itemize}
+
+As mentioned, one of the big problems with the standard model is that is has no candidate for particle dark matter. Observations over the last century have given strong evidence for the existence of some as yet unkown form of matter which is distributed in large quantites all over the universe -- in fact four times as much as our ordinary matter. It is widely believed that this dark matter is some form of particle. Dark matter interacts primarily, or possibly even solely, via gravitation, so the particle has to be colourless and electrically neutral, because the strength of these interactions would lead to the particle having been observed by now. It also has to be long-lived in order to explain the abundance of dark matter that we observe in the universe today, because the assumption is that it was thermally produced in the early universe and subsequently cooled off. These restrictions rule out most of the standard model particles, with the exception of neutrinos. But neutrinos are known to be very light, almost massless, and calculations of early-universe dynamics show that they are too light to be candidates for dark matter. 
+
+\section{Extending the standard model by supersymmetry}
+Supersymmetry is a proposed extension of the standard model which increases the number of degrees of freedom by introducing a symmetry between fermions and bosons. The construction of supersymmetry is in some sense a two-step process, where one first derives the Lagrangian of a theory with complete symmetry between fermions and bosons, meaning that every bosonic degree of freedom gets a corresponding `supersymmetric' fermionic degree of freedom, and {\it vice versa}. These fields only differ in spin. But since we have not observed {\it e.g.\ } scalar, colour charged particles with the same mass as the quarks, the symmetry can not be exact. To make the theory physically viable, the supersymmetric partners must be significantly heavier than their standard model counterparts. 
+
+
+\subsection{Lagrangian content, superfields}
+\begin{itemize}
+	\item Two main types: Chiral and vector supermultiplets.
+\end{itemize}
+
+\subsection{SUSY breaking}
 
 
 
 
-\chapter{Determination of SUSY particle masses from cascade decays}
+\section{The Minimal Supersymmetric Standard Model}
+\subsection{R-parity}
+\begin{itemize}
+	\item Needed to make the proton stable; DM is a great side effect
+\end{itemize}
+
+\subsection{Renormalization group equation}
+\begin{itemize}
+	\item Include plot from Stephen Martin. 
+\end{itemize}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/susyintro/MSSMrun.eps}
+	\caption{MSSM RGE running, from \cite{Martin:1997ns}.}
+	\label{fig:mssm_rgerun}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Determination of SUSY particle masses from cascade decays}%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{ch:introducing_the_method}
+
+
 \marginpar{Separate into introduction chapter}
 In the following chapters we will present and discuss a method for determining the masses of supersymmetric particles in certain types of cascade decays. The present chapter formulates the type of process we are studying and the problems we face, and presents a novel method proposed by B. Webber \cite{Webber:2009vm} for making inferences about the unknown masses. The subsequent chapters deal with investigation and improvements on the method. We begin by simulating events, adding complexities layer by layer, investigating the method and getting some feeling for its aptitude. We then discuss some problems with the original formulation, suggest ways to amend these and look at ways to develop the method further.
 
@@ -329,7 +411,7 @@ There are several ways in which a pair of squarks can be produced in $pp$ collis
 Webber uses Fortran {\tt HERWIG} version 6.510 \cite{Corcella:2000bw,Moretti:2002eu} to produce events, selecting only events with two left-handed first- or second generation squarks (to limit the mass splitting), but irrespective of the hard production process. The analysis, {\it i.e.} minimization of the $\xi^2$, is performed on 100 samples of 25 events each, using the Minuit {\tt Simplex} \cite{James:1975dr} routine for minimization. He models the effects of measurement errors in a real detector by applying momentum smearing according to a gaussian distribution, and he puts a cut on the total $\xi^2$ obtained at the minimum to eliminate samples which give a bad result. His results are summarized in table 1 of \cite{Webber:2009vm}, which we for convenience show in table \ref{table:webber_original}. 
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=0.8\textwidth]{figures/webber_rec_table/webber_scatter.png} 
+	\includegraphics[width=0.6\textwidth]{figures/webber_rec_table/sps1a_fits.eps} 
 	\caption{fig.\ 2 from \cite{Webber:2009vm}, displayed here for comparison.}
 	\label{fig:webber_scatter}
 \end{figure}
@@ -813,6 +895,7 @@ Another possibility is to combine a few events at a time, and minimize the $\xi^
 \item Investigate determinant.
 \item Investigate SFL events. What happens to the minima if there are four different A matrices? Can we select the true combo among the four? Remember to also utilise the dilepton edge to discriminate.
 \item Possible way out of combinatorics: Sum all contributions with same matrix A. Select between the two matrices in some way, either by Webber-jumping or by selecting on samples of fewer events. That actually works better than I thought. At LEAST something to include plots of. Note: Bias toward lower values, even after cut. Can be corrected by MC? 
+\item A point for conclusions: Webber cites the Cheng papers in the original article, pointing out that his method is ``closest in spirit to those''. So maybe we can sum up by comparing, and saying something about that the Cheng version appears to have prospects for a more accurate determination?
 \end{itemize}
 
 
