@@ -52,7 +52,7 @@ This is an abstract text.
 \label{ch:SM_intro}
 The Standard Model of particle physics has been hugely successful in explaining what our universe consists of at the smallest length scales, and how these constituents interact with each other. It recieved a final, spectacular confirmation in 2012, when a Higgs boson consistent with the predictions of the Standard Model was discovered by the CMS and ATLAS experiments at CERN. It is well known, however, that the Standard Model is incomplete as a description of our universe, for instance since it gives no explanation for dark matter. There are also more technincal problems with the Standard Model, such as the hierarchy problem of the Higgs boson mass loop corrections and the arbitrariness of the model parameters.
 
-The present chapter gives an introduction to the principles that underlie the construction of the Standard Model, and outlines the derivation of the model.
+The present chapter gives an introduction to the principles that underlie the construction of the Standard Model, and outlines the derivation of the model. The presentation is based on \cite{Mandl-Shaw} and \cite{Peskin-Schroeder}.
 
 \section{Symmetries and conservation laws}
 Symmetries are manifest in many physical systems. For instance, the special theory of relativity is symmetric under boosts and rotations, as well as translations in space and time. There is a deep relationship between symmetries and the conservation of physical quantities. This result is known as Noether's theorem, and was proven by Emmy Noether in 1915. It states that {\it every differentiable symmetry of the action of a physical system has a corresponding conservation law}. In the example of special relativity, the symmetries under translations in time and space correspond to conservation of energy and momentum.%, and the symmetry under rotation corresponds to conservation of angular momentum. \marginpar{What is the conserved quantity under boosts? Is it that ljyubliajsnski polarization vector? Check.}
@@ -246,7 +246,7 @@ where $\theta_W$ is the {\it Weinberg angle}. The two other $SU(2)_L$ gauge fiel
 \begin{align}
 	W_\mu = \frac{1}{\sqrt{2}} \left[ W_1^\mu - iW_2^\mu \right]
 \end{align}
-and its adjoint $(W^\mu)^\dag$. The field $A^\mu$ is the photon field, $Ẑ^\mu$ is the Z boson field and $W^\mu$ is the $W^\pm$ bosons. The mixing restores the symmetry under a different $U(1)$ group, $U(1)_\mathrm{em}$, and the corresponding conserved charge is the electrical charge. The photon and Z boson are electrically netural, while the $W^\pm$ carry plus/minus one elementary unit of charge.
+and its adjoint $(W^\mu)^\dag$. The field $A^\mu$ is the photon field, $Ẑ^\mu$ is the Z boson field and $W^\mu$ is the $W^\pm$ bosons. The mixing restores the symmetry under a different $U(1)$ group, $U(1)_\mathrm{em}$, and the corresponding conserved charge is the electrical charge. The photon and Z boson are electrically netural, while the $W^\pm$ carry plus/minus one elementary unit of charge.\marginpar{Say something about vacuum expectation values}
 
 The Higgs mechanism also provides fermionic terms of the form $\psi_i y_{ij} \psi_j$. For $i=j$, these are mass terms of the form written in the Dirac bilinear, eq. \eqref{eq:diracbilinear}.
 
@@ -372,7 +372,7 @@ In this chapter we will outline the construction of a supersymmetric theory. Fir
 \section{Extending the Poincar\'{e} symmetry}
 In Chapter \ref{ch:SM_intro}, the Poincar\'{e} group was discussed. It is the group of all Lorentz boosts and rotations, as well as all translations in spacetime. Any physical theory obeying Special Relativity must be invariant under the Poincar\'{e} group. It was shown in 1967 by Coleman and Mandula \cite{PhysRev.159.1251} that there exists no extension of the Poincar\'{e} symmetry which includes the gauge groups of the Standard Model in a non-trivial way, {\it i.e.}\ a way by which the extended group cannot be decoupled as a direct product such that the groups do not couple to each other. 
 
-This prompted Haag, Łopuszański and Sohnius (HLS) \cite{Haag1975257} to introduce the concept of a {\it superalgebra}. A superalgebra is a direct product of two Lie algebras with a binary operation that mixes the algebras together. HLS constructed a superalgebra by combining the Lie algebra of the Poincar\'{e} group with an algebra spanned by four operators called {\it Majorana spinor charges}, represented by a two-component Weyl spinor $Q_A$ (to be defined shortly) and its hermitian conjugate $\bar Q_{\dot A}$. The resulting superalgebra is given by the (anti)commutation relations
+This prompted Haag, \L{}opusza\'{n}ski and Sohnius \cite{Haag1975257} to introduce the concept of a {\it superalgebra}. A superalgebra is a direct product of two Lie algebras with a binary operation that mixes the algebras together. Haag {\it et.al.}\ constructed a superalgebra by combining the Lie algebra of the Poincar\'{e} group with an algebra spanned by four operators called {\it Majorana spinor charges}, represented by a two-component Weyl spinor $Q_A$ (to be defined shortly) and its hermitian conjugate $\bar Q_{\dot A}$. The resulting superalgebra is given by the (anti)commutation relations
 \begin{align}
 	[Q_A,P_\mu] =& [\bar Q_{\dot A}] = 0,\\
 	[Q_A, M_{\mu\nu}] =& \sigma_{\mu\nu,A}^B Q_B,\\
@@ -524,7 +524,7 @@ In terms of the component fields of the superfields, the soft Lagrangian may be 
 	\mathcal{L}_\mathrm{soft} = &-\frac{1}{2} M\lambda^A\lambda_A - \left( \frac{1}{6} a_{ijk} A_i A_j A_k + \frac{1}{2} b_{ij} A_i A_j + t_i A_i + \frac{1}{2} c_{ijk} A^*_i A_j A_k + \mathrm{c.c.}\right)\\
 	&- m_{ij}^2 A_i^* A_j.
 \end{align}
-Since this contains both Weyl spinor fields and scalar fields, the soft terms may be used to modify masses and couplings of the supersymmetric scalar and fermionic fields which will appear in a moment.
+Since this contains both Weyl spinor fields and scalar fields, the soft terms may be used to modify masses and couplings of the superpartner scalar and fermionic fields which will appear in a moment.
 
 
 
@@ -543,7 +543,16 @@ The MSSM requires two Higgs superfield $SU(2)_L$ doublets to be able to give mas
 \end{align}
 This introduces several additional Higgs scalars into the model, as well as the fermionic superpartner fields.
 
-The fields listed above come together and construct the MSSM Lagrangian $\mathcal{L}_\mathrm{MSSM}$ using the rules described above for a general gauge invariant SUSY Lagrangian, giving rise to kinetic terms, superpotential terms and supersymmetric field strength terms. The Lagrangian will {\it a priori} contain terms which break lepton and baryon number conservation, such as $LH_u, LLE, LQ\barD \in \mathcal{L}_\mathrm{MSSM}$. If the couplings for these terms is large, it allows for proton decay, which is experimentally very heavily constrained, with a lifetime of $\tau_\mathrm{proton} > 10^{33} \,\mathrm{yr}$. To avoid this, it is conventional to introduce the concept of {\it R-parity}.
+The fields listed above come together and construct the MSSM Lagrangian $\mathcal{L}_\mathrm{MSSM}$ using the rules described above for a general gauge invariant SUSY Lagrangian, giving rise to kinetic terms, superpotential terms and supersymmetric field strength terms. The SUSY breaking soft terms of the MSSM are, in component fields,
+\begin{align}
+	&\left( -\frac{1}{2}M_1 \tilde B \tilde B - \frac{1}{2}M_2 \tilde W^{i,A} \tilde W^i_A - \frac{1}{2}M_3 \tilde g^{a,A}\tilde g^a_A + \mathrm{c.c.} \right)\nonumber\\
+	+ &\left(-a_{ij}^e \tilde L_i H_d {\tilde e^*}_{iR} - a_{ij}^u \tilde Q_i H_u \tilde u^*_{iR} - a_{ij}^d \tilde Q_i H_d \tilde d^*_{jR} + \mathrm{c.c.} \right)\\
+	- &(m_{ij}^L)^2 \tilde L_i^\dag \tilde L_j - (m_{ij}^e)^2 {\tilde e_{iR}^*} {\tilde e_{jR}} - (m_{ij}^Q)^2 \tilde Q_i^\dag \tilde Q_j \nonumber \\
+	- &(m_{ij}^u)^2 {\tilde u_{iR}^*} {\tilde u_{jR}} - (m_{ij}^d)^2 {\tilde d_{iR}^*} {\tilde d_{jR}} - m^2_{H_u} H^\dag_u H_u - m^2_{H_d} H^\dag_d H_d.\nonumber
+\end{align}
+These terms constitute the main contributions to the superpartner masses.
+
+The Lagrangian will {\it a priori} contain terms which break lepton and baryon number conservation, such as $LH_u$, $LLE$ and $LQ\bar D \in \mathcal{L}_\mathrm{MSSM}$. If the couplings for these terms are large, they allow for proton decay, which is experimentally very heavily constrained, with a lifetime of $\tau_\mathrm{proton} > 10^{33} \,\mathrm{yr}$. To avoid this, it is conventional to introduce the concept of {\it R-parity}, which gives an explanation for why these terms are zero.
 
 \subsection{R-parity}
 R-parity is a multiplicative quantum number which is assumed to be conserved in all SUSY interactions. Formally, a particle has R-parity given by
@@ -553,33 +562,117 @@ R-parity is a multiplicative quantum number which is assumed to be conserved in 
 where $s$ is the particle's spin, $B$ its baryon number and $L$ its lepton number. The important point is that all Standard Model particles have $R=+1$ while all superpartners have $R = -1$. This leads to the very important prediction that superpartner particles only can be produced and annihilated in pairs. In particular, it means that the lightest superpartner (LSP) must be stable against decay. This makes the LSP very attractive as a candidate for dark matter, if it is electrically neutral.
 
 \subsection{Radiative electroweak symmetry breaking}
-Like any quantum field theory, the MSSM is subject to renormalization, which induces the running of the coupling constants and masses of the model as discussed in Chapter \ref{ch:SM_intro}. In particular, the mass parameters $m_{H_u/d}$ for the Higgs doublets, which come from soft breaking terms in the Lagrangian, run with energy. To break the electroweak symmetry, it is assumed that these are equal at some high scale, and run down. It can be shown that the running is proportional to the Yukawa couplings of the third-generation quarks of the respective type -- {\it i.e.}\ the top and bottom, respectively. Because the top Yukawa coupling is much larger than the bottom one, the $m_{H_u}$ parameter runs down much faster with energy and becomes negative. One can further show that this is a sufficient condition to induce the electroweak symmetry breaking, and thus give the gauge bosons and fermions their observed mass.
+Like any quantum field theory, the MSSM is subject to renormalization, which induces the running of the coupling constants and masses of the model as discussed in Chapter \ref{ch:SM_intro}. In particular, the mass parameters $m_{H_u/d}$ for the Higgs doublets, which come from soft breaking terms in the Lagrangian, run with energy. To break the electroweak symmetry, it is assumed that these are equal at some high scale, and run down. It can be shown that the running is proportional to the Yukawa couplings of the third-generation quarks of the respective type -- {\it i.e.}\ the top and bottom, respectively. Because the top Yukawa coupling is much larger than the bottom one, the $m_{H_u}$ parameter runs down much faster with energy and becomes negative. One can further show that this is a sufficient condition to induce the electroweak symmetry breaking, and thus give the gauge bosons and fermions their observed mass.\marginpar{Is this too ``dodgy''? Should I be more technical? I fear there are too many technicalities already.} 
+
+In the course of the symmetry breaking, the neutral components of both the Higgs doublets acquire a non-vanishing vacuum expectation value, $v_u = \langle H_u^0 \rangle$ and $v_d = \langle H_d^0 \rangle$, respectively. These must relate to the vector boson masses of the Standard Model as
+\begin{align}
+	v_u^2 + v_d^2 = \frac{2m_Z^2}{g^2 + g^{'2}} \approx (174 \,\mathrm{GeV})^2.
+\end{align}
+The remaining free parameter is conventionally parametrized as
+\begin{align}
+	tan \beta \equiv \frac{v_u}{v_b}.
+\end{align}
 
 \subsection{Particle phenomenology of the MSSM}
 The total particle content of the MSSM is as follows: 
 \begin{itemize}
 	\item The Standard Model particles are present: electrons, muons, taus and their corresponding neutrinos; the up, down, strange, charm, bottom and top quarks; the photon, Z boson and W bosons and gluons; and the Higgs boson.
 	\item In addition to the Standard Model Higgs $h$, there are four other scalar Higgs particles with positive R-parity, labeled $H$, $H^\pm$ and $A$. $H$ is identical to $h$ except for its larger mass, and is therefore termed ``heavy Higgs'', in contrast to the ``light Higgs'' of the Standard Model. The other neutral field $A$ is a pseudo-scalar.
-	\item All the Standard Model particles get superpartners:
+	\item All the Standard Model particles get superpartners, often termed {\it sparticles}:
 	\begin{itemize}
 	 	\item For the gluons, they are called gluinos and labeled $\tilde g$. 
-	 	\item The partners of the $B^0$ and $W^a$ fields, which in the Standard Model form the photon, $Z$ and $W^\pm$, mix with the superpartner Higgs fields to form four neutral Majorana fermions called neutralinos, labeled $\chi_i^0$, $i=1,...,4$, and two charged particle-antiparticle pairs called charginos, $\chi_i^\pm$, $i=1,2$. 
+	 	\item The partners of the $B^0$ and $W^a$ fields, which in the Standard Model form the photon, $Z$ and $W^\pm$, mix with the superpartner Higgs fields to form four neutral Majorana fermions called neutralinos, labeled $\chi_i^0$, $i=1,...,4$, and two charged fermion-antifermion pairs called charginos, $\chi_i^\pm$, $i=1,2$. 
 	 	\item Each of the Standard Model fermions get two corresponding scalar particles with the same gauge charges. For the first two generations, the mass eigenstates split to good approximation into one left-chiral and one right-chiral fermion, such that {\it e.g.}\ the superpartners of the up quark $u$ are labeled $\tilde u_R$ and $\tilde u_L$. For the third-generation fermions, the chiral approximation is cruder, so these mass eigenstates are just numbered, {\it e.g.}\ $\tilde b_1$ and $\tilde b_2$ for the $b$ quark. 
 	 \end{itemize} 
  \end{itemize}
 
+ \subsubsection{Sparticle masses}
+ The main contributions to the sparticle masses naturally come from the soft terms, since these are responsible for the symmetry breaking which would otherwise give Standard Model masses to sparticles. The mass parameters from these terms are the gaugino masses $M_{1,2,3}$ and the Higgs terms $m_{H_{u/d}}$. Additionally, the parameter $\mu$ from the superpotential term coupling the Higgs doublets together in the unbroken SUSY Lagrangian contributes. Now follows a listing of some (s)particle masses, from \cite{Batzing:2013}.
+ \begin{itemize}
+ 	\item At tree level, the different Higgs masses (which have positive R-parity) are
+ 	\begin{align}
+ 		m_A^2 &= 2|\mu|^2 + m^2_{H_u} + m^2_{H_d},\nonumber\\
+ 		m^2_{h,H} &= \frac{1}{2} \left( m_A^2 + m_Z^2 \pm \sqrt{(m_A^2 - m_Z^2)^2 + 4m_Z^2m_A^2\sin^2 2\beta} \right),\\
+ 		m^2_{H^\pm} &= m_A^2 + m_W^2.\nonumber
+ 	\end{align}
+ 	\item The gluino mass $m_{\tilde g}$ is given as
+ 	\begin{align}
+ 		m_{\tilde g} = M_3 \left[ 1 + \frac{\alpha_s}{4\pi}\left( 15 + 6\ln\frac{\mu}{M_3} + \sum_{\mathrm{all} \tilde q} A_{\tilde q} \right)\right],
+ 	\end{align}
+ 	where $A_{\tilde q}$ are the squark loop contributions given by
+ 	\begin{align}
+ 		A_{\tilde q} \int_0^1 dx \, x \ln\left( x \frac{m^2_{\tilde q}}{M_3^2} + (1-x)\frac{m_q^2}{M_e^2} - x(1-x) - i\epsilon \right).
+ 	\end{align}\marginpar{Not really sure what $M_e$ is...}
+ 	\item The neutralinos $\tilde\chi_i^0$ are the mass eigenstates of the bino, wino and higgsino fields. In the gauge eigenstate basis, where $\tilde\chi^{0T} = (\tilde B^0, \tilde W^0, \tilde H_d^0, \tilde H_u^0)$, the mass matrix may be written
+ 	\begin{align}
+ 		M_{\tilde \chi^0} = \begin{pmatrix}
+ 			M_1 & 0 & - c_\beta s_{\theta_W} m_Z &  s_\beta s_{\theta_W} m_Z \\
+ 			0 & M_2 &  c_\beta c_{\theta_W} m_Z & - s_\beta c_{\theta_W} m_Z\\
+ 			- c_\beta s_{\theta_W} m_Z &  s_\beta s_{\theta_W} m_Z & 0 & -\mu \\
+			 c_\beta c_{\theta_W} m_Z & - s_\beta c_{\theta_W} m_Z & -\mu & 0
+ 		\end{pmatrix},
+ 	\end{align}
+ 	where $c_x = \cos x$ and $s_x = \sin x$. For a given parameter choice, this matrix must be diagonalized to find the neutralino masses.
+ 	\item The charginos $\tilde\chi_i^\pm$ have analogous structure. In terms of the eigenstate basis $\tilde \chi^{\pm T} = (\tilde W^+, \tilde H_u^+, \tilde W^-, \tilde H_d^-)$, the mass matrix is
+ 	\begin{align}
+ 		M_{\tilde \chi^\pm} = \begin{pmatrix}
+ 			0 & 0 & M_2 & \sqrt{2} c_\beta m_W  \\
+ 			0 & 0 & \sqrt{2} s_\beta m_W & \mu \\
+ 			M_2 & \sqrt{2} s_\beta m_W & 0 & 0\\
+ 			\sqrt{2} s_\beta m_W & \mu & 0 & 0
+ 		\end{pmatrix}.
+ 	\end{align}
+ 	\item The first two generations of {\it sfermions}, superpartners of the Standard Model fermions, get masses according to
+ 	\begin{align}
+ 		m^2_F = m^2_{F,\mathrm{soft}} + \Delta_F,
+ 	\end{align}
+ 	where $m^2_{F,\mathrm{soft}}$ is the mass term from the soft term of the form $-m^2_F F^\dag F$ and $\Delta_F$ is given by
+ 	\begin{align}
+ 		\Delta_F = (T_{3F} - Q_F \sin^2\theta_W)\cos 2\beta m^2_Z,
+ 	\end{align}
+ 	where $T_{3f}$, $Y$ and $Q$ are the weak isospin, hypercharge and electric charge, respectively, of the left-handed supermultiplet to which the sfermion belongs. The masses are then {\it e.g.}\
+ 	\begin{align}
+ 		&m^2_{\tilde e_L} = m^2_{L_1} + \Delta \tilde e_L,\\
+ 		&m^2_{\tilde e_R} = m^2_{e_R} + \Delta \tilde e_R.
+ 	\end{align}
+ 	The mass-splitting between same-generation sleptons and squarks are quark/lepton- and generation-independent and given by {\it e.g}\marginpar{Is it the same for right-handeds? Check, or don't mention?}
+ 	\begin{align}
+ 		m^2_{\tilde e_L} - m^2_{\tilde \nu_L} = m^2_{\tilde d_L} - m^2_{\tilde u_L} = -\cos 2\beta m_W^2.
+ 	\end{align}
+ 	\item The third-generation sfermions get more complicated masses, given for {\it e.g.}\ the stop squark by the mass matrix (in the chiral gauge eigenstate basis $\tilde t^T = (\tilde t_L, \tilde t_R)$)
+ 	\begin{align}
+ 		m^2_{\tilde t} = \begin{pmatrix}
+ 			m^2_{Q_3} + m_t^2 + \Delta \tilde u_L & v(a_t^* \sin\beta - \mu y_t \cos\beta)\\
+ 			v(a_t \sin\beta - \mu^* y_t \cos\beta) & m^2_{u3} + m^2_t + \Delta \tilde u_R
+ 		\end{pmatrix},
+ 	\end{align}
+ 	which can be diagonalized to find the mass eigenstates.
+ \end{itemize}
+
+ \subsection{Gauge unification and mass hierarchies}
+ It was mentioned in the introduction that one very appealing feature of supersymmetry is that the coupling constants of the electromagnetic, weak and strong interactions can be made to unite at a high energy scale. By assuming such a unification at the ``grand unification scale'' $m_\mathrm{GUT} \approx 2\times 10^{16} \,\mathrm{GeV}$, and evolving the SUSY parameters down to the low scale using the $\beta$ functions from the Callan-Symanzik equation, it can be shown that at a scale of 1 TeV, the ratio of the soft mass parameters $M_{1,2,3}$ is
+ \begin{align}
+ 	M_3 : M_2 : M_1 = 6 : 2 : 1.
+ \end{align}
+ This propagates into the mass formulas to predict the approximate mass relationships
+ \begin{align}
+ 	m_{\tilde g} \approx 6m_{\tilde \chi_1^0}, \, \mathrm{and} \, m_{\tilde \chi_2^0} \approx m_{\tilde \chi_1^\pm} \approx 2m_{\tilde \chi_1^0}.
+ \end{align}
+
 \subsection{The Constrained MSSM}
-
-\begin{itemize}
-	\item Include plot from Stephen Martin. 
-\end{itemize}
-
+The available parameter space of the general MSSM is very large, of the order 100 free parameters. It is therefore conventional to make some restricting assumptions. A much-studied restriction is the {\it Constrained MSSM} (CMSSM), also known as {\it minimal supergravity} (mSUGRA). This model is constructed by assuming that SUSY breaking is mediated by some mechanism of gravity at the Planck scale of $M_P = 2.4\times 10^{18} \, \mathrm{GeV}$. By assuming a minimal form for the parameters at the GUT scale, to obtain gauge unification, the resulting model is parametrized in terms of five parameters, labeled
+\begin{align}
+	m_{1/2}, \, m_{0}, \, A_0, \, \tan\beta \, \mathrm{and} \, \mathrm{sign}(\mu).
+\end{align}
+The mass parameters $m_{1/2}$ and $m_0$ are the common masses of all gauginos and sfermions, respectively, at the GUT scale. The mass splitting between sparticles appears when the individual sparticle masses are evolved down to a lower scale.
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/susyintro/MSSMrun.eps}
 	\caption{MSSM RGE running, from \cite{Martin:1997ns}.}
 	\label{fig:mssm_rgerun}
 \end{figure}
+This is illustrated in fig. \ref{fig:mssm_rgerun} for one choice of $m_{1/2}$ and $m_0$. The figure also illustrates the evolution of $m_{H_u}$ down to a negative value, facilitating the radiative electroweak symmetry breaking.
+
 
 
 
