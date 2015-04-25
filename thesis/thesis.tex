@@ -64,7 +64,7 @@
 %\end{dedication}
 
 % \begin{acknowledgements}
-% Takk til Are Raklev for god rettleiing. Takk også til Lars Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk, Janne og pappa, for at de er dykk. Takk også til Bryan Webber, Mona Semb, Tor Gjerrestad, Arild [], 
+% Takk til Are Raklev for god rettleiing. Takk også til Lars Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk, Janne og pappa, for at de er dykk. Takk også til Bryan Webber, Mona Semb, Tor Gjerrestad, Arild Gaasdal, Bjørn Hallvard Samset, vener og familie. 
 % \end{acknowledgements}
 
 \tableofcontents
@@ -980,14 +980,13 @@ Below it turns out that the method seems insensitive to the LSP mass -- I am sta
 \chapter{Calculations}
 
 \section{Invariant mass with misidentification of lepton}
-The invariant mass of $a + A$ in the decay topology of fig.\ \ref{fig:decaytree_appendix}
+The invariant mass of $a + A$ in the decay topology of fig.\ \ref{fig:decaytree_appendix} is $m_{aB}^2 = (p_a + p_A)^2 = m_B^2$. However, if the particle $b$ is misidentified as $a$, what is the resulting invariant mass $m_X^2$? The calculation is most easily done in the rest frame of $B$. 
 \begin{figure}[hbt]
 \centering
 \includegraphics[scale=0.7]{figures/fig-chain.pdf} % Stolen!
-\caption{Decay topology.}
+\caption{Decay topology, from \cite{Miller:2005zp}.}
 \label{fig:decaytree_appendix}
-\end{figure}
-is $m_{aB}^2 = (p_a + p_A)^2 = m_B^2$. However, if the particle $b$ is misidentified as $a$, what is the resulting invariant mass $m_X^2$? The calculation is most easily done in the rest frame of $B$. Let $p_a = (E_a, \mathbf p_a), p_A = (E_A, \mathbf p_A)$ in this frame. We assume $m_b = m_a = 0$. The decay must go back-to-back, so $\mathbf p_A = -\mathbf p_a$. Then, the condition
+\end{figure}Let $p_a = (E_a, \mathbf p_a), p_A = (E_A, \mathbf p_A)$ in this frame. We assume $m_b = m_a = 0$. The decay must go back-to-back, so $\mathbf p_A = -\mathbf p_a$. Then, the condition
 \begin{align}
 	m_B^2 = (p_A + p_a)^2 = p_A^2 + 2p_A \cdot p_a + p_a^2 = m_A^2 + 2\left( m_A^2 + |\mathbf p_a|^2 \right)^{1/2} |\mathbf p_a| + 2|\mathbf p_a|^2 
 \end{align}
@@ -1000,12 +999,12 @@ Thus, if $\hat{\mathbf{p}}$ is a unit vector in the decay direction of $A$,
 	p_A &= \left( m_A^2 + \frac{m_B^2-m_A^2}{2m_B^2},  \frac{m_B^2-m_A^2}{2m_B^2}\hat{\mathbf{p}} \right) = \left( \frac{m_B^2+m_A^2}{2m_B^2},  \frac{m_B^2-m_A^2}{2m_B^2} \hat{\mathbf{p}} \right),\\
 	p_a &= \left( \frac{m_B^2-m_A^2}{2m_B^2},  -\frac{m_B^2-m_A^2}{2m_B^2}\hat{\mathbf{p}} \right). \nonumber
 \end{align}
-In the referance frame of $C$, the same reasoning gives for the four-momenta $p_B'$ and $p_B'$\footnote{$\hat{\mathbf{p}}'$ is generally {\it not} the Lorentz-transformation of $\hat{\mathbf{p}}$.}
+In the referance frame of $C$, the same reasoning gives for the four-momenta $p_B'$ and $p_b'$\footnote{$\hat{\mathbf{p}}'$ is generally {\it not} the Lorentz-transformation of $\hat{\mathbf{p}}$.}
 \begin{align}
 	p_B' &= \left( \frac{m_C^2+m_B^2}{2m_C^2}, \frac{m_C^2-m_B^2}{2m_C^2} \hat{\mathbf{p}}' \right),\\
-	p_a' &= \left( \frac{m_C^2-m_B^2}{2m_C^2}, -\frac{m_C^2-m_B^2}{2m_C^2} \hat{\mathbf{p}}' \right). \nonumber
+	p_b' &= \left( \frac{m_C^2-m_B^2}{2m_C^2}, -\frac{m_C^2-m_B^2}{2m_C^2} \hat{\mathbf{p}}' \right). \nonumber
 \end{align}
-To evaluate $m_X^2$, we must evaluate $p_b$ and $p_A$ in the same reference frame. We choose to transform $p_b'$ to $p_b'$, the rest frame of $B$. This is easiest by using invariance of the Minkowski norm, which gives
+To evaluate $m_X^2$, we must evaluate $p_b$ and $p_A$ in the same reference frame. We choose to transform $p_b'$ to $p_b$, the rest frame of $B$. This is easiest by using invariance of the Minkowski norm, which gives
 \begin{align}
 	(p_b + p_B)^2 &= (p_b' + p_B')^2 = m_C^2\nonumber \\
 				  &= m_B^2 + 2m_B|\mathbf{p}_b|\\
@@ -1029,12 +1028,26 @@ The limiting cases are
 	\cos\theta = -1 &\Rightarrow {m_X^2}_\mathrm{high} = m_A^2 + m_C^2 - m_B^2\\
 	\cos\theta = +1 &\Rightarrow {m_X^2}_\mathrm{low} = \frac{m_C^2 m_A^2}{m_B^2}.\nonumber
 \end{align}
-$m_X^2$ is monotonically decreasing as a function of $\cos\theta$ between these limits. For the case of SPS 1a, $m_A$, $m_B$ and $m_C$ are 97, 144 and 180 GeV, respectively. The limits then evaluate to ${m_X^2}_\mathrm{high} = 145 \,\mathrm{GeV}$ and ${m_X^2}_\mathrm{low} = 121 \, \mathrm{GeV}$.
+$m_X^2$ is monotonically decreasing as a function of $\cos\theta$ between these limits, which means $m_X$ is as well. We note that the interval $(m_{X\mathrm{low}},m_{X\mathrm{high}})$ is always included in the interval $(m_A, m_C)$ for any physical combination of $m_{A,B,C}$, so $m_X$ is always consistent with chain kinematics. For the case of SPS 1a, $m_A$, $m_B$ and $m_C$ are 97, 144 and 180 GeV, respectively. The limits then evaluate to ${m_X}_\mathrm{high} = 145 \,\mathrm{GeV}$ and ${m_X}_\mathrm{low} = 121 \, \mathrm{GeV}$. The probability distribution of $m_X$ in this case is shown in fig.\ \ref{fig:mX-dist}. 
+The distribution is approximately symmetric, with the majority of the weight at the end points. Integration gives that 60 \% of the area is located within $5\,\mathrm{GeV}$ of one of the end points, divided with 29 \% at the low end and 31 \% at the high end.
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=0.6]{figures/appendix/mX-distribution.pdf}
+\caption{Probability distribution of $m_X$.}
+\label{fig:mX-dist}
+\end{figure}
 
 
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Algorithms}
 \label{ch:algorithms}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -1155,7 +1168,7 @@ The decay algorithm, in python notation, is as follows. Particle 1 of 4-momentum
 \section{A C++ implementation of the Nelder-Mead Simplex algorithm}
 \label{ch:simplex}
 
-The function to call for minimization is {\tt amoeba}. It returns true or false depending on whether convergence has been obtained within the set number of iterations.
+From \cite{simplex-implementation}. The function to call for minimization is {\tt amoeba}. It returns true or false depending on whether convergence has been obtained within the set number of iterations.
 
 \lstset{language=C++}
 \begin{lstlisting}
