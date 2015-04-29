@@ -16,7 +16,6 @@ The experimental fact that there exist a number of conserved quantities in parti
 
 \section{The Standard Model of Particle Physics}
 
-\subsection{Phenomenology of the Standard Model}
 The Standard Model consists of 12 fermions with corresponding antifermions, a number of vector gauge bosons and one scalar boson. The gauge bosons mediate interactions between the particles. There are three fundamental interactions in the Standard Model: The electromagnetic interaction, the weak interaction and the strong interaction. Not all particles couple to each other with all of the interactions. 
 
 The fermions are divided into two groups, the quarks and leptons. There are six different {\it flavours} of quarks, called up, down, strange, charm, bottom and top, in order of increasing mass. They are subdivided into three generations of pairs, up/down, charm/strange and top/bottom. The up, charm and top quarks carry quanta of +2/3 of the fundamental electrical charge $e$, while the down, strange and bottom quarks carry -1/3 $e$. There are also six leptons, of which three are charged. They are called electron, muon and tau. They belong in each their own generation, together with their neutral counterpart, the electron neutrino, muon neutrino and tau neutrino, respectively. 
@@ -33,11 +32,11 @@ Among the fermions, only the quarks couple to the strong interaction. All the fe
 
 The flavours of the quarks and leptons are conserved in the electromagnetic and strong interactions. For instance, a top quark cannot change into a charm or up quark by emission of a photon or gluon. The weak interaction enables the top quark to change into a bottom quark, or a tau lepton to change into a tau neutrino, through the emission of a charged $W$ boson. This would still seem to conserve the {\it generation} of quark or lepton, but breaking of generation is also made possible through the mechanism of {\it generation mixing}, quantified by the Cabibbo-Kobayashi-Maskawa (CKM) matrix for the case of quarks and the Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix for the leptons. The PMNS mixing also explains the observed phenomenon of {\it neutrino oscillations}.
 
-\subsection{Constructing the Lagrangian of the Standard Model}
+\section{Constructing the Lagrangian of the Standard Model}
 
 The Standard Model is a quantum field theoretic model, and may be stated in terms of a Lagrangian density function $\mathcal{L}$. The guiding principle for constructing the Lagrangian is {\it gauge invariance}. Gauge degrees of freedom are physical degrees of freedom which are ``superflous'', in the sense that they do not have any observable consequences. An example is Maxwell's theory of electromagnetism, where the electromagnetic vector potential $A^\mu$ is undetermined up to the addition of a total derivative term $\partial^\mu \phi$. The gauge freedom is exploited by requiring that the Lagrangian, which determines the physical dynamics, does not change when the gauge degrees of freedom are varied, {\it i.e.}\ that it is gauge invariant. This invariance is related to conservation of physical quantities by Noether's theorem.
 
-\subsection{The Lie groups of the Standard Model}
+\section{The Lie groups of the Standard Model}
 
 The Standard Model is based on gauge invariance under three Lie groups of quadratic matrices, the famous $U(1)_Y\times SU(2)_L\times SU(3)_C$. The number in the parenthesis gives the matrix dimension of the group. The symbols $S$ and $U$ stand for {\it special} and {\it unitary}, respectively. Unitary means that the matrices are unitary, and special means they have determinant 1. The groups are Lie groups, which means that they are continuous, and thus that any transformation of a group element may be constructed from infinitesimal transformations. The group elements, and the objects on which the group acts, may be given in several {\it representations}. In the case of matrix groups this means matrices and vectors of different dimension. For an $SU(n)$ group, the two most important representations are the {\it fundamental} representation, where the vectors have dimension $n$, and the {\it adjoint} representation, where the vectors have dimension $n^2-1$. In the Standard Model, the fermions transform in the fundamental representation, while the gauge bosons transform in the adjoint representation.
 
@@ -50,7 +49,7 @@ where $T_a$ are the $n^2-1$ generators of the Lie algebra of the group. The gene
 	[T_a, T_b] = i f_{abc}T_c.
 \end{align}
 
-\subsection{Constructing a gauge theory}
+\section{Constructing a gauge theory}
 The particle content of the Standard Model is input into the Lagrangian by inserting fermionic fields, {\it i.e.}\ Dirac spinor fields, and imposing the desired gauge invariance on these fields. The basic Dirac term, called the Dirac bilinear, for some spinor field $\psi$, is\footnote{We will, for what follows, set $\hbar = c = 1$.} 
 \begin{align}
 	\bar \psi (i\gamma^\mu \partial_\mu - m) \psi = \bar \psi (i\slashed\partial - m)\psi, \label{eq:diracbilinear}
@@ -112,7 +111,7 @@ The covariant derivative gives rise to terms coupling the fermion and gauge fiel
 
 
 
-\subsection{Singlets, doublets and triplets}
+\section{Singlets, doublets and triplets}
 
 Not all the fields are subject to all the different interactions. If a field couples through a certain interaction, it is said to be {\it charged} under the transformations corresponding to that interaction. A specific amount $g$ of charge is assigned to every field, and enters into the group transformations as $G(x) = e^{ig\alpha_a(x)T^a}$. Thus, for $g=0$, the transformation is the identity and has no effect.  In the electromagnetic $U(1)$ case, this charge is the electrical charge, $g=q$. Analogous charges are associated with the $U(1)_Y$, $SU(2)_L$ and $SU(3)_C$ groups. They are called hypercharge, isospin and colour charge, respectively.
 
@@ -136,38 +135,43 @@ for the up- and down-quarks, while the right-handed parts of each of the quark f
 
 The $SU(3)_C$ symmetry is the symmetry of the strong nuclear force, and among the fermions, only the quarks are charged under it. The quarks transform under $SU(3)$ in triplets -- one for each quark flavour -- where the components of the triplet are discriminated by differing {\it colour}, red, green or blue. 
 
-\subsubsection{The gauge bosons and the adjoint representation}
+\subsection{The gauge bosons and the adjoint representation}
 
 While the fermions transform under the groups in the fundamental representation, which has dimension $n$ for $SU(n)$, the gauge vector boson fields transform in the adjoint representation, which has dimension $n^2-1$. This number then determines the number of different gauge bosons for each group: $U(1)_Y$ has a single gauge boson field labeled $B^\mu$; $SU(2)_L$ has three, labeled $W^\mu_{1,2,3}$; and $SU(3)_C$ has eight different gauge boson fields, labeled $A^\mu_a$ for $a = 1,...,8$. The $SU(3)$ bosons are called {\it gluons}. The $U(1)_Y$ and $SU(2)_L$ bosons are not the ones that we observe -- the physical gauge boson eigenstates are linear combinations of them, mixed together by the spontaneous symmetry breaking of the Higgs mechanism.
 
-\subsection{The Higgs mechanism}
-Gauge invariance forbids the inclusion of terms of the form $m^2A^\mu A_\mu$ into the Lagrangian, which are required in order to give vector bosons such as the $Z$ their observed mass. To include the terms, we must also include a new scalar field, called the Higgs field. The Higgs mechanism introduces the following terms into the Lagrangian:
+\section{The Higgs mechanism}
+Gauge invariance forbids the inclusion of terms of the form $m^2A^\mu A_\mu$ into the Lagrangian, which are required in order to give vector bosons such as the $Z$ their observed mass. To include the terms, we must also include a new complex scalar field doublet $\Phi = (\phi_a^0, \phi_b^0)^T$. The Higgs mechanism introduces the following terms into the Lagrangian:
 \begin{align}
-	\mathcal L \ni \partial^\mu \phi^*(x) \partial_\mu \phi(x) - \mu^2|\phi(x)|^2 - \lambda |\phi(x)|^4.
+	\mathcal L \ni |D_\mu \Phi(x)|^2 - \mu^2|\Phi(x)|^2 - \lambda |\Phi(x)|^4.
 \end{align}
-The last two terms comprise the Higgs {\it potential}. If $\mu^2$ is assumed to be negative and $\lambda$ positive, then the potential assumes the shape of a ``mexican hat'' as a function of $\phi$. This is shown in fig. \ref{fig:higgspot}.
+The last two terms comprise the Higgs {\it potential}. If $\mu^2$ is assumed to be negative and $\lambda$ positive, then the potential assumes the shape of a ``mexican hat'' as a function of $|\Phi|$. This is shown in fig. \ref{fig:higgspot}.
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.5\textwidth]{figures/susyintro/higgspot_nature.jpg}
 	\caption{The shape of the Higgs potential, from \cite{Ellis:higgs}}
 	\label{fig:higgspot}
 \end{figure}
-This potential has a circle of degenerate energy at the field value $|\phi| = (-\mu^2/2\lambda)^{1/2}$, or in terms of the actual complex field, $\phi = (-\mu^2/2\lambda)^{1/2}e^{i\theta}, \, \theta \in [0,2\pi)$. The mechanism of {\it spontaneous symmetry breaking} occurs when, as the energy decreases, the Higgs field falls to the bottom of the degenerate circle and is forced to {\it choose} a particular value of $\theta$. This breaks the gauge invariance of the Lagrangian under both $U(1)_Y$ and $SU(2)_L$, and causes the gauge bosons of the two groups to mix together: The $B^\mu$ field mixes with $W^\mu_3$ to form the fields $A^\mu$ and $Z^\mu$, by the assignments
+This potential has a circle of degenerate energy at the field value $|\Phi|^2 = |\phi_a^0|^2 + |\phi_b^0|^2 = -\mu^2/2\lambda$. The mechanism of {\it spontaneous symmetry breaking} occurs when, as the energy decreases, the Higgs field falls to the bottom of the degenerate circle and is forced to {\it choose} a particular point on the circle. This causes $\Phi$ to obtain a {\it vacuum expectation value} (vev) $\langle \Phi \rangle = v$. This vacuum expectation value breaks the gauge invariance of the Lagrangian under both $U(1)_Y$ and $SU(2)_L$, and causes the gauge bosons of the two groups to mix together: The $B^\mu$ field mixes with $W^\mu_3$ to form the fields $A^\mu$ and $Z^\mu$, by the assignments
 \begin{align}
 	W_3^\mu &= \cos\theta_W Z^\mu + \sin\theta_W A^\mu,\\
 	B^\mu &= -\sin\theta_W Z^\mu + \cos\theta_W A^\mu,
 \end{align}
-where $\theta_W$ is the {\it Weinberg angle}. The two other $SU(2)_L$ gauge fields, $W_{1,2}^\mu$, mix togeher to form
+where $\theta_W$ is the {\it Weinberg angle}. The two other $SU(2)_L$ gauge fields, $W_{1,2}^\mu$, mix together to form
 \begin{align}
-	W_\mu = \frac{1}{\sqrt{2}} \left[ W_1^\mu - iW_2^\mu \right]
+	W^\mu = \frac{1}{\sqrt{2}} \left[ W_1^\mu - iW_2^\mu \right]
 \end{align}
-and its adjoint $(W^\mu)^\dag$. The field $A^\mu$ is the photon field, $Z^\mu$ is the Z boson field and $W^\mu/(W^{\mu\dag})$ is the $W^\pm$ bosons. The mixing restores the symmetry under a different $U(1)$ group, $U(1)_\mathrm{em}$, and the corresponding conserved charge is the electrical charge. The photon and Z boson are electrically netural, while the $W^\pm$ carry plus/minus one elementary unit of charge.\marginpar{Say something about vacuum expectation values}
+and its adjoint $(W^\mu)^\dag$. The field $A^\mu$ is the photon field, $Z^\mu$ is the Z boson field and $W^\mu/(W^{\mu\dag})$ is the $W^\pm$ bosons. The $Z$ and $W$ bosons acquire mass, the magnitude of which are related to $v$ by
+\begin{align}
+ 	m_W = \frac{ve}{2\sin\theta_W},\\
+ 	m_Z = \frac{m_W}{\cos\theta_W},
+\end{align}
+where $e$ is the electromagnetic coupling constant, or the elementary unit of charge. The mixing of $U(1)_Y$ and $SU(2)_L$ restores the symmetry under a different $U(1)$ group, $U(1)_\mathrm{em}$, and the corresponding conserved charge is the electrical charge. The photon and Z boson are electrically netural, while the $W^\pm$ carry plus/minus one elementary unit of charge. Of the four degrees of freedom in the two complex scalar fields $\phi^0_{a,b}$, three go into providing the longitudinal polarization degree of freedom required for massive vector bosons, while the last one constitutes the {\it Higgs field} $h$.
 
 The Higgs mechanism also provides fermionic terms of the form $\psi_i y_{ij} \psi_j$. For $i=j$, these are mass terms of the form written in the Dirac bilinear, eq. \eqref{eq:diracbilinear}, and for $i\neq j$ they give rise to off-diagonal terms in the CKM and PMNS matrices. The coupling constants of these terms are called {\it Yukawa couplings}.
 
-\subsection{The Feynman calculus and loop corrections}
+\section{The Feynman calculus and loop corrections}
 \label{subsec:feynmancalculus}
-Very few problems in the framework of the Standard Model can be solved exactly. Instead, calculations are done using perturbation theory to series expand the solution as a sum of increasingly complicated, but decreasingly important, contributions. Feynman invented a technique for visualizing these expansions using visual diagrams, known as Feynman diagrams. For instance, the problem of inelastic electron-positron scattering has as its leading contribution the diagram shown in fig. \ref{fig:feynmandiagram_a}. The next-to-leading order includes the diagrams in figs. \ref{fig:feynmandiagram} (b), (c) and (d).
+Very few problems in the framework of the Standard Model can be solved exactly. Instead, calculations are done using perturbation theory to series expand the solution as a sum of increasingly complicated, but decreasingly important, contributions. Feynman invented a technique for visualizing these expansions using diagrams, known as Feynman diagrams. For instance, the problem of inelastic electron-positron scattering has as its leading contribution the diagram shown in fig. \ref{fig:feynmandiagram_a}. The next-to-leading order includes the diagrams in figs. \ref{fig:feynmandiagram} (b), (c) and (d).
 \begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -200,18 +204,18 @@ Very few problems in the framework of the Standard Model can be solved exactly. 
 \end{figure}
 The Feynman calculus associates each diagram with a specific mathematical expression called the Feynman amplitude $\mathcal{M}$ for that diagram. When several diagrams are included, the total amplitude for the process is the sum of the amplitudes from each diagram. The physical quantities of interest are obtained by integrating the amplitude (or its absolute square) over all spin and momentum configurations of the system.
 
-\subsection{Renormalization}
+\section{Renormalization}
 The subleading diagrams, like those in fig.  \ref{fig:feynmandiagram} (b--d), contain closed loops. These loops introduce extra momentum integrals into the calculations. Often, these integrals are divergent -- which is unacceptable from a physical viewpoint. The divergences can be understood and dealt with by using the techniques of {\it regularization} and {\it renormalization}. 
-\subsubsection{Regularization}
+\subsection{Regularization}
 Regularization is a means for parametrizing the divergence in terms of some small parameter $\epsilon$ which is zero in the physical limit. The most modern way to regularize a momentum integral is by using {\it dimensional regularization}: The original loop integral is an integral over four space-time dimensions. Dimensional regularization makes the substitution $4 \to d = 4-\epsilon$, so the integral becomes
 \begin{align}
 	\int d^4 \, k \to \int d^d \, k.
 \end{align}
 This integral is mathematically well-defined, and allows the divergences to be parametrized in terms of $\epsilon$.
-\subsubsection{Renormalization}
+\subsection{Renormalization}
 When the divergence has been isolated and parametrized, it needs to be explained physically. This is done by the process of renormalizing the theory. For instance, in the case of the photon propagator in quantum electrodynamics, illustrated in fig. \ref{fig:feynmandiagram_b}, the regularized expression for the leading-order loop correction to the propagator is proportional to
 \begin{align}
-	\frac{2}{\epsilon} + \mathrm{finite terms}, \label{eq:divergent_loop_result}
+	\frac{2}{\epsilon} + \mathrm{finite\,\, terms}, \label{eq:divergent_loop_result}
 \end{align}
 which blows up as $\epsilon\to 0$. Renormalization is the claim that this infinity is a part of the {\it bare} physical constants which are present in the Lagrangian, in this case the electrical charge, whose bare value is denoted $e_0$. These bare parameters are not observable quantities, only parameters in the Lagrangian. What is observed is the {\it renormalized} charge $e = e_0 + \delta e$, where $\delta e$ is the infinite shift contributed from eq. \eqref{eq:divergent_loop_result}.
 
@@ -221,8 +225,8 @@ All the coupling constants of the Standard Model get renormalized. The renormali
 \end{align}
 where $e_r$ is some referance value for the charge, defined at the energy scale $M$. The fact that the coupling constants are not constant is referred to as the {\it running of the coupling constants}.
 
-\subsubsection{The Callan-Symanzik equation}
-The Callan-Symanzik, or {\it renormalization group} equation is the equation which describes the running of the coupling constants in a systematic way for any interaction in a quantum field theory. It is obtained by requiring that the Greens function for the interaction, $G$, {\it i.e.}\ the propagator, varies with the renormalization scale $M$ in such a way that the bare parameters of the Lagrangian is unchanged. For the example of QED, the Callan-Symanzik equation for a Green's function with $n$ electron fields and $m$ photon fields is
+\subsection{The Callan-Symanzik equation}
+The Callan-Symanzik, or {\it renormalization group} equation (RGE) is the equation which describes the running of the coupling constants in a systematic way for any interaction in a quantum field theory. It is obtained by requiring that the Greens function for the interaction, $G$, {\it i.e.}\ the propagator, varies with the renormalization scale $M$ in such a way that the bare parameters of the Lagrangian is unchanged. For the example of QED, the Callan-Symanzik equation for a Green's function with $n$ electron fields and $m$ photon fields is
 \begin{align}
 	\left[ M \frac{\partial}{\partial M} + \beta(e) \frac{\partial}{\partial e} + n\gamma_2(e) + m\gamma_3(e)\right] G^{(n,m)}(\{ x_i\}; M,e) = 0.\label{eq:callansymanzik}
 \end{align}
@@ -301,7 +305,7 @@ The transformations corresponding to the superalgebra are called {\it supersymme
 \section{Superfields}
 The representations of the objects transforming under the supersymmetry transformations are called superfields. There are two important types, called chiral/scalar and vector superfields. The superfields are expressed in terms of spacetime coordinates $x^\mu$ and four anti-commuting Grassman numbers $\theta_A$ and $\bar\theta_{\dot A}$. Together, these eight coordinates form the {\it superspace}. Because of the anticommutativity, which means that any Grassman number squared vanishes, a function of a Grassman number, $f(\theta_A)$, has an all-order expansion given by
 \begin{align}
-	f(\theta) = a + b\theta_A.
+	f(\theta_A) = a + b\theta_A.
 \end{align}
 Using this fact, a superfield $\Phi$ may generally be written as
 \begin{align}
@@ -363,7 +367,7 @@ To obtain a theory which is supersymmetric, the action, given by
 \begin{align}
  	S = \int d^4 x \mathcal{L},
  \end{align}
- needs to be invariant under SUSY transformations. As mentioned in the previous section, a total derivative has this property because it is determined by the boundary conditions, where it has to vanish. It can be shown that the highest-order component fields in $\theta$ and $\bar \theta$, {\it i.e.}\ the term proportional to $\theta\theta\bar\theta\bar\theta$, always has this property for both chiral and vector superfields and products thereof. Thus the invariance of the action may be ensured by redefining the Lagrangian such that
+ needs to be invariant under SUSY transformations. As mentioned in the previous section, a total derivative has this property because its integral is determined by the boundary conditions, where it has to vanish. It can be shown that the highest-order component fields in $\theta$ and $\bar \theta$, {\it i.e.}\ the term proportional to $\theta\theta\bar\theta\bar\theta$, always has this property for both chiral and vector superfields and products thereof. Thus the invariance of the action may be ensured by redefining the Lagrangian such that
  \begin{align}
  	S = \int d^4 x \int d^4 \theta \mathcal{L},
  \end{align}

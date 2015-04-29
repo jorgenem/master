@@ -109,7 +109,7 @@ Consider an LHC event where two chains of the form
 \begin{align}
 	\tilde{q} \to q + \tilde{\chi}_2^0, \, \tilde{\chi}_2^0 \to l^{\pm} + \tilde{l}^\mp, \, \tilde{l}^\mp \to l^\mp + \tilde{\chi}_1^0\label{eq:goldencascade}
 \end{align}
-are present. Combined, the measurable particles in the two chains are the two quarks and four leptons, where the lepton pairs are opposite-sign same-flavour. The LSPs escape detection, but the sum of their transverse momenta can be measured as the missing $p_T$. The quantities of interest, however, are the masses of the supersymmetric particles, $m_{\tilde{q}}, m_{\tilde{\chi}_2^0}, m_{\tilde{l}}$ and $m_{\tilde{\chi}_1^0}$. (Potentially with several values for the squarks and sleptons if they differ in generation between the sides.) These are not directly measurable, but the kinematics of the problem depend on them. 
+are present. Combined, the measurable particles in the two chains are the two quarks and four leptons, where the lepton pairs are opposite-sign same-flavour. The LSPs escape detection, but the sum of their transverse momenta can be measured as the missing $p_T$. The quantities of interest, however, are the masses of the supersymmetric particles, $m_{\tilde{q}}, m_{\tilde{\chi}_2^0}, m_{\tilde{l}}$ and $m_{\tilde{\chi}_1^0}$. (Potentially with several values for the squarks and sleptons if they differ in generation and/or chirality between the sides.) These are not directly measurable, but the kinematics of the problem depend on them. 
 
 Many methods have been investigated for the purpose of measuring supersymmetric masses \cite{Barr:2010zj}. One well known example is the end-point method \cite{1126-6708-2000-09-004}. We measure {\it e.g.}\ the dilepton invariant mass in the process \eqref{eq:goldencascade}. The distribution of the dilepton invariant mass can be shown to form a right triangle where the maximal value is given by
 \begin{align}
@@ -120,7 +120,7 @@ thus constraining $m_{\tilde{\chi}_2^0}$, $m_{\tilde{l}}$ and $m_{\tilde{\chi}_1
 
 
 \section{Webber's method}
-Webber \cite{Webber:2009vm} suggests a different method, where all available kinematical info from every event is used. Consider the general decay tree in fig. \ref{fig:decaytree}. We assume that we have an event with two such chains, but not necessarily with identical particles in the two. We will distinguish the two chains by referring to them as the <<first>> and <<second>> one, although the assignment is arbitrary.
+Webber \cite{Webber:2009vm} suggests a different method, where all available kinematical info from every event is used. Consider the general decay tree in fig. \ref{fig:decaytree}. We assume that we have an event with two such chains, but not necessarily with identical particles in the two. We will distinguish the two chains by referring to them as the ``first'' and ``second'' one, although the assignment is arbitrary.
 \begin{figure}[hbt]
 \centering
 \includegraphics[scale=0.7]{figures/fig-chain.pdf} % Stolen!
@@ -416,13 +416,13 @@ A pitfall of any minimization routine, also for Minuit Simplex, is that it has a
 Refer to the scatter plot in fig.\ 2 of \cite{Webber:2009vm}, displayed in fig.\ \ref{fig:webber_scatter} for convenience. This scatter plot shows the fit corresponding to the first row of table \ref{table:webber_original}. We have reproduced this fit using Webber's code \cite{Webber:epost} -- albeit with one modification: Since we don't have access to the old {\tt ISAJET} and {\tt ISAWIG} software for RGE running of SUSY parameters, we have generated our SPS 1a parameter point using {\tt SoftSUSY} version 3.4.1 \cite{Allanach:2001kg}, and converted the resulting SLHA \cite{Skands:2003cj} model file to {\tt ISAWIG} format using the package {\tt PySLHA} version 3.0.2\footnote{We have had to make several modifications to the {\tt PySLHA} code to make the {\tt ISAWIG} output readable by {\tt HERWIG}. These changes have been included in {\tt PySLHA} 3.0.3.} \cite{Buckley:2013jua}. The effects of using a different RGE runner is that the SUSY masses are not exactly the same. The most significant shift is the squarks, which in Webber's case have a mass of 540 GeV, compared to 565 GeV in our case. We observe similar results as Webber gives in his article when we run his code with the original settings for our SUSY parameter point. 
 \begin{figure}[hbt]
 	\centering
-	\begin{subfigure}[b]{0.6\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_rec_table-samesettings_0psmear-nocut.pdf} 
 		\caption{ }
 		\label{fig:webber_rec_scatter_tolerance-comparison_a}
 	\end{subfigure}
 
-	\begin{subfigure}[b]{0.6\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_nocut.pdf}
 		\caption{ } 
 		\label{fig:webber_rec_scatter_tolerance-comparison_b}
@@ -430,7 +430,7 @@ Refer to the scatter plot in fig.\ 2 of \cite{Webber:2009vm}, displayed in fig.\
 	\caption{Reproduction of Webber's results (corresponding to fig. \ref{fig:webber_scatter} and the first row of table \ref{table:webber_original}) for (a) original convergence tolerance and (b) a lower tolerance criterion.}
 	\label{fig:webber_rec_scatter_tolerance-comparison}
 \end{figure}
-Our reproduction of fig.\ \ref{fig:webber_scatter} is shown in fig.\ \ref{fig:webber_rec_scatter_tolerance-comparison_a}, and our reproduction of table \ref{table:webber_original} is given in table \ref{table:webber_softsusy}.
+Our reproduction of fig.\ \ref{fig:webber_scatter} is shown in fig.\ \ref{fig:webber_rec_scatter_tolerance-comparison_a}\footnote{All the scatter plots in this thesis are in vector graphics format. When the thesis is viewed electronically, they are zoomable.}, and our reproduction of table \ref{table:webber_original} is given in table \ref{table:webber_softsusy}.
 \begin{table}[hbt]
 	\centering
 	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
@@ -442,7 +442,7 @@ Our reproduction of fig.\ \ref{fig:webber_scatter} is shown in fig.\ \ref{fig:we
 		5 \% &	$\infty$ &	100 \%	& 43 \% & $564 \pm 26$	& 	$181 \pm 14$	&	$145 \pm 10$&	$94 \pm 15$ \\
 		5 \% &	100 &		52 \%	& 48 \% & $566 \pm 10$	&	$180 \pm 2$		& 	$145 \pm 2$	&	$96 \pm 4$	\\
 		10 \% &	$\infty$ &	100 \%	& 33 \% & $551 \pm 33$	&	$180 \pm 15$	&	$144 \pm 11$&	$91 \pm 24$	\\
-		10 \% &	200 &		43 \%	& 36 \% & $559 \pm 17$	& 	$177 \pm 11$	&	$143 \pm 11$&	$91 \pm 20$ \\
+			10 \% &	200 &		43 \%	& 36 \% & $559 \pm 17$	& 	$177 \pm 11$	&	$143 \pm 11$&	$91 \pm 20$ \\
 		\hline
 	\end{tabular}
 	\caption{Our reproduction of table \ref{table:webber_original}, using Webber's code \cite{Webber:epost} with original settings, except with the masses from SoftSUSY.}
@@ -460,12 +460,12 @@ However, the tolerance setting in {Minuit} can be adjusted. When we rerun the co
 These fit results, with the low tolerance setting, are still not bad. However, in table \ref{table:webber_original}, Webber also gives best-fit values where he has applied smearing to the four-momenta, as a crude approximation to the effects of limited detector resolution. The momentum smearing is done by smearing the spatial components according to a gaussian distribution of a given r.m.s. width $\delta p/p$, and then defining the energy in such a way that the invariant mass is unchanged \cite{Webber:epost}.
 \begin{figure}[hbt]
 	\centering
-	\begin{subfigure}[b]{0.6\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_hightol_5pmomsmear_nocut.pdf} 
 		\caption{ }
 	\end{subfigure}
 
-	\begin{subfigure}[b]{0.6\textwidth}
+	\begin{subfigure}[b]{0.8\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_lowtol_5pmomsmear_nocut.pdf}
 		\caption{ } 
 	\end{subfigure}
@@ -614,7 +614,7 @@ If we for a moment forget about the combinatorics, and evaluate only the true pa
 \end{figure}
 This is illustrated in fig.\ \ref{fig:starting_point_sensitivity_no_combinatorics}, which shows minimization of 100 samples of 25 events minimized with low tolerance, but only evaluated with the correct combination of chain particles.\footnote{This dataset is generated with {\tt Herwig++} version 2.7.1 \cite{Bahr:2008pv} and minimized using our own implementation of the {\tt Simplex} algorithm in C++, included in appendix \ref{ch:simplex}. Only events where the momentum in the chain is exactly conserved -- {\it i.e.}\ no final-state radiation of photons is allowed -- are included. We have checked that this dataset gives identical results with the Fortran {\tt HERWIG} program used in chapter \ref{ch:MC}.} There are differences between the fits, mainly between subfig.\ d and the others. In particular, while about 85 of the samples converge within the set limit of 500 iterations in each of the cases a, b and c (indicated by the value of $N_\mathrm{bins(total)}$ in the top right of each plot), this number is reduced to 67 in subfig.\ d. The starting point in case (d) is characterized by a much larger mass gap between the squark and the $\tilde\chi_2^0$ than in the TMP, which we might surmise would give rise to very different kinematics than we have in our events. In any case, the minimization is not a heavy calculation (the whole minimization of 100 bins, including combinatorics, is done in fractions of a second on a single CPU core), so doing a scan like the one we made above over different starting points is not unrealistic.\marginpar{Is there any point in doing a minimization grid scan here, for the no-combinatorics case? Maybe better to wait until I have handled combinatorics.}
 
-We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 5 \% smeared dataset for the same four starting points. The plots are shown in fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. We find that it also in this case gives consistent results irrespective of starting point -- but the LSP mass is fitted to zero in most samples.\marginpar{Count number of zero-fits} It appears that when the data is smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to the absolute mass scale of the problem. This is a well-known problem with methods for mass reconstruction.\marginpar{Might want to cite something if this sentence is kept, or elaborate about mass-squared difference fitting.}
+We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 5 \% smeared dataset for the same four starting points. The plots are shown in fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. We find that it also in this case gives consistent results irrespective of starting point -- but the LSP mass is fitted to zero in 63 of 94 samples. It appears that when the data is smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to the absolute mass scale of the problem. This is a well-known problem with methods for mass reconstruction.\marginpar{Might want to cite something if this sentence is kept, or elaborate about mass-squared difference fitting.}
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -680,12 +680,11 @@ We saw in the previous chapter that, even without taking combinatorical ambiguit
 \end{align}
 or in the more abstract notation of fig.\ \ref{fig:decaytree},
 \begin{align}
-	M^2_A = (M^2_B - M^2_A)\left(\frac{M^2_C - M^2_B}{(m_{ll}^\mathrm{max})^2} - 1\right).\label{eq:MLSP_dilepton_edge}
+	M^2_A = (M^2_B - M^2_A)\left(\frac{M^2_C - M^2_B}{(m_{ab}^\mathrm{max})^2} - 1\right).\label{eq:MLSP_dilepton_edge}
 \end{align}
-Thus we see that the LSP mass can be found from knowing only the mass-squared differences plus the invariant mass edge. This idea is taken from \cite{Cheng:2009fw}.
+Thus we see that the LSP mass can be found from knowing only the mass-squared differences plus the invariant mass edge. This idea is inspired by \cite{Cheng:2009fw}.
 
 Referring back to Chapter \ref{ch:introducing_the_method}, and the way the reconstruction was formulated in terms of matrices, the only modifications we have to make in order to reformulate the problem as a mass-squared-difference fit are the following: Define a vector $\mathbf{M}$ of mass-squared differences
-
 \begin{align}
 	\mathbf{M} = (M_1, M_2, M_3),
 \end{align}
@@ -740,7 +739,7 @@ We note that with these modifications, we have introduced another constraining e
 	\end{subfigure}
 	\caption{Mass-difference minimizations on the Herwig++ dataset (a) without smearing and (b) with 5 \% momentum smearing, without combinatorics.}
 \end{figure}
-A fit of the unsmeared dataset with this method, not considering combinatorics, is shown in fig.\ \ref{fig:MD_nocomb-nosmear}. We have used the theoretical value of $m_{ll}^\mathrm{max} \approx 80 \mathrm{GeV}$ for the SPS1a masses, calculated using eq.\ \eqref{eq:invariant_mass_endpoint}. We have checked that the fit also in this case is independent of where we start the search. We also show the same fit on the dataset with 5 \% momentum smearing in fig.\ \ref{fig:MD_nocomb-5psmear}. In the last chapter we saw that with momentum smearing, the LSP mass was estimated to zero in many \marginpar{quantify} of the samples (fig. \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}) when we used the original formulation of the method. In this case all the samples have a nonzero LSP mass.
+A fit of the unsmeared dataset with this method, not considering combinatorics, is shown in fig.\ \ref{fig:MD_nocomb-nosmear}. We have used the theoretical value of $m_{ll}^\mathrm{max} \approx 80 \mathrm{GeV}$ for the SPS1a masses, calculated using eq.\ \eqref{eq:invariant_mass_endpoint}. The experimental uncertainty on $m_{ll}^\mathrm{max}$ is not expected to be significant compared to other sources of uncertainty. We have checked that the fit also in this case is independent of where we start the search. We also show the same fit on the dataset with 5 \% momentum smearing in fig.\ \ref{fig:MD_nocomb-5psmear}. In the last chapter we saw that with momentum smearing, the LSP mass was estimated to zero in many \marginpar{quantify} of the samples (fig. \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}) when we used the original formulation of the method. In this case all the samples obtain a nonzero LSP mass.
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -796,22 +795,49 @@ Statistically, the four plots in fig.\ \ref{fig:MD_starting_point_sensitivity_co
 \label{sec:combinatorics-sum_all_contributions}
 We have seen that when we minimize only the true combinatorical choice, the minimization is independent of starting point. If we include all combinations by always selecting the lowest among the values in each point, a starting-point dependence is introduced. The mathematical difference between these two problems is that in the former case, the $\xi^2$ is a smooth polynomial, while in the latter case it is not smooth. We can make the $\xi^2$ surface smooth if we add the different combinatorical choices together instead of choosing between them. Webber mentions this option in his article, but discards it, saying {\it ``The surface would be smooth if one added the $\xi^2$ contributions of all combinations,  but then the sensitivity to the correct solution is reduced and biases are introduced by the huge contributions of wrong combinations''} \cite[p.\ 6]{Webber:2009vm}. However, not all combinations will contribute equally if they are included. In \cite{Gripaios:2011jm} it is pointed out that some of the wrong combinations will tend to give reconstructions close to the true combinations. \marginpar{Discuss some more? What is the argument? What do they actually say?}
 
-For the case where the dileptons differ in generation between the chains, which is what we have used in our analysis thus far, there are eight combinatorical possibilities. These can be divided into two categories depending on which lepton pair is paired with which quark. For each of these pairings, there are four combinations of near and far leptons. The matrix $\mathbf{A}$ is invariant, up to a permutation of rows, for each of the two categories. If we add all four combinations of near and far leptons for each event to the $\xi^2$, then the problem reduces from an eight-fold ambiguity to a two-fold ambiguity. 
+For events where the dileptons differ in generation between the chains, which is what we have used in our analysis thus far, there are eight combinatorical possibilities. These can be divided into two categories depending on which lepton pair is paired with which quark. For each of these pairings, there are four combinations of near and far leptons. The matrix $\mathbf{A}$ is invariant, up to a permutation of rows, for each of the two categories. If we add all four combinations of near and far leptons for each event to the $\xi^2$, then the problem reduces from an eight-fold ambiguity to a two-fold ambiguity. 
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-nocomb-nosmear-nocut.pdf} 
 	\caption{Minimization of the unsmeared {\tt Herwig++} dataset where all orderings of the leptons within the same chains are included.}
 	\label{fig:4combosum_nocomb-nosmear}
 \end{figure}
-In fig.\ \ref{fig:4combosum_nocomb-nosmear} we show a fit of the unsmeared dataset where the $\xi^2$ has been constructed in this way, but where only the true pairing of quarks and leptons is considered. The mean values and standard errors for the mass fits in the 100 samples is $565 \pm 41\, \mathrm{GeV}, 180 \pm 34\, \mathrm{GeV}, 141 \pm 34\, \mathrm{GeV}$ and $98 \pm 35\, \mathrm{GeV}$, respectively. The standard error is quite large, about 40 GeV for all the four masses, but the mean values are very close to the true values in all four cases -- there is no bias. The minimization is also completely robust against starting points: For the four different starting points used earlier, all 100 bins obtain convergence in all cases, and each sample is fitted to the same point in all cases. \marginpar{The number of samples that converge is an important factor, 100 \% here vs 50 \% in the webber-jumping.}
+In fig.\ \ref{fig:4combosum_nocomb-nosmear} we show a fit of the unsmeared dataset where the $\xi^2$ has been constructed in this way, but where only the true pairing of quarks and leptons is considered. The mean values and standard errors for the mass fits in the 100 samples is $565 \pm 41\, \mathrm{GeV}, 180 \pm 34\, \mathrm{GeV}, 141 \pm 34\, \mathrm{GeV}$ and $98 \pm 35\, \mathrm{GeV}$, respectively. The standard error is quite large, about 40 GeV for all the four masses, but the mean values are very close to the true values in all four cases. The minimization is also completely robust against starting points: For the four different starting points used earlier, all 100 bins obtain convergence in all cases, and each sample is fitted to the same point in all cases. Since a real LHC analysis only will have one sample of 25 events, the convergence robustness is an appealing feature. \marginpar{The number of samples that converge is an important factor, 100 \% here vs 50 \% in the webber-jumping.}
 
+% \begin{figure}[hbt]
+% 	\centering
+% 	\includegraphics[width=0.8\textwidth]{figures/improving_combinatorics/herwigpp-8combosum-fit-nosmear-nocut.pdf} 	
+% 	\caption{Minimization of the unsmeared {\tt Herwig++} dataset where all eight combinations are included.}
+% 	\label{fig:8combosum-nosmear}
+% \end{figure}
+% This is shown in fig.\ \ref{fig:8combosum-nosmear}. 
+We have also tried including all eight combinations instead of only the four closest. Then the results worsen considerably. While the robustness against starting points is retained, only half of the samples obtain convergence, and the errors on the masses are about 90 GeV for the three lightest particles and 150 GeV for the squark. There is a significant downward bias on the squark mass.
+
+\subsection{The error we do when summing four combinations}
+The method of summing the four closest combinations is investigated further. Consider one of the two decay chains, shown schematically in fig.\ \ref{fig:decaytree_improvementchap}.
 \begin{figure}[hbt]
-	\centering
-	\includegraphics[width=0.8\textwidth]{figures/improving_combinatorics/herwigpp-8combosum-fit-nosmear-nocut.pdf} 	
-	\caption{Minimization of the unsmeared {\tt Herwig++} dataset where all eight combinations are included.}
-	\label{fig:8combosum-nosmear}
+\centering
+\includegraphics[scale=0.7]{figures/fig-chain.pdf} % Stolen!
+\caption{Decay topology, from \cite{Miller:2005zp}.}
+\label{fig:decaytree_improvementchap}
+\end{figure} The permutations that make up the four closest combinations consist of permuting $a$ and $b$ in one, both or none of the two chains. We may analyze what mass $m_X$ we would get if these misidentifications were made. This is done in section \ref{sec:appendix_invmass-calculations}. It turns out that $m_X$ has a probablity distribution limited by the values 
+\begin{align}
+	{m_X^2}_\mathrm{high} &= m_A^2 + m_C^2 - m_B^2,\\
+	{m_X^2}_\mathrm{low} &= \frac{m_C^2 m_A^2}{m_B^2}.\nonumber
+\end{align}
+Note that $m_X$ is contained in the interval $(m_A, m_C)$ for any kinematically allowed choice of masses $m_{A,B,C}.$ The probability distribution of $m_X$ is shown in fig.\ \ref{fig:mX-dist_improvementchap}.
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=0.4]{figures/appendix/mX-distribution.pdf}
+\caption{Probability distribution of $m_X$.}
+\label{fig:mX-dist_improvementchap}
 \end{figure}
-If we include all eight combinations instead of only the four closest, then the results worsen considerably. This is shown in fig.\ \ref{fig:8combosum-nosmear}. While the robustness against starting points is retained, only half of the samples obtain convergence, and the errors on the masses are about 90 GeV for the three lightest particles and 150 GeV for the squark. There is a significant downward bias on the squark mass.
+For SPS 1a, the limits evaluate to ${m_X}_\mathrm{low} = 121 \, \mathrm{GeV}$ and ${m_X}_\mathrm{high} = 145 \,\mathrm{GeV}$. Thus, in this case, the high $m_X$ limit is close to the true $m_B = 144 \,\mathrm{GeV}$. This does not have to be the case generally. 
+
+In principle the measurement of the other masses are unaffected by this, since {\it e.g.}\ $m_C^2 = (p_b + p_a + p_A)^2$ which is invariant under $b\leftrightarrow a$. However, there is a nontrivial relationship between the fitted masses in the method, {\it e.g.}\ due to the dilepton edge formula.\marginpar{And also the A matrix?}
+
+
+\subsection{Combinatorics in the summed-combination approach}
 
 We proceed with investigating the method of summing only the four closest combinations. In this formulation, there are several options for handling the remaining two-fold combinatorical ambiguity. One option is to utilise the original method of ``jumping'' between values, always selecting the lowest among the combinations for each event at each mass point. When there are just two different values to choose between, the amount of jumping and the resulting difficulties might be reduced. We check this by starting the minimization from the four different starting points. We find in this case for the unsmeared dataset that $\sim 90$ samples converge in each case, while 84 of the samples converge in all four cases. 62 of the samples are fitted consistently, meaning that all four minimization agree on all four mass values within 0.1 GeV. The mean standard error on the best-fit points from the four different minimizations in the 84 samples is 9 GeV for the squark and about 4 GeV for the other three masses. We also find that about 80 \% of the events obtain the minimum with the correct combination, while the remaining 20 \% apparently obtain smaller values using the wrong combination of quarks and leptons.
 \begin{figure}[hbt]
@@ -843,6 +869,62 @@ Another possibility is to combine a few events at a time, and minimize the $\xi^
 
 
 
+
+
+\section{Cutting on det(A)}
+\marginpar{Probably the plots need to be larger to be able to read values?} 
+In this section we investigate what can be gained by applying a minimal value cut on the determinant of the matrix $\mathbf{A}$. The idea behind this is that since a matrix with zero determinant is uninvertible, the magnitude of the determinant may be small for events that are ``difficult'' to invert in some sense, and these may contribute poorly to the fit. This turns out to have some merit, see fig.\ \ref{fig:detAcut}. The (a) plot is exactly the same as \ref{fig:4combosum_nocomb-nosmear}, except that the det(A) cut has been applied. The errors on the masses decrease by a factor two. They are further reduced by combining with a $\xi^2$ cut, but at the expense of losing lots of statistics. About 60 \% of events pass the det(A) cut. The events passing the cut are rather evenly distributed\marginpar{quantify} between samples, which means that each sample is reduced by about 40 \%. 
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-nosmear-4combosum-detAcut_10-xisqcut_none-nocomb-TMP.pdf} 
+		\caption{ }
+		\label{fig:detAcut_a}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-nosmear-4combosum-detAcut_10-xisqcut_1000-nocomb-TMP.pdf}
+		\caption{ } 
+		\label{fig:detAcut_b}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-5psmear-4combosum-detAcut_10-xisqcut_none-nocomb-TMP.pdf} 
+		\caption{ }
+		\label{fig:detAcut_c}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-5psmear-4combosum-detAcut_10-xisqcut_1000-nocomb-TMP.pdf}
+		\caption{ } 
+		\label{fig:detAcut_d}
+	\end{subfigure}
+	\caption{Minimization where a minimal value cut is applied on $|\mathrm{det}(\mathbf A)|$ for each event, in this case $|\mathrm{det}(\mathbf A)|>10$. Minimization is done using the mass-difference technique, on the {\tt Herwig++} dataset without smearing in (a) and (b) and with 5 percent smearing in (c) and (d). $\xi^2$ cuts of $1000$ are applied in (b) and (d).}
+	\label{fig:detAcut}
+\end{figure}
+Figure \ref{fig:detAcut} shows the distribution of $det(\mathbf{A})$ for the true quark-lepton combinations and the misidentified combinations.
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/histogram_detA_truecombo_herwigpp-nosmear.pdf} 
+		\caption{ }
+		\label{fig:detA_distribution_a}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/histogram_detA_wrongcombo_herwigpp-nosmear.pdf}
+		\caption{ } 
+		\label{fig:detA_distribution_b}
+	\end{subfigure}
+	\caption{Distribution of $\mathrm{det}(A)$ for (a) the correct combination and (b) the wrong combination of quarks with lepton pairs. The tails of the distribution have been trimmed at $\pm 200 \,\,\mathrm{GeV}$ to remove outliers.}
+	\label{fig:detA_distribution}
+\end{figure}
+
+
+
+
+
+
+\section{Thoughts}
+
 \begin{itemize}
 \item Smooth minimization, finds same minimum always. Include plot showing this?
 \item Compare mean value and error to the original hopes of Webber, and to e.g. Cheng. 
@@ -868,12 +950,10 @@ Another possibility is to combine a few events at a time, and minimize the $\xi^
 
 
 
-
-
-
-
 \clearpage
 \section{The pile}
+
+
 
 
 
@@ -980,6 +1060,7 @@ Below it turns out that the method seems insensitive to the LSP mass -- I am sta
 \chapter{Calculations}
 
 \section{Invariant mass with misidentification of lepton}
+\label{sec:appendix_invmass-calculations}
 The invariant mass of $a + A$ in the decay topology of fig.\ \ref{fig:decaytree_appendix} is $m_{aB}^2 = (p_a + p_A)^2 = m_B^2$. However, if the particle $b$ is misidentified as $a$, what is the resulting invariant mass $m_X^2$? The calculation is most easily done in the rest frame of $B$. 
 \begin{figure}[hbt]
 \centering
@@ -988,7 +1069,8 @@ The invariant mass of $a + A$ in the decay topology of fig.\ \ref{fig:decaytree_
 \label{fig:decaytree_appendix}
 \end{figure}Let $p_a = (E_a, \mathbf p_a), p_A = (E_A, \mathbf p_A)$ in this frame. We assume $m_b = m_a = 0$. The decay must go back-to-back, so $\mathbf p_A = -\mathbf p_a$. Then, the condition
 \begin{align}
-	m_B^2 = (p_A + p_a)^2 = p_A^2 + 2p_A \cdot p_a + p_a^2 = m_A^2 + 2\left( m_A^2 + |\mathbf p_a|^2 \right)^{1/2} |\mathbf p_a| + 2|\mathbf p_a|^2 
+	m_B^2 &= (p_A + p_a)^2 = p_A^2 + 2p_A \cdot p_a + p_a^2\\
+	 		&= m_A^2 + 2\left( m_A^2 + |\mathbf p_a|^2 \right)^{1/2} |\mathbf p_a| + 2|\mathbf p_a|^2 
 \end{align}
 gives
 \begin{align}
@@ -1004,7 +1086,7 @@ In the referance frame of $C$, the same reasoning gives for the four-momenta $p_
 	p_B' &= \left( \frac{m_C^2+m_B^2}{2m_C^2}, \frac{m_C^2-m_B^2}{2m_C^2} \hat{\mathbf{p}}' \right),\\
 	p_b' &= \left( \frac{m_C^2-m_B^2}{2m_C^2}, -\frac{m_C^2-m_B^2}{2m_C^2} \hat{\mathbf{p}}' \right). \nonumber
 \end{align}
-To evaluate $m_X^2$, we must evaluate $p_b$ and $p_A$ in the same reference frame. We choose to transform $p_b'$ to $p_b$, the rest frame of $B$. This is easiest by using invariance of the Minkowski norm, which gives
+To evaluate $m_X^2$, we must evaluate $p_b$ and $p_A$ in the same reference frame. We choose to transform $p_b'$ to $p_b$ in the rest frame of $B$. This is easiest by using invariance of the Minkowski norm, which gives
 \begin{align}
 	(p_b + p_B)^2 &= (p_b' + p_B')^2 = m_C^2\nonumber \\
 				  &= m_B^2 + 2m_B|\mathbf{p}_b|\\
@@ -1017,18 +1099,18 @@ where we have used that $\mathbf p_B = \mathbf{0}$ in the rest frame of $B$. Now
 \caption{Lorentz boost from rest frame of $C$ to rest frame of $B$.}
 \label{fig:lorentz_boost}
 \end{figure}
-We then get for the mass $m_X^2$
+We then get
 \begin{align}
 	m_X^2 &= (p_A + p_b)^2 = m_A^2 + 2E_A|\mathbf{p}_b| - 2|\mathbf{p}_A||\mathbf{p}_b|\cos\theta\\
-		&= m_A^2 + 2\left( m_A^2 + \frac{m_B^2 - m_A^2}{4m_B^2} \right)^{1/2}\frac{m_C^2 - m_B^2}{2m_B} -2\frac{m_B^2-m_A^2}{2m_B}\frac{m_C^2 - m_B^2}{2m_B}\cos\theta\\
-		&= m_A^2 + \frac{m_C^2 - m_B^2}{2m_B^2}\left( m_B^2(1-\cos\theta) + m_A^2(1+\cos\theta) \right).
+		&= m_A^2 + 2\left( m_A^2 + \frac{m_B^2 - m_A^2}{4m_B^2} \right)^{1/2}\frac{m_C^2 - m_B^2}{2m_B} -2\frac{m_B^2-m_A^2}{2m_B}\frac{m_C^2 - m_B^2}{2m_B}\cos\theta\nonumber \\
+		&= m_A^2 + \frac{m_C^2 - m_B^2}{2m_B^2}\left( m_B^2(1-\cos\theta) + m_A^2(1+\cos\theta) \right).\nonumber
 \end{align}
 The limiting cases are
 \begin{align}
 	\cos\theta = -1 &\Rightarrow {m_X^2}_\mathrm{high} = m_A^2 + m_C^2 - m_B^2\\
 	\cos\theta = +1 &\Rightarrow {m_X^2}_\mathrm{low} = \frac{m_C^2 m_A^2}{m_B^2}.\nonumber
 \end{align}
-$m_X^2$ is monotonically decreasing as a function of $\cos\theta$ between these limits, which means $m_X$ is as well. We note that the interval $(m_{X\mathrm{low}},m_{X\mathrm{high}})$ is always included in the interval $(m_A, m_C)$ for any physical combination of $m_{A,B,C}$, so $m_X$ is always consistent with chain kinematics. For the case of SPS 1a, $m_A$, $m_B$ and $m_C$ are 97, 144 and 180 GeV, respectively. The limits then evaluate to ${m_X}_\mathrm{high} = 145 \,\mathrm{GeV}$ and ${m_X}_\mathrm{low} = 121 \, \mathrm{GeV}$. The probability distribution of $m_X$ in this case is shown in fig.\ \ref{fig:mX-dist}. 
+$m_X^2$ is monotonically decreasing as a function of $\cos\theta$ between these limits, which means $m_X$ is as well. We note that the interval $(m_{X\mathrm{low}},m_{X\mathrm{high}})$ is always included in the interval $(m_A, m_C)$ for any physical combination of $m_{A,B,C}$, so $m_X$ is always consistent with chain kinematics. For the case of SPS 1a, $m_A$, $m_B$ and $m_C$ are 97, 144 and $180\,\mathrm{GeV}$, respectively. The limits then evaluate to ${m_X}_\mathrm{high} = 145 \,\mathrm{GeV}$ and ${m_X}_\mathrm{low} = 121 \, \mathrm{GeV}$. The probability distribution of $m_X$ in this case is shown in fig.\ \ref{fig:mX-dist}. 
 The distribution is approximately symmetric, with the majority of the weight at the end points. Integration gives that 60 \% of the area is located within $5\,\mathrm{GeV}$ of one of the end points, divided with 29 \% at the low end and 31 \% at the high end.
 \begin{figure}[hbt]
 \centering
