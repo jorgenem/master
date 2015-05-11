@@ -185,7 +185,7 @@ bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, doub
 	// Usage: Point is an allocated dim-dimensional array of doubles
 	// to be filled with coordinates of the best-fit point,
 	// func is the function to minimize. 
-	int dim = 4;
+	int dim = 3; // MODIFIED TO FIT MD
 	int ihi, ilo, inhi, j;
 	// double fmin;
 	double * fx = alloc_vector(dim + 1);
@@ -255,8 +255,7 @@ double minkowskidot(vec a, vec b)
 double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
 {
 	vec M;
-	M << Masses[0]*Masses[0] << Masses[1]*Masses[1] << Masses[2]*Masses[2] << Masses[3]*Masses[3] 
-		<< Masses[0]*Masses[0] << Masses[1]*Masses[1] << Masses[2]*Masses[2] << Masses[3]*Masses[3];
+	M << Masses[0] << Masses[1] << Masses[2]; // Modified 20150330 to fit three squared diffs
 	M = M/pow(Mnorm, 2);
 
 	double xisquared = 0;
@@ -266,10 +265,6 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 	if (Masses[0] < 0) xisquared = xisquared + hugefactor*M[0]*M[0];
 	if (Masses[1] < 0) xisquared = xisquared + hugefactor*M[1]*M[1];
 	if (Masses[2] < 0) xisquared = xisquared + hugefactor*M[2]*M[2];
-	if (Masses[3] < 0) xisquared = xisquared + hugefactor*M[3]*M[3];
-	if (M[0] < M[1]) xisquared = xisquared + hugefactor*(M[0]-M[1])*(M[0]-M[1]);
-	if (M[1] < M[2]) xisquared = xisquared + hugefactor*(M[1]-M[2])*(M[1]-M[2]);
-	if (M[2] < M[3]) xisquared = xisquared + hugefactor*(M[2]-M[3])*(M[2]-M[3]);
 
 	if (combinatorics)
 	{
@@ -340,7 +335,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point, vector<double> &correct_combinatorics_fraction)
 {
 	int N = Nbins*Nevents;
-	cout << "N = " << endl;
+	// cout << "N = " << endl;
 
 	// Define permutation matrices
 	mat permute23;
@@ -373,15 +368,15 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 						0 << 0 << 0 << 0 << 0 << 1 << 0 << 0 << endr << 
 						0 << 0 << 0 << 0 << 0 << 0 << 0 << 1 << endr;
 
-	B 		 <<		   -1 << 1 << 0 << 0 << 0 << 0 << 0 << 0 << endr << 
-						0 << -1 << 1 << 0 << 0 << 0 << 0 << 0 << endr << 
-						0 << 0 << -1 << 1 << 0 << 0 << 0 << 0 << endr << 
-						0 << 0 <<  0 << 0 << 0 << 0 << 0 << 0 << endr << 
-						0 << 0 << 0 << 0 << -1 << 1 << 0 << 0 << endr << 
-						0 << 0 << 0 << 0 << 0 << -1 << 1 << 0 << endr << 
-						0 << 0 << 0 << 0 << 0 << 0 << -1 << 1 << endr << 
-						0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << endr;				
-
+	B 		 <<		    -1 <<  0 <<  0  << endr << 
+						0  << -1 <<  0  << endr << 
+						0  <<  0 << -1  << endr << 
+						0  <<  0 <<  0  << endr << 
+						-1 <<  0 <<  0  << endr << 
+						0  << -1 <<  0  << endr << 
+						0  <<  0 << -1  << endr << 
+						0  <<  0 <<  0  << endr;				
+ 
 
 	// Declare vectors of matrices to be stored
 
@@ -392,6 +387,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 	vector<vector<vec>> E_lists;
 
 	vector<bool> all_leptons_equal_list;
+
+	vector<double> detA1list, detA2list, detA3list, detA4list;
 
 
 	string line;
@@ -471,8 +468,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 			// cout << all_leptons_equal_list[iEvent] << endl;
 			// cout << p1.id << ", " << p2.id << ", " << p3.id << ", " << p4.id << ", " << p5.id << ", " << p6.id << ", " << p7.id << ", " << p8.id << endl; 
 
-			if (iEvent == 0)
-				cout << p1.p << endl;
+			// if (iEvent == 0)
+				// cout << p1.p << endl;
 
 			double m1squared = minkowskidot(p1.p, p1.p);
 			double m2squared = minkowskidot(p2.p, p2.p);
@@ -651,10 +648,23 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 					E44_list.push_back(dummy);
 				}
 
+				detA1list.push_back(det(A1));
+				detA2list.push_back(det(A2));
+				if (all_leptons_equal_list[iEvent])
+				{
+					detA3list.push_back(det(A3));
+					detA4list.push_back(det(A4));
+				}
+				else
+				{
+					detA3list.push_back(0);
+					detA4list.push_back(0);
+				}
+
 			} // END IF combinatorics
 			else
 			{
-				// Don't need to do anythinge else
+				// Don't need to do anything else
 			}
 
 
@@ -671,6 +681,29 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 
 
 	// Finished with making the D and E matrices. Now to minimize xisquared!
+
+
+
+	// FOR DETERMINANT VERSION: Write determinants to file
+	ofstream textOutputDet;
+	textOutputDet.open("../best_fit_results/TEMPDET.dat", ios::out);
+	for (int iEvent = 0; iEvent < N; iEvent++)
+	{
+		textOutputDet << detA1list[iEvent] << " " << detA2list[iEvent] << " " << detA3list[iEvent] << " " << detA4list[iEvent] << endl;
+	}
+	// for (auto detA1:detA1list)
+	// 	textOutputDet << detA1 << " ";
+	// textOutputDet << endl;
+	// for (auto detA2:detA2list)
+	// 	textOutputDet << detA2 << " ";
+	// textOutputDet << endl;
+	// for (auto detA3:detA3list)
+	// 	textOutputDet << detA3 << " ";
+	// textOutputDet << endl;
+	// for (auto detA4:detA4list)
+	// 	textOutputDet << detA4 << " ";
+	// textOutputDet << endl;
+
 
 
 	// DEBUG evaluate xisquared
@@ -719,17 +752,22 @@ int main()
 	int Nbins = 100;
 	int Nevents = 25;
 	bool combinatorics = true;
-	vector<double> masses_initial = {568, 180, 144, 97};
+	// vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};
 	// vector<double> masses_initial = {800, 500, 300, 50};
-	// vector<double> masses_initial = {1000, 100, 80, 30};
+	vector<double> masses_initial = {1000, 100, 80, 30};
 	double Mnorm = 100;
 	double tol = 1e-12;
-	double maxiter = 500;
+	double maxiter = 1000;
 
 	vector<double> best_fit_value;
 	vector<vector<double> > best_fit_point; 
 	vector<double> correct_combinatorics_fraction;
+
+	// Calculate mass-squared diff vector from masses_initial
+	vector<double> massdiff = {	masses_initial[0]*masses_initial[0] - masses_initial[1]*masses_initial[1], 
+								masses_initial[1]*masses_initial[1] - masses_initial[2]*masses_initial[2],
+								masses_initial[2]*masses_initial[2] - masses_initial[3]*masses_initial[3] };
 
 	string eventfile;
 	// eventfile = "../python/on-shell_decay_squarks_at_rest_10000_events.dat";
@@ -737,9 +775,15 @@ int main()
 	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
-	eventfile = "../events/HERWIG-events.dat";
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
+	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
+	// eventfile = "../events/HERWIG-events.dat";
 
-	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction);
+
+
+	best_fit(Nbins, Nevents, eventfile, massdiff, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction);
 
 	cout << "correct_combinatorics_fraction = " << endl << correct_combinatorics_fraction << endl;
 
@@ -748,20 +792,20 @@ int main()
 	for (int iBin = 0; iBin<Naccepted; iBin++)
 	{
 		cout << iBin+1 << "\t " << best_fit_value[iBin] << "\t ";
-		cout << best_fit_point[iBin][0] << "\t " << best_fit_point[iBin][1] << "\t " << best_fit_point[iBin][2] << "\t " << best_fit_point[iBin][3] << "\t " << correct_combinatorics_fraction[iBin] << endl;
+		cout << best_fit_point[iBin][0] << "\t " << best_fit_point[iBin][1] << "\t " << best_fit_point[iBin][2] << "\t " << correct_combinatorics_fraction[iBin] << endl;
 	}
 
 
 	/** Make and open text output file */
 	ofstream textOutput;
-	textOutput.open("../best_fit_results/TEMPHERWIG.dat", ios::out);
+	textOutput.open("../best_fit_results/MDTEMP.dat", ios::out);
 	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
 
-	textOutput << "# Events minimized by cpp, combinatorics = " << combinatorics << " (true/false = 1/0)" << endl;
+	textOutput << "# MASS DIFF FIT. combinatorics = " << combinatorics << " (true/false = 1/0)" << endl;
 	textOutput << "# Event file name = " << eventfile << ", SIMPLEX tolerance = " << tol << endl;
 	for (int iBin = 0; iBin < Naccepted; iBin++)
 	{
-		textOutput << iBin+1 << "\t" << best_fit_point[iBin][0] << "\t" << best_fit_point[iBin][1] << "\t" << best_fit_point[iBin][2] << "\t" << best_fit_point[iBin][3] << "\t " << 0 << "\t " << best_fit_value[iBin] << "\t" << correct_combinatorics_fraction[iBin] << endl;
+		textOutput << iBin+1 << "\t" << best_fit_point[iBin][0] << "\t" << best_fit_point[iBin][1] << "\t" << best_fit_point[iBin][2] << "\t" << 0 << "\t " << best_fit_value[iBin] << "\t" << correct_combinatorics_fraction[iBin] << endl;
 	}
 	textOutput.close();
 

@@ -93,14 +93,14 @@ double ** make_simplex(double * point, int dim)
 		simplex[i][i] *= 1.1;
 	return simplex;
 }
-void evaluate_simplex(double ** simplex, int dim,double * fx,  double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &),
-	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
+void evaluate_simplex(double ** simplex, int dim,double * fx,  double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, int),
+	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, int combinatorics_choice)
 {
 	int i;
 	for (i = 0; i < dim + 1; i++)
 	{
-		correct_combinatorics.clear();
-		fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+		// correct_combinatorics.clear();
+		fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice);
 	}
 }
 
@@ -135,15 +135,15 @@ void simplex_bearings(double ** simplex, int dim,double * midpoint, double * lin
 		line[j] = simplex[ihi][j] - midpoint[j];
 	}
 }
-int update_simplex(double * point, int dim, double & fmax,double * midpoint, double * line, double scale, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &),
-	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
+int update_simplex(double * point, int dim, double & fmax,double * midpoint, double * line, double scale, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, int),
+	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, int combinatorics_choice)
 {
 	int i, update =	0; 
 	double * next = alloc_vector(dim), fx;
 	for (i = 0; i < dim; i++)
 		next[i] = midpoint[i] + scale * line[i];
-	correct_combinatorics.clear();
-	fx = (*func)(next, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+	// correct_combinatorics.clear();
+	fx = (*func)(next, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice);
 	if (fx < fmax)
 	{
 		for (i = 0; i < dim; i++)	
@@ -155,7 +155,7 @@ int update_simplex(double * point, int dim, double & fmax,double * midpoint, dou
 	return update;
 }
 
-void contract_simplex(double ** simplex, int dim, double * fx, int ilo, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &),	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
+void contract_simplex(double ** simplex, int dim, double * fx, int ilo, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, int),	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, int combinatorics_choice)
 {
 	int i, j;
 	for (i = 0; i < dim + 1; i++)
@@ -163,8 +163,8 @@ void contract_simplex(double ** simplex, int dim, double * fx, int ilo, double (
 		{
 			for (j = 0; j < dim; j++)
 				simplex[i][j] = (simplex[ilo][j]+simplex[i][j])*0.5;
-			correct_combinatorics.clear();
-			fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+			// correct_combinatorics.clear();
+			fx[i] = (*func)(simplex[i], Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice);
 		}
 }
 
@@ -178,14 +178,14 @@ double accuracy = (fabs(fmax) + fabs(fmin)) * ftol;
 return (delta < (accuracy + ZEPS));
 }
 
-bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, vector<bool> &), 
+bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, double, bool, vector<bool> &, vector<vector<mat>> &, vector<vector<vec>> &, int), 
 	double tol, int maxiter,
-	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
+	int Nevents, int jBin, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, int combinatorics_choice)
 {
 	// Usage: Point is an allocated dim-dimensional array of doubles
 	// to be filled with coordinates of the best-fit point,
 	// func is the function to minimize. 
-	int dim = 4;
+	int dim = 3; // MODIFIED TO FIT MD
 	int ihi, ilo, inhi, j;
 	// double fmin;
 	double * fx = alloc_vector(dim + 1);
@@ -193,7 +193,7 @@ bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, doub
 	double * line = alloc_vector(dim);
 	double ** simplex = make_simplex(point, dim);
 	evaluate_simplex(simplex, dim, fx, func, 
-		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice);
 
 	int iter = 0;
 	while (iter < maxiter)
@@ -203,13 +203,13 @@ bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, doub
 		if (check_tol(fx[ihi], fx[ilo], tol)) { /*cout << "below tol = " << tol << endl;*/ break; }
 		update_simplex(simplex[ihi], dim, fx[ihi],
 		midpoint, line, -1.0, func, 
-		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+		Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice);
 		if (fx[ihi] < fx[ilo])
 			update_simplex(simplex[ihi], dim, fx[ihi], midpoint, line, -2.0, func,
-				Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+				Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice);
 		else if (fx[ihi] >= fx[inhi])
-			if (!update_simplex(simplex[ihi], dim, fx[ihi], midpoint, line, 0.5, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics))
-				contract_simplex(simplex, dim, fx, ilo, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics);
+			if (!update_simplex(simplex[ihi], dim, fx[ihi], midpoint, line, 0.5, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice))
+				contract_simplex(simplex, dim, fx, ilo, func, Nevents, jBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, combinatorics_choice);
 		iter += 1;
 	}
 
@@ -252,11 +252,10 @@ double minkowskidot(vec a, vec b)
 	return a[3]*b[3]-a[0]*b[0]-a[1]*b[1]-a[2]*b[2];
 }
 
-double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
+double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, int combinatorics_choice)
 {
 	vec M;
-	M << Masses[0]*Masses[0] << Masses[1]*Masses[1] << Masses[2]*Masses[2] << Masses[3]*Masses[3] 
-		<< Masses[0]*Masses[0] << Masses[1]*Masses[1] << Masses[2]*Masses[2] << Masses[3]*Masses[3];
+	M << Masses[0] << Masses[1] << Masses[2]; // Modified 20150330 to fit three squared diffs
 	M = M/pow(Mnorm, 2);
 
 	double xisquared = 0;
@@ -266,70 +265,23 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 	if (Masses[0] < 0) xisquared = xisquared + hugefactor*M[0]*M[0];
 	if (Masses[1] < 0) xisquared = xisquared + hugefactor*M[1]*M[1];
 	if (Masses[2] < 0) xisquared = xisquared + hugefactor*M[2]*M[2];
-	if (Masses[3] < 0) xisquared = xisquared + hugefactor*M[3]*M[3];
-	if (M[0] < M[1]) xisquared = xisquared + hugefactor*(M[0]-M[1])*(M[0]-M[1]);
-	if (M[1] < M[2]) xisquared = xisquared + hugefactor*(M[1]-M[2])*(M[1]-M[2]);
-	if (M[2] < M[3]) xisquared = xisquared + hugefactor*(M[2]-M[3])*(M[2]-M[3]);
 
-	if (combinatorics)
+
+	for (int iEvent = j*Nevents; iEvent < (j+1)*Nevents; iEvent++)
 	{
-		for (int iEvent = j*Nevents; iEvent < (j+1)*Nevents; iEvent++)
-		{
-			int Ncombinations;
-			if (all_leptons_equal_list[iEvent])
-				Ncombinations = 16;
-			else 
-				Ncombinations = 8;
-	
-			vector<double> xisquared_current_list;
-			// xisquared_current_list.clear();
-			int iSmallest = 0;
-			for (int iCombinations = 0; iCombinations < Ncombinations; iCombinations++)
-			{
+		double xisquared_current;
+		vec P;
+		P = D_lists[combinatorics_choice][iEvent]*M + E_lists[combinatorics_choice][iEvent];
+		// cout << "j = " << j << ", D(3,2) = " << D_lists[0][iEvent](3,2) << endl;
 
-				double xisquared_current;
-				vec P;
-	
-				// cout << "D has n_cols = " << D_lists[iCombinations][iEvent].n_cols << endl;
-				P = D_lists[iCombinations][iEvent]*M + E_lists[iCombinations][iEvent];
-	
-				xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
-				xisquared_current_list.push_back(xisquared_current);
-				if (xisquared_current_list[iCombinations] < xisquared_current_list[iSmallest])
-					iSmallest = iCombinations;
+		// cout << "M[3] = " << M[3] << endl;
 
-			}
-			// cout << "hei" << endl;
-			if (iSmallest == 0)
-				correct_combinatorics.push_back(1);
-			else
-				correct_combinatorics.push_back(0);
+		xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
+		xisquared = xisquared + xisquared_current;	
 
-			
-			// cout << "iEvent = " << iEvent << ", xisquared_current_list = " << xisquared_current_list << ", iSmallest = " << iSmallest << endl;
-
-			xisquared = xisquared + *min_element(xisquared_current_list.begin(), xisquared_current_list.end());
-		}
+		// correct_combinatorics.push_back(1);
 	}
-	else // NOT combinatorics
-	{
-		for (int iEvent = j*Nevents; iEvent < (j+1)*Nevents; iEvent++)
-		{
-			double xisquared_current;
-			vec P;
-
-			P = D_lists[0][iEvent]*M + E_lists[0][iEvent];
-			// cout << "j = " << j << ", D(3,2) = " << D_lists[0][iEvent](3,2) << endl;
-
-			// cout << "M[3] = " << M[3] << endl;
-
-			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
-			xisquared = xisquared + xisquared_current;	
-
-			correct_combinatorics.push_back(1);
-		}
-		
-	}
+	
 
 	// cout << "xisquared evaluated to = " << xisquared << endl;
 	// xisquared = pow(M[0]-569*569/(Mnorm*Mnorm),4)+pow(M[1],4)+pow(M[2],4)+pow(M[3],4);
@@ -337,10 +289,10 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 
 }
 
-void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point, vector<double> &correct_combinatorics_fraction)
+void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<vector<double> > &best_fit_value, vector<vector<vector<double> > > &best_fit_point, vector<double> &correct_combinatorics_fraction)
 {
 	int N = Nbins*Nevents;
-	cout << "N = " << endl;
+	// cout << "N = " << endl;
 
 	// Define permutation matrices
 	mat permute23;
@@ -373,15 +325,15 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 						0 << 0 << 0 << 0 << 0 << 1 << 0 << 0 << endr << 
 						0 << 0 << 0 << 0 << 0 << 0 << 0 << 1 << endr;
 
-	B 		 <<		   -1 << 1 << 0 << 0 << 0 << 0 << 0 << 0 << endr << 
-						0 << -1 << 1 << 0 << 0 << 0 << 0 << 0 << endr << 
-						0 << 0 << -1 << 1 << 0 << 0 << 0 << 0 << endr << 
-						0 << 0 <<  0 << 0 << 0 << 0 << 0 << 0 << endr << 
-						0 << 0 << 0 << 0 << -1 << 1 << 0 << 0 << endr << 
-						0 << 0 << 0 << 0 << 0 << -1 << 1 << 0 << endr << 
-						0 << 0 << 0 << 0 << 0 << 0 << -1 << 1 << endr << 
-						0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << endr;				
-
+	B 		 <<		    -1 <<  0 <<  0  << endr << 
+						0  << -1 <<  0  << endr << 
+						0  <<  0 << -1  << endr << 
+						0  <<  0 <<  0  << endr << 
+						-1 <<  0 <<  0  << endr << 
+						0  << -1 <<  0  << endr << 
+						0  <<  0 << -1  << endr << 
+						0  <<  0 <<  0  << endr;				
+ 
 
 	// Declare vectors of matrices to be stored
 
@@ -471,8 +423,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 			// cout << all_leptons_equal_list[iEvent] << endl;
 			// cout << p1.id << ", " << p2.id << ", " << p3.id << ", " << p4.id << ", " << p5.id << ", " << p6.id << ", " << p7.id << ", " << p8.id << endl; 
 
-			if (iEvent == 0)
-				cout << p1.p << endl;
+			// if (iEvent == 0)
+				// cout << p1.p << endl;
 
 			double m1squared = minkowskidot(p1.p, p1.p);
 			double m2squared = minkowskidot(p2.p, p2.p);
@@ -680,28 +632,42 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 
 	// double tol = 0.1;
 	// double maxiter = 500;
-	vector<bool> correct_combinatorics;
-	for (int iBin=0; iBin<Nbins; iBin++)
+	// vector<bool> correct_combinatorics;
+	for (int combinatorics_choice = 0; combinatorics_choice < 1; combinatorics_choice++)
 	{
-		cout << "Minimizing bin number " << iBin+1 << endl;
-		double best_fit_current;
-		vector<double> masses_current = masses_initial;
-		// cout << xisquared(&masses_initial[0], Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists) << endl;
-		// double *Masses_current = Masses_initial;
+		vector<double> best_fit_value_currentcombo;
+		vector<vector<double> > best_fit_point_currentcombo;
 
-
-		double fmin;
-		if (amoeba(&masses_current[0], fmin, xisquared, tol, maxiter, Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists, correct_combinatorics)) 
+		cout << "Combinatorics choice " << combinatorics_choice+1 << endl;
+		for (int iBin=0; iBin<Nbins; iBin++)
 		{
-			best_fit_value.push_back(fmin);
-			best_fit_point.push_back(masses_current);
+			cout << "Minimizing bin number " << iBin+1 << endl;
+			// double best_fit_current;
+			vector<double> masses_current = masses_initial;
+			// cout << xisquared(&masses_initial[0], Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists) 	<< endl;
+			// double *Masses_current = Masses_initial;
+	
+	
+			double fmin;
+			if (amoeba(&masses_current[0], fmin, xisquared, tol, maxiter, Nevents, iBin, Mnorm, combinatorics, 	all_leptons_equal_list, D_lists, E_lists, combinatorics_choice)) 
+			{
+				best_fit_value_currentcombo.push_back(fmin);
+				best_fit_point_currentcombo.push_back(masses_current);
+			}
+			else
+			{
+				best_fit_value_currentcombo.push_back(1e30);
+				best_fit_point_currentcombo.push_back({0,0,0});
+			}
+	
+			// cout << "correct_combinatorics = " << correct_combinatorics << endl;
+			// double fraction_of_correct_combinatorics = number_of_true(correct_combinatorics)/(double)Nevents;
+			// cout << fraction_of_correct_combinatorics << endl;
+			// correct_combinatorics_fraction.push_back(fraction_of_correct_combinatorics);
+	
 		}
-
-		// cout << "correct_combinatorics = " << correct_combinatorics << endl;
-		double fraction_of_correct_combinatorics = number_of_true(correct_combinatorics)/(double)Nevents;
-		// cout << fraction_of_correct_combinatorics << endl;
-		correct_combinatorics_fraction.push_back(fraction_of_correct_combinatorics);
-
+		best_fit_value.push_back(best_fit_value_currentcombo);
+		best_fit_point.push_back(best_fit_point_currentcombo);
 	}
 
 
@@ -718,18 +684,23 @@ int main()
 
 	int Nbins = 100;
 	int Nevents = 25;
-	bool combinatorics = true;
+	bool combinatorics = false;
 	vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};
 	// vector<double> masses_initial = {800, 500, 300, 50};
 	// vector<double> masses_initial = {1000, 100, 80, 30};
 	double Mnorm = 100;
 	double tol = 1e-12;
-	double maxiter = 500;
+	double maxiter = 2000;
 
-	vector<double> best_fit_value;
-	vector<vector<double> > best_fit_point; 
+	vector<vector<double> > best_fit_value;
+	vector<vector<vector<double> > > best_fit_point; 
 	vector<double> correct_combinatorics_fraction;
+
+	// Calculate mass-squared diff vector from masses_initial
+	vector<double> massdiff = {	masses_initial[0]*masses_initial[0] - masses_initial[1]*masses_initial[1], 
+								masses_initial[1]*masses_initial[1] - masses_initial[2]*masses_initial[2],
+								masses_initial[2]*masses_initial[2] - masses_initial[3]*masses_initial[3] };
 
 	string eventfile;
 	// eventfile = "../python/on-shell_decay_squarks_at_rest_10000_events.dat";
@@ -737,35 +708,88 @@ int main()
 	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
-	eventfile = "../events/HERWIG-events.dat";
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
+	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
+	// eventfile = "../events/HERWIG-events.dat";
 
-	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction);
 
-	cout << "correct_combinatorics_fraction = " << endl << correct_combinatorics_fraction << endl;
 
-	int Naccepted = best_fit_value.size();
+	best_fit(Nbins, Nevents, eventfile, massdiff, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction);
 
-	for (int iBin = 0; iBin<Naccepted; iBin++)
+	// cout << "correct_combinatorics_fraction = " << endl << correct_combinatorics_fraction << endl;
+
+	vector<int> Naccepted;
+	for (int i = 0; i < best_fit_value.size(); i++) 
 	{
-		cout << iBin+1 << "\t " << best_fit_value[iBin] << "\t ";
-		cout << best_fit_point[iBin][0] << "\t " << best_fit_point[iBin][1] << "\t " << best_fit_point[iBin][2] << "\t " << best_fit_point[iBin][3] << "\t " << correct_combinatorics_fraction[iBin] << endl;
+		Naccepted.push_back(best_fit_value[i].size());
 	}
+
+	// for (int iBin = 0; iBin<Naccepted; iBin++)
+	// {
+	// 	cout << iBin+1 << "\t " << best_fit_value[iBin] << "\t ";
+	// 	cout << best_fit_point[iBin][0] << "\t " << best_fit_point[iBin][1] << "\t " << best_fit_point[iBin][2] << "\t " << endl;
+	// }
 
 
 	/** Make and open text output file */
+	// ALL COMBOS SEPARATELY: Write eight succsessive fits
+	// (TODO: Implement SFL events, 16 combos)
 	ofstream textOutput;
-	textOutput.open("../best_fit_results/TEMPHERWIG.dat", ios::out);
-	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
-
-	textOutput << "# Events minimized by cpp, combinatorics = " << combinatorics << " (true/false = 1/0)" << endl;
+	textOutput.open("../best_fit_results/MDTEMPALLCOMB.dat", ios::out);
+	textOutput << "# MASS DIFF FIT. combinatorics locked to one choice" << endl;
 	textOutput << "# Event file name = " << eventfile << ", SIMPLEX tolerance = " << tol << endl;
-	for (int iBin = 0; iBin < Naccepted; iBin++)
+
+	textOutput << "Combinatorical choice 1" << endl;
+	for (int iBin = 0; iBin < Naccepted[0]; iBin++)
 	{
-		textOutput << iBin+1 << "\t" << best_fit_point[iBin][0] << "\t" << best_fit_point[iBin][1] << "\t" << best_fit_point[iBin][2] << "\t" << best_fit_point[iBin][3] << "\t " << 0 << "\t " << best_fit_value[iBin] << "\t" << correct_combinatorics_fraction[iBin] << endl;
-	}
+		textOutput << iBin+1 << "\t" << best_fit_point[0][iBin][0] << "\t" << best_fit_point[0][iBin][1] << "\t" << best_fit_point[0][iBin][2] << "\t" << 0 << "\t " << best_fit_value[0][iBin] << "\t" << endl;
+	}	
+	// textOutput << "Combinatorical choice 2" << endl;
+	// for (int iBin = 0; iBin < Naccepted[1]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_point[1][iBin][0] << "\t" << best_fit_point[1][iBin][1] << "\t" << best_fit_point[1][iBin][2] << "\t" << 0 << "\t " << best_fit_value[1][iBin] << "\t" << endl;
+	// }
+	// textOutput << "Combinatorical choice 3" << endl;
+	// for (int iBin = 0; iBin < Naccepted[2]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_point[2][iBin][0] << "\t" << best_fit_point[2][iBin][1] << "\t" << best_fit_point[2][iBin][2] << "\t" << 0 << "\t " << best_fit_value[2][iBin] << "\t" << endl;
+	// }
+	// textOutput << "Combinatorical choice 4" << endl;
+	// for (int iBin = 0; iBin < Naccepted[3]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_point[3][iBin][0] << "\t" << best_fit_point[3][iBin][1] << "\t" << best_fit_point[3][iBin][2] << "\t" << 0 << "\t " << best_fit_value[3][iBin] << "\t" << endl;
+	// }
+	// textOutput << "Combinatorical choice 5" << endl;
+	// for (int iBin = 0; iBin < Naccepted[4]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_point[4][iBin][0] << "\t" << best_fit_point[4][iBin][1] << "\t" << best_fit_point[4][iBin][2] << "\t" << 0 << "\t " << best_fit_value[4][iBin] << "\t" << endl;
+	// }
+	// textOutput << "Combinatorical choice 6" << endl;	
+	// for (int iBin = 0; iBin < Naccepted[5]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_point[5][iBin][0] << "\t" << best_fit_point[5][iBin][1] << "\t" << best_fit_point[5][iBin][2] << "\t" << 0 << "\t " << best_fit_value[5][iBin] << "\t" << endl;
+	// }
+	// textOutput << "Combinatorical choice 7" << endl;	
+	// for (int iBin = 0; iBin < Naccepted[6]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_point[6][iBin][0] << "\t" << best_fit_point[6][iBin][1] << "\t" << best_fit_point[6][iBin][2] << "\t" << 0 << "\t " << best_fit_value[6][iBin] << "\t" << endl;
+	// }
+	// textOutput << "Combinatorical choice 8" << endl;
+	// for (int iBin = 0; iBin < Naccepted[7]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_point[7][iBin][0] << "\t" << best_fit_point[7][iBin][1] << "\t" << best_fit_point[7][iBin][2] << "\t" << 0 << "\t " << best_fit_value[7][iBin] << "\t" << endl;
+	// }
+	// textOutput << "Comparison of best-fit function values, 1 to 8" << endl;
+	// for (int iBin = 0; iBin < Naccepted[0]; iBin++)
+	// {
+	// 	textOutput << iBin+1 << "\t" << best_fit_value[0][iBin] << "\t" << best_fit_value[1][iBin] << "\t" << best_fit_value[2][iBin] << "\t" << best_fit_value[3][iBin] << "\t" << best_fit_value[4][iBin] << "\t" << best_fit_value[5][iBin] << "\t" << best_fit_value[6][iBin] << "\t" << best_fit_value[7][iBin] << endl;
+	// }
+
 	textOutput.close();
 
-	cout << "Mean correct-combo fraction = " << accumulate(correct_combinatorics_fraction.begin(), correct_combinatorics_fraction.end(), 0.0)/correct_combinatorics_fraction.size() << endl;
+	// cout << "Mean correct-combo fraction = " << accumulate(correct_combinatorics_fraction.begin(), correct_combinatorics_fraction.end(), 0.0)/correct_combinatorics_fraction.size() << endl;
 
 	return 1;
 }

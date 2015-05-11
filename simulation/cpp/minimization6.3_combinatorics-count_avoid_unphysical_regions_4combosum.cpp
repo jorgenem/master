@@ -326,6 +326,17 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
 			xisquared = xisquared + xisquared_current;	
 
+			// Add three closest wrong combinations
+			P = D_lists[1][iEvent]*M + E_lists[1][iEvent];
+			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
+			xisquared = xisquared + xisquared_current;	
+			P = D_lists[2][iEvent]*M + E_lists[2][iEvent];
+			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
+			xisquared = xisquared + xisquared_current;	
+			P = D_lists[3][iEvent]*M + E_lists[3][iEvent];
+			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - M[3], 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - M[3], 2);
+			xisquared = xisquared + xisquared_current;	
+
 			correct_combinatorics.push_back(1);
 		}
 		
@@ -340,7 +351,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point, vector<double> &correct_combinatorics_fraction)
 {
 	int N = Nbins*Nevents;
-	cout << "N = " << endl;
+	// cout << "N = " << endl;
 
 	// Define permutation matrices
 	mat permute23;
@@ -471,8 +482,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 			// cout << all_leptons_equal_list[iEvent] << endl;
 			// cout << p1.id << ", " << p2.id << ", " << p3.id << ", " << p4.id << ", " << p5.id << ", " << p6.id << ", " << p7.id << ", " << p8.id << endl; 
 
-			if (iEvent == 0)
-				cout << p1.p << endl;
+			// if (iEvent == 0)
+				// cout << p1.p << endl;
 
 			double m1squared = minkowskidot(p1.p, p1.p);
 			double m2squared = minkowskidot(p2.p, p2.p);
@@ -718,14 +729,14 @@ int main()
 
 	int Nbins = 100;
 	int Nevents = 25;
-	bool combinatorics = true;
-	vector<double> masses_initial = {568, 180, 144, 97};
+	bool combinatorics = false;
+	// vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};
 	// vector<double> masses_initial = {800, 500, 300, 50};
-	// vector<double> masses_initial = {1000, 100, 80, 30};
+	vector<double> masses_initial = {1000, 100, 80, 30};
 	double Mnorm = 100;
 	double tol = 1e-12;
-	double maxiter = 500;
+	double maxiter = 1000;
 
 	vector<double> best_fit_value;
 	vector<vector<double> > best_fit_point; 
@@ -737,7 +748,13 @@ int main()
 	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
-	eventfile = "../events/HERWIG-events.dat";
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
+	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
+	// eventfile = "../events/HERWIG-events.dat";
+
+
 
 	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction);
 
@@ -754,7 +771,7 @@ int main()
 
 	/** Make and open text output file */
 	ofstream textOutput;
-	textOutput.open("../best_fit_results/TEMPHERWIG.dat", ios::out);
+	textOutput.open("../best_fit_results/TEMP.dat", ios::out);
 	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
 
 	textOutput << "# Events minimized by cpp, combinatorics = " << combinatorics << " (true/false = 1/0)" << endl;

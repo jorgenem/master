@@ -340,7 +340,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point, vector<double> &correct_combinatorics_fraction)
 {
 	int N = Nbins*Nevents;
-	cout << "N = " << endl;
+	// cout << "N = " << endl;
 
 	// Define permutation matrices
 	mat permute23;
@@ -471,8 +471,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 			// cout << all_leptons_equal_list[iEvent] << endl;
 			// cout << p1.id << ", " << p2.id << ", " << p3.id << ", " << p4.id << ", " << p5.id << ", " << p6.id << ", " << p7.id << ", " << p8.id << endl; 
 
-			if (iEvent == 0)
-				cout << p1.p << endl;
+			// if (iEvent == 0)
+				// cout << p1.p << endl;
 
 			double m1squared = minkowskidot(p1.p, p1.p);
 			double m2squared = minkowskidot(p2.p, p2.p);
@@ -719,10 +719,10 @@ int main()
 	int Nbins = 100;
 	int Nevents = 25;
 	bool combinatorics = false;
-	// vector<double> masses_initial = {568, 180, 144, 97};
+	vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};
 	// vector<double> masses_initial = {800, 500, 300, 50};
-	vector<double> masses_initial = {1000, 100, 80, 30};
+	// vector<double> masses_initial = {1000, 100, 80, 30};
 	double Mnorm = 100;
 	double tol = 1e-12;
 	double maxiter = 1000;
@@ -739,7 +739,7 @@ int main()
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
 	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314.dat";
 	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
-	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_WEBBERmomentum_smearing.dat";
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
 	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
 	// eventfile = "../events/HERWIG-events.dat";
 

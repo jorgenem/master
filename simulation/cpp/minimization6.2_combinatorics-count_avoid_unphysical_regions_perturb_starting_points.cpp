@@ -8,6 +8,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#include <random>
 using namespace std;
 using namespace arma;
 
@@ -680,12 +681,28 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 
 	// double tol = 0.1;
 	// double maxiter = 500;
+
+	// Initialize random number generator
+	srand (123456787);
+	std::default_random_engine gen;
+	std::normal_distribution<double> rg(0.0,10.0);
+
+
+
 	vector<bool> correct_combinatorics;
 	for (int iBin=0; iBin<Nbins; iBin++)
 	{
 		cout << "Minimizing bin number " << iBin+1 << endl;
 		double best_fit_current;
 		vector<double> masses_current = masses_initial;
+		// Perturb starting point
+		// cout << rg(gen) << " " << rg(gen) << " " << endl;
+		masses_current[0] = masses_current[0] + rg(gen);
+		masses_current[1] = masses_current[1] + rg(gen);
+		masses_current[2] = masses_current[2] + rg(gen);
+		masses_current[3] = masses_current[3] + rg(gen);
+		// cout << masses_current << endl;
+
 		// cout << xisquared(&masses_initial[0], Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists) << endl;
 		// double *Masses_current = Masses_initial;
 
@@ -737,7 +754,14 @@ int main()
 	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
 	eventfile = "../events/HERWIG-events.dat";
+	// eventfile = "../events/HERWIG-events-5pmomsmear.dat";
+	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
+
+
 
 	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction);
 
@@ -754,7 +778,7 @@ int main()
 
 	/** Make and open text output file */
 	ofstream textOutput;
-	textOutput.open("../best_fit_results/TEMPHERWIG.dat", ios::out);
+	textOutput.open("../best_fit_results/TEMP.dat", ios::out);
 	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
 
 	textOutput << "# Events minimized by cpp, combinatorics = " << combinatorics << " (true/false = 1/0)" << endl;
