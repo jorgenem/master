@@ -2,27 +2,51 @@
 \chapter{The Standard Model of Particle Physics}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{ch:SM_intro}
-The Standard Model of particle physics has been hugely successful in explaining what our universe consists of at the smallest length scales, and how these constituents interact with each other. It recieved a final, spectacular confirmation in 2012, when a Higgs boson consistent with the predictions of the Standard Model was discovered by the CMS and ATLAS experiments at CERN. It is well known, however, that the Standard Model is incomplete as a description of our universe, for instance since it gives no explanation for dark matter. There are also more technincal problems with the Standard Model, such as the hierarchy problem of the Higgs boson mass loop corrections and the arbitrariness of the model parameters.
+The Standard Model of particle physics has been hugely successful in explaining what our universe consists of at the smallest length scales, and how these constituents interact with each other. It recieved a final, spectacular confirmation in 2012, when a Higgs boson consistent with the predictions of the Standard Model was discovered by the CMS and ATLAS experiments at CERN \cite{Aad:2012tfa, Chatrchyan:2012ufa}. It is well known, however, that the Standard Model is incomplete as a description of our universe, for instance since it gives no explanation for dark matter. There are also more technical problems with the Standard Model, such as the hierarchy problem of the Higgs boson mass loop corrections and the arbitrariness of the model parameters.
 
-The present chapter gives an introduction to the principles that underlie the construction of the Standard Model, and outlines the derivation of the model. The presentation is based on \cite{Mandl-Shaw} and \cite{Peskin-Schroeder}.
+The present chapter gives a brief introduction to the principles that underlie the construction of the Standard Model, and outlines the derivation of the model. The presentation is based on \cite{Mandl-Shaw} and \cite{Peskin-Schroeder}.
 
 \section{Symmetries and conservation laws}
-Symmetries are manifest in many physical systems. For instance, the special theory of relativity is symmetric under boosts and rotations, as well as translations in space and time. There is a deep relationship between symmetries and the conservation of physical quantities. This result is known as Noether's theorem, and was proven by Emmy Noether in 1915. It states that {\it every differentiable symmetry of the action of a physical system has a corresponding conservation law}. In the example of special relativity, the symmetries under translations in time and space correspond to conservation of energy and momentum.%, and the symmetry under rotation corresponds to conservation of angular momentum. \marginpar{What is the conserved quantity under boosts? Is it that ljyubliajsnski polarization vector? Check.}
+Symmetries are manifest in most physical systems. For instance, the special theory of relativity is symmetric under boosts and rotations, as well as translations in space and time. There is a deep relationship between symmetries and the conservation of physical quantities. This result is known as Noether's theorem, and was proven by Emmy Noether in 1915 \cite{Noether:1918zz}. It states that {\it every differentiable symmetry of the action of a physical system has a corresponding conservation law}. In the example of special relativity, the symmetries under translations in time and space correspond to conservation of energy and momentum.%, and the symmetry under rotation corresponds to conservation of angular momentum. \marginpar{What is the conserved quantity under boosts? Is it that ljyubliajsnski polarization vector? Check.}
 
 \subsection{Description by groups}
-It is often convenient to describe the symmetries of physical systems in the language of group theory. A group is a set of objects which are closed under some binary operation -- meaning that any combination of two group elements yield another group element. The set of all Lorentz boosts and rotations in special relativity form a group, called the Lorentz group, and together with all spatial translations they form the Poincar\'{e} group. 
+It is often convenient to describe the symmetries of physical systems in the language of group theory. A group is a set of objects which are closed under some binary operation --- meaning that any combination of two group elements yield another group element. Also, the group must contain an identity element, every element must have an inverse, and the binary operation must be associative. The set of all Lorentz boosts and rotations in special relativity form a group, called the Lorentz group, and together with all spatial translations they form the Poincar\'{e} group. 
 
-The experimental fact that there exist a number of conserved quantities in particle physical systems -- examples include energy and momentum, but also electrical and colour charge, among others -- can be used to construct a theory of particle interactions, by finding the symmetries, and the symmetry groups, that correspond to these quantities and demanding that the theory be symmetric under their action.
+The experimental fact that there exist a number of conserved quantities in particle physical systems --- examples include energy and momentum, but also electrical and colour charge, among others --- can be used to construct a theory of particle interactions, by finding the symmetries, and the symmetry groups, that correspond to these quantities and demanding that the theory be symmetric under their action.
 
-\section{The Standard Model of Particle Physics}
+An important type of group is the $SU(n)$ group. In the defining representation, this group consists of all complex unitary $n\times n$ matrices of determinant 1. The $SU(n)$ groups are {\it Lie groups}, which means that they are continuous --- {\it i.e.}\ that it is possible to find group elements that are arbitrarily close to the identity. Also, any transformation in the group may be constructed by successive application of such infinitesimal transformations. 
 
-The Standard Model consists of 12 fermions with corresponding antifermions, a number of vector gauge bosons and one scalar boson. The gauge bosons mediate interactions between the particles. There are three fundamental interactions in the Standard Model: The electromagnetic interaction, the weak interaction and the strong interaction. Not all particles couple to each other with all of the interactions. 
+The group elements, and the objects on which the group acts, may be given in several {\it representations}. In the case of matrix groups this means matrices and vectors of different dimension. For an $SU(n)$ group, the two most important representations are the defining, or {\it fundamental}, representation, where the vectors have dimension $n$, and the {\it adjoint} representation, where the vectors have dimension $n^2-1$.
 
-The fermions are divided into two groups, the quarks and leptons. There are six different {\it flavours} of quarks, called up, down, strange, charm, bottom and top, in order of increasing mass. They are subdivided into three generations of pairs, up/down, charm/strange and top/bottom. The up, charm and top quarks carry quanta of +2/3 of the fundamental electrical charge $e$, while the down, strange and bottom quarks carry -1/3 $e$. There are also six leptons, of which three are charged. They are called electron, muon and tau. They belong in each their own generation, together with their neutral counterpart, the electron neutrino, muon neutrino and tau neutrino, respectively. 
+The fundamental definition of a Lie group is given by its corresponding {\it Lie algebra}, which is written\footnote{Here, and in the following, repeated indices are summed over.} 
+\begin{align}
+	[T_a, T_b] = i f_{abc}T_c.
+\end{align}
+The objects $T_a$ are called the {\it generators} of the Lie group, and the $f_{abc}$ are called the {\it structure coefficients}. The structure coefficients uniquely determine the group. For $SU(n)$, there are $n^2 - 1$ generators, so $a,b,c =1,...,n^2-1$. For a general Lie group, the binary operation $[\cdot , \cdot ]$, called the {\it Lie bracket}, must be specified, but for $SU(n)$ is is just the commutator
+\begin{align}
+	[T_a, T_b] = T_aT_b - T_bT_a.
+\end{align}
+
+An element $G$ of an $SU(n)$ group may generally be written as
+\begin{align}
+	G = e^{i\alpha_a O_a},\label{eq:global_gauge_transformation}
+\end{align}
+in an open neighbourhood of the identity element in $SU(n)$. Here, $O_a = T_a$ in the fundamental representation, and $O_a = (f_{ij})_{a}$ in the adjoint representation. For $SU(2)$, the fundamental representation of the generators are proportional to the Pauli matrices $\sigma_i$, and for $SU(3)$ they are proportional to the Gell-Mann matrices $\lambda_i$. Formally, $G$ is the {\it exponential map} from a Lie algebra to its corresponding Lie group. 
+
+The exponential map may be extended from a {\it global} transformation to a {\it local} transformation with respect to some underlying manifold $X$ by letting $\alpha_a = \alpha_a(x)$, where $x\in X$. For the purposes of the Standard Model, $X$ is space-time.
+
+
+
+
+\section{Ingredients of the Standard Model}
+
+The Standard Model consists of 12 fermions with corresponding antifermions, a number of vector gauge bosons and one scalar boson, whose existence have all been verified experimentally. The gauge bosons mediate interactions between the particles. There are three fundamental interactions in the Standard Model: The electromagnetic interaction, the weak interaction and the strong interaction. Not all particles couple to each other with all of the interactions. 
+
+The fermions are divided into two groups, the quarks and leptons. There are six different {\it flavours} of quarks, called up, down, strange, charm, bottom and top, in order of increasing mass. They are subdivided into three generations of pairs, up/down, charm/strange and top/bottom. The up, charm and top quarks carry quanta of $+\frac{2}{3}$ of the fundamental electrical charge $e$, while the down, strange and bottom quarks carry $-\frac{1}{3}e$. There are also six leptons, of which three are charged. They are called the electron, the muon and the tau. They each belong in a generation of their own, together with their neutral counterparts, the electron neutrino, muon neutrino and tau neutrino, respectively. 
 
 The vector gauge bosons consist of the photon, the $Z$ and $W$ bosons and the gluon. The photon is the mediator of electromagnetic interactions, the $Z$ and $W$ mediate the weak interaction and the gluon mediates the strong interaction. The photon, $Z$ boson and gluon are all neutral, and they are their own antiparticles. The photon and gluon are massless, while the $W$ and $Z$ bosons are quite heavy. The $W$ carries one elementary unit of electric charge, and is thus distinct from its antiparticle, with a difference in sign for the particle and antiparticle states. The scalar boson of the Standard Model is the Higgs boson, which is responsible for giving particles their observed mass through the Higgs mechanism. It is electrically neutral and very massive.
 
-Among the fermions, only the quarks couple to the strong interaction. All the fermions couple with the weak interaction, while only the electrically charged particles couple electromagnetically -- {\it i.e.}\ all except the neutrinos. They couple to the Higgs field proportionally to their mass, so that for instance the top quark, which is the heaviest Standard Model particle, couples the strongest, and the neutrinos, being very light, hardly couple at all. A schematic overview of the particles in the Standard Model is shown in fig.\ \ref{fig:SM_particles}.
+Among the fermions, only the quarks couple to the strong interaction. All the known fermions couple with the weak interaction, while only the electrically charged fermions couple electromagnetically --- {\it i.e.}\ all except the neutrinos. They couple to the Higgs field proportionally to their mass, so that for instance the top quark, which is the heaviest Standard Model particle, couples the strongest. A schematic overview of the particles in the Standard Model is shown in fig.\ \ref{fig:SM_particles}.
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/susyintro/Standard_Model_of_Elementary_Particles.pdf}
@@ -30,148 +54,206 @@ Among the fermions, only the quarks couple to the strong interaction. All the fe
 	\label{fig:SM_particles}
 \end{figure}
 
-The flavours of the quarks and leptons are conserved in the electromagnetic and strong interactions. For instance, a top quark cannot change into a charm or up quark by emission of a photon or gluon. The weak interaction enables the top quark to change into a bottom quark, or a tau lepton to change into a tau neutrino, through the emission of a charged $W$ boson. This would still seem to conserve the {\it generation} of quark or lepton, but breaking of generation is also made possible through the mechanism of {\it generation mixing}, quantified by the Cabibbo-Kobayashi-Maskawa (CKM) matrix for the case of quarks and the Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix for the leptons. The PMNS mixing also explains the observed phenomenon of {\it neutrino oscillations}.
+The flavours of the quarks and leptons are conserved in the electromagnetic and strong interactions. For instance, a top quark cannot change into a charm or up quark by emission of a photon or gluon. The weak interaction enables the top quark to change into a bottom quark, or a tau lepton to change into a tau neutrino, through the emission of a charged $W$ boson. This would still seem to conserve the {\it generation} of quark or lepton, but breaking of generation is also made possible through the mechanism of {\it generation mixing}, quantified by the Cabibbo-Kobayashi-Maskawa (CKM) matrix for the case of quarks and the Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix for the leptons. The PMNS mixing also explains the observed phenomenon of {\it neutrino oscillations} (if the neutrinos are assumed to be massive, which they are technically not in the Standard Model).
 
 \section{Constructing the Lagrangian of the Standard Model}
 
 The Standard Model is a quantum field theoretic model, and may be stated in terms of a Lagrangian density function $\mathcal{L}$. The guiding principle for constructing the Lagrangian is {\it gauge invariance}. Gauge degrees of freedom are physical degrees of freedom which are ``superflous'', in the sense that they do not have any observable consequences. An example is Maxwell's theory of electromagnetism, where the electromagnetic vector potential $A^\mu$ is undetermined up to the addition of a total derivative term $\partial^\mu \phi$. The gauge freedom is exploited by requiring that the Lagrangian, which determines the physical dynamics, does not change when the gauge degrees of freedom are varied, {\it i.e.}\ that it is gauge invariant. This invariance is related to conservation of physical quantities by Noether's theorem.
 
-\section{The Lie groups of the Standard Model}
-
-The Standard Model is based on gauge invariance under three Lie groups of quadratic matrices, the famous $U(1)_Y\times SU(2)_L\times SU(3)_C$. The number in the parenthesis gives the matrix dimension of the group. The symbols $S$ and $U$ stand for {\it special} and {\it unitary}, respectively. Unitary means that the matrices are unitary, and special means they have determinant 1. The groups are Lie groups, which means that they are continuous, and thus that any transformation of a group element may be constructed from infinitesimal transformations. The group elements, and the objects on which the group acts, may be given in several {\it representations}. In the case of matrix groups this means matrices and vectors of different dimension. For an $SU(n)$ group, the two most important representations are the {\it fundamental} representation, where the vectors have dimension $n$, and the {\it adjoint} representation, where the vectors have dimension $n^2-1$. In the Standard Model, the fermions transform in the fundamental representation, while the gauge bosons transform in the adjoint representation.
-
-An element $G$ of an $SU(n)$ group may generally be written as\footnote{Here and in the following, repeated indices are summed over.} 
-\begin{align}
-	G = e^{i\alpha_a T_a},
-\end{align}
-where $T_a$ are the $n^2-1$ generators of the Lie algebra of the group. The generators themselves are in the fundamental representation represented by traceless complex $n\times n$ matrices -- for $SU(2)$, these are the Pauli matrices $\sigma_i$, and for $SU(3)$ they are the Gell-Mann matrices $\lambda_i$ -- and in the adjoint representation by the {\it structure coefficients} $f_{abc}$ as $(T_a)_{bc} = f_{abc}$. The structure coefficients are determined from the Lie algebra as
-\begin{align}
-	[T_a, T_b] = i f_{abc}T_c.
-\end{align}
+The Standard Model is based on gauge invariance under three Lie groups, the famous $U(1)_Y\times SU(2)_L\times SU(3)_C$. The different particle types transform in different representations of the groups. In the Standard Model, the fermions transform in the fundamental representation, while the gauge bosons transform in the adjoint representation.
 
 \section{Constructing a gauge theory}
 The particle content of the Standard Model is input into the Lagrangian by inserting fermionic fields, {\it i.e.}\ Dirac spinor fields, and imposing the desired gauge invariance on these fields. The basic Dirac term, called the Dirac bilinear, for some spinor field $\psi$, is\footnote{We will, for what follows, set $\hbar = c = 1$.} 
 \begin{align}
 	\bar \psi (i\gamma^\mu \partial_\mu - m) \psi = \bar \psi (i\slashed\partial - m)\psi, \label{eq:diracbilinear}
 \end{align}
-where $\gamma_\mu$ are the Dirac matrices, $m$ is the mass of the spinor field, and $\bar\psi \equiv \psi^\dag \gamma_0$. Next, we impose gauge invariance. The group transformation of an $SU(n)$ group may be written in the fundamental representation as
+where $\gamma_\mu$ are the Dirac matrices, $m$ is the mass of the spinor field, and $\bar\psi \equiv \psi^\dag \gamma_0$. The Dirac bilinear results in the Dirac equation for the field when the equations of motion are applied. The Dirac equation and the Dirac matrices are derived in appendix \ref{appendix:diraceq}.
+
+Next, we impose gauge invariance. The group transformation of an $SU(n)$ group may be written in the fundamental representation as
 \begin{align}
-	G(x) = e^{ig\alpha_a(x)T^a},
+	G(x) = e^{ig\alpha_a(x)T_a},\label{eq:gauge_transformation}
 \end{align}
-where $\alpha(x)$ are $n$ arbitrary real differentiable functions and $T^a$ are the generators of $SU(n)$ in the fundamental representation. We assume that the Lagrangian consists of $n$ Dirac bilinear terms with fields $\psi_i$, and that they are put into an $n$-dimensional multiplet $\Psi = (\psi_1, \psi_2, ..., \psi_n)^T$ such that the basic Dirac Lagrangian reads
+where $\alpha(x)$ are $n$ arbitrary real differentiable functions and $T_a$ are the generators of $SU(n)$ in the fundamental representation. We assume that the Lagrangian consists of $n$ Dirac bilinear terms with fields $\psi_i$, and that they are put into an $n$-dimensional multiplet $\Psi = (\psi_1, \psi_2, ..., \psi_n)^T$ such that the basic Dirac Lagrangian reads
 \begin{align}
-	\mathcal{L}_0 = \bar\Psi(i\slashed\partial - m)\Psi
+	\mathcal{L}_0 = \bar\Psi(i\slashed\partial - m)\Psi,
 \end{align}
 where we assume that all fields have the same mass $m$.\footnote{This assumption is often wrong in the case of the Standard Model, but finds its solution in the Higgs mechanism.} The group transformations of the multiplet and its adjoint are then 
 \begin{align}
-	\Psi(x) &\overset{G}{\to} e^{(ig\alpha_a(x)T^a)} \Psi(x),\\
-	\bar\Psi(x) &\overset{G}{\to} \bar\Psi(x) e^{(-ig\alpha_a(x)T^a)}.\nonumber
+	\Psi(x) &\overset{G}{\to} e^{ig\alpha_a(x)T_a} \Psi(x),\\
+	\bar\Psi(x) &\overset{G}{\to} \bar\Psi(x) e^{-ig\alpha_a(x)T_a}.\nonumber
 \end{align}
 If we apply these transformations to the basic Lagrangian, it becomes
 \begin{align}
 	\mathcal{L}_0 = &\bar\Psi(x)(i\slashed\partial - m)\Psi(x)\nonumber\\
-	\overset{G}{\to} &\bar\Psi(x) e^{(-ig\alpha_a(x)T^a)}(i\slashed\partial - m)e^{(ig\alpha_a(x)T^a)} \Psi(x)\\
-	=	&\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - g\bar\Psi(x) T^a\slashed\partial \alpha^a(x) \Psi(x).\nonumber
+	\overset{G}{\to} &\bar\Psi(x) e^{-ig\alpha_a(x)T_a}(i\slashed\partial - m)e^{ig\alpha_a(x)T_a} \Psi(x)\\
+	=	&\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - g\bar\Psi(x) T_a\slashed\partial \alpha_a(x) \Psi(x).\nonumber
 \end{align}
 Thus, the basic Dirac Lagrangian is not gauge invariant, since we have picked up an additional term. Gauge invariance may be achieved by adding a term of the form 
 \begin{align}
-	-\bar\Psi(x) ig\gamma^\mu \alpha_a(x)A^a_\mu(x) \Psi(x)\label{eq:covariantderivativeterm}
+	-\bar\Psi(x) ig\gamma^\mu \alpha_a(x)A_{a,\mu}(x) \Psi(x),\label{eq:covariantderivativeterm}
 \end{align}
-to the Lagrangian, where $A^a_\mu(x)$ is some new field, which we require to transform under $G$ as
+to the Lagrangian, where $A_{a,\mu}(x)$ is some new field, which we require to transform under $G$ as
 \begin{align}
-	A^a_\mu(x) \overset{G}{\to} A^a_\mu(x) + \partial_\mu \alpha^a(x).
+	A_{a,\mu}(x) \overset{G}{\to} A_{a,\mu}(x) + \partial_\mu \alpha_a(x).
 \end{align}
 If we apply $G$ to the sum of the Dirac bilinear with this new term, it is invariant:
 \begin{align}
-	&\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - \bar\Psi(x) ig\gamma^\mu \alpha_a(x)A^a_\mu(x) \Psi(x)\nonumber\\
-	\overset{G}{\to} &\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - g\bar\Psi(x) T^a\slashed\partial \alpha^a(x) \Psi(x)\\
-	 &- \bar\Psi(x) ig\gamma^\mu \alpha_a(x)A^a_\mu(x) \Psi(x) +  g\bar\Psi(x) T^a\slashed\partial \alpha^a(x) \Psi(x)\nonumber\\
-	 = &\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - \bar\Psi(x) ig\gamma^\mu \alpha_a(x)A^a_\mu(x) \Psi(x).\nonumber
+	&\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - \bar\Psi(x) ig\gamma^\mu \alpha_a(x)A_{a,\mu}(x) \Psi(x)\nonumber\\
+	\overset{G}{\to} &\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - g\bar\Psi(x) T_a\slashed\partial \alpha_a(x) \Psi(x)\\
+	 &- \bar\Psi(x) ig\gamma^\mu \alpha_a(x)A_{a,\mu}(x) \Psi(x) +  g\bar\Psi(x) T_a\slashed\partial \alpha_a(x) \Psi(x)\nonumber\\
+	 = &\bar\Psi(x)(i\slashed\partial - m)\Psi(x) - \bar\Psi(x) ig\gamma^\mu \alpha_a(x)A_{a,\mu}(x) \Psi(x).\nonumber
 \end{align}
 The term from eq.\ \eqref{eq:covariantderivativeterm} is usually included by replacing $\partial_\mu$ with the {\it covariant derivative}
 \begin{align}
-	D_\mu = \partial_\mu + igT_a A^a_\mu.
+	D_\mu = \partial_\mu + igT_a A_{a,\mu}.
 \end{align}
-The fields $A^a_\mu$ are called gauge boson fields, and are responsible for mediating interactions between the Dirac fermion fields. The gauge boson fields must also have their own free-field term in the Lagrangian, called the field strength, which is given from the Proca Lagrangian for spin-1 fields as 
+The fields $A_{a,\mu}$ are called gauge boson fields, and are responsible for mediating interactions between the Dirac fermion fields. The gauge boson fields must also have their own free-field term in the Lagrangian, called the field strength, which is given from the Proca Lagrangian for spin-1 fields as 
 \begin{align}
-	-\frac{1}{4} F_{a,\mu\nu} F^{a,\mu\nu},
+	-\frac{1}{4} F_{a,\mu\nu} F_a^{\mu\nu},\label{eq:field_strength}
 \end{align}
-where
+where we can define
 \begin{align}
-	igT_a F_{a,\mu\nu} \equiv [D_{a,\mu}, D_{a,\nu}] = igT_a \left[ \partial^\mu A_a^\nu - \partial^\nu A_a^\mu + g f_{abc} A^{b,\mu}(x)A^{c,\nu}(x) \right],
+	igT_a F_{a}^{\mu\nu} &\equiv [D_a^\mu, D_a^\nu] \\
+	&= igT_a \left[ \partial^\mu A_a^\nu - \partial^\nu A_a^\mu + g f_{abc} A_b^{\mu}(x)A_c^{\nu}(x) \right],
 \end{align}
-where $f_{abc}$ are the structure coefficients of $SU(n)$.
+where, again, $f_{abc}$ are the structure coefficients of $SU(n)$. Note that with this definition, the field strength \eqref{eq:field_strength} is gauge invariant.
 
 With this, the total gauge invariant Lagrangian consists of $n$ fermion fields and $n^2-1$ gauge boson fields, and reads
 \begin{align}
-	\mathcal{L} = \bar\Psi(i\slashed D - m)\Psi - \frac{1}{4} F_{a,\mu\nu} F^{a,\mu\nu}.
+	\mathcal{L} = \bar\Psi(i\slashed D - m)\Psi - \frac{1}{4} F_{a,\mu\nu} F_a^{\mu\nu}.
 \end{align}
-The covariant derivative gives rise to terms coupling the fermion and gauge fields together. In the case of $n=1$, the gauge group is the $U(1)$ group, which describes the theory of quantum electrodynamics, the simplest realistic gauge theory. For $U(1)$, the structure coefficients vanish, since there is only a single gauge field\footnote{This contradicts the claim that there are $n^2-1$ gauge fields -- for $U(n)$ there are $n^2$ of them. The reason is that $U(1)$ is not an $SU(n)$ group, but the above derivation works for $U(1)$ as well.}, making the Lagrangian particularily simple. In QED, there are no gauge boson self-interactions. For $n>1$, the structure coefficients do not vanish, and this gives rise to terms in the field strength term $-\frac{1}{4} F_{a,\mu\nu} F^{a,\mu\nu}$ coupling the gauge bosons among themselves. These couplings are of great importance in the theories of weak and strong interactions.
+The covariant derivative gives rise to terms coupling the fermion and gauge fields together. In the case of $n=1$, the gauge group is the $U(1)$ group, which describes the theory of quantum electrodynamics, the simplest gauge theory. For $U(1)$, the structure coefficients vanish, since there is only a single gauge field,\footnote{This contradicts the claim that there are $n^2-1$ gauge fields --- for $U(n)$ there are $n^2$ of them. The reason is that $U(1)$ is not an $SU(n)$ group, but the above derivation works for $U(1)$ as well.} making the Lagrangian particularily simple. In QED, there are no gauge boson self-interactions. For $n>1$, the structure coefficients do not vanish, and this gives rise to terms in the field strength term $-\frac{1}{4} F_{a,\mu\nu} F_a^{\mu\nu}$ coupling the gauge bosons among themselves. These couplings are of great importance in the theories of the weak and strong interactions.
 
 
 
 
 \section{Singlets, doublets and triplets}
 
-Not all the fields are subject to all the different interactions. If a field couples through a certain interaction, it is said to be {\it charged} under the transformations corresponding to that interaction. A specific amount $g$ of charge is assigned to every field, and enters into the group transformations as $G(x) = e^{ig\alpha_a(x)T^a}$. Thus, for $g=0$, the transformation is the identity and has no effect.  In the electromagnetic $U(1)$ case, this charge is the electrical charge, $g=q$. Analogous charges are associated with the $U(1)_Y$, $SU(2)_L$ and $SU(3)_C$ groups. They are called hypercharge, isospin and colour charge, respectively.
+As mentioned previously, not all the fields are subject to all the different interactions. If a field couples through a certain interaction, it is said to be {\it charged} under the transformations corresponding to that interaction. A specific amount $g$ of charge is assigned to every field, and enters into the group transformations as in eq.\ \eqref{eq:gauge_transformation}. Thus, for $g=0$, the transformation is the identity and has no effect. In the electromagnetic $U(1)$ case, this charge is the electrical charge, $g=q$. Analogous charges are associated with the $U(1)_Y$, $SU(2)_L$ and $SU(3)_C$ groups. They are called hypercharge, weak isospin and colour charge, respectively. These charges are the conserved quantitites associated with the gauge symmetries, as implied by Noether's theorem.
 
-In the case of $SU(2)$ and $SU(3)$, the fields have to be put into vectors in order to be acted upon by the transformations, as was done in the previous section. Since the fermionic fields transform in the fundamental representation, the dimension of the vectors is 2 and 3, respectively. These types of vectors are referred to as $SU(2)$ {\it doublets} and $SU(3)$ {\it triplets}.
+In the case of $SU(2)$ and $SU(3)$, the fields have to be put into vectors in order to be acted upon by the transformations, as was done in the previous section. Since the fermionic fields transform in the fundamental representation, the dimensions of the vectors are 2 and 3, respectively. These types of vectors are referred to as $SU(2)$ {\it doublets} and $SU(3)$ {\it triplets}.
 
 A Dirac field can be written as the sum of a left-chiral and a right-chiral part, defined by the projection operators 
 \begin{align}
-	P_{R/L} = \frac{1\pm \gamma^5}{2},
+	P_{R/L} = \frac{1}{2}\left( 1\pm \gamma^5 \right),
 \end{align}
 where $\gamma^5 \equiv i\gamma^0\gamma^1\gamma^2\gamma^3$. Given a Dirac field $\psi$, we may write
 \begin{align}
-	\psi = \left( \frac{1 + \gamma^5}{2} + \frac{1 - \gamma^5}{2}\right)\psi = P_R \psi + P_L \psi \equiv \psi_R + \psi_L.
+	\psi = P_R \psi + P_L \psi \equiv \psi_R + \psi_L.
 \end{align}
-In the case of $SU(2)_L$, only the {\it left chiral} part of the fields are charged under the symmetry. For instance, the left-chiral parts of the quark fields are put in doublets, {\it e.g.}\
+In the case of $SU(2)_L$, only the left chiral part of the fields are charged under the symmetry. For instance, the left-chiral parts of the quark fields are put in doublets, {\it e.g.}\
 \begin{align}
 	q_L = \begin{pmatrix}
 		u_L \\ d_L
 	\end{pmatrix},
 \end{align}
-for the up- and down-quarks, while the right-handed parts of each of the quark fields are put in two separate singlets $u_R$ and $d_R$, upon which the $SU(2)_L$ transformation does not act. This has the consequence that the $SU(2)_L$ interaction is left-chiral -- it only couples to left-handed fields. Due to the spontaneous symmetry breaking of the $U(1)_Y\times SU(2)_L$ symmetry, the chirality is not exact in the resulting weak interactions, but it is still an important feature of the Standard Model.
+for the up- and down-quarks, while the right-handed parts are put in two separate singlets $u_R$ and $d_R$, upon which the $SU(2)_L$ transformation has no effect. This has the consequence that the $SU(2)_L$ interaction is left-chiral --- it only couples to left-handed parts of fields. Due to the spontaneous symmetry breaking of the $U(1)_Y\times SU(2)_L$ symmetry, the chirality is not exact in the resulting weak interactions, but it is still an important feature of the Standard Model.
 
-The $SU(3)_C$ symmetry is the symmetry of the strong nuclear force, and among the fermions, only the quarks are charged under it. The quarks transform under $SU(3)$ in triplets -- one for each quark flavour -- where the components of the triplet are discriminated by differing {\it colour}, red, green or blue. 
+The $SU(3)_C$ symmetry is the symmetry of the strong force, and among the fermions, only the quarks are charged under it. The quarks transform under $SU(3)$ in triplets --- one for each quark flavour --- where the components of the triplet are discriminated by differing {\it colour}, denoted red, green or blue. 
 
-\subsection{The gauge bosons and the adjoint representation}
 
-While the fermions transform under the groups in the fundamental representation, which has dimension $n$ for $SU(n)$, the gauge vector boson fields transform in the adjoint representation, which has dimension $n^2-1$. This number then determines the number of different gauge bosons for each group: $U(1)_Y$ has a single gauge boson field labeled $B^\mu$; $SU(2)_L$ has three, labeled $W^\mu_{1,2,3}$; and $SU(3)_C$ has eight different gauge boson fields, labeled $A^\mu_a$ for $a = 1,...,8$. The $SU(3)$ bosons are called {\it gluons}. The $U(1)_Y$ and $SU(2)_L$ bosons are not the ones that we observe -- the physical gauge boson eigenstates are linear combinations of them, mixed together by the spontaneous symmetry breaking of the Higgs mechanism.
+While the fermions transform under the groups in the fundamental representation, which has dimension $n$ for $SU(n)$, the gauge vector boson fields transform in the adjoint representation, which has dimension $n^2-1$. This number then determines the number of different gauge bosons for each group: $U(1)_Y$ has a single gauge boson field labeled $B^\mu$; $SU(2)_L$ has three, labeled $W^\mu_{1,2,3}$; and $SU(3)_C$ has eight different gauge boson fields, labeled $A^\mu_a$ for $a = 1,...,8$. The $SU(3)_C$ bosons are called {\it gluons}. The $U(1)_Y$ and $SU(2)_L$ bosons are not the ones that we observe --- the physical gauge boson eigenstates are linear combinations of them, mixed together by the spontaneous symmetry breaking of the Higgs mechanism.
 
 \section{The Higgs mechanism}
-Gauge invariance forbids the inclusion of terms of the form $m^2A^\mu A_\mu$ into the Lagrangian, which are required in order to give vector bosons such as the $Z$ their observed mass. To include the terms, we must also include a new complex scalar field doublet $\Phi = (\phi_a^0, \phi_b^0)^T$. The Higgs mechanism introduces the following terms into the Lagrangian:
+Gauge invariance forbids the inclusion of terms of the form $m^2A^\mu A_\mu$ into the Lagrangian, which are required in order to give vector bosons such as the $Z$ their observed mass. To include the terms, we must also include a new complex scalar field doublet $\Phi = (\phi_a, \phi_b)^T$. This mechanism was first suggested by Anderson \cite{1963PhRv..130..439A}, and subsequently generalized to a relativistic field theory independently by three groups: Guralnik, Hagen and Kibble \cite{1964PhRvL..13..585G}; Brout and Englert \cite{1964PhRvL..13..321E}; and Higgs \cite{Higgs:1964pj}. It is commonly referred to as the Higgs mechanism. The mechanism introduces the following terms into the Lagrangian:
 \begin{align}
-	\mathcal L \ni |D_\mu \Phi(x)|^2 - \mu^2|\Phi(x)|^2 - \lambda |\Phi(x)|^4.
+	\mathcal L \ni |D_\mu \Phi(x)|^2 - \mu^2|\Phi(x)|^2 - \lambda |\Phi(x)|^4.\label{eq:higgs_lagrange}
 \end{align}
-The last two terms comprise the Higgs {\it potential}. If $\mu^2$ is assumed to be negative and $\lambda$ positive, then the potential assumes the shape of a ``mexican hat'' as a function of $|\Phi|$. This is shown in fig. \ref{fig:higgspot}.
+The last two terms comprise the Higgs {\it potential}. If $\mu^2$ is assumed to be negative and $\lambda$ positive, then the potential assumes the shape of a ``mexican hat'' as a function of $|\Phi|$. This is shown in fig.\ \ref{fig:higgspot}.
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.5\textwidth]{figures/susyintro/higgspot_nature.jpg}
-	\caption{The shape of the Higgs potential, from \cite{Ellis:higgs}}
+	\caption{The shape of the Higgs potential, from \cite{Ellis:higgs}.}
 	\label{fig:higgspot}
 \end{figure}
-This potential has a circle of degenerate energy at the field value $|\Phi|^2 = |\phi_a^0|^2 + |\phi_b^0|^2 = -\mu^2/2\lambda$. The mechanism of {\it spontaneous symmetry breaking} occurs when, as the energy decreases, the Higgs field falls to the bottom of the degenerate circle and is forced to {\it choose} a particular point on the circle. This causes $\Phi$ to obtain a {\it vacuum expectation value} (vev) $\langle \Phi \rangle = v$. This vacuum expectation value breaks the gauge invariance of the Lagrangian under both $U(1)_Y$ and $SU(2)_L$, and causes the gauge bosons of the two groups to mix together: The $B^\mu$ field mixes with $W^\mu_3$ to form the fields $A^\mu$ and $Z^\mu$, by the assignments
+This potential has a circle of degenerate energy at the field value $|\Phi_0|^2 = |\phi_a^0|^2 + |\phi_b^0|^2 = -\mu^2/2\lambda$. The mechanism of {\it spontaneous symmetry breaking} occurs when, as the energy decreases, the Higgs field falls to the bottom of the degenerate circle and is forced to {\it choose} a particular point on the circle for its lowest energy state, the vacuum. This causes $\Phi$ to obtain a {\it vacuum expectation value} (vev) $\langle \Phi_0 \rangle = (-\mu^2/\lambda)^{1/2} \equiv v$. Without loss of generality, we may write $\Phi_0$ as
 \begin{align}
-	W_3^\mu &= \cos\theta_W Z^\mu + \sin\theta_W A^\mu,\\
-	B^\mu &= -\sin\theta_W Z^\mu + \cos\theta_W A^\mu,
+	\Phi_0 = \frac{1}{\sqrt{2}} \begin{pmatrix}
+		0 \\ v
+	\end{pmatrix}
 \end{align}
-where $\theta_W$ is the {\it Weinberg angle}. The two other $SU(2)_L$ gauge fields, $W_{1,2}^\mu$, mix together to form
+in the vacuum state. For a general energy state, $\Phi$ can be written
 \begin{align}
-	W^\mu = \frac{1}{\sqrt{2}} \left[ W_1^\mu - iW_2^\mu \right]
+	\Phi = \frac{1}{\sqrt{2}} \begin{pmatrix}
+		\eta_1(x) + i\eta_2(x) \\
+		v + H(x) + i\eta_3(x)
+	\end{pmatrix}.
 \end{align}
-and its adjoint $(W^\mu)^\dag$. The field $A^\mu$ is the photon field, $Z^\mu$ is the Z boson field and $W^\mu/(W^{\mu\dag})$ is the $W^\pm$ bosons. The $Z$ and $W$ bosons acquire mass, the magnitude of which are related to $v$ by
+One can find parameters $\xi_j$ such that, for a gauge transformation $U \in U(1)_Y\times SU(2)_L$, if
 \begin{align}
- 	m_W = \frac{ve}{2\sin\theta_W},\\
- 	m_Z = \frac{m_W}{\cos\theta_W},
+	U^{-1} = e^{\frac{i}{v}\left(\xi_j\frac{1}{2}\sigma_j\right)} e^{\frac{i}{v} \xi_3},
 \end{align}
-where $e$ is the electromagnetic coupling constant, or the elementary unit of charge. The mixing of $U(1)_Y$ and $SU(2)_L$ restores the symmetry under a different $U(1)$ group, $U(1)_\mathrm{em}$, and the corresponding conserved charge is the electrical charge. The photon and Z boson are electrically netural, while the $W^\pm$ carry plus/minus one elementary unit of charge. Of the four degrees of freedom in the two complex scalar fields $\phi^0_{a,b}$, three go into providing the longitudinal polarization degree of freedom required for massive vector bosons, while the last one constitutes the {\it Higgs field} $h$.
+then
+\begin{align}
+	\Phi = \frac{1}{\sqrt{2}} U^{-1} \begin{pmatrix}
+		0 \\ v + H(x)
+	\end{pmatrix}.
+\end{align}
+Then, by gauge transforming the Lagrangian $\mathcal{L}$ using $U$, one obtains
+\begin{align}
+	\Phi \overset{U}{\to} \Phi' = \frac{1}{\sqrt{2}}\begin{pmatrix}
+		0 \\ v + H(x)
+	\end{pmatrix},
+\end{align}
+and simultaneously, the vector gauge fields transform as
+\begin{align}
+	W^\mu_i &\overset{U}{\to} W'^\mu_i ,\label{eq:SSB_gauge_transformation}\\
+	B^\mu &\overset{U}{\to} B'^\mu .\nonumber
+\end{align}
+In this gauge, the three degrees of freedom represented by the real scalar fields $\eta_i(x)$ are not present. The interpretation is that they are absorbed into the three bosons $W^\pm$ and $Z$, providing the longitudinal polarization degrees of freedom required for massive vector bosons. The remaining real scalar field $H(x)$ is the Higgs field.
 
-The Higgs mechanism also provides fermionic terms of the form $\psi_i y_{ij} \psi_j$. For $i=j$, these are mass terms of the form written in the Dirac bilinear, eq. \eqref{eq:diracbilinear}, and for $i\neq j$ they give rise to off-diagonal terms in the CKM and PMNS matrices. The coupling constants of these terms are called {\it Yukawa couplings}.
+This gauge choice also makes apparent that the gauge fields $W^\mu_i$ and $B^\mu$ mix together into the physical mass eigenstates $W^{\pm\mu}$ and $Z^\mu$. This can be seen from the kinetic term in eq.\ \eqref{eq:higgs_lagrange}. In this gauge, the covariant derivative of $\Phi$ is
+\begin{align}
+	D'^\mu \Phi' = \left[ \partial^\mu + i g \frac{\sigma_j}{2} W_j'^\mu + i \frac{1}{2} g' B'^\mu \right]\frac{1}{\sqrt{2}}\begin{pmatrix}
+		0 \\ v + H(x)
+	\end{pmatrix},
+\end{align}
+where $g$ and $g'$ are the coupling constants of $SU(2)_L$ and $U(1)_Y$, respectively, and $\sigma_j$ are the Pauli matrices. By multiplying out, this becomes
+\begin{align}
+	\begin{pmatrix}
+		\frac{ig}{2}(W'^\mu_1 - iW'^\mu_2) \frac{v+H(x)}{\sqrt{2}} \\
+		\left( \partial^\mu - \frac{ig}{2}W'^\mu_3 + \frac{ig'}{2} B'^\mu \right) \frac{v+H(x)}{\sqrt{2}}\nonumber \label{eq:higgs_covariant_derivative_gauge_eigenstates}
+	\end{pmatrix}.
+\end{align}
+By defining 
+\begin{align}
+	\tan\theta_W &= \frac{g'}{g},\nonumber\\
+	{W'}^\mu_3 &= \cos\theta_W Z^\mu + \sin\theta_W A^\mu,\\
+	{B'}^\mu &= -\sin\theta_W Z^\mu + \cos\theta_W A^\mu,\nonumber\\
+	W^{\pm \mu} &= \frac{1}{\sqrt{2}} \left({W'}_1^\mu \mp i{W'}_2^\mu \right),\nonumber
+\end{align}
+where $\theta_W$ is called the {\it Weinberg angle}, eq.\ \eqref{eq:higgs_covariant_derivative_gauge_eigenstates} becomes 
+\begin{align}
+	D'^\mu\Phi' = \frac{1}{\sqrt{2}} \begin{pmatrix}
+		\frac{ig}{\sqrt{2}} W^{+\mu}\left(v+H(x)\right) \\
+		\partial^\mu H(x) - \frac{ig}{2\cos\theta_W}Z^\mu \left(v+H(x)\right) 
+	\end{pmatrix}.
+\end{align}
+Thus, the kinetic term $|D^\mu \Phi|^2$ is
+\begin{align}
+	|D^\mu \Phi|^2 = &\frac{1}{2}\left( \frac{g^2v^2}{2} W^{+\mu} W^-_\mu + g^2vHW^{+\mu}W^-_\mu \right.\nonumber\\
+	&+ \frac{g^2}{2} W^{+\mu}W^-_\mu H^2 + \partial^\mu H \partial_\mu H + \frac{g^2v^2}{4\cos^2\theta_W} Z^\mu Z_\mu \\
+	&+ \left. \frac{g^2}{2\cos^2\theta_W} v Z^\mu Z_\mu H + \frac{g^2}{4\cos^2\theta_W}Z^\mu Z_\mu H^2 \right).\nonumber
+\end{align}
+This expression contains mass terms for the $Z$ and $W^\pm$ bosons, fixing their masses to
+\begin{align}
+	m_Z = \frac{1}{2\cos\theta_W}vg, \quad m_W = \frac{1}{2}vg.
+\end{align}
+Note that this means that
+\begin{align}
+	m_Z = \frac{m_W}{\cos\theta_W}.
+\end{align}
+Note also that there is no mass term for the photon field $A^\mu$ --- it remains massless after symmetry breaking. This allows for the remaining $U(1)_\mathrm{em}$ symmetry, where $A^\mu$ is the corresponding gauge boson and the gauge charge is the electrical charge, which by Noether's theorem must be conserved in all processes of the Standard Model.
+
+The Higgs mechanism also provides fermionic terms of the form 
+\begin{align}
+ 	\bar\psi_i \psi_j y_{ij}(v+H) = y_{ij} \bar \psi_i  \psi_j H + v y_{ij} \bar\psi_i \psi_j.
+ \end{align} 
+ The terms of the first type couple the fermions to the Higgs field. For $i=j$, the terms of the second type are mass terms of the form written in the Dirac bilinear, eq.\ \eqref{eq:diracbilinear}, and for $i\neq j$ they give rise to off-diagonal terms in the CKM and PMNS matrices. The coupling constants of these terms are called {\it Yukawa couplings}.
 
 \section{The Feynman calculus and loop corrections}
 \label{subsec:feynmancalculus}
-Very few problems in the framework of the Standard Model can be solved exactly. Instead, calculations are done using perturbation theory to series expand the solution as a sum of increasingly complicated, but decreasingly important, contributions. Feynman invented a technique for visualizing these expansions using diagrams, known as Feynman diagrams. For instance, the problem of inelastic electron-positron scattering has as its leading contribution the diagram shown in fig. \ref{fig:feynmandiagram_a}. The next-to-leading order includes the diagrams in figs. \ref{fig:feynmandiagram} (b), (c) and (d).
+Very few problems in the framework of the Standard Model can be solved exactly. Instead, calculations are done using perturbation theory to series expand the solution as an infinite sum of increasingly complicated, but decreasingly important, contributions in terms of powers of some small parameter. Feynman invented a technique for visualizing these expansions using diagrams, known as Feynman diagrams \cite{2005AmericanScientist}. For instance, the problem of inelastic electron-positron scattering has as one of its leading contributions the diagram shown in fig.\ \ref{fig:feynmandiagram_a}. The next-to-leading order in the fine-structure constant $\alpha = e^2/4\pi$ includes the diagrams in figs. \ref{fig:feynmandiagram} (b), (c) and (d).
 \begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -202,10 +284,11 @@ Very few problems in the framework of the Standard Model can be solved exactly. 
 	\caption{Feynman diagrams of contributions to inelastic $e^+ e^-$ scattering. Made using \cite{Binosi:2003yf}.}
 	\label{fig:feynmandiagram}
 \end{figure}
-The Feynman calculus associates each diagram with a specific mathematical expression called the Feynman amplitude $\mathcal{M}$ for that diagram. When several diagrams are included, the total amplitude for the process is the sum of the amplitudes from each diagram. The physical quantities of interest are obtained by integrating the amplitude (or its absolute square) over all spin and momentum configurations of the system.
+The Feynman calculus associates each diagram with a specific mathematical expression called the Feynman amplitude $\mathcal{M}$ for that diagram. When several diagrams are included, the total amplitude for the process to the given order is the sum of the amplitudes from each diagram. The physical quantities of interest are obtained by integrating the amplitude (or its absolute square) over all spin and momentum configurations of the system.
 
 \section{Renormalization}
-The subleading diagrams, like those in fig.  \ref{fig:feynmandiagram} (b--d), contain closed loops. These loops introduce extra momentum integrals into the calculations. Often, these integrals are divergent -- which is unacceptable from a physical viewpoint. The divergences can be understood and dealt with by using the techniques of {\it regularization} and {\it renormalization}. 
+\label{sec:renormalization}
+The subleading diagrams, like those in fig.\  \ref{fig:feynmandiagram} (b--d), contain closed loops. These loops introduce extra momentum integrals into the calculations. Often, these integrals are divergent --- which is unacceptable from a physical viewpoint. The divergences can be understood and dealt with by using the techniques of {\it regularization} and {\it renormalization}. 
 \subsection{Regularization}
 Regularization is a means for parametrizing the divergence in terms of some small parameter $\epsilon$ which is zero in the physical limit. The most modern way to regularize a momentum integral is by using {\it dimensional regularization}: The original loop integral is an integral over four space-time dimensions. Dimensional regularization makes the substitution $4 \to d = 4-\epsilon$, so the integral becomes
 \begin{align}
@@ -213,30 +296,30 @@ Regularization is a means for parametrizing the divergence in terms of some smal
 \end{align}
 This integral is mathematically well-defined, and allows the divergences to be parametrized in terms of $\epsilon$.
 \subsection{Renormalization}
-When the divergence has been isolated and parametrized, it needs to be explained physically. This is done by the process of renormalizing the theory. For instance, in the case of the photon propagator in quantum electrodynamics, illustrated in fig. \ref{fig:feynmandiagram_b}, the regularized expression for the leading-order loop correction to the propagator is proportional to
+When the divergence has been isolated and parametrized, it needs to be explained physically. This is done by the process of renormalizing the theory. For instance, in the case of the photon propagator in quantum electrodynamics, illustrated in fig.\ \ref{fig:feynmandiagram_b}, the dimensionally regularized expression for the leading-order loop correction to the propagator is proportional to
 \begin{align}
-	\frac{2}{\epsilon} + \mathrm{finite\,\, terms}, \label{eq:divergent_loop_result}
+	\int_0^1 dx \, x (1-x) \left( \frac{2}{\epsilon} - \log \left(m^2 - x(1-x)q^2 \right) + \mathrm{constant\,\, terms} \right), \label{eq:divergent_loop_result}
 \end{align}
-which blows up as $\epsilon\to 0$. Renormalization is the claim that this infinity is a part of the {\it bare} physical constants which are present in the Lagrangian, in this case the electrical charge, whose bare value is denoted $e_0$. These bare parameters are not observable quantities, only parameters in the Lagrangian. What is observed is the {\it renormalized} charge $e = e_0 + \delta e$, where $\delta e$ is the infinite shift contributed from eq. \eqref{eq:divergent_loop_result}.
+which blows up as $\epsilon\to 0$. Renormalization is the claim that this infinity is a part of the {\it bare} physical constants which are present in the Lagrangian, in this case the electrical charge, whose bare value is denoted $e_0$. These bare parameters are not observable quantities, only parameters in the Lagrangian. What is observed is the {\it renormalized} charge $e = e_0 + \delta e$, where $\delta e$ is the infinite shift that cancels eq.\ \eqref{eq:divergent_loop_result}.
 
-All the coupling constants of the Standard Model get renormalized. The renormalization introduces an {\it energy dependence} into the coupling constants, since the shift comes from loop corrections which depend on the energy of the process. For instance, the physical value of the electron charge in quantum electrodynamics, at some momentum $q$, is given as
+All the coupling constants of the Standard Model are renormalized. The renormalization introduces an {\it energy dependence} into the coupling constants, since the shift comes from loop corrections which depend on the energy of the process. For instance, the effective value of the electron charge in quantum electrodynamics, at some momentum $q$, is at one-loop order given as
 \begin{align}
 	e^2(q) = \frac{e_r^2}{1 - (e_r^2/6\pi^2)\log(q/M)},\label{eq:electron_charge_running}
 \end{align}
-where $e_r$ is some referance value for the charge, defined at the energy scale $M$. The fact that the coupling constants are not constant is referred to as the {\it running of the coupling constants}.
+where $e_r$ is some reference value for the charge, defined at the energy scale $q_r = M$. The fact that the coupling constants are not constant is referred to as the {\it running of the coupling constants}.
 
 \subsection{The Callan-Symanzik equation}
-The Callan-Symanzik, or {\it renormalization group} equation (RGE) is the equation which describes the running of the coupling constants in a systematic way for any interaction in a quantum field theory. It is obtained by requiring that the Greens function for the interaction, $G$, {\it i.e.}\ the propagator, varies with the renormalization scale $M$ in such a way that the bare parameters of the Lagrangian is unchanged. For the example of QED, the Callan-Symanzik equation for a Green's function with $n$ electron fields and $m$ photon fields is
+The Callan-Symanzik, or {\it renormalization group} equation (RGE) is the equation which describes the running of the coupling constants in a systematic way for any interaction in a quantum field theory. It is obtained by requiring that the Greens function for the interaction, $G$, {\it i.e.}\ the propagator, varies with the renormalization scale $M$ in such a way that the bare parameters of the Lagrangian is unchanged. For the example of massless QED, the Callan-Symanzik equation for a Green's function with $n$ electron fields and $m$ photon fields is \cite[p.\ 411]{Peskin-Schroeder}
 \begin{align}
-	\left[ M \frac{\partial}{\partial M} + \beta(e) \frac{\partial}{\partial e} + n\gamma_2(e) + m\gamma_3(e)\right] G^{(n,m)}(\{ x_i\}; M,e) = 0.\label{eq:callansymanzik}
+	\left[ M \frac{\partial}{\partial M} + \beta(e) \frac{\partial}{\partial e} + n\gamma_2(e) + m\gamma_3(e)\right] G^{(n,m)}(x_1, ..., x_n; M,e) = 0.\label{eq:callansymanzik}
 \end{align}
-The functions $\beta$ and $\gamma$ are defined as
+The functions beta and gamma are defined as
 \begin{align}
-	\beta \equiv \frac{M}{\delta M} \delta e, \, \gamma_i \equiv - \frac{M}{\delta M}\delta \eta_i,
+	\beta \equiv M\frac{\partial e}{\partial M} , \quad \gamma_i \equiv - M\frac{\partial \eta_i}{\partial M},
 \end{align}
-where $\delta\eta_i$ is the field-strength renormalization term, shifting the field values of the electron and photon fields,
+where $\delta\eta_i$ are the field-strength renormalization terms, shifting the field values of the electron and photon fields,
 \begin{align}
-	\psi \to (1 + \delta \eta_2) \psi \, \mathrm{and} \, A_\mu \to (1 + \delta\eta_3) A_\mu,
+	\psi \to (1 + \delta \eta_2) \psi \quad \mathrm{and} \quad A_\mu \to (1 + \delta\eta_3) A_\mu,
 \end{align}
 respectively. The Callan-Symanzik equation states that the combined effect of all the shifts in parameters induced by the renormalization should exactly weigh up for the shift in the Green's function itself, which is given by
 \begin{align}
@@ -244,33 +327,53 @@ respectively. The Callan-Symanzik equation states that the combined effect of al
 \end{align}
 This is what is stated in eq.\ \eqref{eq:callansymanzik}. The Callan-Symanzik equation for other interactions, such as the $SU(3)$ quantum chromodynamics, may be derived similarily, but its complexity grows with the complexity of the interaction.
 
-The primary quantities of interest from a phenomenological viewpoint are the $\beta$ and $\gamma$ functions. They describe the change in the coupling constant and other parameters as a function of renormalization scale, and in the case of QED they may be used to derive the formula \eqref{eq:electron_charge_running} for the running of the electromagnetic coupling constant $e$. Equation \eqref{eq:electron_charge_running} shows that the electromagnetic coupling constant increases as a function of the energy $q$. The same turns out to be true for the weak coupling constant, while the strong coupling constant of QCD decreases with increasing energy. This last fact is called {\it asymptotic freedom}, and means that the quarks and gluons are unbound by strong forces in the limit of high energy. 
+The primary quantities of interest from a phenomenological viewpoint are the beta and gamma functions. They describe the change in the coupling constant and other parameters as a function of renormalization scale, and in the case of QED they may be used to derive the formula \eqref{eq:electron_charge_running} for the running of the electromagnetic coupling constant $e$. Equation \eqref{eq:electron_charge_running} shows that the electromagnetic coupling constant increases as a function of the energy $q$. The same turns out to be true for the weak coupling constant, while the strong coupling constant of QCD decreases with increasing energy. This last fact is called {\it asymptotic freedom}, and means that the quarks and gluons are unbound by strong forces in the limit of high energy, or equivalently, short distances. 
 
 
 
 
 
-\section{Motivations for extending the Standard Model}
+\section[Motivations for extending the Standard Model]{Motivations for extending the\\ Standard Model}
 
-Since the Standard Model is widely believed to be a low-energy effective model of some more fundamental high-energy regime, it is speculated that the three interactions of the Standard Model unite at a higher energy and act as a single interaction under some larger gauge group. However, when the three couplings are evolved to high energies using the Callan-Symanzik equations, they do not meet at a single point. This is seen by many as a flaw of the Standard Model. In the theory of Supersymmetry, the evolution of the couplings is altered, and they do meet at a single point. This is shown in fig. \ref{fig:coupling_unification}. Supersymmetry is discussed in detail in the next chapter.
+Since the Standard Model is widely believed to be a low-energy effective model of some more fundamental high-energy theory, it is speculated that the three interactions of the Standard Model unite at a higher energy and act as a single interaction under some larger gauge group. However, when the three couplings are evolved to high energies using the Callan-Symanzik equations, they do not meet at a single point. This is seen by many as a flaw of the Standard Model. In the theory of Supersymmetry, the evolution of the couplings is altered, and they may meet at a single point. This effect is shown in fig.\ \ref{fig:coupling_unification}. Supersymmetry is discussed in more detail in the next chapter.
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/susyintro/unification.eps}
-	\caption{Evolution of the inverse coupling constants, for the cases of the Standard Model (dashed lines) and models with supersymmetry (solid lines). From \cite{Martin:1997ns}.}
+	\caption{Evolution of the inverse fine structure constants $\alpha^{-1}_i = 4\pi/g_i$, for the cases of the Standard Model (dashed lines) and models with supersymmetry (solid lines). From \cite{Martin:1997ns}.}
 	\label{fig:coupling_unification}
 \end{figure}
 
-Another issue with the Standard Model is that is has no candidate for particle dark matter. Observations over the last century have given strong evidence for the existence of some as yet unkown form of matter which is distributed in large quantites all over the universe -- in fact four times as much as our ordinary matter. It is widely believed that this dark matter is some form of particle. Dark matter interacts primarily, or possibly even solely, via gravitation, so the particle has to be colourless and electrically neutral, because the strength of these interactions would otherwise lead to the particle having been observed by now. It also has to be long-lived in order to explain the abundance of dark matter that we observe in the universe today, because the assumption is that it was thermally produced in the early universe and subsequently cooled off. These restrictions rule out most of the Standard Model particles, with the exception of neutrinos. But neutrinos are known to be very light, almost massless, and calculations of early-universe dynamics show that they are too light to be candidates for dark matter. 
+Another issue with the Standard Model is that is has no candidate for particle dark matter. Observations over the last century have given strong evidence for the existence of some as yet unkown form of matter which is distributed in large quantites all over the universe --- in fact four times as much as our ordinary matter. It is widely believed that this dark matter is some form of particle. Dark matter interacts primarily, or possibly even solely, via gravitation, so the particle has to be colourless and electrically neutral, because the strength of these interactions would otherwise lead to the particle having been observed by now. It also has to be long-lived in order to explain the abundance of dark matter that we observe in the universe today. These restrictions rule out most of the Standard Model particles, with the exception of neutrinos. But neutrinos are known to be very light, almost massless, and calculations of early-universe dynamics show that they are too light to be candidates for dark matter. 
 
-There is also a more technical problem with the Standard Model, related to the scalar Higgs field. As discussed in section \ref{subsec:feynmancalculus}, the calculations of parameters in a quantum field theory are subject to loop corrections. The Higgs mass parameter recieves corrections from loops containing all massive particles, with the largest contribution coming from the top quark. These contributions are many orders of magnitude larger than the observed Higgs mass of 126 GeV, meaning that there must be cancellations among the correction terms. There is no symmetry in the Standard Model which says that such a cancellation should occur, so it appears to be an ``accident'' of nature. Such accidents are seen as very unnatural, and this explanation is thus very unsatisfactory from a theoretical viewpoint. This is called the {\it hierarchy problem}. In supersymmetry, the new degrees of freedom enter into the loop corrections, and because of the symmetry, they cancel the Standard Model contributions in a natural way. 
+There is also a more technical problem with the Standard Model, related to the scalar Higgs field. As discussed in section \ref{subsec:feynmancalculus}, the calculations of parameters in a quantum field theory are subject to loop corrections. The Higgs mass parameter recieves corrections from loops containing all massive fermions, with the largest contribution coming from the top quark. The leading-order fermion contribution is shown in fig.\ \ref{fig:higgs_correction_a}.
+\begin{figure}[htbp]
+	\centering
+	\begin{subfigure}[b]{0.49\textwidth}
+		\centering
+		\includegraphics[width=0.6\textwidth]{figures/susyintro/higgs_top_loop.eps}
+		\caption{ }
+		\label{fig:higgs_correction_a}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\centering
+		\includegraphics[width=0.6\textwidth]{figures/susyintro/higgs_stop_loop.eps}
+		\caption{ }
+		\label{fig:higgs_correction_b}
+	\end{subfigure}
+	\caption{Loop corrections to the Higgs mass. Subfigure (a) shows the leading Standard Model contributions, and subfig.\ (b) shows the corresponding supersymmetric contributions which cancel them.}
+	\label{fig:higgs_correction}
+\end{figure}
 
+An alternative to the dimensional regularization technique discussed in section \ref{sec:renormalization} is to use a {\it momentum cutoff} $\Lambda$, which is infinite in the physical limit. One may argue that new physics should come into play at higher energy scales, such as the GUT scale, and therefore set the cutoff to a finite value, {\it e.g.}\ $\Lambda = M_{\mathrm{GUT}} \sim 10^{16}\,\,\mathrm{GeV}$.
 
+The fermions and vector bosons of the Standard Model also recieve corrections, but because of chiral and gauge symmetries, these can be shown to be at most logarithmically divergent in terms of $\Lambda$. For the scalar Higgs particle, there is no such ``protective symmetry'', and the loop integrals turn out to be quadratic in $\Lambda$. This means that the Higgs mass corrections, evaluated at {\it e.g.}\ $\Lambda = M_{\mathrm{GUT}}$, are many orders of magnitude larger than the observed Higgs mass of 126 GeV, implying very nearly exact cancellations among the correction terms. There is no symmetry in the Standard Model which says that such a cancellation should occur, so it appears to be an ``accident'' of nature. Such accidents are seen as unnatural, and this explanation is thus unsatisfactory from a theoretical viewpoint. This is referred to as the {\it hierarchy problem} of the Higgs mass. 
 
-% The Standard Model is a quantum field theoretic model and may be stated in terms of a Lagrangian density function $\mathcal{L}$. The features that define the Standard Model emerge by requiring that it is invariant under the action of certain {\it gauge groups} -- specifically the infamous $U(1)_Y\times SU(2)_L\times SU(3)_C$, where the subscripts stand for {\it hypercharge, left} and {\it colour}, respectively, and refer to the properties that the different fields must have in order to be acted upon by the group transformations. By inserting certain {\it fermionic} field content in the Lagrangian and imposing these symmetries, the model acquires a number of {\it gauge bosons} for the different gauge groups. All these particles are {\it a priori} massless, a requirement to fulfill the gauge symmetry. To give particles their observed mass, then, one adds a scalar field and a corresponding scalar potential of a certain shape. The shape of the potential is such that the $U(1)_Y\times SU(2)_L$ symmetry is {\it spontaneously broken} at a certain energy scale, shifting the degrees of freedom around to give a scalar Higgs boson along with the other gauge bosons, and also giving mass to all particles except the photon. The remaining unbroken symmetries are then the $U(1)_\mathrm{em}$ for electromagnetic and $SU(3)_C$ for strong interactions. 
+In supersymmetry, new scalar degrees of freedom enter into the loop corrections as illustrated in fig.\ \ref{fig:higgs_correction_b} for scalar ``sfermions'' $\tilde f$. The leading-order loop correction contributions from fermions and sfermions combined can be shown to be \cite{Batzing:2013}
+\begin{align}
+	\Delta m_H^2 = -\frac{|\lambda_f|^2}{8\pi^2}\Lambda^2 + \frac{\lambda_{\tilde f}}{16\pi^2}\Lambda^2
+\end{align}
+where $\Lambda$ is a high-momentum cutoff which regularizes the divergence in the loop integral, and $\lambda_{f/\tilde f}$ are the coupling strengths to fermions/sfermions. In supersymmetry, the coupling for a fermion $f$ is related to its sfermion partner by $|\lambda_f|^2 = \lambda_{\tilde f}$, and there are exactly two sfermions for each fermion. Thus, in supersymmetry, the corrections cancel each other in a natural way.
 
-
-
-% The particles that make up the Standard Model are: the three generations of charged leptons, electron, muon and tau, and their three neutral counterparts, the neutrinos; the three generations of up- and down-type quarks up, down, charm, strange, top and bottom; the electroweak gauge bosons photon, Z and W; the strong gauge bosons, the gluons; and the Higgs boson. 
 
 
 
@@ -280,9 +383,10 @@ There is also a more technical problem with the Standard Model, related to the s
 \chapter{Supersymmetry}%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{ch:susyintro}
+ \marginpar{To Are: I hope you don't feel I have plagiarized you in what follows --- I do follow the lecture notes closely. Please say if I should rewrite to be more in my own words.}
 The theory of supersymmetry (SUSY) is a proposed extension of the Standard Model which increases the number of degrees of freedom by introducing a symmetry between fermions and bosons, called a supersymmetry. The construction of supersymmetry is in some sense a two-step process, where one first derives the Lagrangian of a theory with complete symmetry between fermions and bosons, meaning that every bosonic degree of freedom gets a corresponding `supersymmetric' fermionic degree of freedom, and {\it vice versa}. These fields only differ in spin. But since {\it e.g.}\ scalar, colour charged particles with the same mass as the quarks are not observed in experiments, the symmetry cannot be exact. To make the theory physically viable, the supersymmetric partners must be significantly heavier than their Standard Model counterparts. This means that the supersymmetry must be a broken symmetry, and this breaking is put into the theory ``by hand''.
 
-In this chapter we will outline the construction of a supersymmetric theory. First, we introduce the group theoretic framework of the symmetries. We define the concept of superfields, fields transforming under representations of the supersymmetry group. We go on to construct a fully supersymmetric Lagrangian in the framework of the Minimal Supersymmetric Standard Model (MSSM). Then the breaking of SUSY is achieved by manually inserting so-called ``soft'' SUSY-breaking terms. Also, the concept of R-parity is introduced in order to ensure the stability of the proton. R-parity will also make the lightest supersymmetric particle a good dark matter candidate. From the broken SUSY Lagrangian, we extract the particle content -- identifying the familiar fields of the Standard Model as well as their supersymmetric counterparts. We then introduce popular phenomenological models used to constrain and study the parameter space of the MSSM, and discuss their implications for the hierarchy of SUSY masses. This type of constrained model is subsequently adapted for the study of particular chain decays, which is the topic for the remainder of the thesis. We will also review the current experimental status of SUSY. 
+In this chapter we will outline the construction of a supersymmetric theory. First, we introduce the group theoretic framework of the symmetries. We define the concept of superfields, fields transforming under representations of the supersymmetry group. We go on to construct a fully supersymmetric Lagrangian in the framework of the Minimal Supersymmetric Standard Model (MSSM). Then the breaking of SUSY is achieved by manually inserting so-called ``soft'' SUSY-breaking terms. Also, the concept of R-parity is introduced in order to ensure the stability of the proton. R-parity will also make the lightest supersymmetric particle a good dark matter candidate. From the broken SUSY Lagrangian, we extract the particle content --- identifying the familiar fields of the Standard Model as well as their supersymmetric counterparts. We then introduce a popular phenomenological model used to constrain and study the parameter space of the MSSM, and discuss its implications for the hierarchy of SUSY masses. This constrained model is subsequently adapted for the study of particular SUSY cascade decays, which is the topic for the remainder of the thesis. We will also review the current experimental status of SUSY. 
 
 The presentation is based on \cite{Batzing:2013} and \cite{Leinonen:2014}.
 
@@ -450,7 +554,7 @@ Since this contains both Weyl spinor fields and scalar fields, the soft terms ma
 \section{The Minimal Supersymmetric Standard Model}
 The Minimal Supersymmetric Standard Model (MSSM) is the minimal supersymmetric theory which contains the Standard Model. It is constructed by choosing field content in accordance with the requirements deduced in the previous sections. To construct a Dirac fermion, we use one left-chiral and one right-chiral superfield together. This gives the four fermionic degrees of freedom that a Dirac fermion and its antiparticle require. Since each chiral superfield also contains two scalar degrees of freedom (after removing the auxillary fields), this introduces two scalar particle-antiparticle pairs, which are called the supersymmetric partners, or {\it superpartners}, of the Dirac fermion. An important point is that all superfield components must have the same charge under all gauge groups, due to the way the gauge transformation was defined. This means that the scalar fields generally will be charged. For instance, the superfields for the charged leptons are denoted $l_i$ and $\bar E_i$ for the left- and right-chiral superfields, respectively, and the left-handed neutrino superfields are denoted $\nu_i$. Here, $i=1,2,3$ is a generation index. The $SU(2)_L$ doublet of the Standard Model is recovered by setting $L_i = (\nu_i, l_i)$. The quark superfields are denoted $u_i$, $\bar U_i$, $d_i$ and $\bar D_i$, where $Q_i = (u_i, d_i)$ makes the $SU(2)_L$ doublet.
 
-The gauge boson fields come from the vector superfields, each of which also contains two Weyl-spinor fields of opposite handedness. To obey gauge invariance, $n^2-1$ vector superfields are required for each of the $SU(n)$ groups just as in the Standard Model -- {\it i.e.}\ gauge invariance under $U(1)_Y\times SU(2)_L \times SU(3)_C$ requires 1+3+8 vector superfields.\footnote{Again, $n^2$ rather than $n^2-1$ for the $U(1)$ group.} These are denoted $B^0$, $W^a$ and $C^a$, respectively. The Weyl spinor fields, corresponding to superpartners of the gauge fields, are written as $\tilde B^0$, $\tilde W^0$ and $\tilde g$, respectively. In the literature, these are referred to as {\it bino}, {\it wino} and {\it gluino}. 
+The gauge boson fields come from the vector superfields, each of which also contains two Weyl-spinor fields of opposite handedness. To obey gauge invariance, $n^2-1$ vector superfields are required for each of the $SU(n)$ groups just as in the Standard Model --- {\it i.e.}\ gauge invariance under $U(1)_Y\times SU(2)_L \times SU(3)_C$ requires 1+3+8 vector superfields.\footnote{Again, $n^2$ rather than $n^2-1$ for the $U(1)$ group.} These are denoted $B^0$, $W^a$ and $C^a$, respectively. The Weyl spinor fields, corresponding to superpartners of the gauge fields, are written as $\tilde B^0$, $\tilde W^0$ and $\tilde g$, respectively. In the literature, these are referred to as {\it bino}, {\it wino} and {\it gluino}. 
 
 The MSSM requires two Higgs superfield $SU(2)_L$ doublets to be able to give mass to both up- and down-type quarks. In the Standard Model, the same Higgs doublet can be used for both types by rotating the components using the $SU(2)_L$ generators, but this is not possible in SUSY. The Higgs doublets in the MSSM are
 \begin{align}
@@ -460,7 +564,7 @@ The MSSM requires two Higgs superfield $SU(2)_L$ doublets to be able to give mas
 		H_d^0 \\ H_d^-
 	\end{pmatrix}.
 \end{align}
-This introduces several additional Higgs scalars into the model, as well as the fermionic superpartner fields.
+This introduces several additional Higgs scalars into the model, as well as their fermionic superpartner fields.
 
 The fields listed above come together and construct the MSSM Lagrangian $\mathcal{L}_\mathrm{MSSM}$ using the rules described above for a general gauge invariant SUSY Lagrangian, giving rise to kinetic terms, superpotential terms and supersymmetric field strength terms. The SUSY breaking soft terms of the MSSM are, in component fields,
 \begin{align}
@@ -481,7 +585,7 @@ R-parity is a multiplicative quantum number which is assumed to be conserved in 
 where $s$ is the particle's spin, $B$ its baryon number and $L$ its lepton number. The important point is that all Standard Model particles have $R=+1$ while all superpartners have $R = -1$. This leads to the very important prediction that superpartner particles only can be produced and annihilated in pairs. In particular, it means that the lightest superpartner (LSP) must be stable against decay. This makes the LSP very attractive as a candidate for dark matter, if it is electrically neutral.
 
 \subsection{Radiative electroweak symmetry breaking}
-Like any quantum field theory, the MSSM is subject to renormalization, which induces the running of the coupling constants and masses of the model as discussed in Chapter \ref{ch:SM_intro}. In particular, the mass parameters $m_{H_u/d}$ for the Higgs doublets, which come from soft breaking terms in the Lagrangian, run with energy. To break the electroweak symmetry, it is assumed that these are equal at some high scale, and run down. It can be shown that the running is proportional to the Yukawa couplings of the third-generation quarks of the respective type -- {\it i.e.}\ the top and bottom, respectively. Because the top Yukawa coupling is much larger than the bottom one, the $m_{H_u}$ parameter runs down much faster with energy and becomes negative. One can further show that this is a sufficient condition to induce the electroweak symmetry breaking, and thus give the gauge bosons and fermions their observed mass.\marginpar{Is this too ``dodgy''? Should I be more technical? I fear there are too many technicalities already.} 
+Like any quantum field theory, the MSSM is subject to renormalization, which induces the running of the coupling constants and masses of the model as discussed in Chapter \ref{ch:SM_intro}. In particular, the mass parameters $m_{H_{u/d}}$ for the Higgs doublets, which come from soft breaking terms in the Lagrangian, run with energy. To break the electroweak symmetry, it is assumed that these are equal at some high scale, and run down. It can be shown that the running is proportional to the Yukawa couplings of the third-generation quarks of the respective type --- {\it i.e.}\ the top and bottom, respectively. Because the top Yukawa coupling is much larger than the bottom one, the $m_{H_u}$ parameter runs down much faster with energy and becomes negative. One can further show that this is a sufficient condition to induce the electroweak symmetry breaking, and thus give the gauge bosons and fermions their observed mass.\marginpar{Is this too ``dodgy''? Should I be more technical? I fear there are too many technicalities already.} 
 
 In the course of the symmetry breaking, the neutral components of both the Higgs doublets acquire a non-vanishing vacuum expectation value, $v_u = \langle H_u^0 \rangle$ and $v_d = \langle H_d^0 \rangle$, respectively. These must relate to the vector boson masses of the Standard Model as
 \begin{align}
@@ -489,7 +593,7 @@ In the course of the symmetry breaking, the neutral components of both the Higgs
 \end{align}
 The remaining free parameter is conventionally parametrized as
 \begin{align}
-	tan \beta \equiv \frac{v_u}{v_b}.
+	\tan \beta \equiv \frac{v_u}{v_b}.
 \end{align}
 
 \subsection{Particle phenomenology of the MSSM}
@@ -505,7 +609,7 @@ The total particle content of the MSSM is as follows:
 	 \end{itemize} 
  \end{itemize}
 
- The superpartner fields are members of the same superfields as their standard model partners. Therefore, they inherit the couplings of their partners. This is very useful when drawing Feynman diagrams for processes, since intuition from the Standard Model can be applied through {\it supersymmetrization} of the diagrams. For instance, the {\it fermion-fermion-gauge boson} vertices (fig. \ref{fig:feynmandiagram_supersymmetrization_a}) of the Standard Model have supersymmetrized {\it fermion-sfermion-gaugino} versions (fig. \ref{fig:feynmandiagram_supersymmetrization_b}). (But not {\it sfermion-sfermion-gaugino}, because of R-parity.) 
+ The superpartner fields are members of the same superfields as their standard model partners. Therefore, they inherit the couplings of their partners. This is very useful when drawing Feynman diagrams for processes, since intuition from the Standard Model can be applied through {\it supersymmetrization} of the diagrams. For instance, the {\it fermion-fermion-gauge boson} vertices (fig.\ \ref{fig:feynmandiagram_supersymmetrization_a}) of the Standard Model have supersymmetrized {\it fermion-sfermion-gaugino} versions (fig.\ \ref{fig:feynmandiagram_supersymmetrization_b}). (But not {\it sfermion-sfermion-gaugino}, because of R-parity.) 
  \begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -610,25 +714,45 @@ The mass parameters $m_{1/2}$ and $m_0$ are the common masses of all gauginos an
 	\caption{MSSM RGE running, from \cite{Martin:1997ns}.}
 	\label{fig:mssm_rgerun}
 \end{figure}
-This is illustrated in fig. \ref{fig:mssm_rgerun} for one choice of $m_{1/2}$ and $m_0$. The figure also illustrates the evolution of $m_{H_u}$ down to a negative value, facilitating the radiative electroweak symmetry breaking.
+This is illustrated in fig.\ \ref{fig:mssm_rgerun} for one choice of $m_{1/2}$ and $m_0$. The figure also illustrates the evolution of $m_{H_u}$ down to a negative value, facilitating the radiative electroweak symmetry breaking.
 
 Because the renormalization running, which is proportional to the mass of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small.
 
 
 
 \section{The experimental status of SUSY}
-Include some ATLAS plots. Say something about $B_s \to \mu^+ \mu^-$ at LHCb and constraints on $\tan \beta$? Discuss mSUGRA validity. Mention more general naturalness condition?
+{\it Include some ATLAS plots. Say something about $B_s \to \mu^+ \mu^-$ at LHCb and constraints on $\tan \beta$? Discuss mSUGRA validity? Mention more general naturalness condition?}
 
+The search for SUSY is very actively ongoing in the LHC experiment at CERN, particularly in the ATLAS and CMS groups. Before the LHC was turned off for maintenance, it collected $\sim 20 \,\, \mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8\,\,\mathrm{TeV}$. No significant excesses of events that could indicate the existence of SUSY have so far been observed. 
+
+Figure \ref{fig:ATLAS_SUSYlimitsummary} shows a summmary of the current status for all ATLAS SUSY searches. The bars that are shown indicate the lower limit for the SUSY masses at 95 \% confidence level, interpreted in various models. Many of the models are {\it simplified models}, where one typically only considers a small subset of the sparticle spectrum. This amounts to assuming that the other sparticles are so heavy that they decouple and can be ignored at this energy. Many analyses are also made in the full framework of the mSUGRA model, or even more general MSSM parametrizations. \marginpar{Update this and next plot with vector graphics versions} 
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=1\textwidth]{figures/susyintro/ATLAS_SUSY_Summary.png}
-	\caption{Summary of ATLAS SUSY limits per feb.\ 2015. }
-	\label{fig:higgspot}
+	\caption{Summary of ATLAS SUSY limits per february 2015. }
+	\label{fig:ATLAS_SUSYlimitsummary}
 \end{figure}
-
+Figure \ref{fig:ATLAS_mSUGRA} shows a plot of the search for SUSY in the mSUGRA/CMSSM model. The plot shows the $(m_0,m_{1/2})$ plane for fixed values of $\tan\beta = 30$, $A_0 = -2m_0$ and $\mu>0$. The various coloured lines indicate the lower bound for the parameter combination at 95 \% confidence level. More specifically, the solid line for each colour is the exclusion limit obtained from analysis of the collision data, while the dashed line is the theoretical exclusion limit one would expect from the Standard Model.\marginpar{I hope I'm not totally misunderstanding these plots. Should know them by now, but I'm afraid they always confuse me.}
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.9\textwidth]{figures/susyintro/ATLAS_SUSY_MSUGRA.png}
-	\caption{mSUGRA/CMSSM limits from ATLAS per feb.\ 2015. }
-	\label{fig:higgspot}
+	\caption{mSUGRA/CMSSM limits from ATLAS per february 2015. }
+	\label{fig:ATLAS_mSUGRA}
+\end{figure}
+Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit, but in the $(m_{\tilde g}, m_{\tilde \chi_1^0})$ plane. The events considered in this analysis are required to have two (a) and four (b) jets, respectively, where none of the jets have been tagged as $b$-jets. Additionally, there must be two leptons of opposite sign and same flavour, which are not allowed to have an invariant mass between them that is compatible with a $Z$ boson decaying. Also, there must be a significant amount $(> 200 \,\,\mathrm{GeV})$ of missing transverse energy.
+\begin{figure}[hbt]
+\centering
+\begin{subfigure}[b]{1\textwidth}
+	\includegraphics[width=0.9\textwidth]{figures/susyintro/Edge_wband1_wfixSigXSecband1_showcms0_EdgeAnalysisUnblindXsec_SR2jSF.pdf}
+	\caption{ }
+	\label{fig:ATLAS_neutralinogluino_a}
+\end{subfigure}
+
+\begin{subfigure}[b]{1\textwidth}
+	\includegraphics[width=0.9\textwidth]{figures/susyintro/Edge_wband1_wfixSigXSecband1_showcms0_EdgeAnalysisUnblindXsec_SR4jSF.pdf}
+	\caption{ }
+	\label{fig:ATLAS_neutralinogluino_b}
+\end{subfigure}
+\caption{Limits on $\tilde g$ versus $\tilde \chi_1^0$ mass in events with least two (a) or four (b) jets (none of them $b$-jets), respectively, and a same-flavour dilepton pair. From ATLAS per march 2015.}
+\label{fig:ATLAS_neutralinogluino}
 \end{figure}

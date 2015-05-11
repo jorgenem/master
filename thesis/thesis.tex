@@ -64,7 +64,7 @@
 %\end{dedication}
 
 % \begin{acknowledgements}
-% Takk til Are Raklev for god rettleiing. Takk også til Lars Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk, Janne og pappa, for at de er dykk. Takk også til Bryan Webber, Mona Semb, Tor Gjerrestad, Arild Gaasdal, Bjørn Hallvard Samset, vener og familie. 
+% Takk til Are Raklev for god rettleiing. Takk også til Lars Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk, Janne og pappa, for at de er dykk. Takk også til Bryan Webber, Mona Semb, Tor Gjerrestad, Arild Gaasdal, Bjørn Hallvard Samset, venar og familie. 
 % \end{acknowledgements}
 
 \tableofcontents
@@ -72,8 +72,15 @@
 \listoftables
 
 
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction} 
+In a scenario where Supersymmetry (SUSY) exists with conservation of R-parity, there should be a neutral lightest supersymmetric particle (LSP) which is absolutely stable. Additionally, all SUSY-particles will be produced in pairs in collisions. Any supersymmetric particle will decay down to the LSP, possibly in multiple steps. At the Large Hadron Collider (LHC) at CERN, one typically expects production of a pair of squarks which subsequently decay in a cascade down to the LSP, emitting multiple Standard Model (SM) particles in the process, see {\it e.g.}~\cite{Martin:1997ns}. The LSP escapes detection, but the energy and momentum of all the SM particles can be measured (assuming no neutrinos are produced).
 
-% \input{thesis-introchapters.tex}
+Should hints of SUSY be seen at the LHC in the future, it will be important to determine the masses of the SUSY particles, and many methods have been investigated for this purpose, see {\it e.g.}~\cite{Miller:2005zp}. In \cite{Webber:2009vm} a method for determining the masses by formulating the kinematics as a linear algebra problem is presented and discussed. The article specifically considers a pair of SUSY particles, each decaying to the LSP in three steps, thus emitting three SM particles each. Determination of the masses then involve inverting an 8 by 8 matrix containing the measured parameters, using it to determine the 4-momenta, $p^\mu_\mathrm{inv},$ of the two invisible LSPs. Having calculated the invisible 4-momenta, one can make a hypothesis for the eight unknown SUSY masses involved in the chains, and minimize $p^2_\mathrm{inv}-M^2_\mathrm{hyp}$ in order to obtain a best fit hypothesis (the minimized quantity should be zero for an on-shell particle). The article further demonstrates by a Monte 
+Carlo simulation that a good fit can be obtained using only a few tens of events. This is a very desirable feature, since only a very limited number of SUSY candidate events are  expected at the LHC, given current limits on SUSY particle masses.
+
+
+\input{thesis-introchapters.tex}
 
 
 
@@ -367,7 +374,7 @@ Webber uses Fortran {\tt HERWIG} version 6.510 \cite{Corcella:2000bw,Moretti:200
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/webber_rec_table/sps1a_fits.eps} 
-	\caption{fig.\ 2 from \cite{Webber:2009vm}, displayed here for comparison.}
+	\caption{Figure 2 from \cite{Webber:2009vm}, displayed here for comparison.}
 	\label{fig:webber_scatter}
 \end{figure}
 The column $\delta p/p$ indicates the standard deviation of the gaussian smearing applied on the momenta, $\xi^2_\mathrm{max}$ indicates the cut value of the $\xi^2$, $f_\xi$ is the fraction of samples surviving the cut and $f_\mathrm{cor}$ is the fraction of events where the chosen particle combination, selected as described in section \ref{sec:combinatorics}, is the correct one. 
@@ -739,7 +746,7 @@ We note that with these modifications, we have introduced another constraining e
 	\end{subfigure}
 	\caption{Mass-difference minimizations on the Herwig++ dataset (a) without smearing and (b) with 5 \% momentum smearing, without combinatorics.}
 \end{figure}
-A fit of the unsmeared dataset with this method, not considering combinatorics, is shown in fig.\ \ref{fig:MD_nocomb-nosmear}. We have used the theoretical value of $m_{ll}^\mathrm{max} \approx 80 \mathrm{GeV}$ for the SPS1a masses, calculated using eq.\ \eqref{eq:invariant_mass_endpoint}. The experimental uncertainty on $m_{ll}^\mathrm{max}$ is not expected to be significant compared to other sources of uncertainty. We have checked that the fit also in this case is independent of where we start the search. We also show the same fit on the dataset with 5 \% momentum smearing in fig.\ \ref{fig:MD_nocomb-5psmear}. In the last chapter we saw that with momentum smearing, the LSP mass was estimated to zero in many \marginpar{quantify} of the samples (fig. \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}) when we used the original formulation of the method. In this case all the samples obtain a nonzero LSP mass.
+A fit of the unsmeared dataset with this method, not considering combinatorics, is shown in fig.\ \ref{fig:MD_nocomb-nosmear}. We have used the theoretical value of $m_{ll}^\mathrm{max} = 80.1 \mathrm{GeV}$ for the SPS1a masses, calculated using eq.\ \eqref{eq:invariant_mass_endpoint}. The experimental uncertainty on $m_{ll}^\mathrm{max}$ is not expected to be significant compared to other sources of uncertainty. We have checked that the fit also in this case is independent of where we start the search. We also show the same fit on the dataset with 5 \% momentum smearing in fig.\ \ref{fig:MD_nocomb-5psmear}. In the last chapter we saw that with momentum smearing, the LSP mass was estimated to zero in many \marginpar{quantify} of the samples (fig. \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}) when we used the original formulation of the method. In this case all the samples obtain a nonzero LSP mass.
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -873,7 +880,7 @@ Another possibility is to combine a few events at a time, and minimize the $\xi^
 
 \section{Cutting on det(A)}
 \marginpar{Probably the plots need to be larger to be able to read values?} 
-In this section we investigate what can be gained by applying a minimal value cut on the determinant of the matrix $\mathbf{A}$. The idea behind this is that since a matrix with zero determinant is uninvertible, the magnitude of the determinant may be small for events that are ``difficult'' to invert in some sense, and these may contribute poorly to the fit. This turns out to have some merit, see fig.\ \ref{fig:detAcut}. The (a) plot is exactly the same as \ref{fig:4combosum_nocomb-nosmear}, except that the det(A) cut has been applied. The errors on the masses decrease by a factor two. They are further reduced by combining with a $\xi^2$ cut, but at the expense of losing lots of statistics. About 60 \% of events pass the det(A) cut. The events passing the cut are rather evenly distributed\marginpar{quantify} between samples, which means that each sample is reduced by about 40 \%. 
+In this section we investigate what can be gained by applying a minimal value cut on the determinant of the matrix $\mathbf{A}$. The idea behind this is that since a matrix with zero determinant is uninvertible, the magnitude of the determinant may be small for events that are ``difficult'' to invert in some sense, and these may contribute poorly to the fit. This turns out to have some merit, as can be seen from fig.\ \ref{fig:detAcut}: The (a) plot is exactly the same as \ref{fig:4combosum_nocomb-nosmear}, except that the det(A) cut has been applied on an event-wise basis. The errors on the masses decrease by a factor two. They are further reduced by combining with a $\xi^2$ cut, but at the expense of losing lots of statistics. About 60 \% of events pass the det(A) cut. The events passing the cut are rather evenly distributed\marginpar{quantify} between samples, which means that each sample is reduced by about 40 \%. 
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -900,7 +907,7 @@ In this section we investigate what can be gained by applying a minimal value cu
 	\caption{Minimization where a minimal value cut is applied on $|\mathrm{det}(\mathbf A)|$ for each event, in this case $|\mathrm{det}(\mathbf A)|>10$. Minimization is done using the mass-difference technique, on the {\tt Herwig++} dataset without smearing in (a) and (b) and with 5 percent smearing in (c) and (d). $\xi^2$ cuts of $1000$ are applied in (b) and (d).}
 	\label{fig:detAcut}
 \end{figure}
-Figure \ref{fig:detAcut} shows the distribution of $det(\mathbf{A})$ for the true quark-lepton combinations and the misidentified combinations.
+Figure \ref{fig:detA_distribution} shows the distribution of $\mathrm{det}(\mathbf{A})$ for the true quark-lepton combinations and the misidentified combinations. Figure \ref{fig:detA_distribution_zoom} shows the distribution of the values close to zero for the true combination case. We see that the distribution exhibits a smooth decrease from zero, and it is symmetric. There do not appear to be any jumps in $\mathrm{det}(\mathbf{A})$ values which could be used to set the cut value.
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.6\textwidth}
@@ -914,11 +921,17 @@ Figure \ref{fig:detAcut} shows the distribution of $det(\mathbf{A})$ for the tru
 		\caption{ } 
 		\label{fig:detA_distribution_b}
 	\end{subfigure}
-	\caption{Distribution of $\mathrm{det}(A)$ for (a) the correct combination and (b) the wrong combination of quarks with lepton pairs. The tails of the distribution have been trimmed at $\pm 200 \,\,\mathrm{GeV}$ to remove outliers.}
+	\caption{Distribution of $\mathrm{det}(A)$ for (a) the correct combination and (b) the wrong combination of quarks with lepton pairs. The tails of the distribution have been trimmed at $\pm 200$ to remove outliers.}
 	\label{fig:detA_distribution}
 \end{figure}
 
 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/improving_combinatorics/histogram_detA_truecomb_trim20.pdf} 
+	\caption{The distribution of values for $\mathrm{det}(A)$, trimmed at $\pm 20$, for the true combination.}
+	\label{fig:detA_distribution_zoom}
+\end{figure}
 
 
 
@@ -1429,6 +1442,63 @@ bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, doub
 
 
 
+
+\chapter{The Dirac equation}
+\label{appendix:diraceq}
+The Dirac equation is derived. The derivation closely follows \cite[pp.\ 225-229]{griffiths:elementary_particles}. 
+
+Einstein's fundamental relationship between energy, momentum and mass in special relativity is
+\begin{align}
+  p^\mu p_\mu - m^2 = 0.\label{eq:energymomentum}
+\end{align}
+Following the prescriptions of quantum mechanics, energy and momentum are promoted to operators:
+\begin{align}
+	p_\mu \to i\hbar \frac{\partial}{\partial x^\mu} \equiv i\hbar \partial_\mu.
+\end{align}
+Taken as an eigenvalue equation for a field $\psi$, this gives rise to the relativistic {\it Klein-Gordon} equation
+\begin{align}
+	-\hbar^2 \partial^\mu \partial_\mu \psi - m^2 \psi = 0.
+\end{align}
+This equation differs from the Schr\"{o}dinger equation of non-relativistic quantum mechanics in that it is second order in $\partial_{0} = \partial_t$, while the Schr\"{o}dinger equation is first order. To obtain a first-order differential equation in time, Dirac attempted to factor the energy-momentum relation \eqref{eq:energymomentum} as
+\begin{align}
+	p^\mu p_\mu - m^2 = \left(\gamma^\kappa p_\kappa + m\right)\left(\gamma^\lambda p_\lambda - m\right).
+\end{align}
+This leads to the requirement
+\begin{align}
+	p^\mu p_\mu = \gamma^\mu \gamma^\nu p_\mu p_\nu.
+\end{align}
+The right hand side can be written as
+\begin{align}
+	\gamma^\mu \gamma^\nu p_\mu p_\nu &= \frac{1}{2}\left( \gamma^\mu \gamma^\nu p_\mu p_\nu + \gamma^\nu \gamma^\mu p_\nu p_\mu \right)\\
+	&= \frac{1}{2}\left( \gamma^\mu \gamma^\nu  + \gamma^\nu \gamma^\mu \right) p_\mu p_\nu,
+\end{align}
+where we have used the fact that $\mu$ and $\nu$ are dummy summation variables. This implies that
+\begin{align}
+	\left\{ \gamma^\mu, \gamma^\nu \right\} = 2g^{\mu\nu},
+\end{align}
+where $g^{\mu\nu}$ is the Minkowski metric tensor, and the curly brackets denote the anticommutator $\left\{ \gamma^\mu, \gamma^\nu \right\} = \gamma^\mu \gamma^\nu + \gamma^\nu \gamma^\mu$. Dirac realized that this condition can be met provided we let the $\gamma^\mu$ be {\it matrices}. It turns out that the lowest possible dimension of these matrices is $4\times 4$. They may be represented in several equivalent bases, but one standard convention is
+\begin{align}
+	\gamma^0 = \begin{pmatrix}
+		1 & 0 \\ 0 & -1
+	\end{pmatrix}, \quad{} \gamma^i = \begin{pmatrix}
+		0 & \sigma^i \\ -\sigma^i & 0
+	\end{pmatrix},
+\end{align}
+where $\sigma^i$ are the Pauli matrices, $1$ denotes the $2\times 2$ identity matrix and $0$ the $2\times 2$ matrix of zeros. With this factorization, the relativistic momentum-energy relation is satisfied by
+\begin{align}
+	\gamma^\mu p_\mu - m = 0.
+\end{align}
+The Dirac equation is obtained by substituting operators and letting them act on an object $\Psi$, giving
+\begin{align}
+	\left(i\hbar \gamma^\mu \partial_\mu - m\right)\Psi = 0,
+\end{align}
+where $\Psi$ is required by dimensionality to be a four-column vector of fields,
+\begin{align}
+	\Psi = \begin{pmatrix}
+		\psi_1 \\ \psi_2 \\ \psi_3 \\ \psi_4
+	\end{pmatrix},
+\end{align}
+called a Dirac {\it spinor}.
 
 
 
