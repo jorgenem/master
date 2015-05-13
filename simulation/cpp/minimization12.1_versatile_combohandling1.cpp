@@ -67,7 +67,7 @@ int largest_element(vector<int> elements, double threshold)
 	sort(elements.begin(), elements.end());
 	int largest = elements[elements.size()-1];
 	int secondtolargest = elements[elements.size()-2];
-	cout << "secondtolargest/largest = " << secondtolargest/(double) largest << endl;
+	// cout << "secondtolargest/largest = " << secondtolargest/(double) largest << endl;
 	if (largest <= 0 || secondtolargest/(double) largest > threshold)
 		index = 100;
 	return index;
@@ -348,20 +348,20 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, vector<bool> 
 
 			double xisquared_current;
 			vec P;
+			// cout << iCombo << endl;
 
-
-			P = D_lists[0+iCombo][iEvent]*M + E_lists[0][iEvent];
+			P = D_lists[0+4*iCombo][iEvent]*M + E_lists[0+4*iCombo][iEvent];
 			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] -MLSPsq, 2);
 			// cout << xisquared_current << endl;
 
 			if (combosum == 2)
 			{
 				// Add contributions from the three first wrong combos, where the leptons are flipped inside chains
-				P = D_lists[1+iCombo][iEvent]*M + E_lists[1][iEvent];
+				P = D_lists[1+4*iCombo][iEvent]*M + E_lists[1+4*iCombo][iEvent];
 				xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2	) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
-				P = D_lists[2+iCombo][iEvent]*M + E_lists[2][iEvent];
+				P = D_lists[2+4*iCombo][iEvent]*M + E_lists[2+4*iCombo][iEvent];
 				xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2	) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
-				P = D_lists[3+iCombo][iEvent]*M + E_lists[3][iEvent];
+				P = D_lists[3+4*iCombo][iEvent]*M + E_lists[3+4*iCombo][iEvent];
 				xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2	) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
 			}
 			xisquared = xisquared + xisquared_current;
@@ -380,7 +380,7 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, vector<bool> 
 
 }
 
-void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point, vector<double> &correct_combinatorics_fraction, vector<int> &bin_number, int minimization_method, int combosum, double detAcut, vector<double> &detA_passcut_fraction, double xisqcut_eventpair, vector<vector<vector<int > > > &number_of_lowest_combination_index_allbins)
+void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_initial, double tol, int maxiter, bool combinatorics, double Mnorm, vector<double> &best_fit_value, vector<vector<double> > &best_fit_point, vector<double> &correct_combinatorics_fraction, vector<int> &bin_number, int minimization_method, int combosum, double detAcut, vector<double> &detA_passcut_fraction, double xisqcut_eventpair, vector<vector<vector<int > > > &number_of_lowest_combination_index_allbins, vector<vector <bool> > &detApasscut_list)
 {
 	int N = Nbins*Nevents;
 	// cout << "N = " << endl;
@@ -454,7 +454,7 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 
 	// Declare vector of detA values and correct_combinatorics
 	vector< vector <double> > detAlist;
-	vector<vector<bool> > detApasscut_list;
+	// vector<vector<bool> > detApasscut_list; // Declared outside function instead
 	vector<bool> correct_combinatorics;
 	vector<int> nCombos;
 
@@ -608,6 +608,16 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 			E13_list.push_back(inv(permute67*A1)*C1);
 			E14_list.push_back(inv(permute23and67*A1)*C1);
 
+			// DEBUG: Switch A1 and A2
+			// D21_list.push_back(inv(A1)*B);
+			// D22_list.push_back(inv(permute23*A1)*B);
+			// D23_list.push_back(inv(permute67*A1)*B);
+			// D24_list.push_back(inv(permute23and67*A1)*B);
+			// E21_list.push_back(inv(A1)*C1);
+			// E22_list.push_back(inv(permute23*A1)*C1);
+			// E23_list.push_back(inv(permute67*A1)*C1);
+			// E24_list.push_back(inv(permute23and67*A1)*C1);
+
 
 
 
@@ -630,7 +640,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 				<< 	m7squared
 				<< 	pow(pymiss, 2);
 			C2 = C2/pow(Mnorm, 2);
-				D21_list.push_back(inv(A2)*B);
+
+			D21_list.push_back(inv(A2)*B);
 			D22_list.push_back(inv(permute23*A2)*B);
 			D23_list.push_back(inv(permute67*A2)*B);
 			D24_list.push_back(inv(permute23and67*A2)*B);
@@ -638,6 +649,17 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 			E22_list.push_back(inv(permute23*A2)*C2);
 			E23_list.push_back(inv(permute67*A2)*C2);
 			E24_list.push_back(inv(permute23and67*A2)*C2);
+
+			// DEBUG: Switch A1 and A2
+			// D11_list.push_back(inv(A2)*B);
+			// D12_list.push_back(inv(permute23*A2)*B);
+			// D13_list.push_back(inv(permute67*A2)*B);
+			// D14_list.push_back(inv(permute23and67*A2)*B);
+			// E11_list.push_back(inv(A2)*C2);
+			// E12_list.push_back(inv(permute23*A2)*C2);
+			// E13_list.push_back(inv(permute67*A2)*C2);
+			// E14_list.push_back(inv(permute23and67*A2)*C2);
+
 				if (all_leptons_equal_list[iEvent])
 			{
 				bool p67_was_flipped = false;
@@ -740,7 +762,7 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 					detApasscut_current.push_back(false);
 			}
 			detApasscut_list.push_back(detApasscut_current);
-			cout << "detApasscut_current = " << detApasscut_current << endl;
+			// cout << "detApasscut_current = " << detApasscut_current << endl;
 
 			// Fill nCombos vector with combinatorical ambiguity for current event, depending on combosum choice
 			if (combosum == 1 && all_leptons_equal_list[iEvent])
@@ -784,24 +806,31 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 		for (int iEvent1 = iBin*Nevents; iEvent1 < (iBin+1)*Nevents; iEvent1++)
 		{
 			int iEvent1_local = iEvent1 - iBin*Nevents; // The local index, i.e. relative to own bin only
-			std::vector<int> zeros_vector(nCombos[iBin*Nevents + iEvent1], 0);
+			// cout nCombos[iBin]
+			std::vector<int> zeros_vector(nCombos[iEvent1], 0);
 			number_of_lowest_combination_index.push_back(zeros_vector); // Allocate a vector of zeros of appropriate length for each iEvent.
+
+			// cout << "nCombos[iEvent1] = " << nCombos[iEvent1] << ", nCombos[iEvent2] = " << nCombos[iEvent1] << endl;
 		for (int iEvent2 = iBin*Nevents; iEvent2 <(iBin+1)*Nevents; iEvent2++)
 		{
 			int iEvent2_local = iEvent2 - iBin*Nevents; // The local index, i.e. relative to own bin only
-		for (int iCombo2 = 0; iCombo2 < nCombos[iBin*Nevents + iEvent2]; iCombo2++)
+		for (int iCombo2 = 0; iCombo2 < nCombos[iEvent2]; iCombo2++)
 		{
 			double lowest_best_fit_value_iCombo1 = 1e30;
 			int index_of_lowest_iCombo1 = 100;
-		for (int iCombo1 = 0; iCombo1 < nCombos[iBin*Nevents + iEvent1]; iCombo1++)
+		for (int iCombo1 = 0; iCombo1 < nCombos[iEvent1]; iCombo1++)
 		{
 			vector<pair<int,int> > eventIndices; // Vector to store index and combinatorical choice as tuple for each event to include in current minimization 
 
 
-			if ( !( detApasscut_list[iEvent1][iCombo1] && detApasscut_list[iEvent2][iCombo2] ) ) // Skip pairs which don't pass detA cut on both events
+			// if ( !( detApasscut_list[iEvent1][iCombo1] && detApasscut_list[iEvent2][iCombo2] ) ) // Skip pairs which don't pass detA cut on both events
+			// if ( !( detApasscut_list[iEvent1][iCombo1] ) ) // Skip pairs which don't pass detA cut on iEvent1 (but pair it with potentially discarded iEvent2)
+			if ( !( detApasscut_list[iEvent1][0] && detApasscut_list[iEvent1][1] ) ) // Skip pairs which don't pass detA cut on iEvent1 for BOTH iCombos (but pair it with potentially discarded iEvent2)
+
 				continue;
 			eventIndices.push_back(make_pair(iEvent1,iCombo1));
-			eventIndices.push_back(make_pair(iEvent2,iCombo1));
+			eventIndices.push_back(make_pair(iEvent2,iCombo2));
+			// cout << "iEvent1 = " << iEvent1 << ", iCombo1 = " << iCombo1 << ", iEvent2 = " << iEvent2 << ", iCombo2 = " << iCombo2 << endl;
 
 
 
@@ -827,6 +856,7 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 
 			double fmin = 1e30;
 			vector<double> Masses = {0,0,0,0};
+			// cout << masses_current << endl;
 			if (amoeba(&masses_current[0], fmin, xisquared, dim, tol, maxiter, Nevents, iBin, Mnorm, all_leptons_equal_list, D_lists, E_lists, eventIndices, minimization_method, combosum)) 
 			{	
 	
@@ -843,14 +873,20 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 					// Calculate masses from MLSP + squared-diffs to check that they are physical
 					double mllinv = 80.1; // Calculated from true masses using formula
 					double MLSPsq = masses_current[2]*(masses_current[1]/(mllinv*mllinv) - 1.0);
-					if (MLSPsq < 0)
-						continue;
+					// if (MLSPsq < 0)
+					// {
+					// 	cout << "Negative LSP mass, MLSPsq = " << MLSPsq << endl;
+					// 	continue;
+					// }
 					Masses[3] = sqrt(MLSPsq);
 					Masses[2] = sqrt(MLSPsq + masses_current[2]);
 					Masses[1] = sqrt(MLSPsq + masses_current[2] + masses_current[1]);
 					Masses[0] = sqrt(MLSPsq + masses_current[2] + masses_current[1] + masses_current[0]);
-					if (std::isnan(Masses[3]) || std::isnan(Masses[2]) || std::isnan(Masses[1]) || std::isnan(Masses[0])) // Drop bin if any masses are NaN
-						continue;
+					// if (std::isnan(Masses[3]) || std::isnan(Masses[2]) || std::isnan(Masses[1]) || std::isnan(Masses[0])) // Drop bin if any masses are NaN
+					// {
+					// 	cout << "One or more masses NaN" << endl;
+					// 	continue;
+					// }
 		
 				}
 
@@ -872,10 +908,10 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 				// best_fit_value.push_back(fmin);
 
 
-				cout << "iEvent1 = " << iEvent1_local << ", iCombo1 = " << iCombo1 << ", iEvent2 = " << iEvent2_local << ", iCombo2 = " << iCombo2 << ", fmin = " << fmin << endl;
 	
 			} // END IF amoeba
 	
+			// cout << "iEvent1 = " << iEvent1_local << ", iCombo1 = " << iCombo1 << ", iEvent2 = " << iEvent2_local << ", iCombo2 = " << iCombo2 << ", fmin = " << fmin << endl;
 
 
 
@@ -888,7 +924,7 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 		} // END iEvent2 LOOP
 			// Select the iCombo for current iEvent which is the lowest value in most cases. Discard iEvent1s that are close to equal.
 			double threshold = 0.9;
-			cout << "number_of_lowest_combination_index = " << number_of_lowest_combination_index[iEvent1_local] << endl;
+			// cout << "number_of_lowest_combination_index = " << number_of_lowest_combination_index[iEvent1_local] << endl;
 			int index_of_best_combinatorics_choice_current = largest_element(number_of_lowest_combination_index[iEvent1_local], threshold);
 
 			index_of_best_combinatorics_choice.push_back(index_of_best_combinatorics_choice_current);
@@ -911,11 +947,11 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 		correct_combinatorics_fraction.push_back(1); // CHANGE THIS DEPENDING ON COMBINATORICS
 
 
-		cout << "number_of_lowest_combination_index list:" << endl;
-		for (int i = 0; i < number_of_lowest_combination_index.size(); i++)
-		{
-			cout << number_of_lowest_combination_index[i] << endl;
-		}
+		// cout << "number_of_lowest_combination_index list:" << endl;
+		// for (int i = 0; i < number_of_lowest_combination_index.size(); i++)
+		// {
+			// cout << number_of_lowest_combination_index[i] << endl;
+		// }
 
 
 
@@ -938,12 +974,12 @@ int main()
 
 
 	// SET PARAMETERS
-	int Nbins = 5;
+	int Nbins = 1;
 	int Nevents = 25;
 	bool combinatorics = false; // OBSOLETE, SHOULD BE REMOVED
 	double tol = 1e-12;
 	double maxiter = 2000;
-	double detAcut = 0; // NOTE: Cut scale varies depending on Mnorm
+	double detAcut = 2; // NOTE: Cut scale varies depending on Mnorm
 	double xisqcut_eventpair = 1e30;
 	int minimization_method = 2; // Choose between original=1 and MD=2
 	int combosum = 2; // Choose between not summing combinations=1 and summing four closest=2
@@ -953,6 +989,7 @@ int main()
 	// vector<double> masses_initial = {1000, 100, 80, 30};
 	double Mnorm = 100;
 	vector<vector<vector< int > > > number_of_lowest_combination_index_allbins;
+	vector<vector <bool> > detApasscut_list;
 
 
 
@@ -973,15 +1010,15 @@ int main()
 	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
-	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat";
-	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat";
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
 	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
 	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
 	// eventfile = "../events/HERWIG-events.dat";
 
 
 
-	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction, bin_number, minimization_method, combosum, detAcut, detA_passcut_fraction, xisqcut_eventpair, number_of_lowest_combination_index_allbins);
+	best_fit(Nbins, Nevents, eventfile, masses_initial, tol, maxiter, combinatorics, Mnorm, best_fit_value, best_fit_point, correct_combinatorics_fraction, bin_number, minimization_method, combosum, detAcut, detA_passcut_fraction, xisqcut_eventpair, number_of_lowest_combination_index_allbins, detApasscut_list);
 
 	// cout << "correct_combinatorics_fraction = " << endl << correct_combinatorics_fraction << endl;
 
@@ -1012,19 +1049,32 @@ int main()
 	// textOutput.close();
 
 	// /** Make and open text output file */
-	ofstream textOutput2;
-	textOutput2.open("../best_fit_results/TEMP-versatile_chain-choice.dat", ios::out);
+	// ofstream textOutput2;
+	// textOutput2.open("../best_fit_results/TEMP-versatile_chain-choice.dat", ios::out);
 	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
 
-	textOutput2 << "Choosing between chains." << endl;
+	// textOutput2 << "Choosing between chains." << endl;
+	vector<double> fraction_of_correct_A; 
 	for (int iBin = 0; iBin < Nbins; iBin++)
 	{
+		double fraction_of_correct_A_currentbin = 0;
+		double normalization = 0;
 		for (int iEvent = 0; iEvent < number_of_lowest_combination_index_allbins[iBin].size(); iEvent++)
 		{
-			cout << number_of_lowest_combination_index_allbins[iBin][iEvent] << endl;
+			cout << number_of_lowest_combination_index_allbins[iBin][iEvent];
+			if (!(detApasscut_list[iEvent][0] && detApasscut_list[iEvent][1]))
+				cout << " (failed detA cut criterion)";
+			cout << endl;
+			if (detApasscut_list[iEvent][0] && largest_element(number_of_lowest_combination_index_allbins[iBin][iEvent], 0.9) == 0)
+				fraction_of_correct_A_currentbin = fraction_of_correct_A_currentbin + 1;
+			if (detApasscut_list[iEvent][0])
+				normalization = normalization + 1;
+
 		}
+		fraction_of_correct_A.push_back(fraction_of_correct_A_currentbin/normalization);
 	}
-	textOutput2.close();
+	cout << "fraction_of_correct_A = " << fraction_of_correct_A << endl;
+	// textOutput2.close();
 
 	// cout << "Mean correct-combo fraction = " << accumulate(correct_combinatorics_fraction.begin(), correct_combinatorics_fraction.end(), 0.0)/correct_combinatorics_fraction.size() << endl;
 
