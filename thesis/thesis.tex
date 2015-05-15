@@ -57,11 +57,11 @@
 
 \selectlanguage{english}
 
-%\begin{dedication}
-%  Til Nina Eriksson
+\begin{dedication}
+ Til Nina Eriksson
 %  \\\vspace{12pt}
 %  This is a dedication
-%\end{dedication}
+\end{dedication}
 
 % \begin{acknowledgements}
 % Takk til Are Raklev for god rettleiing. Takk også til Lars Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk, Janne og pappa, for at de er dykk. Takk også til Bryan Webber, Mona Semb, Tor Gjerrestad, Arild Gaasdal, Bjørn Hallvard Samset, venar og familie. 
@@ -78,6 +78,8 @@ In a scenario where Supersymmetry (SUSY) exists with conservation of R-parity, t
 
 Should hints of SUSY be seen at the LHC in the future, it will be important to determine the masses of the SUSY particles, and many methods have been investigated for this purpose, see {\it e.g.}~\cite{Miller:2005zp}. In \cite{Webber:2009vm} a method for determining the masses by formulating the kinematics as a linear algebra problem is presented and discussed. The article specifically considers a pair of SUSY particles, each decaying to the LSP in three steps, thus emitting three SM particles each. Determination of the masses then involve inverting an 8 by 8 matrix containing the measured parameters, using it to determine the 4-momenta, $p^\mu_\mathrm{inv},$ of the two invisible LSPs. Having calculated the invisible 4-momenta, one can make a hypothesis for the eight unknown SUSY masses involved in the chains, and minimize $p^2_\mathrm{inv}-M^2_\mathrm{hyp}$ in order to obtain a best fit hypothesis (the minimized quantity should be zero for an on-shell particle). The article further demonstrates by a Monte 
 Carlo simulation that a good fit can be obtained using only a few tens of events. This is a very desirable feature, since only a very limited number of SUSY candidate events are  expected at the LHC, given current limits on SUSY particle masses.
+
+In the following chapters we will present and discuss a method for determining the masses of supersymmetric particles in certain types of cascade decays. Chapter \ref{ch:introducing_the_method} formulates the type of process we are studying and the problems we face, and presents a novel method proposed by B. Webber \cite{Webber:2009vm} for making inferences about the unknown masses. The subsequent chapters deal with investigation and improvements on the method. We begin by simulating events, adding complexities layer by layer, investigating the method and getting some feeling for its aptitude. We then discuss some problems with the original formulation, suggest ways to amend these and look at ways to develop the method further.\marginpar{Remember to land on a formulation which reflects what I actually do.}
 
 
 % \input{thesis-introchapters.tex}
@@ -123,7 +125,7 @@ The exponential map may be extended from a {\it global} transformation to a {\it
 
 \section{Ingredients of the Standard Model}
 
-The Standard Model consists of 12 fermions with corresponding antifermions, a number of vector gauge bosons and one scalar boson, whose existence have all been verified experimentally. The gauge bosons mediate interactions between the particles. There are three fundamental interactions in the Standard Model: The electromagnetic interaction, the weak interaction and the strong interaction. Not all particles couple to each other with all of the interactions. 
+The Standard Model consists of 12 fermions with corresponding antifermions, a number of vector gauge bosons and one scalar boson, whose existence have all been verified experimentally. The gauge bosons mediate interactions between the particles. There are three fundamental interactions in the Standard Model: The electromagnetic interaction, the weak interaction and the strong interaction. The combination of electromagnetic and weak interactions are often referred to as the {\it electroweak} theory, while the theory describing the strong interaction is known as {\it Quantum Chromonynamics (QCD)}. Note that not all particles couple to each other with all of the interactions. 
 
 The fermions are divided into two groups, the quarks and leptons. There are six different {\it flavours} of quarks, called up, down, strange, charm, bottom and top, in order of increasing mass. They are subdivided into three generations of pairs, up/down, charm/strange and top/bottom. The up, charm and top quarks carry quanta of $+\frac{2}{3}$ of the fundamental electrical charge $e$, while the down, strange and bottom quarks carry $-\frac{1}{3}e$. There are also six leptons, of which three are charged. They are called the electron, the muon and the tau. They each belong in a generation of their own, together with their neutral counterparts, the electron neutrino, muon neutrino and tau neutrino, respectively. 
 
@@ -314,7 +316,7 @@ where $\theta_W$ is called the {\it Weinberg angle}, eq.\ \eqref{eq:higgs_covari
 \end{align}
 Thus, the kinetic term $|D^\mu \Phi|^2$ is
 \begin{align}
-	|D^\mu \Phi|^2 = &\frac{1}{2}\left( \frac{g^2v^2}{2} W^{+\mu} W^-_\mu + g^2vHW^{+\mu}W^-_\mu \right.\nonumber\\
+	|D^\mu \Phi|^2 = \frac{1}{2}&\left( \frac{g^2v^2}{2} W^{+\mu} W^-_\mu + g^2vHW^{+\mu}W^-_\mu \right.\nonumber\\
 	&+ \frac{g^2}{2} W^{+\mu}W^-_\mu H^2 + \partial^\mu H \partial_\mu H + \frac{g^2v^2}{4\cos^2\theta_W} Z^\mu Z_\mu \\
 	&+ \left. \frac{g^2}{2\cos^2\theta_W} v Z^\mu Z_\mu H + \frac{g^2}{4\cos^2\theta_W}Z^\mu Z_\mu H^2 \right).\nonumber
 \end{align}
@@ -451,11 +453,11 @@ An alternative to the dimensional regularization technique discussed in section 
 
 The fermions and vector bosons of the Standard Model also recieve corrections, but because of chiral and gauge symmetries, these can be shown to be at most logarithmically divergent in terms of $\Lambda$. For the scalar Higgs particle, there is no such ``protective symmetry'', and the loop integrals turn out to be quadratic in $\Lambda$. This is shown in appendix \ref{appendix:higgs_mass_loop_correction}. This means that the Higgs mass corrections, evaluated at {\it e.g.}\ $\Lambda = M_{\mathrm{GUT}}$, are many orders of magnitude larger than the observed Higgs mass of 126 GeV, implying very nearly exact cancellations among the correction terms. There is no symmetry in the Standard Model which says that such a cancellation should occur, so it appears to be an ``accident'' of nature. Such accidents are seen as unnatural, and this explanation is thus unsatisfactory from a theoretical viewpoint. This is referred to as the {\it hierarchy problem} of the Higgs mass. 
 
-In supersymmetry, new scalar degrees of freedom enter into the loop corrections as illustrated in fig.\ \ref{fig:higgs_correction_b} for scalar ``sfermions'' $\tilde f$. The leading-order loop correction contributions from fermions and sfermions combined can be shown to be \cite{Batzing:2013}
+In supersymmetry, new scalar degrees of freedom enter into the loop corrections as illustrated in fig.\ \ref{fig:higgs_correction_b} for scalar ``sfermions'' $\tilde f$. The leading-order loop correction contributions from fermions and sfermions combined are 
 \begin{align}
 	\Delta m_H^2 = -\frac{|\lambda_f|^2}{8\pi^2}\Lambda^2 + \frac{\lambda_{\tilde f}}{16\pi^2}\Lambda^2 + \cdots\label{eq:higgs_mass_corrections}
 \end{align}
-to leading order in $\Lambda$, where $\Lambda$ is a high-momentum cutoff which regularizes the divergence in the loop integral, and $\lambda_{f/\tilde f}$ are the coupling strengths to fermions/sfermions. In supersymmetry, the coupling for a fermion $f$ is related to its sfermion partner by $|\lambda_f|^2 = \lambda_{\tilde f}$, and there are exactly two sfermions for each fermion. Thus, in supersymmetry, the corrections cancel each other in a natural way.
+to leading order in $\Lambda$, where $\Lambda$ is a high-momentum cutoff which regularizes the divergence in the loop integral, and $\lambda_{f/\tilde f}$ are the coupling strengths to fermions/sfermions. This is shown in appendix \ref{appendix:higgs_mass_loop_correction}. In supersymmetry, the coupling for a fermion $f$ is related to its sfermion partner by $|\lambda_f|^2 = \lambda_{\tilde f}$, and there are exactly two sfermions for each fermion. Thus, in supersymmetry, the corrections cancel each other in a natural way.
 
 
 
@@ -600,7 +602,7 @@ For infinitesimal $\Lambda$, this is to leading order
 \end{align}
 This gives for the vector component fields of the vector superfields, $V_\mu^a$,
 \begin{align}
-	V^a_\mu \overset{G}{\to} V^{'a}_\mu = V_\mu^a + i\partial_\mu(A^a - (A^a)^* - qf^a_{bc} V_\mu^b (A^c + (A^{c})^*).
+	V^a_\mu \overset{G}{\to} V^{'a}_\mu = V_\mu^a + i\partial_\mu(A^a - (A^a)^* - qf^{abc} V_\mu^b (A^c + (A^{c})^*).
 \end{align}
 With these definitions, it can be shown that the Standard Model couplings of fermions with bosons are recovered by defining the covariant derivative
 \begin{align}
@@ -652,7 +654,7 @@ The MSSM requires two Higgs superfield $SU(2)_L$ doublets to be able to give mas
 \begin{align}
 	H_u = \begin{pmatrix}
 		H_u^+ \\ H_u^0
-	\end{pmatrix}, \, H_d = \begin{pmatrix}
+	\end{pmatrix}, \quad H_d = \begin{pmatrix}
 		H_d^0 \\ H_d^-
 	\end{pmatrix}.
 \end{align}
@@ -666,7 +668,7 @@ The kinetic terms are
 \begin{align}
 	\mathcal{L}_\mathrm{kin} = &L_i^\dag e^{\frac{1}{2}g\sigma W - \frac{1}{2}g'B} L_i + Q_i^\dag e^{\frac{1}{2}g_s \lambda C + \frac{1}{2}g\sigma W + \frac{1}{3}\cdot \frac{1}{2}g'B}Q_i\nonumber \\
 	&+ \bar U_i^\dag e^{\frac{1}{2}g_s \lambda C - \frac{4}{3}\cdot \frac{1}{2}g'B}\bar U_i + \bar D_i^\dag e^{\frac{1}{2}g_s \lambda C + \frac{2}{3}\cdot \frac{1}{2}g'B}\bar D_i \\
-	&+ \bar E_i^\dag e^{2\frac{1}{2}g'B}\bar E_i + H_u^\dag e^{\frac{1}{2}g\sigma W + \frac{1}{2} g' B} H_u + H_d^\dag e^{\frac{1}{2}g\sigma W - \frac{1}{2}g'B} H_D,
+	&+ \bar E_i^\dag e^{2\frac{1}{2}g'B}\bar E_i + H_u^\dag e^{\frac{1}{2}g\sigma W + \frac{1}{2} g' B} H_u + H_d^\dag e^{\frac{1}{2}g\sigma W - \frac{1}{2}g'B} H_d,\nonumber
 \end{align}
 where $g'$, $g$ and $g_s$ are the coupling constants of $U(1)_Y$, $SU(2)_L$ and $SU(3)_C$, respectively. The hypercharge under $U(1)_Y$ is assigned in units of $\frac{1}{2}g'$ as a convention. Also, factors of $\frac{1}{2}$ are used in the transformations of $SU(2)_L$ and $SU(3)_C$ to avoid accumulation of numerical factors because of how the generators are defined. With these conventions, the electroweak relationship between electric charge $Q$, hypercharge $Y$ and weak isospin $T_3$ is
 \begin{align}
@@ -694,7 +696,9 @@ The SUSY breaking soft terms of the MSSM are, in component fields,
 	- &(m_{ij}^L)^2 \tilde L_i^\dag \tilde L_j - (m_{ij}^e)^2 {\tilde e_{iR}^*} {\tilde e_{jR}} - (m_{ij}^Q)^2 \tilde Q_i^\dag \tilde Q_j \nonumber \\
 	- &(m_{ij}^u)^2 {\tilde u_{iR}^*} {\tilde u_{jR}} - (m_{ij}^d)^2 {\tilde d_{iR}^*} {\tilde d_{jR}} - m^2_{H_u} H^\dag_u H_u - m^2_{H_d} H^\dag_d H_d.\nonumber
 \end{align}
-The soft terms constitute the main contributions to the superpartner masses.
+The soft terms constitute the main contributions to the superpartner masses. 
+
+An important feature of the MSSM is that the superpartners inherit the couplings of their Standard Model counterparts, since they belong to the same superfields.
 
 \subsection{R-parity}
 The superpotential in eq.\ \eqref{eq:mssm_superpotential} contains terms which break lepton and baryon number conservation, namely $LH_u$, $LLE$ and $LQ\bar D$. If the couplings for these terms are large, they allow for proton decay, which is experimentally very heavily constrained, with a lifetime of $\tau_\mathrm{proton} > 10^{33} \,\mathrm{yr}$. To avoid this, it is conventional to introduce the concept of {\it R-parity}, which gives an explanation for why these terms are zero.
@@ -714,7 +718,7 @@ The scalar potential of the MSSM Higgs fields is, in terms of component fields,
 					&+ m_{H_u}^2 \left( |H_u^0|^2 + |H_u^+|^2 \right) + m_{H_d}^2 \left( |H_d^0|^2 + |H_d^+|^2 \right)\nonumber \\
 					&+ \left[b\left(H_u^+ H_d^- - H_u^0 H_d^0\right) + \mathrm{c.c.}\right].\nonumber
 \end{align}
-It can be shown that a necessary and sufficient set of conditions for achieving spontaneous electroweak symmetry breaking in this potential is
+It can be shown that a necessary and sufficient set of conditions for achieving spontaneous electroweak symmetry breaking in this potential is \cite{Batzing:2013}
 \begin{align}
 	b^2 &> \left( |\mu|^2 + m_{H_u}^2 \right) \left( |\mu|^2 + m_{H_d}^2 \right),\label{eq:rewsb-cond1}\\
 	2b &< 2|\mu|^2 + m_{H_u}^2 + m_{H_d}^2.\label{eq:rewsb-cond2}
@@ -759,7 +763,7 @@ The remaining free parameter is conventionally parametrized as
  	\caption{Summary of MSSM particle and sparticle content.}
  	\label{table:MSSM_particles}
  \end{table}
-The total particle content of the MSSM is as follows: 
+The total particle content of the MSSM is as follows: \marginpar{These paragraphs could use a polish, they don't flow well}
 
 The Standard Model particles are present: electrons, muons, taus and their corresponding neutrinos; the up, down, strange, charm, bottom and top quarks; the photon, Z boson and W bosons and gluons; and the Higgs boson. 
 
@@ -812,7 +816,7 @@ An important consequence of the coupling inheritance is that the gaugino fields 
  	\begin{align}
  		A_{\tilde q} = \int_0^1 dx \, x \ln\left( x \frac{m^2_{\tilde q}}{M_3^2} + (1-x)\frac{m_q^2}{M_e^2} - x(1-x) - i\epsilon \right).
  	\end{align}%\marginpar{Not really sure what $M_e$ is...}
- 	\item The neutralinos $\tilde\chi_i^0$ are the mass eigenstates of the bino, wino and higgsino fields. In the gauge eigenstate basis, where $\tilde\chi^{0T} = (\tilde B^0, \tilde W^0, \tilde H_d^0, \tilde H_u^0)$, the mass matrix may be written
+ 	\item The neutralinos $\tilde\chi_i^0$ are the mass eigenstates of the bino, wino and higgsino fields. In the gauge eigenstate basis, where $\tilde\chi^{0} = (\tilde B^0, \tilde W^0, \tilde H_d^0, \tilde H_u^0)^T$, the mass matrix may be written
  	\begin{align}
  		M_{\tilde \chi^0} = \begin{pmatrix}
  			M_1 & 0 & - c_\beta s_{\theta_W} m_Z &  s_\beta s_{\theta_W} m_Z \\
@@ -822,7 +826,7 @@ An important consequence of the coupling inheritance is that the gaugino fields 
  		\end{pmatrix},
  	\end{align}
  	where $c_x = \cos x$ and $s_x = \sin x$. For a given parameter choice, this matrix must be diagonalized to find the neutralino masses.
- 	\item The charginos $\tilde\chi_i^\pm$ have analogous structure. In the gauge eigenstate basis $\tilde \chi^{\pm T} = (\tilde W^+, \tilde H_u^+, \tilde W^-, \tilde H_d^-)$, the mass matrix is
+ 	\item The charginos $\tilde\chi_i^\pm$ have analogous structure. In the gauge eigenstate basis $\tilde \chi^{\pm} = (\tilde W^+, \tilde H_u^+, \tilde W^-, \tilde H_d^-)^T$, the mass matrix is
  	\begin{align}
  		M_{\tilde \chi^\pm} = \begin{pmatrix}
  			0 & 0 & M_2 & \sqrt{2} c_\beta m_W  \\
@@ -859,17 +863,14 @@ An important consequence of the coupling inheritance is that the gaugino fields 
  \end{itemize}
 
  \section{Gauge unification and mass hierarchies}
- It was mentioned in the introduction that one very appealing feature of supersymmetry is that the coupling constants of the electromagnetic, weak and strong interactions can be made to unite at a high energy scale. In the MSSM, this scale, called the ``grand unification scale'' (GUT), is $m_\mathrm{GUT} \approx 2\times 10^{16} \,\mathrm{GeV}$. If we assume that the grand unified gauge group is $SU(5)$ or $SO(10)$\footnote{$SO(n)$ is the {\it special orthogonal group}, given in the defining matrix representation as the group of all orthogonal $n\times n$ matrices of determinant 1.}, then we can take the three gauge couplings of the grand unified theory to be
+ It was mentioned in the introduction that one very appealing feature of supersymmetry is that the coupling constants of the electromagnetic, weak and strong interactions can be made to unite at a high energy scale. In the MSSM, this scale, called the ``grand unification scale'' (GUT), is $m_\mathrm{GUT} \approx 2\times 10^{16} \,\mathrm{GeV}$. If we assume that the grand unified gauge group is $SU(5)$ or $SO(10)$\footnote{$SO(n)$ is the {\it special orthogonal group}, given in the defining matrix representation as the group of all orthogonal $n\times n$ matrices of determinant 1.}, then we can take the three gauge couplings of the grand unified theory to be \cite{Batzing:2013}
  \begin{align}
  	g_1 = \sqrt{\frac{5}{3}}g', \quad g_2 = g, \quad g_3 = g_s.
  \end{align}
- It can be shown that the $\beta$-functions of the gauge couplings are
+ It can be shown that the $\beta$-functions of the gauge couplings $g_i$ and the gaugino soft mass parameters $M_i$ are
  \begin{align}
- 	\beta_{g_i}|_\mathrm{1-loop} = \frac{1}{16\pi^2} b_i g_i^3.
- \end{align}
- The $\beta$-functions of the gaugino soft mass parameters $M_i$ can be shown to be
- \begin{align}
- 	\beta_{M_i} |_\mathrm{1-loop} = \frac{1}{8\pi^2}g_i^2 M_i b_i.
+ 	\beta_{g_i}|_\mathrm{1-loop} &= \frac{1}{16\pi^2} b_i g_i^3,\\
+ 	\beta_{M_i} |_\mathrm{1-loop} &= \frac{1}{8\pi^2}g_i^2 M_i b_i.
  \end{align}
 The ratios $M_i/g_i^2$ for all three parameter pairs are scale independent at one-loop order. To see this, it is convenent to write the $\beta$-functions as 
  \begin{align}
@@ -917,7 +918,47 @@ The mass parameters $m_{1/2}$ and $m_0$ are the common soft masses of all gaugin
 \end{figure}
 This is illustrated in fig.\ \ref{fig:mssm_rgerun} for one choice of $m_{1/2}$ and $m_0$. The figure also illustrates the evolution of $m_{H_u}$ down to a negative value, facilitating the radiative electroweak symmetry breaking.
 
-Because the renormalization running, which is proportional to the Yukawa couplings of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small. Note also that since all the sfermion masses evolve from the common \marginpar{Explain: why is msquark>mslepton usually, and why is mgluino approx msquark usually? (in cmssm)}
+Because the renormalization running, which is proportional to the Yukawa couplings of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small. Note also that since all the sfermion masses evolve from the common mass $m_0$, the squarks will always be heavier than the sleptons in CMSSM because the running of the former is affected by QCD interactions. \marginpar{Explain: Why is mgluino approx msquark usually? (in cmssm)}
+
+This thesis studies a particular type of cascade decay,
+\begin{align}
+	\tilde q \to \tilde\chi_2^0q \to \tilde l l q \to \tilde \chi_1^0 ll q.	\label{eq:susyintrochap_cascade}
+\end{align}
+which exhibits several features which enable determination of SUSY mass parameters. For this chain to be available to study in a CMSSM parameter point, the following conditions must be satisfied: 
+\begin{itemize}
+	\item The mass hierarchy must be $m_{\tilde q} > m_{\tilde\chi_2^0} > m_{\tilde l} > m_{\tilde\chi_1^0}$.
+	\item The gluino must be as heavy or heavier than the squarks, to disable the $\tilde q \to \tilde g q$ channel, which otherwise dominates over the chain process.
+	\item All the intermediate particles must have sizeable branching fractions to the subsequent chain particles.
+\end{itemize}
+In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied in large parts of the CMSSM parameter space. They also show that $\tilde\chi_0^1$ is the LSP in most of the parameter space, which is desirable in order to explain dark matter. Figure \ref{fig:mSUGRA_decay_spectrum} shows plots of a selection of the CMSSM parameter space, indicating different mass hierarchies. The dark green areas have the correct hierarchy for the chain. The light green area inside it additionally has a sizeable branching fraction into the chain. Regions where a charged particle is the LSP are excluded. The point labeled $\alpha$ in subfig.\ (a) is the parameter point that will be used for the study in the subsequent chapters.
+\begin{figure}[hbt]
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+	\includegraphics[width=1\textwidth]{figures/susyintro/scan_sps1a.eps}
+	\caption{ }
+	\label{fig:mSUGRA_decay_spectrum_a}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+	\includegraphics[width=1\textwidth]{figures/susyintro/scan_sps1b.eps}
+	\caption{ }
+	\label{fig:mSUGRA_decay_spectrum_b}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.4\textwidth}
+	\includegraphics[width=1\textwidth]{figures/susyintro/scan_sps3.eps}
+	\caption{ }
+	\label{fig:mSUGRA_decay_spectrum_c}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+	\includegraphics[width=1\textwidth]{figures/susyintro/scan_sps5.eps}
+	\caption{ }
+	\label{fig:mSUGRA_decay_spectrum_d}
+\end{subfigure}
+\caption{CMSSM mass hierarchies for different parameter choices: $A_0 = -m_0$, $\tan\beta = 10$ (a); $A_0 = 0$, $\tan\beta = 30$ (b); $A_0 = 0$, $\tan\beta = 10$ (c); and $A_0 = -1000\,\,\mathrm{GeV}$, $\tan\beta = 5$ (d). The dark and light green areas satisfy the conditions for the decay cascade \eqref{eq:susyintrochap_cascade}. From \cite{Gjelsten:2004ki}.}
+\label{fig:mSUGRA_decay_spectrum}
+\end{figure}
+
+\marginpar{Decide whether to call it mSUGRA or CMSSM through thesis.}
 
 
 
@@ -926,39 +967,34 @@ Because the renormalization running, which is proportional to the Yukawa couplin
 
 The search for SUSY is very actively ongoing in the LHC experiment at CERN, particularly in the ATLAS and CMS groups. Before the LHC was turned off for maintenance, it collected $\sim 20 \,\, \mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8\,\,\mathrm{TeV}$. No significant excesses of events that could indicate the existence of SUSY have so far been observed. 
 
-% Figure \ref{fig:ATLAS_SUSYlimitsummary} shows a summmary of the current status for all ATLAS SUSY searches. The bars that are shown indicate the lower limit for the SUSY masses at 95 \% confidence level, interpreted in various models. Many of the models are {\it simplified models}, where one typically only considers a small subset of the sparticle spectrum. This amounts to assuming that the other sparticles are so heavy that they decouple and can be ignored at this energy. Many analyses are also made in the full framework of the mSUGRA model, or even more general MSSM parametrizations. 
-% \begin{figure}[hbt]
-% 	\centering
-% 	\includegraphics[width=1\textwidth]{figures/susyintro/ATLAS_SUSY_Summary.png}
-% 	\caption{Summary of ATLAS SUSY limits per february 2015. }
-% 	\label{fig:ATLAS_SUSYlimitsummary}
-% \end{figure}
-Figure \ref{fig:ATLAS_mSUGRA} shows a plot of the search for SUSY by ATLAS in the mSUGRA/CMSSM model. The plot shows the $(m_0,m_{1/2})$ plane for fixed values of $\tan\beta = 30$, $A_0 = -2m_0$ and $\mu>0$. The various coloured lines indicate the lower bound for the parameter combination at 95 \% confidence level in different searches. More specifically, the solid line for each colour is the exclusion limit obtained from analysis of the collision data, while the dashed line is the theoretical exclusion limit one would expect from the Standard Model.%\marginpar{I hope I'm not totally misunderstanding these plots. Should know them by now, but I'm afraid they always confuse me.}
+Figure \ref{fig:ATLAS_mSUGRA} shows a plot of the search for SUSY by ATLAS in the mSUGRA/CMSSM model. The plot shows the $(m_0,m_{1/2})$ plane for fixed values of $\tan\beta = 30$, $A_0 = -2m_0$ and $\mu>0$. The various coloured lines indicate the lower bound for the parameter combination at 95 \% confidence level in different searches. More specifically, the solid line for each colour is the exclusion limit obtained from analysis of the collision data, while the dashed line is the theoretical exclusion limit one would expect from the Standard Model. We see that for low values of $m_0$, the searches for events with several jets and no leptons put the largest limits on the $m_{1/2}$ parameter (because a light gluino would have a large cross-section, and often decay to jets).
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.9\textwidth]{figures/susyintro/ATLAS_SUSY_MSUGRA.pdf}
 	\caption{mSUGRA/CMSSM limits from ATLAS per february 2015. }
 	\label{fig:ATLAS_mSUGRA}
 \end{figure}
-Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit, but in the $(m_{\tilde g}, m_{\tilde \chi_1^0})$ plane. The events considered in this analysis are required to have two (a) and four (b) jets, respectively, where none of the jets have been tagged as $b$-jets. Additionally, there must be two leptons of opposite sign and same flavour, which are not allowed to have an invariant mass between them that is compatible with a $Z$ boson decaying. Also, there must be a significant amount $(> 200 \,\,\mathrm{GeV})$ of missing transverse energy.
+
+Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit, but in the $(m_{\tilde q/\tilde g}, m_{\tilde \chi_1^0})$ plane. These searches assume the mass hierarchy $m_{\tilde q/\tilde g} > m_{\tilde \chi_2^0} > m_{\tilde l} > m_{\tilde \chi_1^0}$. The events considered in this analysis are required to have two (a) and four (b) jets, respectively, where none of the jets have been tagged as $b$-jets. Additionally, there must be two leptons of opposite sign and same flavour, which are not allowed to have an invariant mass between them that is compatible with a $Z$ boson decaying. Also, there must be a significant amount $(> 200 \,\,\mathrm{GeV})$ of missing transverse energy.
 \begin{figure}[hbt]
 \centering
-\begin{subfigure}[b]{1\textwidth}
-	\includegraphics[width=0.9\textwidth]{figures/susyintro/Edge_wband1_wfixSigXSecband1_showcms0_EdgeAnalysisUnblindXsec_SR2jSF.pdf}
+\begin{subfigure}[b]{0.45\textwidth}
+	\includegraphics[width=\textwidth]{figures/susyintro/Edge_wband1_wfixSigXSecband1_showcms0_EdgeAnalysisUnblindXsec_SR2jSF.pdf}
 	\caption{ }
 	\label{fig:ATLAS_neutralinogluino_a}
 \end{subfigure}
-
-\begin{subfigure}[b]{1\textwidth}
-	\includegraphics[width=0.9\textwidth]{figures/susyintro/Edge_wband1_wfixSigXSecband1_showcms0_EdgeAnalysisUnblindXsec_SR4jSF.pdf}
+\begin{subfigure}[b]{0.45\textwidth}
+	\includegraphics[width=\textwidth]{figures/susyintro/Edge_wband1_wfixSigXSecband1_showcms0_EdgeAnalysisUnblindXsec_SR4jSF.pdf}
 	\caption{ }
 	\label{fig:ATLAS_neutralinogluino_b}
 \end{subfigure}
-\caption{Limits on $\tilde q$ and $\tilde g$ versus $\tilde \chi_1^0$ mass in events with least two (a) or four (b) jets (none of them $b$-jets), respectively, and a same-flavour dilepton pair. From ATLAS per march 2015.}
+\caption{Limits on $\tilde q$ (a) and $\tilde g$ (b) versus $\tilde \chi_1^0$ mass in events with least two (a) or four (b) jets (none of them $b$-jets), respectively, and a same-flavour dilepton pair. From ATLAS per march 2015.}
 \label{fig:ATLAS_neutralinogluino}
 \end{figure}
 
+Referring back to fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. The top left region, where $m_{1/2} \gtrapprox 800\,\,\mathrm{GeV}$ and $1000 \,\,\mathrm{GeV} \gtrapprox m_0 400 \,\,\mathrm{GeV}$, is compatible with the green areas of fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by experiment. All the bright green regions, where the chain has large branching, seem to be excluded. There is, however, also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. 
 
+There are also other experimental signatures that can be used to set limits on SUSY parameters. One notable example is the branching fraction for the decay $B_s \to \mu^+ \mu^-$, which has a would-be SUSY contribution which is heavily dependent on $\tan\beta$. So far, analyses by the CMS and LHCb groups \cite{CMS:2014xfa} have found results which match the predictions of the Standard Model to high precision, thus placing stringent limits on any non-Standard Model contributions. \marginpar{Can I find out what these limits are, e.g. for tan beta?}
 
 
 
@@ -983,8 +1019,7 @@ Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit,
 \label{ch:introducing_the_method}
 
 
-\marginpar{Separate into introduction chapter}
-In the following chapters we will present and discuss a method for determining the masses of supersymmetric particles in certain types of cascade decays. The present chapter formulates the type of process we are studying and the problems we face, and presents a novel method proposed by B. Webber \cite{Webber:2009vm} for making inferences about the unknown masses. The subsequent chapters deal with investigation and improvements on the method. We begin by simulating events, adding complexities layer by layer, investigating the method and getting some feeling for its aptitude. We then discuss some problems with the original formulation, suggest ways to amend these and look at ways to develop the method further.
+
 
 \section{The problem}
 Consider an LHC event where two chains of the form
@@ -1107,7 +1142,7 @@ Note that this quantity measures the goodness-of-fit of all the unknown masses e
 For each event there are eight constraining equations. There are eight unknowns from the masses plus six from the unknown LSP momenta (using the on-shell constraint on the LSPs). The system is thus underconstrained, with six free parameters. The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a potentially very complicated function, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one which one could hope could be solved. In this case the number of free parameters reduces from six to two. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. This is a realistic assumption in many SUSY scenarios.\marginpar{Refer to previous chapter about SUSY}
 
 \section{Two technical modifications}\label{sec:dimension_fixing}
-The aptness of the method hangs on the invertibility of the matrix $\mathbf{A}$.\marginpar{Does it really hang on it?} However, the matrix as it stands in \eqref{eq:Amatrix_orig}, is technically ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$ \eqref{eq:Svec_orig}, have no dimension, while the other rows have dimension $(\mathrm{mass})^1$. This is reflected in the components of $\mathbf{S}$, which all except 4 and 8 have dimension $(\mathrm{mass})^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale (since some rows have non-zero dimension) and that it does not scale properly for numerical calculations (since not all rows have the same dimension). This is something that Webber does not comment on (and the method still in principle works), but we make some minor reformulations of the method in order to amend both problems.
+For the method to be applicable, the matrix $\mathbf{A}$ must be invertible. A matrix is invertible if its determinant is non-zero. However, the matrix as it stands in \eqref{eq:Amatrix_orig}, is technically ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$ \eqref{eq:Svec_orig}, have no dimension, while the other rows have dimension $[\mathrm{mass}]^1$. This is reflected in the components of $\mathbf{S}$, which all except 4 and 8 have dimension $[\mathrm{mass}]^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale (since some rows have non-zero dimension) and that it does not scale properly for numerical calculations (since not all rows have the same dimension). This is something that Webber does not comment on (and the method still in principle works), but we make some minor reformulations of the method in order to amend both problems.
 
 For the first, we redefine $S_4$ and $S_8$ to be 
 \begin{align}
@@ -1252,14 +1287,14 @@ Webber uses Fortran {\tt HERWIG} version 6.510 \cite{Corcella:2000bw,Moretti:200
 	\caption{Figure 2 from \cite{Webber:2009vm}, displayed here for comparison.}
 	\label{fig:webber_scatter}
 \end{figure}
-The column $\delta p/p$ indicates the standard deviation of the gaussian smearing applied on the momenta, $\xi^2_\mathrm{max}$ indicates the cut value of the $\xi^2$, $f_\xi$ is the fraction of samples surviving the cut and $f_\mathrm{cor}$ is the fraction of events where the chosen particle combination, selected as described in section \ref{sec:combinatorics}, is the correct one. 
+The column $\delta p/p$ indicates the standard deviation of the gaussian smearing applied on the momenta, $\xi^2_\mathrm{max}$ indicates the cut value of the $\xi^2$, $f_\xi$ is the fraction of samples surviving the cut and $f_\mathrm{corr}$ is the fraction of events where the chosen particle combination, selected as described in section \ref{sec:combinatorics}, is the correct one. 
 
 
 \begin{table}[hbt]
 	\centering
 	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
 		\hline
-		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (540)$ & $m_{\tilde \chi_2^0} (177)$ & $m_{\tilde l} (143)$ & $m_{\tilde \chi_1^0} (96)$ \\
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{corr}$ & $m_{\tilde q} (540)$ & $m_{\tilde \chi_2^0} (177)$ & $m_{\tilde l} (143)$ & $m_{\tilde \chi_1^0} (96)$ \\
 		\hline \hline
 		0 & 	$\infty$ &	100 \%	& 72 \%	& $538 \pm 20$	&	$176 \pm 12$	&	$143 \pm 7$	& 	$95 \pm 10$	\\
 		0 &		100 &		80 \%	& 76 \% & $539 \pm 7$	&	$177 \pm 1$		&	$144 \pm 1$	&	$96 \pm 2$	\\
@@ -1274,10 +1309,7 @@ The column $\delta p/p$ indicates the standard deviation of the gaussian smearin
 \end{table}
 
 
-
-% We have made a thorough investigation of these results using a variety of tools. We have generated Monte Carlo events using both Herwig++ 2.7.1  \cite{Bahr:2008pv} and Pythia 8.2 \cite{Sjostrand:2014zea}.\marginpar{Make use of Pythia or don't mention?} We have used the Simplex algorithm in various versions as well as other minimization algorithms for the fit. Webber himself also very generously sent us his own MC generation code, so we were able to make a quite close reconstruction of his analysis. But in the process of confirming his results, we have discovered what appears to be an error in the analysis. The error has to do with the choice of tolerance in the minimization routine. To understand this, we have to briefly discuss the Simplex algorithm.
-
-To reproduce Webber's results, we have generated events using {\tt Herwig++ 2.7.1} \cite{Bahr:2008pv}. As a control, and to enable us to interface the simulation with detector simulation software later, we have also used {\tt Pythia 8.2} \cite{Sjostrand:2014zea}.\marginpar{Remove if I don't do detector simulation.} We have also had access to the code used in the original paper, enabling us to make a quite close reconstruction of Webber's analysis \cite{Webber:epost}. 
+To reproduce Webber's results, we have generated events using {\tt Herwig++ 2.7.1} \cite{Bahr:2008pv}. As a control, and to enable us to interface the simulation with jet reconstruction software later, we have also used {\tt Pythia 8.2} \cite{Sjostrand:2014zea}.\marginpar{Remove if I don't do jet reconstruction.} We have also had access to the code used in the original paper, enabling us to make a quite close reconstruction of Webber's analysis \cite{Webber:epost}. 
 
 To minimize the $\xi^2$ function, we have used the {\tt Simplex} algorithm. We have applied the Minuit version as well as a custom implementation listed in appendix \ref{ch:simplex}. We have discovered that the mass fit is heavily dependent on the input parameters to the {\tt Simplex} minimization, and this makes the fit more challenging. To facilitate the subsequent discussion, we briefly introduce the Simplex method.
 
@@ -1317,7 +1349,7 @@ Our reproduction of fig.\ \ref{fig:webber_scatter} is shown in fig.\ \ref{fig:we
 	\centering
 	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
 		\hline
-		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (540)$ & $m_{\tilde \chi_2^0} (177)$ & $m_{\tilde l} (143)$ & $m_{\tilde \chi_1^0} (96)$ \\
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{corr}$ & $m_{\tilde q} (540)$ & $m_{\tilde \chi_2^0} (177)$ & $m_{\tilde l} (143)$ & $m_{\tilde \chi_1^0} (96)$ \\
 		\hline \hline
 		0 & 	$\infty$ &	100 \%	& 65 \%	& $566 \pm 9$	&	$180 \pm 2$		&	$144 \pm 2$	& 	$97 \pm 3$	\\
 		0 &		100 &		85 \%	& 67 \% & $567 \pm 6$	&	$180 \pm 1$		&	$144 \pm 1$	&	$97 \pm 3$	\\
@@ -1380,7 +1412,7 @@ However, Webber also investigates the effects of imposing a {\it cut} on the $\x
 	\centering
 	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
 		\hline
-		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{corr}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
 		\hline \hline
 		0 & 	$\infty$ &	100 \%	& 36 \%	& $563 \pm 13$	&	$173 \pm 10$	&	$136 \pm 11$	& 	$83 \pm 19$	\\
 		0 &		100 &		35 \%	& 52 \% & $565 \pm 9$	&	$175 \pm 8$		&	$138 \pm 9$	&	$86 \pm 16$	\\
@@ -1440,7 +1472,7 @@ It might, however, be that the function has multiple local minima, giving rise t
 	\centering
 	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
 		\hline
-		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{cor}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{corr}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
 		\hline \hline
 		10 GeV: & & & & & & & \\ 
 		\hline
@@ -2014,131 +2046,131 @@ The distribution is approximately symmetric, with the majority of the weight at 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Algorithms}
-\label{ch:algorithms}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \chapter{Algorithms}
+% \label{ch:algorithms}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{An algorithm for generating on-shell two-body decays}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{ch:decayalgorithm}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{An algorithm for generating on-shell two-body decays}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \label{ch:decayalgorithm}
 
- The particles will go back-to-back in the rest frame of the decaying particle - the direction is drawn randomly from a uniform spherical distribution. This can be achieved in spherical coordinates by the assignments
-\begin{align}
-	U, V &= \text{uniform}(0,1)\nonumber \\
-	\phi &= 2\pi U\\
-	\theta &= \arccos(2V-1) \nonumber
-\end{align}
-The decay algorithm, in python notation, is as follows. Particle 1 of 4-momentum $p_1$ decays to particle 2 and 3 of 4-momentum $p_2$ and $p_3$.
+%  The particles will go back-to-back in the rest frame of the decaying particle - the direction is drawn randomly from a uniform spherical distribution. This can be achieved in spherical coordinates by the assignments
+% \begin{align}
+% 	U, V &= \text{uniform}(0,1)\nonumber \\
+% 	\phi &= 2\pi U\\
+% 	\theta &= \arccos(2V-1) \nonumber
+% \end{align}
+% The decay algorithm, in python notation, is as follows. Particle 1 of 4-momentum $p_1$ decays to particle 2 and 3 of 4-momentum $p_2$ and $p_3$.
 
-\lstset{language=Python} 
-\begin{lstlisting}
-	# Calculating four-momenta of particle 2&3 going back-to-back from
-	# decay of particle 1 in the frame where particle 1 has 4-mom P1
-	#
-	#
-	# particle 1 = decaying particle
-	# particle 2 & particle 3 = decay products
-	# primed system is rest frame of particle 1, unprimed is lab frame
-	# rotated system is at rest in lab system,
-	# but rotated so particle one goes in +x direction
-	p1 = P1[0,1:4]
-	p1abs = np.sqrt( float( np.dot( p1 , np.transpose(p1) ) ) ) # 3-momentum 
-																# of particle 1 in 
-												      			# lab frame
+% \lstset{language=Python} 
+% \begin{lstlisting}
+% 	# Calculating four-momenta of particle 2&3 going back-to-back from
+% 	# decay of particle 1 in the frame where particle 1 has 4-mom P1
+% 	#
+% 	#
+% 	# particle 1 = decaying particle
+% 	# particle 2 & particle 3 = decay products
+% 	# primed system is rest frame of particle 1, unprimed is lab frame
+% 	# rotated system is at rest in lab system,
+% 	# but rotated so particle one goes in +x direction
+% 	p1 = P1[0,1:4]
+% 	p1abs = np.sqrt( float( np.dot( p1 , np.transpose(p1) ) ) ) # 3-momentum 
+% 																# of particle 1 in 
+% 												      			# lab frame
 
-	# == Kinematical decay in RF of particle 1 ==
-	p2absprime = 1.0/(2*m1) * np.sqrt( (m1**2-m2**2-m3**2)**2- 4*m2**2*m3**2 ) # abs-val
-	# of 3-momentum of particle 2/3 in RF of particle 1
+% 	# == Kinematical decay in RF of particle 1 ==
+% 	p2absprime = 1.0/(2*m1) * np.sqrt( (m1**2-m2**2-m3**2)**2- 4*m2**2*m3**2 ) # abs-val
+% 	# of 3-momentum of particle 2/3 in RF of particle 1
 
-	U, V = np.random.uniform(0,1,2) # random 
-	phi = 2*pi*U 					# point picking 
-	theta = np.arccos(2*V-1) 		# on a sphere
+% 	U, V = np.random.uniform(0,1,2) # random 
+% 	phi = 2*pi*U 					# point picking 
+% 	theta = np.arccos(2*V-1) 		# on a sphere
 
-	# Calculate cartesian 3- and 4-momentum of particle 2&3
-	p2prime = np.matrix([ p2absprime*np.sin(theta)*np.cos(phi) , 
-						  p2absprime*np.sin(theta)*np.sin(phi) , 
-						  p2absprime*np.cos(theta) ])
-	p3prime = -p2prime
-	E2prime = np.sqrt( p2absprime**2 + m2**2 )
-	E3prime = np.sqrt( p2absprime**2 + m3**2 )
-	P2prime = np.matrix([ E2prime , p2prime[0,0] , p2prime[0,1] , p2prime[0,2] ])
-	P3prime = np.matrix([ E3prime , p3prime[0,0] , p3prime[0,1] , p3prime[0,2] ])
+% 	# Calculate cartesian 3- and 4-momentum of particle 2&3
+% 	p2prime = np.matrix([ p2absprime*np.sin(theta)*np.cos(phi) , 
+% 						  p2absprime*np.sin(theta)*np.sin(phi) , 
+% 						  p2absprime*np.cos(theta) ])
+% 	p3prime = -p2prime
+% 	E2prime = np.sqrt( p2absprime**2 + m2**2 )
+% 	E3prime = np.sqrt( p2absprime**2 + m3**2 )
+% 	P2prime = np.matrix([ E2prime , p2prime[0,0] , p2prime[0,1] , p2prime[0,2] ])
+% 	P3prime = np.matrix([ E3prime , p3prime[0,0] , p3prime[0,1] , p3prime[0,2] ])
 
-	# == Back-transform to lab frame ==
+% 	# == Back-transform to lab frame ==
 
-	# First check whether it is necessary to boost
+% 	# First check whether it is necessary to boost
 
-	if p1abs > 1e-10:
+% 	if p1abs > 1e-10:
 
-		# Lorentz boost along x-direction to get to rotated lab frame
-		# (lab frame moves in negative x direction)
-	 	vlab = -p1abs/np.sqrt(p1abs**2 + m1**2) # velocity of particle 1 in lab frame
-		gamma = 1/np.sqrt(1-vlab**2)
+% 		# Lorentz boost along x-direction to get to rotated lab frame
+% 		# (lab frame moves in negative x direction)
+% 	 	vlab = -p1abs/np.sqrt(p1abs**2 + m1**2) # velocity of particle 1 in lab frame
+% 		gamma = 1/np.sqrt(1-vlab**2)
 
-		P2rot = np.matrix([ gamma*(P2prime[0,0] - vlab*P2prime[0,1]) , 
-				      gamma*(P2prime[0,1] - vlab*P2prime[0,0]) ,
-				      P2prime[0,2] , P2prime[0,3] ])
-		P3rot = np.matrix([ gamma*(P3prime[0,0] - vlab*P3prime[0,1]) , 
-				      gamma*(P3prime[0,1] - vlab*P3prime[0,0]) ,
-				      P3prime[0,2] , P3prime[0,3] ])
+% 		P2rot = np.matrix([ gamma*(P2prime[0,0] - vlab*P2prime[0,1]) , 
+% 				      gamma*(P2prime[0,1] - vlab*P2prime[0,0]) ,
+% 				      P2prime[0,2] , P2prime[0,3] ])
+% 		P3rot = np.matrix([ gamma*(P3prime[0,0] - vlab*P3prime[0,1]) , 
+% 				      gamma*(P3prime[0,1] - vlab*P3prime[0,0]) ,
+% 				      P3prime[0,2] , P3prime[0,3] ])
 
-		# == Rotate back to lab frame ==
+% 		# == Rotate back to lab frame ==
 
-		# Calculate the unit vectors of the rotated system axes in terms of lab axes
+% 		# Calculate the unit vectors of the rotated system axes in terms of lab axes
 
-		# The definition is that x axis is along p1.
-		# For the other axes we must make a choice - y&z directions are undetermined,
-		# only the yz plane is determined from x choice. But since we have drawn 
-		# random angles and the yz plane is not boosted, the choice does not matter
-		# as long as we are consistent from event to event.
-		# So we pick two vectors orthogonal to p1 and do Gram-Schmidt orthogonalization:
-		v1 = p1
-		v2 = np.matrix([ p1[0,1] , -p1[0,0] , 0 ])
-		v3 = np.matrix([ p1[0,2] , 0 , -p1[0,0] ])
+% 		# The definition is that x axis is along p1.
+% 		# For the other axes we must make a choice - y&z directions are undetermined,
+% 		# only the yz plane is determined from x choice. But since we have drawn 
+% 		# random angles and the yz plane is not boosted, the choice does not matter
+% 		# as long as we are consistent from event to event.
+% 		# So we pick two vectors orthogonal to p1 and do Gram-Schmidt orthogonalization:
+% 		v1 = p1
+% 		v2 = np.matrix([ p1[0,1] , -p1[0,0] , 0 ])
+% 		v3 = np.matrix([ p1[0,2] , 0 , -p1[0,0] ])
 
-		u1 = v1
-		u2 = v2 - proj(v2,u1)
-		u3 = v3 - proj(v3,u1) - proj(v3,u2)
+% 		u1 = v1
+% 		u2 = v2 - proj(v2,u1)
+% 		u3 = v3 - proj(v3,u1) - proj(v3,u2)
 
-		xrot = u1/np.linalg.norm(u1) if np.linalg.norm(u1) > 0 else np.matrix([0,0,1])
-		yrot = u2/np.linalg.norm(u2) if np.linalg.norm(u2) > 0 else np.matrix([0,1,0])
-		zrot = u3/np.linalg.norm(u3) if np.linalg.norm(u3) > 0 else np.matrix([1,0,0])
+% 		xrot = u1/np.linalg.norm(u1) if np.linalg.norm(u1) > 0 else np.matrix([0,0,1])
+% 		yrot = u2/np.linalg.norm(u2) if np.linalg.norm(u2) > 0 else np.matrix([0,1,0])
+% 		zrot = u3/np.linalg.norm(u3) if np.linalg.norm(u3) > 0 else np.matrix([1,0,0])
 
-		# Form a matrix T which takes a vector in the lab basis to a vector 
-		# in the rotated basis by
-		T = np.concatenate( (xrot , yrot , zrot) , axis=0 )
-		# What we need is to rotate from rotated basis to lab basis, so we need the inverse
-		# - which is the transpose, since rotation matrices are orthogonal. 
-		# Also, to ease calculation, we let T be the 3x3 submatrix of T4, setting the [0,0]
-		#component of T4 to 1 to leave time component invariant under this spatial rotation
-		T4 = np.matrix([[1,     0,     0,    0],
-						[0,T[0,0],T[0,1],T[0,2]],
-						[0,T[1,0],T[1,1],T[1,2]],
-						[0,T[2,0],T[2,1],T[2,2]] ])
+% 		# Form a matrix T which takes a vector in the lab basis to a vector 
+% 		# in the rotated basis by
+% 		T = np.concatenate( (xrot , yrot , zrot) , axis=0 )
+% 		# What we need is to rotate from rotated basis to lab basis, so we need the inverse
+% 		# - which is the transpose, since rotation matrices are orthogonal. 
+% 		# Also, to ease calculation, we let T be the 3x3 submatrix of T4, setting the [0,0]
+% 		#component of T4 to 1 to leave time component invariant under this spatial rotation
+% 		T4 = np.matrix([[1,     0,     0,    0],
+% 						[0,T[0,0],T[0,1],T[0,2]],
+% 						[0,T[1,0],T[1,1],T[1,2]],
+% 						[0,T[2,0],T[2,1],T[2,2]] ])
 
-		P2 = T4.T*P2rot.T
-		P3 = T4.T*P3rot.T
-		P2 = P2.T
-		P3 = P3.T
+% 		P2 = T4.T*P2rot.T
+% 		P3 = T4.T*P3rot.T
+% 		P2 = P2.T
+% 		P3 = P3.T
 
-	# If it was unneccessary, i.e. decay happened in lab frame, then
-	else:
-		P2 = P2prime
-		P3 = P3prime
-\end{lstlisting}
-
-
+% 	# If it was unneccessary, i.e. decay happened in lab frame, then
+% 	else:
+% 		P2 = P2prime
+% 		P3 = P3prime
+% \end{lstlisting}
 
 
 
-\section{A C++ implementation of the Nelder-Mead Simplex algorithm}
+
+
+\chapter{A C++ implementation of the Nelder-Mead Simplex algorithm}
 \label{ch:simplex}
 
-From \cite{simplex-implementation}. The function to call for minimization is {\tt amoeba}. It returns true or false depending on whether convergence has been obtained within the set number of iterations.
+Adapted from \cite{simplex-implementation}. The function to call for minimization is {\tt amoeba}. It returns true or false depending on whether convergence has been obtained within the set number of iterations.
 
 \lstset{language=C++}
 \begin{lstlisting}
@@ -2320,7 +2352,7 @@ bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, doub
 
 \chapter{The Dirac equation}
 \label{appendix:diraceq}
-The Dirac equation is derived. The derivation closely follows \cite[pp.\ 225-229]{griffiths:elementary_particles}. 
+% The Dirac equation is derived. The derivation closely follows \cite[pp.\ 225-229]{griffiths:elementary_particles}. 
 
 Einstein's fundamental relationship between energy, momentum and mass in special relativity is
 \begin{align}
@@ -2334,7 +2366,7 @@ Taken as an eigenvalue equation for a field $\psi$, this gives rise to the relat
 \begin{align}
 	-\hbar^2 \partial^\mu \partial_\mu \psi - m^2 \psi = 0.
 \end{align}
-This equation differs from the Schr\"{o}dinger equation of non-relativistic quantum mechanics in that it is second order in $\partial_{0} = \partial_t$, while the Schr\"{o}dinger equation is first order. To obtain a first-order differential equation in time, Dirac attempted to factor the energy-momentum relation \eqref{eq:energymomentum} as
+This equation differs from the Schr\"{o}dinger equation of non-relativistic quantum mechanics in that it is second order in $\partial_{0} = \partial_t$, while the Schr\"{o}dinger equation is first order. To obtain a first-order differential equation in time, Dirac attempted \cite{griffiths:elementary_particles} to factor the energy-momentum relation \eqref{eq:energymomentum} as
 \begin{align}
 	p^\mu p_\mu - m^2 = \left(\gamma^\kappa p_\kappa + m\right)\left(\gamma^\lambda p_\lambda - m\right).
 \end{align}
@@ -2379,16 +2411,19 @@ called a Dirac {\it spinor}.
 
 
 
-\chapter{Higgs propagator loop correction}
+\chapter{Higgs mass loop corrections}
 \label{appendix:higgs_mass_loop_correction}
-The diagram in fig.\ \ref{fig:appendix_higgs_top_loop} is calculated.
+This appendix contains calculations of the one-loop contributions to the Higgs mass from fermionic and scalar particles.
+
+\section{Fermion loop}
+The diagram is given in fig.\ \ref{fig:appendix_higgs_top_loop}.
 \begin{figure}[hbt]
 \centering
 \includegraphics[scale=1]{figures/appendix/higgs_top_loop_with_momenta.eps}
 \caption{Fermionic loop correction to the Higgs propagator.}
 \label{fig:appendix_higgs_top_loop}
 \end{figure}
-The vertex factors are $-i\frac{y}{\sqrt{2}}$, where $y$ is the Yukawa coupling of the fermion. The amplitude is then given by
+The vertex factors are $-i\frac{y}{\sqrt{2}}$, where $y$ is the Yukawa coupling of the fermion, which has mass $m$. The amplitude is then given by
 \begin{align}
 	i\mathcal{M} =& -(-i)^2\frac{y^2}{2} \mathrm{Tr}\left\{ \int \frac{d^4 k}{(2\pi)^4} \frac{\left[ \slashed q + \slashed k + m \right]\left[ \slashed k + m \right]}{\left[(q+k)^2 - m^2 \right] \left[ k^2 - m^2 \right]}  \right\}.
 \end{align}
@@ -2401,11 +2436,11 @@ where $\Delta \equiv q^2x(x-1)+m^2$. Defining $\ell \equiv k+qx$, we get
 \begin{align}
 	i\mathcal{M} &= -\frac{y^2}{2}\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} \mathrm{Tr}\left\{ \frac{ \slashed{\ell}^2 + \slashed{q}^2x(x-1) + m^2}{\left[ \ell^2 - \Delta \right]^2}  \right\},
 \end{align}
-where we have omitted terms linear in $\ell$ by antisymmetry of the integral, and terms with an odd number of $\gamma$ matrices since they trace to zero. The remaining trace is found by using that
+where we have omitted terms linear in $\ell$, since they vanish by the antisymmetry of the integral, and terms with an odd number of $\gamma$ matrices since they trace to zero. The remaining trace is found by using that
 \begin{align}
 	\mathrm{Tr} \left\{ \gamma^\mu \gamma^\nu\right\} = 4g^{\mu\nu},
 \end{align}
-and remembering that there is formally also $4\times 4$ identity matrix in the $m^2$ term. We then get
+and remembering that there is really also a $4\times 4$ identity matrix in the $m^2$ term. We then get
 \begin{align}
 	i\mathcal{M} &= -\frac{y^2}{2}\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} 4 \frac{ {\ell}^2 + {q}^2x(x-1) + m^2}{\left[ \ell^2 - \Delta \right]^2}  \\
 				&= -2y^2\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} 4 \frac{ {\ell}^2 + \Delta}{\left[ \ell^2 - \Delta \right]^2}.\nonumber
@@ -2416,7 +2451,7 @@ We now make a Wick rotation by introducing the Euclidian variable $\ell_E$, give
 \end{align}
 This gives
 \begin{align}
-	i\mathcal{M} &= i2y^2\int_0^1 dx \int \frac{d^4\ell_E}{(2\pi)^4} 4 \frac{ {\ell_E}^2 - \Delta}{\left[ \ell_E^2 + \Delta \right]^2}, 
+	i\mathcal{M} &= i8y^2\int_0^1 dx \int \frac{d^4\ell_E}{(2\pi)^4}  \frac{ {\ell_E}^2 - \Delta}{\left[ \ell_E^2 + \Delta \right]^2}, 
 \end{align}
 which can be evaluated in spherical coordinates,
 \begin{align}
@@ -2434,8 +2469,27 @@ By using a cutoff regularization parametrized by $\Lambda$, the whole amplitude 
 	\overset{\Lambda^2 \gg \Delta}{\to} &-iy^2\frac{1}{4\pi^2} \frac{\Lambda^4}{2\Lambda^2}\nonumber \\
 	= &-i\frac{y^2}{8\pi^2}\Lambda^2.\nonumber
 \end{align}
-For $y = |\lambda_f|$, this gives the first term in eq.\ \ref{eq:higgs_mass_corrections}.
+For $y = |\lambda_f|$, this gives the first term in eq.\ \eqref{eq:higgs_mass_corrections}.
 
+\section{Scalar loop}
+The diagram is given in fig.\ \ref{fig:appendix_higgs_stop_loop}.
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=1]{figures/appendix/higgs_stop_loop_with_momenta.eps}
+\caption{Scalar loop correction to the Higgs propagator.}
+\label{fig:appendix_higgs_stop_loop}
+\end{figure}
+The vertex factor is taken to be $i\lambda$, and $m$ is the mass of the scalar in the loop. The amplitude is given by
+\begin{align}
+	i\mathcal{M} &= i\lambda \int \frac{d^4k}{(2\pi)^4}\, \frac{i}{k^2-m^2}.
+\end{align}
+By Wick rotating $k\to k_E$ and switching to spherical coordinates as in the previous section, we get
+\begin{align}
+	i\mathcal{M}= &i\lambda \frac{1}{(2\pi)^4}\int d\Omega_4 \int_0^\Lambda d|k_E| \, \frac{|k_E|^3}{|k_E|^2 + m^2}\nonumber\\
+				= &i\frac{\lambda}{16\pi^2} \left(\Lambda^2- m^2 \log(m^2 + \Lambda^2) + m^2\log m^2 \right)\\
+				\overset{\Lambda^2 \gg m^2}{\to} &i\frac{\lambda}{16\pi^2} \Lambda^2.\nonumber
+\end{align}
+For $\lambda = \lambda_{\tilde f}$, this is the second term in eq.\ \eqref{eq:higgs_mass_corrections}.
 
 
 \bibliographystyle{unsrt}
