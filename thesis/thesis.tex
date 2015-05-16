@@ -804,9 +804,9 @@ An important consequence of the coupling inheritance is that the gaugino fields 
  \begin{itemize}
  	\item At tree level, the different Higgs masses (which have positive R-parity) are
  	\begin{align}
- 		m_A^2 &= 2|\mu|^2 + m^2_{H_u} + m^2_{H_d},\nonumber\\
- 		m^2_{h,H} &= \frac{1}{2} \left( m_A^2 + m_Z^2 \pm \sqrt{(m_A^2 - m_Z^2)^2 + 4m_Z^2m_A^2\sin^2 2\beta} \right),\\
- 		m^2_{H^\pm} &= m_A^2 + m_W^2.\nonumber
+ 		m_A^2 &= 2|\mu|^2 + m^2_{H_u} + m^2_{H_d},\label{eq:mssm_higgs_masses1}\\
+ 		m^2_{h,H} &= \frac{1}{2} \left( m_A^2 + m_Z^2 \pm \sqrt{(m_A^2 - m_Z^2)^2 + 4m_Z^2m_A^2\sin^2 2\beta} \right),\label{eq:mssm_higgs_masses2}\\
+ 		m^2_{H^\pm} &= m_A^2 + m_W^2.
  	\end{align}
  	\item The gluino mass $m_{\tilde g}$ is given as
  	\begin{align}
@@ -905,9 +905,9 @@ The ratios $M_i/g_i^2$ for all three parameter pairs are scale independent at on
  \end{align}
 
 \section{The Constrained MSSM}
-The available parameter space of the general MSSM is very large, of the order 100 free parameters. The reason for the vast number of parameters are the soft SUSY breaking terms, which introduce lots of parameters without any {\it a priori} way to relate them. It is therefore conventional to make some restricting assumptions. A much-studied restriction is the {\it Constrained MSSM} (CMSSM), also known as {\it minimal supergravity} (mSUGRA). This model is constructed by assuming that SUSY breaking is mediated by some mechanism of gravity at the Planck scale of $M_P = 2.4\times 10^{18} \, \mathrm{GeV}$. By assuming a minimal form for the parameters at the GUT scale, to obtain gauge unification, the resulting model is parametrized in terms of five parameters,
+The available parameter space of the general MSSM is very large, of the order 100 free parameters. The reason for the vast number of parameters are the soft SUSY breaking terms, which contain coupling parameters for all the extra terms without any {\it a priori} way to relate them. It is therefore conventional to make some restricting assumptions. A much-studied restriction is the {\it Constrained MSSM} (CMSSM), also known as {\it minimal supergravity} (mSUGRA). This model is constructed by assuming that SUSY breaking is mediated by some mechanism of gravity at the Planck scale of $M_P = 2.4\times 10^{18} \, \mathrm{GeV}$. By assuming a minimal form for the parameters at the GUT scale, to obtain gauge unification, the resulting model is parametrized in terms of five parameters,
 \begin{align}
-	m_{1/2}, \, m_{0}, \, A_0, \, \tan\beta \, \mathrm{and} \, \mathrm{sign}(\mu).
+	m_{1/2}, \, m_{0}, \, A_0, \, \tan\beta \,\, \mathrm{and} \,\, \mathrm{sign}(\mu).
 \end{align}
 The mass parameters $m_{1/2}$ and $m_0$ are the common soft masses of all gauginos and sfermions, respectively, at the GUT scale. The mass splitting between sparticles appears when the individual sparticle masses are evolved down to a lower scale.
 \begin{figure}[hbt]
@@ -920,7 +920,7 @@ This is illustrated in fig.\ \ref{fig:mssm_rgerun} for one choice of $m_{1/2}$ a
 
 Because the renormalization running, which is proportional to the Yukawa couplings of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small. Note also that since all the sfermion masses evolve from the common mass $m_0$, the squarks will always be heavier than the sleptons in CMSSM because the running of the former is affected by QCD interactions. \marginpar{Explain: Why is mgluino approx msquark usually? (in cmssm)}
 
-This thesis studies a particular type of cascade decay,
+This thesis studies a particular type of cascade decay, namely
 \begin{align}
 	\tilde q \to \tilde\chi_2^0q \to \tilde l l q \to \tilde \chi_1^0 ll q.	\label{eq:susyintrochap_cascade}
 \end{align}
@@ -930,7 +930,7 @@ which exhibits several features which enable determination of SUSY mass paramete
 	\item The gluino must be as heavy or heavier than the squarks, to disable the $\tilde q \to \tilde g q$ channel, which otherwise dominates over the chain process.
 	\item All the intermediate particles must have sizeable branching fractions to the subsequent chain particles.
 \end{itemize}
-In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied in large parts of the CMSSM parameter space. They also show that $\tilde\chi_0^1$ is the LSP in most of the parameter space, which is desirable in order to explain dark matter. Figure \ref{fig:mSUGRA_decay_spectrum} shows plots of a selection of the CMSSM parameter space, indicating different mass hierarchies. The dark green areas have the correct hierarchy for the chain. The light green area inside it additionally has a sizeable branching fraction into the chain. Regions where a charged particle is the LSP are excluded. The point labeled $\alpha$ in subfig.\ (a) is the parameter point that will be used for the study in the subsequent chapters.
+In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied in large parts of the CMSSM parameter space. They also show that $\tilde\chi_1^0$ is the LSP in most of the parameter space, which is desirable in order to explain dark matter. Figure \ref{fig:mSUGRA_decay_spectrum} shows plots of a selection of the CMSSM parameter space, indicating different mass hierarchies. The dark green areas have the correct hierarchy for the chain. The light green area inside it additionally has a sizeable branching fraction into the chain. Regions where a charged particle is the LSP are excluded. The point labeled $\alpha$ in subfig.\ (a) is the parameter point that will be used for the study in the subsequent chapters.
 \begin{figure}[hbt]
 \centering
 \begin{subfigure}[b]{0.4\textwidth}
@@ -963,9 +963,11 @@ In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied
 
 
 \section{The experimental status of SUSY}
-{\it Include some ATLAS plots. Say something about $B_s \to \mu^+ \mu^-$ at LHCb and constraints on $\tan \beta$? Discuss mSUGRA validity? Mention more general naturalness condition?}
+% {\it Include some ATLAS plots. Say something about $B_s \to \mu^+ \mu^-$ at LHCb and constraints on $\tan \beta$? Discuss mSUGRA validity? Mention more general naturalness condition?}
 
 The search for SUSY is very actively ongoing in the LHC experiment at CERN, particularly in the ATLAS and CMS groups. Before the LHC was turned off for maintenance, it collected $\sim 20 \,\, \mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8\,\,\mathrm{TeV}$. No significant excesses of events that could indicate the existence of SUSY have so far been observed. 
+
+The discovery of a Higgs boson with $m_h = 126 \,\,\mathrm{GeV}$ has implications for SUSY. If we assume that it is the light Higgs of SUSY, eqs.\ (\ref{eq:mssm_higgs_masses1}--\ref{eq:mssm_higgs_masses2}) puts restrictions on the combinations of the parameters $|\mu|$, $\tan\beta$ and $m^2_{H_{u/d}}$.
 
 Figure \ref{fig:ATLAS_mSUGRA} shows a plot of the search for SUSY by ATLAS in the mSUGRA/CMSSM model. The plot shows the $(m_0,m_{1/2})$ plane for fixed values of $\tan\beta = 30$, $A_0 = -2m_0$ and $\mu>0$. The various coloured lines indicate the lower bound for the parameter combination at 95 \% confidence level in different searches. More specifically, the solid line for each colour is the exclusion limit obtained from analysis of the collision data, while the dashed line is the theoretical exclusion limit one would expect from the Standard Model. We see that for low values of $m_0$, the searches for events with several jets and no leptons put the largest limits on the $m_{1/2}$ parameter (because a light gluino would have a large cross-section, and often decay to jets).
 \begin{figure}[hbt]
@@ -992,7 +994,7 @@ Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit,
 \label{fig:ATLAS_neutralinogluino}
 \end{figure}
 
-Referring back to fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. The top left region, where $m_{1/2} \gtrapprox 800\,\,\mathrm{GeV}$ and $1000 \,\,\mathrm{GeV} \gtrapprox m_0 400 \,\,\mathrm{GeV}$, is compatible with the green areas of fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by experiment. All the bright green regions, where the chain has large branching, seem to be excluded. There is, however, also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. 
+Referring back to fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. The top left region, where $m_{1/2} \gtrsim 800\,\,\mathrm{GeV}$ and $1000 \,\,\mathrm{GeV} \gtrsim m_0 \gtrsim 400 \,\,\mathrm{GeV}$, is compatible with the green areas of fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by experiment. All the bright green regions, where the chain has large branching, seem to be excluded. There is, however, also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. As a benchmark, we have calculated the expected number of events in the parameter point $m_0 = 900 \,\,\mathrm{GeV}$, $m_{1/2} = 600 \,\,\mathrm{GeV}$, $A_0 = 1200\,\,\mathrm{GeV}$, $\tan\beta = 10$, $\mu>0$ for run II of the LHC (LHC-II). We calculate sparticle masses and branching fractions using {\tt SoftSUSY} v.\ 3.4.1 \cite{Allanach:2001kg} and find squark and gluino cross-sections for 13 TeV LHC using {\tt NLL-fast} v.\ 3.0 \cite{Beenakker:1996ch,Kulesza:2008jb,Kulesza:2009kq,Beenakker:2009ha,Beenakker:2011fu,Beenakker:1997ut,Beenakker:2010nq}. Assuming an integrated luminosity of $300\,\,\mathrm{fb}^{-1}$ for LHC-II, we find an expectation of 0.05 events. \marginpar{So obviously, this is either wrong, or I must use another parameter point. SPS1a gives ~800 events with the same code, which seems reasonable. Try to use m1/2 = 800 instead? And maybe use tanbeta=30 and A0=-1200 as in exclusion search?}
 
 There are also other experimental signatures that can be used to set limits on SUSY parameters. One notable example is the branching fraction for the decay $B_s \to \mu^+ \mu^-$, which has a would-be SUSY contribution which is heavily dependent on $\tan\beta$. So far, analyses by the CMS and LHCb groups \cite{CMS:2014xfa} have found results which match the predictions of the Standard Model to high precision, thus placing stringent limits on any non-Standard Model contributions. \marginpar{Can I find out what these limits are, e.g. for tan beta?}
 
