@@ -13,6 +13,8 @@
 \usepackage{amssymb}
 \usepackage[english, norsk]{babel}
 \usepackage{lipsum}
+\usepackage{footnote}
+\makesavenoteenv{table}
 
 \newenvironment{abstractpage}
   {\cleardoublepage\vspace*{\fill}\thispagestyle{empty}}
@@ -58,7 +60,7 @@
 \selectlanguage{english}
 
 \begin{dedication}
- Til Nina Eriksson
+ % Til Nina Eriksson
 %  \\\vspace{12pt}
 %  This is a dedication
 \end{dedication}
@@ -89,7 +91,8 @@ In the following chapters we will present and discuss a method for determining t
 \label{ch:SM_intro}
 The Standard Model of particle physics has been hugely successful in explaining what our universe consists of at the smallest length scales, and how these constituents interact with each other. It recieved a final, spectacular confirmation in 2012, when a Higgs boson consistent with the predictions of the Standard Model was discovered by the CMS and ATLAS experiments at CERN \cite{Aad:2012tfa, Chatrchyan:2012ufa}. It is well known, however, that the Standard Model is incomplete as a description of our universe, for instance since it gives no explanation for dark matter. There are also more technical problems with the Standard Model, such as the hierarchy problem of the Higgs boson mass loop corrections and the arbitrariness of the model parameters.
 
-The present chapter gives a brief introduction to the principles that underlie the construction of the Standard Model, and outlines the derivation of the model. The presentation is based on \cite{Mandl-Shaw} and \cite{Peskin-Schroeder}.
+The present chapter gives a brief introduction to the principles that underlie the construction of the Standard Model, and outlines the derivation of the model. 
+% The presentation is based on \cite{Mandl-Shaw} and \cite{Peskin-Schroeder}.
 
 \section{Symmetries and conservation laws}
 Symmetries are manifest in most physical systems. For instance, the special theory of relativity is symmetric under boosts and rotations, as well as translations in space and time. There is a deep relationship between symmetries and the conservation of physical quantities. This result is known as Noether's theorem, and was proven by Emmy Noether in 1915 \cite{Noether:1918zz}. It states that {\it every differentiable symmetry of the action of a physical system has a corresponding conservation law}. In the example of special relativity, the symmetries under translations in time and space correspond to conservation of energy and momentum.%, and the symmetry under rotation corresponds to conservation of angular momentum. \marginpar{What is the conserved quantity under boosts? Is it that ljyubliajsnski polarization vector? Check.}
@@ -771,7 +774,7 @@ In addition to the Standard Model Higgs $h$, there are four other scalar Higgs p
 
 All the Standard Model particles get superpartners, often termed {\it sparticles}. For the gluons, they are called gluinos and labeled $\tilde g$. The partners of the $B^0$ and $W^a$ fields, which in the Standard Model make up the photon, $Z$ and $W^\pm$, mix with the superpartner Higgs fields to form four neutral Majorana fermions called neutralinos, labeled $\tilde\chi_i^0$, $i=1,...,4$, and two charged fermion-antifermion pairs called charginos, $\tilde\chi_i^\pm$, $i=1,2$. Each of the Standard Model fermions get two corresponding scalar particles with the same gauge charges. For the first two generations, the mass eigenstates split to good approximation into one left-chiral and one right-chiral fermion, such that {\it e.g.}\ the superpartners of the up quark $u$ are labeled $\tilde u_R$ and $\tilde u_L$. For the third-generation fermions, the chiral approximation is cruder, so these mass eigenstates are just numbered, {\it e.g.}\ $\tilde b_1$ and $\tilde b_2$ for the $b$ quark. A summary of the MSSM particle content is shown in table \ref{table:MSSM_particles}.
 
- The superpartner fields are members of the same superfields as their standard model partners. Therefore, they inherit the couplings of their partners. This is very useful when drawing Feynman diagrams for processes, since intuition from the Standard Model can be applied through {\it supersymmetrization} of the diagrams. For instance, the {\it fermion-fermion-gauge boson} vertices (fig.\ \ref{fig:feynmandiagram_supersymmetrization_a}) of the Standard Model have supersymmetrized {\it fermion-sfermion-gaugino} and {\it sfermion-sfermion-gauge boson} versions (figs.\ \ref{fig:feynmandiagram_supersymmetrization} b and c). (But not {\it sfermion-sfermion-gaugino}, because of R-parity.) 
+ The superpartner fields are members of the same superfields as their standard model partners. Therefore, they inherit the couplings of their partners. This is very useful when drawing Feynman diagrams for processes, since intuition from the Standard Model can be applied through {\it supersymmetrization} of the diagrams. For instance, the fermion-fermion-gauge boson vertices (fig.\ \ref{fig:feynmandiagram_supersymmetrization_a}) of the Standard Model have supersymmetrized fermion-sfermion-gaugino and sfermion-sfermion-gauge boson versions (figs.\ \ref{fig:feynmandiagram_supersymmetrization} b and c). (But {\it not} sfermion-sfermion-gaugino, because of R-parity.) 
  \begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -797,7 +800,7 @@ All the Standard Model particles get superpartners, often termed {\it sparticles
 	\label{fig:feynmandiagram_supersymmetrization}
 \end{figure}
 
-An important consequence of the coupling inheritance is that the gaugino fields $\tilde\chi_i^{0/\pm}$ will couple differently depending on the mass mixing matrix. Since the wino field inherits the left-chiral $SU(2)_L$ coupling, the chirality of the couplings of the four neutralinos may differ considerably if the mass eigenstates are close to the gauge eigenstates. In the parameter point used for the analysis in the coming chapters, the second-generation neutralino consists of a large wino part, and this means that has a small coupling to right-chiral quarks. 
+An important consequence of the coupling inheritance is that the gaugino fields $\tilde\chi_i^{0/\pm}$ will couple differently depending on the mass mixing matrix. Since the wino field inherits the left-chiral $SU(2)_L$ coupling, the chirality of the couplings of the four neutralinos may differ considerably if the mass eigenstates are close to the gauge eigenstates. In the parameter point used for the analysis in the coming chapters, the second-generation neutralino consists of a large wino part, and this means that it has a small coupling to right-chiral quarks. 
 
  \subsection{Sparticle masses}
  The main contributions to the sparticle masses naturally come from the soft terms, since these are responsible for the symmetry breaking which would otherwise give Standard Model masses to sparticles. The mass parameters from these terms are the gaugino mass terms $M_{1,2,3}$, the sfermion mass terms $m_{ij}$ and the Higgs terms $m_{H_{u/d}}$. Additionally, the parameter $\mu$ from the superpotential term coupling the Higgs doublets together in the unbroken SUSY Lagrangian contributes.
@@ -905,6 +908,7 @@ The ratios $M_i/g_i^2$ for all three parameter pairs are scale independent at on
  \end{align}
 
 \section{The Constrained MSSM}
+\label{sec:cmssm}
 The available parameter space of the general MSSM is very large, of the order 100 free parameters. The reason for the vast number of parameters are the soft SUSY breaking terms, which contain coupling parameters for all the extra terms without any {\it a priori} way to relate them. It is therefore conventional to make some restricting assumptions. A much-studied restriction is the {\it Constrained MSSM} (CMSSM), also known as {\it minimal supergravity} (mSUGRA). This model is constructed by assuming that SUSY breaking is mediated by some mechanism of gravity at the Planck scale of $M_P = 2.4\times 10^{18} \, \mathrm{GeV}$. By assuming a minimal form for the parameters at the GUT scale, to obtain gauge unification, the resulting model is parametrized in terms of five parameters,
 \begin{align}
 	m_{1/2}, \, m_{0}, \, A_0, \, \tan\beta \,\, \mathrm{and} \,\, \mathrm{sign}(\mu).
@@ -918,7 +922,7 @@ The mass parameters $m_{1/2}$ and $m_0$ are the common soft masses of all gaugin
 \end{figure}
 This is illustrated in fig.\ \ref{fig:mssm_rgerun} for one choice of $m_{1/2}$ and $m_0$. The figure also illustrates the evolution of $m_{H_u}$ down to a negative value, facilitating the radiative electroweak symmetry breaking.
 
-Because the renormalization running, which is proportional to the Yukawa couplings of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small. Note also that since all the sfermion masses evolve from the common mass $m_0$, the squarks will always be heavier than the sleptons in CMSSM because the running of the former is affected by QCD interactions. \marginpar{Explain: Why is mgluino approx msquark usually? (in cmssm)}
+Because the renormalization running is proportional to the Yukawa couplings of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small or even degenerate, since the masses are dominated by the common soft mass terms. In the CMSSM, the first two generations of sfermions are very often mass-degenerate. Note also that since all the sfermion masses evolve from the common mass $m_0$, the squarks will always be heavier than the sleptons in CMSSM because the running of the former is affected by QCD interactions. \marginpar{Explain: Why is mgluino approx msquark usually? (in cmssm)}
 
 This thesis studies a particular type of cascade decay, namely
 \begin{align}
@@ -962,10 +966,10 @@ In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied
 
 
 
-\section{The experimental status of SUSY}
+\section{The experimental status of supersymmetry}
 % {\it Include some ATLAS plots. Say something about $B_s \to \mu^+ \mu^-$ at LHCb and constraints on $\tan \beta$? Discuss mSUGRA validity? Mention more general naturalness condition?}
 
-The search for SUSY is very actively ongoing in the LHC experiment at CERN, particularly in the ATLAS and CMS groups. Before the LHC was turned off for maintenance, it collected $\sim 20 \,\, \mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8\,\,\mathrm{TeV}$. No significant excesses of events that could indicate the existence of SUSY have so far been observed. 
+The search for SUSY is very actively ongoing in the LHC experiment at CERN, particularly in the ATLAS and CMS groups. Before the LHC was turned off for maintenance, it collected $\sim 20 \,\, \mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8\,\,\mathrm{TeV}$. No significant excesses of events that could indicate the existence of SUSY have so far been observed. At the time of writing, the LHC has begun circulating beams in preparation for Run II, which will use a centre-of-momentum energy of $\sqrt{s} = 13\,\,\mathrm{TeV}$, and is expected to record $\sim 300 \,\,\mathrm{fb}^{-1}$ of data during the next ten years.
 
 The discovery of a Higgs boson with $m_h = 126 \,\,\mathrm{GeV}$ has implications for SUSY. If we assume that it is the light Higgs of SUSY, eqs.\ (\ref{eq:mssm_higgs_masses1}--\ref{eq:mssm_higgs_masses2}) puts restrictions on the combinations of the parameters $|\mu|$, $\tan\beta$ and $m^2_{H_{u/d}}$.
 
@@ -994,7 +998,9 @@ Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit,
 \label{fig:ATLAS_neutralinogluino}
 \end{figure}
 
-Referring back to fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. The top left region, where $m_{1/2} \gtrsim 800\,\,\mathrm{GeV}$ and $1000 \,\,\mathrm{GeV} \gtrsim m_0 \gtrsim 400 \,\,\mathrm{GeV}$, is compatible with the green areas of fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by experiment. All the bright green regions, where the chain has large branching, seem to be excluded. There is, however, also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. As a benchmark, we have calculated the expected number of events in the parameter point $m_0 = 900 \,\,\mathrm{GeV}$, $m_{1/2} = 600 \,\,\mathrm{GeV}$, $A_0 = 1200\,\,\mathrm{GeV}$, $\tan\beta = 10$, $\mu>0$ for run II of the LHC (LHC-II). We calculate sparticle masses and branching fractions using {\tt SoftSUSY} v.\ 3.4.1 \cite{Allanach:2001kg} and find squark and gluino cross-sections for 13 TeV LHC using {\tt NLL-fast} v.\ 3.0 \cite{Beenakker:1996ch,Kulesza:2008jb,Kulesza:2009kq,Beenakker:2009ha,Beenakker:2011fu,Beenakker:1997ut,Beenakker:2010nq}. Assuming an integrated luminosity of $300\,\,\mathrm{fb}^{-1}$ for LHC-II, we find an expectation of 0.05 events. \marginpar{So obviously, this is either wrong, or I must use another parameter point. SPS1a gives ~800 events with the same code, which seems reasonable. Try to use m1/2 = 800 instead? And maybe use tanbeta=30 and A0=-1200 as in exclusion search?}
+Referring back to fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. The top left region, where $m_{1/2} \gtrsim 800\,\,\mathrm{GeV}$ and $1000 \,\,\mathrm{GeV} \gtrsim m_0 \gtrsim 400 \,\,\mathrm{GeV}$, is compatible with the green areas of fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by experiment. All the bright green regions, where the chain has large branching, seem to be excluded. There is, however, also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. 
+
+As a benchmark for the expected chain event yield, we have calculated the expected number of events in the parameter point $m_0 = 800 \,\,\mathrm{GeV}$, $m_{1/2} = 400 \,\,\mathrm{GeV}$, $A_0 = -800\,\,\mathrm{GeV}$, $\tan\beta = 10$, $\mu>0$ for LHC Run II. This is the lowest $m_0-m_{1/2}$ combination that is not excluded in fig.\ \ref{fig:ATLAS_mSUGRA}. We calculate sparticle masses and branching fractions using {\tt SoftSUSY} v.\ 3.4.1 \cite{Allanach:2001kg} and squark and gluino cross-sections for 13 TeV LHC using {\tt NLL-fast} v.\ 3.0 \cite{Beenakker:1996ch,Kulesza:2008jb,Kulesza:2009kq,Beenakker:2009ha,Beenakker:2011fu,Beenakker:1997ut,Beenakker:2010nq}. Assuming an integrated luminosity of $300\,\,\mathrm{fb}^{-1}$ for LHC-II, we find an expectation of 0.3 events. \marginpar{So obviously, this is either wrong, or I must use another parameter point. SPS1a gives tons of events (thousands) with the same code, which seems reasonable?. Try to use m1/2 = 800 instead? And maybe use tanbeta=30 and A0=-1200 as in exclusion search?}
 
 There are also other experimental signatures that can be used to set limits on SUSY parameters. One notable example is the branching fraction for the decay $B_s \to \mu^+ \mu^-$, which has a would-be SUSY contribution which is heavily dependent on $\tan\beta$. So far, analyses by the CMS and LHCb groups \cite{CMS:2014xfa} have found results which match the predictions of the Standard Model to high precision, thus placing stringent limits on any non-Standard Model contributions. \marginpar{Can I find out what these limits are, e.g. for tan beta?}
 
@@ -1141,7 +1147,7 @@ Note that this quantity measures the goodness-of-fit of all the unknown masses e
 				  &= (p_A^2)_n - M_A^2.\nonumber
 \end{align}
 
-For each event there are eight constraining equations. There are eight unknowns from the masses plus six from the unknown LSP momenta (using the on-shell constraint on the LSPs). The system is thus underconstrained, with six free parameters. The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a potentially very complicated function, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one which one could hope could be solved. In this case the number of free parameters reduces from six to two. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. This is a realistic assumption in many SUSY scenarios.\marginpar{Refer to previous chapter about SUSY}
+For each event there are eight constraining equations. There are eight unknowns from the masses plus six from the unknown LSP momenta (using the on-shell constraint on the LSPs). The system is thus underconstrained, with six free parameters. The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a potentially very complicated function, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one which one could hope could be solved. In this case the number of free parameters reduces from six to two. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. As was discussed in section \ref{sec:cmssm}, this is a realistic assumption in many SUSY scenarios.
 
 \section{Two technical modifications}\label{sec:dimension_fixing}
 For the method to be applicable, the matrix $\mathbf{A}$ must be invertible. A matrix is invertible if its determinant is non-zero. However, the matrix as it stands in \eqref{eq:Amatrix_orig}, is technically ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$ \eqref{eq:Svec_orig}, have no dimension, while the other rows have dimension $[\mathrm{mass}]^1$. This is reflected in the components of $\mathbf{S}$, which all except 4 and 8 have dimension $[\mathrm{mass}]^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale (since some rows have non-zero dimension) and that it does not scale properly for numerical calculations (since not all rows have the same dimension). This is something that Webber does not comment on (and the method still in principle works), but we make some minor reformulations of the method in order to amend both problems.
@@ -1753,41 +1759,7 @@ For SPS 1a, the limits evaluate to ${m_X}_\mathrm{low} = 121 \, \mathrm{GeV}$ an
 In principle the measurement of the other masses are unaffected by this, since {\it e.g.}\ $m_C^2 = (p_b + p_a + p_A)^2$ which is invariant under $b\leftrightarrow a$. However, there is a nontrivial relationship between the fitted masses in the method, {\it e.g.}\ due to the dilepton edge formula.\marginpar{And also the A matrix?}
 
 
-\subsection{Combinatorics in the summed-combination approach}
-
-We proceed with investigating the method of summing only the four closest combinations. In this formulation, there are several options for handling the remaining two-fold combinatorical ambiguity. One option is to utilise the original method of ``jumping'' between values, always selecting the lowest among the combinations for each event at each mass point. When there are just two different values to choose between, the amount of jumping and the resulting difficulties might be reduced. We check this by starting the minimization from the four different starting points. We find in this case for the unsmeared dataset that $\sim 90$ samples converge in each case, while 84 of the samples converge in all four cases. 62 of the samples are fitted consistently, meaning that all four minimization agree on all four mass values within 0.1 GeV. The mean standard error on the best-fit points from the four different minimizations in the 84 samples is 9 GeV for the squark and about 4 GeV for the other three masses. We also find that about 80 \% of the events obtain the minimum with the correct combination, while the remaining 20 \% apparently obtain smaller values using the wrong combination of quarks and leptons.
-\begin{figure}[hbt]
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-TMP.pdf} 
-		\caption{ }
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-400-300-200-100.pdf}
-		\caption{ } 
-	\end{subfigure}
-
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-800-500-300-50.pdf} 
-		\caption{ }
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-1000-100-80-30.pdf}
-		\caption{ } 
-	\end{subfigure}
-	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics handled by summing the four closest combinations and jumping between the two quark-lepton combinations, for the four different starting points used earlier.}
-	\label{fig:4combosum_starting_point_sensitivity_combinatorics-jumping}
-\end{figure}
-
-Another possibility is to combine a few events at a time, and minimize the $\xi^2$, with the lepton-combinations summed, separately for each of the quark-lepton combinations ({\it e.g.}\ each matrix $\mathbf{A}$) in each event. For instance, if we select two events, then there are four ways to combine the different $\mathbf{A}$ matrices among the events. If the lowest $\xi^2$ minimum value among these four tend to belong to the true $\mathbf{A}$ matrices, then this may be used to select the correct quark-lepton combinations before all events are summed together for the total mass fit. \marginpar{A BIG IF: Test if this actually works.}
-
-
-
-
-
-
-
-\section{Cutting on det(A)}
+\section{Cutting on the determinant}
 \marginpar{Probably the plots need to be larger to be able to read values?} 
 In this section we investigate what can be gained by applying a minimal value cut on the determinant of the matrix $\mathbf{A}$. The idea behind this is that since a matrix with zero determinant is uninvertible, the magnitude of the determinant may be small for events that are ``difficult'' to invert in some sense, and these may contribute poorly to the fit. This turns out to have some merit, as can be seen from fig.\ \ref{fig:detAcut}: The (a) plot is exactly the same as \ref{fig:4combosum_nocomb-nosmear}, except that the det(A) cut has been applied on an event-wise basis. The errors on the masses decrease by a factor two. They are further reduced by combining with a $\xi^2$ cut, but at the expense of losing lots of statistics. About 60 \% of events pass the det(A) cut. The events passing the cut are rather evenly distributed\marginpar{quantify} between samples, which means that each sample is reduced by about 40 \%. 
 \begin{figure}[hbt]
@@ -1841,6 +1813,54 @@ Figure \ref{fig:detA_distribution} shows the distribution of $\mathrm{det}(\math
 	\caption{The distribution of values for $\mathrm{det}(A)$, trimmed at $\pm 20$, for the true combination.}
 	\label{fig:detA_distribution_zoom}
 \end{figure}
+
+
+\section{Combinatorics in the summed-combination approach}
+
+We proceed with investigating the method of summing only the four closest combinations. In this formulation, there are several options for handling the remaining two-fold combinatorical ambiguity. One option is to utilise the original method of ``jumping'' between values, always selecting the lowest among the combinations for each event at each mass point. When there are just two different values to choose between, the amount of jumping and the resulting difficulties might be reduced. We check this by starting the minimization from the four different starting points. We find in this case for the unsmeared dataset that $\sim 90$ samples converge in each case, while 84 of the samples converge in all four cases. 62 of the samples are fitted consistently, meaning that all four minimization agree on all four mass values within 0.1 GeV. The mean standard error on the best-fit points from the four different minimizations in the 84 samples is 9 GeV for the squark and about 4 GeV for the other three masses. We also find that about 80 \% of the events obtain the minimum with the correct combination, while the remaining 20 \% apparently obtain smaller values using the wrong combination of quarks and leptons.
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-TMP.pdf} 
+		\caption{ }
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-400-300-200-100.pdf}
+		\caption{ } 
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-800-500-300-50.pdf} 
+		\caption{ }
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-1000-100-80-30.pdf}
+		\caption{ } 
+	\end{subfigure}
+	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics handled by summing the four closest combinations and jumping between the two quark-lepton combinations, for the four different starting points used earlier.}
+	\label{fig:4combosum_starting_point_sensitivity_combinatorics-jumping}
+\end{figure}
+
+Another possibility is to combine a few events at a time, and minimize the $\xi^2$, with the lepton-combinations summed, separately for each of the quark-lepton combinations ({\it i.e.}\ each matrix $\mathbf{A}$) in each event. For instance, if we select two events, then there are four ways to combine the different $\mathbf{A}$ matrices among the events. If the lowest $\xi^2$ minimum value among these four tend to belong to the true $\mathbf{A}$ matrices, then this may be used to select the correct quark-lepton combinations before all events are summed together for the total mass fit. 
+
+We have implemented this in the following way: We use the mass-squared difference fitting technique, and we sum the four closest combinations. For each sample of events, we run through all the individual events, indexing them by $i$. For each event, we run through all the other events, indexed by $j$. For each pair $(i,j)$we minimize the four possible combinations of $(\mathbf{A}_i^a, \mathbf{A}_j^b)$ matrices, where $a,b$ denotes the different $\mathbf{A}$ matrices for each event. We make a note of which choice $a$ for event $i$ gives the lowest minimum among the four. We allow the minima to take unphysical values for the fitted SUSY masses, either wrong mass hierarchies or even negative mass values, since we only are interested in the $\xi^2$ value. For each event $i$, we count how many of the pairs prefer the different choices of $\mathbf{A}_i^a$. If there is a clear preference for one of the two choices, then we select this as the ``true'' combination.
+
+For the {\tt Herwig++} data set of 100 bins of 25 events, there seems to be a clear preference for the correct A matrix. The fraction of events where the correct A is chosen, for each event sample, is shown in fig.\ \ref{fig:correct_A_preference_distribution}. We see that for the samples with the lowest fraction of correct events, the fraction is 60 \%.
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/improving_combinatorics/A_selection_histogram_temp_nosmear.pdf} 
+	\caption{This is a histogram of all the 100 event samples of unsmeared {\tt Heriwg++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. [Obviously make this plot nicer!]}
+	\label{fig:correct_A_preference_distribution}
+\end{figure}
+
+
+
+
+
+
+
 
 
 
@@ -1983,7 +2003,7 @@ Below it turns out that the method seems insensitive to the LSP mass -- I am sta
 
 \section{Invariant mass with misidentification of lepton}
 \label{sec:appendix_invmass-calculations}
-The invariant mass of $a + A$ in the decay topology of fig.\ \ref{fig:decaytree_appendix} is $m_{aB}^2 = (p_a + p_A)^2 = m_B^2$. However, if the particle $b$ is misidentified as $a$, what is the resulting invariant mass $m_X^2$? The calculation is most easily done in the rest frame of $B$. 
+The invariant mass of $a + A$ in the decay topology of fig.\ \ref{fig:decaytree_appendix} is $m_{aA}^2 = (p_a + p_A)^2 = m_B^2$. However, if the particle $b$ is misidentified as $a$, what is the resulting invariant mass $m_X^2$? The calculation is most easily done in the rest frame of $B$. 
 \begin{figure}[hbt]
 \centering
 \includegraphics[scale=0.7]{figures/fig-chain.pdf} % Stolen!
@@ -2404,11 +2424,29 @@ The Dirac equation is obtained by substituting operators and letting them act on
 where $\Psi$ is required by dimensionality to be a four-column vector of fields,
 \begin{align}
 	\Psi = \begin{pmatrix}
-		\psi_1 \\ \psi_2 \\ \psi_3 \\ \psi_4
+		\psi_1(x) \\ \psi_2(x) \\ \psi_3(x) \\ \psi_4(x)
 	\end{pmatrix},
 \end{align}
 called a Dirac {\it spinor}.
 
+The {\it equations of motion} are the equations describing the field configurations which minimizes the {\it action},
+\begin{align}
+	S = \int d^4 x \, \mathcal{L},
+\end{align}
+Demanding stationarity of action for a spinor field $\Psi$ and its adjoint $\bar\Psi$,
+\begin{align}
+	\delta S = 0,
+\end{align}
+gives the {\it Euler-Lagrange} equations of motion
+\begin{align}
+	\partial_{\mu}\left(\frac{\partial\mathcal{L}}{\partial\left(\partial_{\mu}\Psi\right)}\right) - \frac{\partial\mathcal{L}}{\partial\Psi} &= 0,\\
+	\partial_{\mu}\left(\frac{\partial\mathcal{L}}{\partial\left(\partial_{\mu}\bar\Psi\right)}\right) - \frac{\partial\mathcal{L}}{\partial\bar\Psi} &= 0.
+\end{align}
+The Lagrangian $\mathcal{L}_D$ which yields the Dirac equation upon application of the equations of motion is
+\begin{align}
+	\mathcal{L}_D = \bar \Psi \left( i\hbar \slashed \mu - m \right)\Psi,
+\end{align}
+called the Dirac bilinear.
 
 
 
