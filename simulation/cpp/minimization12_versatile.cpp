@@ -877,8 +877,8 @@ int main()
 	bool combinatorics = false; // OBSOLETE, SHOULD BE REMOVED
 	double tol = 1e-12;
 	double maxiter = 2000;
-	double detAcut = 10; // NOTE: Cut scale varies depending on Mnorm
-	int minimization_method = 2; // Choose between original=1 and MD=2
+	double detAcut = 0; // NOTE: Cut scale varies depending on Mnorm
+	int minimization_method = 1; // Choose between original=1 and MD=2
 	int combosum = 2; // Choose between not summing combinations=1 and summing four closest=2
 	vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};

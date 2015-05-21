@@ -7,7 +7,7 @@ Nevents = 25
 
 plot_counter = 1
 
-file = open("../best_fit_results/TEMP.dat",'r')
+file = open("../best_fit_results/TEMP-detAcut.dat",'r')
 # file = open("../best_fit_results/TEMP_TMP.dat",'r')
 # file = open("../best_fit_results/TEMP_400-300-200-100.dat",'r')
 # file = open("../best_fit_results/TEMP_800-500-300-50.dat",'r')
@@ -49,24 +49,16 @@ msquark_passcut = []
 mchi2_passcut = []
 mslepton_passcut = []
 mchi1_passcut = []
-correct_combo_passcut = []
-cut = 100**100 # xi^2 cut value in units of (100 GeV)^4
+detAcut_passcut = []
+cut = 1000 # xi^2 cut value in units of (100 GeV)^4
 for i in range(len(best_fit[:,0])):
 	if best_fit[i,5] < float(cut):
 		msquark_passcut.append(best_fit[i,0])
 		mchi2_passcut.append(best_fit[i,1])
 		mslepton_passcut.append(best_fit[i,2])
 		mchi1_passcut.append(best_fit[i,3])
-		correct_combo_passcut.append(best_fit[i,6])
+		detAcut_passcut.append(best_fit[i,6])
 print "Number of events passing xi^2-cut = ", len(msquark_passcut)
-
-# Count number of mchi1 < eps
-eps = 1e-2
-counter = 0
-for mchi1value in mchi1_passcut:
-	if mchi1value < eps:
-		counter += 1
-print "Number of samples with m_chi1 <", eps, "=", counter
 
 # Calculation of mean values and rms error for the fit
 def rmse_est(estimate_vector):
@@ -102,7 +94,7 @@ print "chi2   : %d \pm %d" %(round(mean_mchi2), round(rmse_est_mchi2))
 print "slepton: %d \pm %d" %(round(mean_mslepton), round(rmse_est_mslepton))
 print "chi1   : %d \pm %d" %(round(mean_mchi1), round(rmse_est_mchi1))
 print "Passcut-fraction:", (len(msquark_passcut)/float(Nbins)*100)
-print "Correct-combo fraction:", (np.mean(correct_combo_passcut)*100)
+print "detA passcut-fraction:", (np.mean(detAcut_passcut)*100)
 
 
 # Make a nice plot like Webber - msquark on y axis, mslepton, mchi2  & mchi1 on x axis
@@ -134,7 +126,11 @@ if cut > 1e10:
 else:
 	plt.text(236, 610, r"$\mathrm{\xi^2_\mathrm{max}} = %d$" % cut, fontsize=14)
 plt.text(236, 596, r"$f_\xi = %d \%%  $" % (len(msquark_passcut)/float(Nbins)*100) , fontsize=14)
-plt.text(236, 582, r"$f_\mathrm{corr} = %d \%%$" % (np.mean(correct_combo_passcut)*100), fontsize=14)
+plt.text(236, 582, r"$f_\mathrm{corr} = %d \%%$" % 100, fontsize=14) #(np.mean(correct_combo_passcut)*100), fontsize=14)
+
+plt.text(236, 554, r"$\mathrm{det}(A)_\mathrm{min} = 10$", fontsize=14)
+plt.text(236, 540, r"$f_{\mathrm{det}(A)} = %d \%%$" % (np.mean(detAcut_passcut)*100), fontsize=14)
+
 plt.text(50,MZ+5,r'$\tilde q$',fontsize=20)
 plt.text(MY+1,420,r'$\tilde\chi_2^0$',fontsize=20)
 plt.text(MX+1,420,r'$\tilde l$',fontsize=20)
@@ -144,7 +140,7 @@ plt.text(5,440,r"$m_{\tilde q} = %d \pm %d$" %(round(mean_msquark), round(rmse_e
 plt.text(5,430,r"$m_{\tilde \chi_2^0} = %d \pm %d$" %(round(mean_mchi2), round(rmse_est_mchi2)),fontsize=14)
 plt.text(5,420,r"$m_{\tilde l} =  %d \pm %d$" %(round(mean_mslepton), round(rmse_est_mslepton)),fontsize=14)
 plt.text(5,410,r"$m_{\tilde \chi_1^0} =  %d \pm %d$" %(round(mean_mchi1), round(rmse_est_mchi1)),fontsize=14)
-# plt.savefig('/home/jorgenem/herwigpp-4combosum-fit-jump_comb-nosmear-nocut-1000-100-80-30.pdf', format='pdf')
+plt.savefig('/home/jorgenem/herwigpp-nosmear-4combosum-detAcut_10-xisqcut_1000-nocomb-TMP.pdf', format='pdf')
 
 # plt.hold('off')
 # plt.close()

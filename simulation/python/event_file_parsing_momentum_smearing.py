@@ -28,7 +28,7 @@ def smearW(p, res):
 	return p
 
 infile = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat",'r')
-outfile = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_WEBBERmomentum_smearing.dat", 'w')
+outfile = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat", 'w')
 
 lines = infile.readlines()
 
@@ -45,7 +45,7 @@ for i in range(len(lines)/9):
 	neutralino2 = lines[i+8].split()
 
 	# Smear momenta according to a gaussian
-	res = 0.1 # percentage/100 smearing
+	res = 0.05 # percentage/100 smearing
 	pquark1 = smearW(np.array([float(quark1[1]), float(quark1[2]), float(quark1[3]), float(quark1[4])]) , res)
 	plepton11 = smearW(np.array([float(lepton11[1]), float(lepton11[2]), float(lepton11[3]), float(lepton11[4])]) , res)
 	plepton12 = smearW(np.array([float(lepton12[1]), float(lepton12[2]), float(lepton12[3]), float(lepton12[4])]) , res)

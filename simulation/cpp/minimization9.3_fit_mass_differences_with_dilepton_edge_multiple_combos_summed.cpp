@@ -775,8 +775,8 @@ int main()
 
 
 	int Nbins = 100;
-	int Nevents = 10;
-	bool combinatorics = false;
+	int Nevents = 25;
+	bool combinatorics = true;
 	vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};
 	// vector<double> masses_initial = {800, 500, 300, 50};

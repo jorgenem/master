@@ -22,7 +22,8 @@ def getangles(p):
 
 
 import sys
-file = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat", 'r')
+# file = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_SFL.dat", 'r')
+file = open("../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat")
 lines = file.readlines()
 N = int(floor(len(lines)/9))
 # N = 1
@@ -73,54 +74,54 @@ for i in range(N):
 # plt.hist(minv_dilepton,bins=20)
 # plt.show()
 
-# Distribution of opening angles
-angle_between_dileptons_theta = []
-angle_between_dileptons_phi = []
-angle_between_quark_and_first_lepton_theta = []
-angle_between_quark_and_second_lepton_theta = []
-angle_between_quark_and_first_lepton_phi = []
-angle_between_quark_and_second_lepton_phi = []
-angle_between_quark_and_opposite_first_lepton_theta = []
-angle_between_quark_and_opposite_second_lepton_theta = []
-angle_between_quark_and_opposite_first_lepton_phi = []
-angle_between_quark_and_opposite_second_lepton_phi = []
-angle_between_opposite_leptons_first_first_theta = []
-angle_between_opposite_leptons_first_first_phi = []
-angle_between_opposite_leptons_first_second_theta = []
-angle_between_opposite_leptons_first_second_phi = []
+# # Distribution of opening angles
+# angle_between_dileptons_theta = []
+# angle_between_dileptons_phi = []
+# angle_between_quark_and_first_lepton_theta = []
+# angle_between_quark_and_second_lepton_theta = []
+# angle_between_quark_and_first_lepton_phi = []
+# angle_between_quark_and_second_lepton_phi = []
+# angle_between_quark_and_opposite_first_lepton_theta = []
+# angle_between_quark_and_opposite_second_lepton_theta = []
+# angle_between_quark_and_opposite_first_lepton_phi = []
+# angle_between_quark_and_opposite_second_lepton_phi = []
+# angle_between_opposite_leptons_first_first_theta = []
+# angle_between_opposite_leptons_first_first_phi = []
+# angle_between_opposite_leptons_first_second_theta = []
+# angle_between_opposite_leptons_first_second_phi = []
 
-for i in range(N):
-	phi0, theta0, eta0 = getangles(events[i][0])
-	phi1, theta1, eta1 = getangles(events[i][1])
-	phi2, theta2, eta2 = getangles(events[i][2])
-	phi4, theta4, eta4 = getangles(events[i][4])
-	phi5, theta5, eta5 = getangles(events[i][5])
-	phi6, theta6, eta6 = getangles(events[i][6])
+# for i in range(N):
+# 	phi0, theta0, eta0 = getangles(events[i][0])
+# 	phi1, theta1, eta1 = getangles(events[i][1])
+# 	phi2, theta2, eta2 = getangles(events[i][2])
+# 	phi4, theta4, eta4 = getangles(events[i][4])
+# 	phi5, theta5, eta5 = getangles(events[i][5])
+# 	phi6, theta6, eta6 = getangles(events[i][6])
 
-	angle_between_dileptons_phi.append(abs(phi1-phi2))
-	angle_between_dileptons_phi.append(abs(phi5-phi6))
-	angle_between_dileptons_theta.append(abs(theta1-theta2))
-	angle_between_dileptons_theta.append(abs(theta5-theta6))
-	angle_between_quark_and_first_lepton_theta.append(abs(theta0 - theta1))
-	angle_between_quark_and_first_lepton_theta.append(abs(theta4 - theta5))
-	angle_between_quark_and_second_lepton_theta.append(abs(theta0 - theta2))
-	angle_between_quark_and_second_lepton_theta.append(abs(theta4 - theta6))
-	angle_between_quark_and_first_lepton_phi.append(abs(phi0 - phi1))
-	angle_between_quark_and_first_lepton_phi.append(abs(phi4 - phi5))
-	angle_between_quark_and_second_lepton_phi.append(abs(phi0 - phi2))
-	angle_between_quark_and_second_lepton_phi.append(abs(phi4 - phi6))
-	angle_between_quark_and_opposite_first_lepton_theta.append(abs(theta0-theta5))
-	angle_between_quark_and_opposite_first_lepton_theta.append(abs(theta4-theta1))
-	angle_between_quark_and_opposite_second_lepton_theta.append(abs(theta0-theta6))
-	angle_between_quark_and_opposite_second_lepton_theta.append(abs(theta4-theta2))
-	angle_between_quark_and_opposite_first_lepton_phi.append(abs(phi0-phi5))
-	angle_between_quark_and_opposite_first_lepton_phi.append(abs(phi4-phi1))
-	angle_between_quark_and_opposite_second_lepton_phi.append(abs(phi0-phi6))
-	angle_between_quark_and_opposite_second_lepton_phi.append(abs(phi4-phi2))
-	angle_between_opposite_leptons_first_first_theta.append(abs(theta1-theta5))
-	angle_between_opposite_leptons_first_first_phi.append(abs(phi1-phi5))
-	angle_between_opposite_leptons_first_second_theta.append(abs(theta1-theta6))
-	angle_between_opposite_leptons_first_second_theta.append(abs(theta2-theta5))
+# 	angle_between_dileptons_phi.append(abs(phi1-phi2))
+# 	angle_between_dileptons_phi.append(abs(phi5-phi6))
+# 	angle_between_dileptons_theta.append(abs(theta1-theta2))
+# 	angle_between_dileptons_theta.append(abs(theta5-theta6))
+# 	angle_between_quark_and_first_lepton_theta.append(abs(theta0 - theta1))
+# 	angle_between_quark_and_first_lepton_theta.append(abs(theta4 - theta5))
+# 	angle_between_quark_and_second_lepton_theta.append(abs(theta0 - theta2))
+# 	angle_between_quark_and_second_lepton_theta.append(abs(theta4 - theta6))
+# 	angle_between_quark_and_first_lepton_phi.append(abs(phi0 - phi1))
+# 	angle_between_quark_and_first_lepton_phi.append(abs(phi4 - phi5))
+# 	angle_between_quark_and_second_lepton_phi.append(abs(phi0 - phi2))
+# 	angle_between_quark_and_second_lepton_phi.append(abs(phi4 - phi6))
+# 	angle_between_quark_and_opposite_first_lepton_theta.append(abs(theta0-theta5))
+# 	angle_between_quark_and_opposite_first_lepton_theta.append(abs(theta4-theta1))
+# 	angle_between_quark_and_opposite_second_lepton_theta.append(abs(theta0-theta6))
+# 	angle_between_quark_and_opposite_second_lepton_theta.append(abs(theta4-theta2))
+# 	angle_between_quark_and_opposite_first_lepton_phi.append(abs(phi0-phi5))
+# 	angle_between_quark_and_opposite_first_lepton_phi.append(abs(phi4-phi1))
+# 	angle_between_quark_and_opposite_second_lepton_phi.append(abs(phi0-phi6))
+# 	angle_between_quark_and_opposite_second_lepton_phi.append(abs(phi4-phi2))
+# 	angle_between_opposite_leptons_first_first_theta.append(abs(theta1-theta5))
+# 	angle_between_opposite_leptons_first_first_phi.append(abs(phi1-phi5))
+# 	angle_between_opposite_leptons_first_second_theta.append(abs(theta1-theta6))
+# 	angle_between_opposite_leptons_first_second_theta.append(abs(theta2-theta5))
 
 
 # plt.hist(angle_between_dileptons_theta, bins=20)
@@ -148,5 +149,42 @@ for i in range(N):
 # plt.hist(angle_between_opposite_leptons_first_first_phi, bins=20)
 # plt.show()plt.hist(angle_between_opposite_leptons_first_first_theta, bins=20)
 # plt.show()
-plt.hist(angle_between_opposite_leptons_first_second_theta, bins=20)
+# plt.hist(angle_between_opposite_leptons_first_second_theta, bins=20)
+# plt.show()
+
+# Dilepton invariant mass
+mllmax = 58 # calculated at the end of the script
+print "mllmax =", mllmax
+mllsq1 = []
+mllsq2 = []
+mllsqwrongcomb1 = [] # save list of mllsq for wrong combo to see
+mllsqwrongcomb2 = [] # how often they are above threshold
+for i in range(N):
+	print "%f %f | %f %f" %(minkowskidot(events[i][1],events[i][2]),minkowskidot(events[i][5],events[i][6]), minkowskidot(events[i][1],events[i][5]),minkowskidot(events[i][2],events[i][6]))
+	print "%s %s | %s %s" %(minkowskidot(events[i][1],events[i][2])>mllmax**2, minkowskidot(events[i][5],events[i][6])>mllmax**2, minkowskidot(events[i][1],events[i][5])>mllmax**2,minkowskidot(events[i][2],events[i][6])>mllmax**2)
+	mllsq1.append(minkowskidot(events[i][1],events[i][2]))
+	mllsq2.append(minkowskidot(events[i][5],events[i][6]))
+	if events[i][1][0,4]*events[i][5][0,4]>0: # Check lepton signs for correct matching
+		mllsqwrongcomb1.append(minkowskidot(events[i][1],events[i][5]))
+		mllsqwrongcomb2.append(minkowskidot(events[i][2],events[i][6]))
+	else:
+		mllsqwrongcomb1.append(minkowskidot(events[i][1],events[i][6]))
+		mllsqwrongcomb2.append(minkowskidot(events[i][2],events[i][5]))
+print "N =",len(mllsqwrongcomb1)
+counter1 = 0
+counter2 = 0
+countereither = 0
+threshold = (mllmax+20)**2
+for i in range(len(mllsqwrongcomb1)):
+	if mllsqwrongcomb1[i]>threshold:
+		counter1 += 1
+	if mllsqwrongcomb2[i]>threshold:
+		counter2 += 1
+	if mllsqwrongcomb1[i]>threshold or mllsqwrongcomb2[i]>threshold:
+		countereither += 1
+print "Fraction failing cut (1/2/either) =", counter1/len(mllsqwrongcomb1), counter2/len(mllsqwrongcomb2), countereither/len(mllsqwrongcomb1)
+# plt.hist(np.sqrt(mllsqwrongcomb1), bins=30)
+# plt.hold('on')
+plt.hist(np.sqrt(mllsq1),bins=30)
 plt.show()
+print "mllsqmax =", max(mllsq1), max(mllsq2), np.sqrt(max(mllsq1)), np.sqrt(max(mllsq2)), np.mean( [np.sqrt(max(mllsq1)), np.sqrt(max(mllsq2))] )

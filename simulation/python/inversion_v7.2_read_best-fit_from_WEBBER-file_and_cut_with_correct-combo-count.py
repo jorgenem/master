@@ -8,7 +8,7 @@ Nevents = 25
 plot_counter = 1
 
 # file = open("../webber_code/hermass.top_20150312_starting_point-800-500-300-50_100evnts",'r')
-file = open("../webber_code/hermass.top_20150316_10psmear_1e-12-tol",'r')
+file = open("../webber_code/hermass.top_20150317_10pmomsmear_original-tol",'r')
 lines = file.readlines()
 
 Nbins = len(lines) 
@@ -45,7 +45,7 @@ mchi2_passcut = []
 mslepton_passcut = []
 mchi1_passcut = []
 correct_combo_passcut = []
-cut = 200**100 # xi^2 cut value in units of (100 GeV)^4
+cut = 200 # xi^2 cut value in units of (100 GeV)^4
 for i in range(len(best_fit[:,0])):
 	if best_fit[i,5] < float(cut):
 		msquark_passcut.append(best_fit[i,0])
@@ -84,6 +84,8 @@ rmse_est_mchi1 = rmse_est(mchi1_passcut)
 # print "slepton: mean = %3.3f, rmse_est = %3.3f" %(mean_mslepton, rmse_est_mslepton)
 # print "chi1:    mean = %3.3f, rmse_est = %3.3f" %(mean_mchi1, rmse_est_mchi1)
 print "Thesis-friendly numbers: mean \pm rmse_est"
+print "f_xi = %d \%%  " % (len(msquark_passcut)/float(Nbins)*100) 
+print "f_corr = %d \%%" % (np.mean(correct_combo_passcut)*100/25.0)
 print "squark : %d \pm %d" %(round(mean_msquark), round(rmse_est_msquark))
 print "chi2   : %d \pm %d" %(round(mean_mchi2), round(rmse_est_mchi2))
 print "slepton: %d \pm %d" %(round(mean_mslepton), round(rmse_est_mslepton))

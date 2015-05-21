@@ -255,6 +255,16 @@ double minkowskidot(vec a, vec b)
 double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinatorics, vector<bool> &all_leptons_equal_list, vector<vector<mat>> &D_lists, vector<vector<vec>> &E_lists, vector<bool> &correct_combinatorics)
 {
 
+	mat B;
+	B 		 <<		    -1 <<  0 <<  0  << endr << 
+						0  << -1 <<  0  << endr << 
+						0  <<  0 << -1  << endr << 
+						0  <<  0 <<  0  << endr << 
+						-1 <<  0 <<  0  << endr << 
+						0  << -1 <<  0  << endr << 
+						0  <<  0 << -1  << endr << 
+						0  <<  0 <<  0  << endr;	
+
 	vec M;
 	M << Masses[0]
 	  << Masses[1]
@@ -279,10 +289,9 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 		{
 			int Ncombinations;
 			if (all_leptons_equal_list[iEvent])
-				Ncombinations = 16;
+				Ncombinations = 4;
 			else 
-				Ncombinations = 4; // HACK 20150517: Check how jumping works with only four closest combinations
-				// Ncombinations = 8;
+				Ncombinations = 2;
 	
 			vector<double> xisquared_current_list;
 			// xisquared_current_list.clear();
@@ -295,8 +304,16 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 	
 				// cout << "D has n_cols = " << D_lists[iCombinations][iEvent].n_cols << endl;
 				P = D_lists[iCombinations][iEvent]*M + E_lists[iCombinations][iEvent];
-	
 				xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+
+				// Add contributions from the three closest wrong combos, where the leptons are flipped inside chains
+				P = D_lists[1+4*iCombinations][iEvent]*M + E_lists[1+4*iCombinations][iEvent];
+				xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+				P = D_lists[2+4*iCombinations][iEvent]*M + E_lists[2+4*iCombinations][iEvent];
+				xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+				P = D_lists[3+4*iCombinations][iEvent]*M + E_lists[3+4*iCombinations][iEvent];
+				xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+
 				xisquared_current_list.push_back(xisquared_current);
 				if (xisquared_current_list[iCombinations] < xisquared_current_list[iSmallest])
 					iSmallest = iCombinations;
@@ -321,15 +338,43 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 			double xisquared_current;
 			vec P;
 
+			// Check detA cut condition (HACK: Using correct_combinatorics to store passcut true/false)
+			if (!correct_combinatorics[iEvent])
+			{
+				continue;
+			}
+
 			P = D_lists[0][iEvent]*M + E_lists[0][iEvent];
 			// cout << "j = " << j << ", D(3,2) = " << D_lists[0][iEvent](3,2) << endl;
 
 			// cout << "M[3] = " << M[3] << endl;
 
 			xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+
+			// Add contributions from the three first wrong combos, where the leptons are flipped inside chains
+			P = D_lists[1][iEvent]*M + E_lists[1][iEvent];
+			xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+			P = D_lists[2][iEvent]*M + E_lists[2][iEvent];
+			xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+			P = D_lists[3][iEvent]*M + E_lists[3][iEvent];
+			xisquared_current = xisquared_current + pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+
 			xisquared = xisquared + xisquared_current;	
 
-			correct_combinatorics.push_back(1);
+			// REMOVE COMMENT IF YOU WANT TO SUM ALL EIGHT COMBINATIONS
+			// P = D_lists[4][iEvent]*M + E_lists[4][iEvent];
+			// xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+			// xisquared = xisquared + xisquared_current;	
+			// P = D_lists[5][iEvent]*M + E_lists[5][iEvent];
+			// xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+			// xisquared = xisquared + xisquared_current;	
+			// P = D_lists[6][iEvent]*M + E_lists[6][iEvent];
+			// xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+			// xisquared = xisquared + xisquared_current;	
+			// P = D_lists[7][iEvent]*M + E_lists[7][iEvent];
+			// xisquared_current = pow(P[3]*P[3] - P[0]*P[0] - P[1]*P[1] - P[2]*P[2] - MLSPsq, 2) + pow(P[7]*P[7] - P[4]*P[4] - P[5]*P[5] - P[6]*P[6] - MLSPsq, 2);
+			// xisquared = xisquared + xisquared_current;	
+
 		}
 		
 	}
@@ -400,6 +445,12 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 	vector<vector<vec>> E_lists;
 
 	vector<bool> all_leptons_equal_list;
+
+	// Declare vector of detA values and correct_combinatorics (which as a hack is used to send in passcut true/false)
+	vector<vector<double> > subdetAlist;
+	vector<bool> correct_combinatorics;
+	double subdetAcut = 1.0; // Value of detA cut (cut events with abs(detA) LOWER than this!)
+						  // (note: Cut scale varies depending on Mnorm)
 
 
 	string line;
@@ -517,6 +568,21 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 				<< 	pow(pymiss, 2);
 			C1 = C1/pow(Mnorm, 2);
 
+			// Store detA value
+			subdetAlist.push_back(vector<double> {det(A1.submat(0,0,2,2)), det(A1.submat(4,4,6,6))});
+
+			// Check subdetA cut condition
+			if (subdetAcut > abs(subdetAlist[iEvent][0]) || subdetAcut > abs(subdetAlist[iEvent][1]))
+			{
+				// HACK: Use correct_combinatorics vector to store detAcutcounter true/false value.
+				// TRUE = PASSED CUT
+				correct_combinatorics.push_back(0);
+			}
+			else
+			{
+				correct_combinatorics.push_back(1);
+			}
+
 
 			// mat test = inv(A1)*A1;
 			// cout << test(0,0) << test(0,1) << endl;
@@ -539,7 +605,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 
 
 
-			if (combinatorics)
+			// if (combinatorics)
+			if (true) // Evaluate all combinations irrespective -- doesn't take long
 			{
 
 				A2 <<	p5.p[0] << p5.p[1] << p5.p[2] << -p5.p[3] << 	0 <<	0 <<	0 <<	0 << endr <<
@@ -678,6 +745,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 	E_lists = {E11_list, E12_list, E13_list, E14_list, E21_list, E22_list, E23_list, E24_list, E31_list, E32_list, E33_list, E34_list, E41_list, E42_list, E43_list, E44_list};
 
 
+
+
 	// Finished with making the D and E matrices. Now to minimize xisquared!
 
 
@@ -685,10 +754,12 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 	// vector<double> masses_exact = {(565.312+570.734)/2, 180.337, 144.06, 97.0071979};
 	// double debug_xisquared = xisquared(&masses_exact[0], 1, 0, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists);
 	// cout << "DEBUG xisquared-true = " << debug_xisquared << endl;
+	// DEBUG check detA bool (hack, stored in correct_combo)
+	// cout << detAlist << endl;
+	cout << correct_combinatorics << endl;
 
 	// double tol = 0.1;
 	// double maxiter = 500;
-	vector<bool> correct_combinatorics;
 	for (int iBin=0; iBin<Nbins; iBin++)
 	{
 		cout << "Minimizing bin number " << iBin+1 << endl;
@@ -696,6 +767,8 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 		vector<double> masses_current = masses_initial;
 		// cout << xisquared(&masses_initial[0], Nevents, iBin, Mnorm, combinatorics, all_leptons_equal_list, D_lists, E_lists) << endl;
 		// double *Masses_current = Masses_initial;
+
+
 
 
 		double fmin;
@@ -720,16 +793,25 @@ void best_fit(int Nbins, int Nevents, string eventfile, vector<double> masses_in
 			bin_number.push_back(iBin);
 
 			best_fit_value.push_back(fmin);
+
+
+			// HACK: Count detA passcut fraction, calling it correct_combinatorics
+			vector<bool> correct_combinatorics_current;
+			for (int iEvent = Nevents*iBin; iEvent < Nevents*(iBin+1); iEvent++)
+			{
+				correct_combinatorics_current.push_back(correct_combinatorics[iEvent]);
+			}
+			double fraction_of_correct_combinatorics = number_of_true(correct_combinatorics_current)/(double)Nevents;
+			cout << fraction_of_correct_combinatorics << endl;
+			correct_combinatorics_fraction.push_back(fraction_of_correct_combinatorics);
 		}
 
 		// cout << "correct_combinatorics = " << correct_combinatorics << endl;
-		double fraction_of_correct_combinatorics = number_of_true(correct_combinatorics)/(double)Nevents;
+		// double fraction_of_correct_combinatorics = number_of_true(correct_combinatorics)/(double)Nevents;
 		// cout << fraction_of_correct_combinatorics << endl;
-		correct_combinatorics_fraction.push_back(fraction_of_correct_combinatorics);
+		// correct_combinatorics_fraction.push_back(fraction_of_correct_combinatorics);
 
 	}
-
-
 
 
 
@@ -743,7 +825,7 @@ int main()
 
 	int Nbins = 100;
 	int Nevents = 25;
-	bool combinatorics = true;
+	bool combinatorics = false;
 	vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};
 	// vector<double> masses_initial = {800, 500, 300, 50};
@@ -764,14 +846,14 @@ int main()
 
 
 	string eventfile;
-	// eventfile = "../python/on-shell_decay_squarks_at_rest_10000_events.dat";
+	// eventfile = "../events/simple_2500_events_no_mass_smearing.dat";
 	// eventfile = "../events/simple_2500_events_gauss_and_exp_mass_smearing.dat";
 	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
-	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat";
 	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
-	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
 	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
 	// eventfile = "../events/HERWIG-events.dat";
 
@@ -792,7 +874,7 @@ int main()
 
 	/** Make and open text output file */
 	ofstream textOutput;
-	textOutput.open("../best_fit_results/TEMP.dat", ios::out);
+	textOutput.open("../best_fit_results/TEMP-subdetAcut.dat", ios::out);
 	// textOutput.open("../best_fit_results/best_fit_100_bins_simple_combinatorics-OFF_massinit-571-181-145-98.dat", ios::out);
 
 	textOutput << "# MASS DIFF FIT. combinatorics = " << combinatorics << " (true/false = 1/0)" << endl;

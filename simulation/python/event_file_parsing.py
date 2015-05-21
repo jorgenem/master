@@ -1,6 +1,6 @@
 import sys
 infile = open("../events/herwigpp-9563-events-complete-momcons-20150314.dat",'r')
-outfile = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat", 'w')
+outfile = open("../events/herwigpp-9563-events-complete-momcons-20150314_only_SFL.dat", 'w')
 
 lines = infile.readlines()
 
@@ -16,8 +16,8 @@ for i in range(len(lines)/9):
 	lepton22 = lines[i+7]
 	neutralino2 = lines[i+8]
 
-	# throw away events where all leptons are equal
-	if abs(int(lepton11.split()[0])) != abs(int(lepton21.split()[0])):
+	# throw away events where all leptons are UNequal (20150405 edit to get SFL events)
+	if abs(int(lepton11.split()[0])) == abs(int(lepton21.split()[0])):
 		outfile.write(title)
 		outfile.write(quark1)
 		outfile.write(lepton11)

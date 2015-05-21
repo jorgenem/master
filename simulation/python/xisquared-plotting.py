@@ -29,8 +29,8 @@ def smear(p,resolution):
 	return p_smeared
 
 
-generator=4
-generators = ["Herwig", "Pythia-full", "Pythia-noIFSR","Simple","Simple-14TeV"]
+generator=0
+generators = ["Herwig++", "Pythia-full", "Pythia-noIFSR","Simple","Simple-14TeV"]
 
 Nevents=25
 bin_number=2
@@ -38,8 +38,7 @@ bin_number=2
 
 #import the Herwig .txt file of events
 import sys
-files = ["../herwigpp/LHC-MSSM-analysis_20150116_added_gluinos_and_turned_off_threebody_and_discarded_momentum-nonconserving_events.log",
-		 "Pythia_cascade_events_20150120.dat",
+files = ["../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL.dat",
 		 "Pythia_cascade_events_no_ISR_or_FSR_20150120.dat",
 		 "on-shell_decay_squarks_at_rest_2500_events_possibly_corrected.dat",
 		 "on-shell_decay_squarks_with_pz_14TeV-CoM_2500_events_possibly_corrected.dat"]

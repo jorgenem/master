@@ -279,7 +279,8 @@ double xisquared(double *Masses, int Nevents, int j, double Mnorm, bool combinat
 			if (all_leptons_equal_list[iEvent])
 				Ncombinations = 16;
 			else 
-				Ncombinations = 8;
+				Ncombinations = 4; // HACK 20150517: Check how jumping works with only four closest combinations
+				// Ncombinations = 8;
 	
 			vector<double> xisquared_current_list;
 			// xisquared_current_list.clear();
@@ -718,14 +719,14 @@ int main()
 
 	int Nbins = 100;
 	int Nevents = 25;
-	bool combinatorics = false;
+	bool combinatorics = true;
 	vector<double> masses_initial = {568, 180, 144, 97};
 	// vector<double> masses_initial = {400, 300, 200, 100};
 	// vector<double> masses_initial = {800, 500, 300, 50};
 	// vector<double> masses_initial = {1000, 100, 80, 30};
 	double Mnorm = 100;
 	double tol = 1e-12;
-	double maxiter = 1000;
+	double maxiter = 2000;
 
 	vector<double> best_fit_value;
 	vector<vector<double> > best_fit_point; 
@@ -737,9 +738,9 @@ int main()
 	// eventfile = "../events/Pythia_cascade_events_no_ISR_or_FSR_20150120_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/Pythia_cascade_10000_events_everything_turned_on_20150210_only_opposite_flavour_leptons.dat";
 	// eventfile = "../events/herwigpp_only_OFL_20150305.dat";
-	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314.dat";
+	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314.dat";
 	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-10percent_momentum_smearing.dat";	
-	eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
+	// eventfile = "../events/herwigpp-9563-events-complete-momcons-20150314_only_OFL-5percent_WEBBERmomentum_smearing.dat";
 	// eventfile = "../events/HERWIG-events-10pmomsmear.dat";
 	// eventfile = "../events/HERWIG-events.dat";
 

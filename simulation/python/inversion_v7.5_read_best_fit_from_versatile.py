@@ -7,21 +7,24 @@ Nevents = 25
 
 plot_counter = 1
 
-file = open("../best_fit_results/TEMP.dat",'r')
+file = open("../best_fit_results/TEMP-versatile.dat",'r')
 # file = open("../best_fit_results/TEMP_TMP.dat",'r')
 # file = open("../best_fit_results/TEMP_400-300-200-100.dat",'r')
 # file = open("../best_fit_results/TEMP_800-500-300-50.dat",'r')
 # file = open("../best_fit_results/TEMP_1000-100-80-30.dat",'r')
 lines = file.readlines()
 
-Nbins = len(lines) - 2
+Nbins = len(lines) - 3
 # Nbins = 1
 shift = 0
 
-best_fit = np.empty((Nbins, 7))
+detAcut = float(lines[2].split()[1])
+print "detAcut = ", detAcut
+
+best_fit = np.empty((Nbins, 8))
 for i in range(Nbins):
-	words = lines[i+2+shift].split()
-	best_fit[i,:] = float(words[1]), float(words[2]), float(words[3]), float(words[4]), int(words[5]), float(words[6]), float(words[7])
+	words = lines[i+3+shift].split()
+	best_fit[i,:] = float(words[1]), float(words[2]), float(words[3]), float(words[4]), int(words[5]), float(words[6]), float(words[7]), float(words[8])
 	# best_fit[i,0:4] *= 100
 	print "%3d %3.1f   %2.1f   %2.1f   %2.1f   %3d   % .6e	%f" %(i+1, best_fit[i,0], best_fit[i,1], best_fit[i,2], best_fit[i,3], best_fit[i,4], best_fit[i,5], best_fit[i,6])
 
@@ -50,6 +53,7 @@ mchi2_passcut = []
 mslepton_passcut = []
 mchi1_passcut = []
 correct_combo_passcut = []
+detA_passcut = []
 cut = 100**100 # xi^2 cut value in units of (100 GeV)^4
 for i in range(len(best_fit[:,0])):
 	if best_fit[i,5] < float(cut):
@@ -58,6 +62,7 @@ for i in range(len(best_fit[:,0])):
 		mslepton_passcut.append(best_fit[i,2])
 		mchi1_passcut.append(best_fit[i,3])
 		correct_combo_passcut.append(best_fit[i,6])
+		detA_passcut.append(best_fit[i,7])
 print "Number of events passing xi^2-cut = ", len(msquark_passcut)
 
 # Count number of mchi1 < eps
@@ -135,6 +140,10 @@ else:
 	plt.text(236, 610, r"$\mathrm{\xi^2_\mathrm{max}} = %d$" % cut, fontsize=14)
 plt.text(236, 596, r"$f_\xi = %d \%%  $" % (len(msquark_passcut)/float(Nbins)*100) , fontsize=14)
 plt.text(236, 582, r"$f_\mathrm{corr} = %d \%%$" % (np.mean(correct_combo_passcut)*100), fontsize=14)
+
+plt.text(236, 554, r"$\mathrm{det}(A)_\mathrm{min} = %d$" % detAcut, fontsize=14)
+plt.text(236, 540, r"$f_{\mathrm{det}(A)} = %d \%%$" % (np.mean(detA_passcut)*100), fontsize=14)
+
 plt.text(50,MZ+5,r'$\tilde q$',fontsize=20)
 plt.text(MY+1,420,r'$\tilde\chi_2^0$',fontsize=20)
 plt.text(MX+1,420,r'$\tilde l$',fontsize=20)

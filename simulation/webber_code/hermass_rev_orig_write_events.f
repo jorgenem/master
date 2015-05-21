@@ -149,7 +149,7 @@ C----------------------------------------------------------------------
       INTEGER IHEP,I,IDP,IP1,IP2,ISQ,IC,IDCH(8),IDCHP(8)
       DOUBLE PRECISION PCH(5,8),PTM(2),MCH(8),PST(5),HWRGAU,RESLN,RESCA
 CJEM      PARAMETER (RESLN=0.05D0)
-      PARAMETER (RESLN=0.1D0)
+      PARAMETER (RESLN=0.05D0)
       IF (IERROR.NE.0) RETURN
       ISQ=0
       DO IHEP=1,NHEP

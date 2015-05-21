@@ -61,7 +61,7 @@ C---LRSUD.lt.0 suppresses reading and computing sud
          TMNISR=1D-2
 C---READ IN SUSY INPUT FILE, IN THIS CASE SNOWMASS POINT 1a
          OPEN(UNIT=LRSUSY,FORM='FORMATTED',STATUS='UNKNOWN',
-     &        FILE='susyhit_softsusy_ISAWIG-test.out')
+     &        FILE='susyhit_softsusy_ISAWIG-test_new.out')
 C     &        FILE='sps_pt1a.1200.in')
          CALL HWISSP
          CLOSE(UNIT=LRSUSY)
