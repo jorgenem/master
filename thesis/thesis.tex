@@ -66,7 +66,7 @@
 \end{dedication}
 
 % \begin{acknowledgements}
-% Takk til Are Raklev for god rettleiing. Takk også til Lars Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk til Janne for at eg får dele kvardagane med deg. Takk til pappa for at du alltid stiller opp. Takk også til Mona Semb, Bryan Webber, Tor Gjerrestad, Arild Gaasdal, Bjørn Hallvard Samset, Fysikkforeningen og Fysisk fagutval, SiO Athletica, venar og familie. 
+% Takk til Are Raklev for rettleiing. Takk også til Lars Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk til Janne for at eg får dele kvardagane med deg. Takk til pappa for at du alltid stiller opp. Takk også til Mona Semb, Bryan Webber, Tor Gjerrestad, Arild Gaasdal, Bjørn Hallvard Samset, Fysikkforeningen og Fysisk fagutval, SiO Athletica, venar og familie. 
 % \end{acknowledgements}
 
 \tableofcontents
@@ -76,12 +76,17 @@
 
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction} 
-In a scenario where Supersymmetry (SUSY) exists with conservation of R-parity, there should be a neutral lightest supersymmetric particle (LSP) which is absolutely stable. Additionally, all SUSY-particles will be produced in pairs in collisions. Any supersymmetric particle will decay down to the LSP, possibly in multiple steps. At the Large Hadron Collider (LHC) at CERN, one typically expects production of a pair of squarks which subsequently decay in a cascade down to the LSP, emitting multiple Standard Model (SM) particles in the process, see {\it e.g.}~\cite{Martin:1997ns}. The LSP escapes detection, but the energy and momentum of all the SM particles can be measured (assuming no neutrinos are produced).
+Supersymmetry is a proposed extension of the Standard Model of particle physics which adds heavier partner particles, called superpartners, to the Standard Model particles. Supersymmetry is appealing because it can provide solutions to many of the unsolved problems of high-energy physics, problems which are either not adressed by the Standard Model or are inherent in the Standard Model itself. These problems include the Dark Matter which is observed to permeate the universe and the apparent fine-tuning needed to avoid large corrections to the Higgs boson mass.
 
-Should hints of SUSY be seen at the LHC in the future, it will be important to determine the masses of the SUSY particles, and many methods have been investigated for this purpose, see {\it e.g.}~\cite{Miller:2005zp}. In \cite{Webber:2009vm} a method for determining the masses by formulating the kinematics as a linear algebra problem is presented and discussed. The article specifically considers a pair of SUSY particles, each decaying to the LSP in three steps, thus emitting three SM particles each. Determination of the masses then involve inverting an 8 by 8 matrix containing the measured parameters, using it to determine the 4-momenta, $p^\mu_\mathrm{inv},$ of the two invisible LSPs. Having calculated the invisible 4-momenta, one can make a hypothesis for the eight unknown SUSY masses involved in the chains, and minimize $p^2_\mathrm{inv}-M^2_\mathrm{hyp}$ in order to obtain a best fit hypothesis (the minimized quantity should be zero for an on-shell particle). The article further demonstrates by a Monte 
-Carlo simulation that a good fit can be obtained using only a few tens of events. This is a very desirable feature, since only a very limited number of SUSY candidate events are  expected at the LHC, given current limits on SUSY particle masses.
+This thesis begins with an introduction to the principles that underlie the Standard Model, and outlines the derivation of the model. Then, the extension of the Standard Model by Supersymmetry is introduced and elaborated, culminating in the definition of the Minimal Supersymmetric Standard Model (MSSM), which is the minimal Supersymmetric extension that contains the Standard Model. The MSSM has over 100 free parameters, so it is conventional to introduce some constraining assumptions. We present one popular restricted model, called the Constrained MSSM, and discuss its features and review its experimental status in light of LHC data.
 
-In the following chapters we will present and discuss a method for determining the masses of supersymmetric particles in certain types of cascade decays. Chapter \ref{ch:introducing_the_method} formulates the type of process we are studying and the problems we face, and presents a novel method proposed by B. Webber \cite{Webber:2009vm} for making inferences about the unknown masses. The subsequent chapters deal with investigation and improvements on the method. We begin by simulating events, adding complexities layer by layer, investigating the method and getting some feeling for its aptitude. We then discuss some problems with the original formulation, suggest ways to amend these and look at ways to develop the method further.\marginpar{Remember to land on a formulation which reflects what I actually do.}
+In a scenario where Supersymmetry exists with conservation of R-parity, there should be a neutral lightest supersymmetric particle (LSP) which is absolutely stable. Additionally, all SUSY-particles will be produced in pairs in collisions. Any supersymmetric particle will decay down to the LSP, possibly in multiple steps. At the Large Hadron Collider (LHC) at CERN, one typically expects production of a pair of squarks which subsequently decay in a cascade down to the LSP, emitting multiple Standard Model particles in the process, see {\it e.g.}~\cite{Martin:1997ns}. The LSP escapes detection, but the energy and momentum of all the SM particles can be measured (assuming no neutrinos are produced).
+
+Should hints of SUSY be seen at the LHC in the future, it will be important to determine the masses of the SUSY particles, and many methods have been investigated for this purpose, see {\it e.g.}~\cite{Miller:2005zp}. In \cite{Webber:2009vm} a method for determining the masses by formulating the kinematics as a linear algebra problem is presented and discussed. The article specifically considers a pair of SUSY particles, each decaying to the LSP in a three-step cascade, emitting three Standard Model particles each. Determination of the masses then involve inverting an 8 by 8 matrix containing the measured parameters, using it to determine the 4-momenta, $p^\mu_\mathrm{inv},$ of the two invisible LSPs. Having calculated the invisible 4-momenta, one can make a hypothesis for the eight unknown SUSY masses involved in the chains, and minimize $p^2_\mathrm{inv}-M^2_\mathrm{hyp}$ in order to obtain a best fit hypothesis (the minimized quantity should be zero for an on-shell particle). The article further demonstrates by a Monte Carlo simulation that a good fit can be obtained using only a few tens of events. This is a very desirable feature, since only a very limited number of SUSY candidate events are  expected at the LHC, given current limits on SUSY particle masses.
+
+In the following chapters, the method of \cite{Webber:2009vm} is presented and discussed. Chapter \ref{ch:introducing_the_method} formulates the type of process we are studying and the problems we face, and defines the method. We also discuss some minor issues with the original formulation and suggest ways to amend these. The subsequent chapters deal with investigation and improvements on the method. We begin by simulating events using the Monte Carlo generator {\tt Herwig++} and attempt to reproduce the results presented in \cite{Webber:2009vm}. In the course of this, we discover what appears to be some problematic issues with the analysis in \cite{Webber:2009vm}, concerned with the technicalities of numerical function minimization. We are able to reproduce the results using the same code as in the original article \cite{Webber:epost}, and this confirms the issues.
+
+In light of this, we present revised estimates for the accuracy we can expect of the method. In Chapter \ref{ch:investigating_improvements}, we investigate ways to amend the problems by modifying the method in various ways. Although we are able to construct modified versions of the method which is free of the technical problems in the original formulation, we are unable to recover the accuracy pertained in the original paper.
 
 
 % \input{thesis-introchapters.tex}
@@ -518,11 +523,20 @@ The different field components have the following properties: $f(x)$, $m(x)$ and
 % 	\item $d(x)$ is a complex scalar
 % \end{itemize}
 
- A set of covariant derivatives are defined by
+A supersymmetry transformation on a superfield $\Phi(x^\mu, \theta, \bar\theta)$ in terms of infinitesimal parameters $\xi_A$ and $\bar\xi^{\dot A}$ may be written
 \begin{align}
-	D_A = \frac{\partial}{\partial \theta^A} - i\sigma^\mu_{A \dot A}\bar\theta^{\dot A}\partial_\mu, \quad \bar D^{\dot A} = -\frac{\partial}{\partial \bar \theta_{\dot A}} + i\bar\sigma^{\mu,A \dot A}\theta_A \partial_\mu.
+	\delta_\xi \Phi &= \left( \xi^A \frac{\partial}{\partial \theta^A} + \bar\xi_{\dot A}\frac{\partial}{\partial \bar\theta_{\dot A}} + i\left[ \xi\sigma^\mu \bar\theta + \bar\xi \bar\sigma^\mu \theta  \right]\partial_\mu \right)\Phi\\
+	&= \Phi(x^\mu + i\xi\sigma^\mu\bar\theta + i\bar\xi \bar\sigma^\mu \theta, \theta + \xi, \bar\theta + \bar\xi) - \Phi(x^\mu, \theta, \bar\theta).
 \end{align}
-In terms of these, a {\it left chiral} superfield $\Phi$ is defined by the condition
+A set of covariant derivatives are defined by
+\begin{align}
+	D_A = \frac{\partial}{\partial \theta^A} - i\sigma^\mu_{A \dot A}\bar\theta^{\dot A}\partial_\mu, \quad \bar D^{\dot A} = -\frac{\partial}{\partial \bar \theta_{\dot A}} + i\bar\sigma^{\mu,A \dot A}\theta_A \partial_\mu,
+\end{align}
+which can be shown to satisfy
+\begin{align}
+ 	\delta_\xi (D_A \Phi) = D_A ( \delta_\xi ), \quad \delta_\xi (D^{\dot A} \Phi ) = D^{\dot A} ( \delta_\xi \Phi),
+ \end{align}
+ so that they are indeed supersymmetrically covariant. In terms of these, a {\it left chiral} superfield $\Phi$ is defined by the condition
 \begin{align}
 	\bar D^{\dot A} \Phi = 0.
 \end{align}
@@ -1598,6 +1612,7 @@ We also keep in mind the effects of momentum smearing, and check the no-combinat
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Investigating improvements}%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{ch:investigating_improvements}
 With the potentially significant errors inherent in Webber's original suggestion, we will now turn to investigate improvements.
 
 
@@ -1741,7 +1756,7 @@ In fig.\ \ref{fig:4combosum_nocomb-nosmear} we show a fit of the unsmeared datas
 % This is shown in fig.\ \ref{fig:8combosum-nosmear}. 
 We have also tried including all eight combinations instead of only the four closest. Then the results worsen considerably. While the robustness against starting points is retained, only half of the samples obtain convergence, and the errors on the masses are about 90 GeV for the three lightest particles and 150 GeV for the squark. There is a significant downward bias on the squark mass.
 
-\subsection{The error we introduce when summing four lepton combinations}
+\subsection{The error we introduce when summing four lepton permutations}
 % The method of summing the four closest combinations is investigated further. 
 % Consider one of the two decay chains, shown schematically in fig.\ \ref{fig:decaytree_improvementchap}.
 % \begin{figure}[hbt]
@@ -1948,38 +1963,85 @@ We have implemented this in the following way: We use the mass-squared differenc
 
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=0.6\textwidth]{figures/improving_combinatorics/A_selection_histogram_temp_nosmear.pdf} 
-	\caption{Histogram of all the 100 event samples of unsmeared {\tt Heriwg++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. [Obviously make this plot nicer!]}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/histogram-pairwise_A_selection-fraction_of_corr_A-nodetAcut.pdf} 
+		\caption{ }
+		\label{fig:correct_A_preference_distribution_a}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/histogram-pairwise_A_selection-fraction_of_corr_A-detAcut10.pdf} 
+		\caption{ }
+		\label{fig:correct_A_preference_distribution_b}
+	\end{subfigure}
+	\caption{Histogram of all the 100 event samples of unsmeared {\tt Heriwg++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. A minimal value cut of 10 is put on the determinant in (b), discarding some events. See the text for details.}
 	\label{fig:correct_A_preference_distribution}
 \end{figure}
-For the {\tt Herwig++} data set of 100 bins of 25 events, there seems to be a clear preference for the correct A matrix. The fraction of events where the correct A is chosen, for each event sample, is shown in fig.\ \ref{fig:correct_A_preference_distribution}. We see that for the samples with the lowest fraction of correct events, the fraction is 60 \%. No cut on $\mathrm{det}\mathbf{A}$ is applied prior to the selection, since we find that we get a significantly clearer signal by including all events.
+For the {\tt Herwig++} data set of 100 bins of 25 events, there seems to be a clear preference for the correct A matrix. The fraction of events where the correct A is chosen, for each event sample, is shown in fig.\ \ref{fig:correct_A_preference_distribution}. We see that for the samples with the lowest fraction of correct events, the fraction is 60 \%. No cut on $\mathrm{det}\mathbf{A}$ is applied prior to the selection, since we find that we get a significantly clearer signal by including all events. In fig.\ \ref{fig:correct_A_preference_distribution_b}, a determinant cut is used to remove events after the selection. There is a slight weight shift towards a higher fraction of correct $\mathbf{A}$ after this cut.
 
-Figure \ref{fig:event-pair-A-selection_4combosum} shows scatter plots of the best-fit points found by selecting $\mathbf{A}$ for each event according to this algorithm, and summing the remaining four combinations. Subfigure a has no cut on the determinant, while a minimal-value cut of 10 is applied in subfig.\ b.\footnote{The number $f_{\mathrm{det}\mathbf A} = 96\,\%$ in the plot in subfig.\ a seems to indicate that not all events have passed the determinant cut, even though no cut has been applied. This is an artifact due to not all events passing the matrix selection algorithm.}
+Figure \ref{fig:event-pair-A-selection_4combosum} shows scatter plots of the best-fit points found by selecting $\mathbf{A}$ for each event according to this algorithm, and summing the remaining four combinations. Subfigure a has no cut on the determinant, while a minimal-value cut of 10 is applied in subfig.\ b.\footnote{The number $f_{\mathrm{det}\mathbf A} = 96\,\%$ in the plot in subfig.\ a seems to indicate that not all events have passed the determinant cut, even though no cut has been applied. This is an artifact due to not all events passing the $\mathbf{A}$ matrix selection algorithm.}
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.6\textwidth}
 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_nosmear_nodetAcut_A_matrix_algorithm_4combosum_TMP.pdf} 
-		\label{fig:event-pair-A-selection_4combosum_a}
 		\caption{ }
+		\label{fig:event-pair-A-selection_4combosum_a}
 	\end{subfigure}
 
 	\begin{subfigure}[b]{0.6\textwidth}
 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_nosmear_detAcut10_A_matrix_algorithm_4combosum_TMP.pdf}
-		\label{fig:event-pair-A-selection_4combosum_b}
-		\caption{ } 
+		\caption{ }
+		\label{fig:event-pair-A-selection_4combosum_b} 
 	\end{subfigure}
 	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics handled by selecting $\mathbf{A}$ matrices for each event using the event-pairing algorithm described in section \ref{sec:handling_combinatorics_summed-combo} and summing the remaining four combinations. A minimal-value determinant cut of 10 is applied in subfig.\ b.}
 	\label{fig:event-pair-A-selection_4combosum}
 \end{figure}
 
+
+\subsection{Including same-flavour lepton events}
+In our analysis so far, we have discarded events where all the four leptons are of the same flavour (SFL events). This was done to limit the combinatorical ambiguity, but comes at the expense of halving the amount of events we can expect. In the language of our method, the inclusion of SFL events amounts to including two additional matrices $\mathbf{A}$ which come from permuting the leptons across the chains. It is interesting to see how the algorithm for choosing $\mathbf{A}$ tackles this case. We find that it handles it quite well. Figure \ref{fig:correct_A_preference_distribution_OSFL} shows the fraction of correctly identified $\mathbf{A}$ matrices with and without a determinant cut, on the unsmeared {\tt Herwig++} dataset with SFL events included. The SFL events are distributed as they come from the Monte Carlo, which means they constitute about half the events in each sample.
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/histogram-OSFL-pairwise_A_selection-fraction_of_corr_A-nodetAcut.pdf} 
+		\caption{ }
+		\label{fig:correct_A_preference_distribution_OSFL_a}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/histogram-OSFL-pairwise_A_selection-fraction_of_corr_A-detAcut10.pdf} 
+		\caption{ }
+		\label{fig:correct_A_preference_distribution_OSFL_b}
+	\end{subfigure}
+	\caption{Distribution of the fraction of correctly identified $\mathbf{A}$ matrices in samples when same-flavour lepton events are included. A determinant cut of 10 is applied in (b).}
+	\label{fig:correct_A_preference_distribution_OSFL}
+\end{figure}
+
+In fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL}, we show the best-fit points obtained in this case. The errors are somewhat larger than when using only opposite-flavour leptons (OFL), and the downward bias is enhanced. The best-fit points with a determinant cut are $547 \pm 31\,\, \mathrm{GeV}, 165 \pm 25\,\, \mathrm{GeV}, 126 \pm 25\,\, \mathrm{GeV}$ and $83 \pm 25\,\, \mathrm{GeV}$ for the OFL only case (fig.\ \ref{fig:event-pair-A-selection_4combosum_b}), and $534 \pm 35\,\, \mathrm{GeV}, 160 \pm 27\,\, \mathrm{GeV}, 121 \pm 27\,\, \mathrm{GeV}$ and $78 \pm 28\,\, \mathrm{GeV}$ when SFL events are included as well (fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL_b}).
+
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-OSFL_nosmear_nodetAcut_A_matrix_algorithm_4combosum_TMP.pdf} 
+		\caption{ }
+		\label{fig:event-pair-A-selection_4combosum-OSFL_a}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-OSFL_nosmear_detAcut10_A_matrix_algorithm_4combosum_TMP.pdf}
+		\caption{ }
+		\label{fig:event-pair-A-selection_4combosum-OSFL_b} 
+	\end{subfigure}
+	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics handled by selecting $\mathbf{A}$ matrices for each event using the event-pairing algorithm described in section \ref{sec:handling_combinatorics_summed-combo} and summing the remaining four combinations. A minimal-value determinant cut of 10 is applied in subfig.\ b.}
+	\label{fig:event-pair-A-selection_4combosum-OSFL}
+\end{figure}
+
+
+
 \subsection{Handling the remaining combinatorical ambiguity}
-The method in the previous section provides a way to select between the quark-lepton combinations. With this, we in principle have a working method which can be applied to a sample of events without knowing the true combinatorical configuration, and which is robust against starting points and convergence issues. The plot in fig.\ \ref{fig:event-pair-A-selection_4combosum_b} can be seen as a best-case scenario for this technique. The mean best-fit values are $m_{\tilde q} = 547 \pm 31 \,\,\mathrm{GeV}$, $m_{\tilde \chi_2^0} = 165\pm 25 \,\,\mathrm{GeV}$, $m_{\tilde l} = 126 \pm 25 \,\, \mathrm{GeV}$ and $m_{\tilde \chi_1^0} = 83 \pm 25 \,\,\mathrm{GeV}$. Although the determinant cut has reduced the errors compared to fig.\ \ref{fig:event-pair-A-selection_4combosum_a}, the errors are still very large --- as large as 30 \% for the LSP. A portion of this uncertainty is introduced by the summing of four combinations. It would be desirable to find a way to discriminate between these combinations also. 
+The method in the previous section provides a way to select between the quark-lepton combinations. With this, we in principle have a working method which can be applied to a sample of events without knowing the true combinatorical configuration, and which is robust against starting points and convergence issues. The plot in fig.\ \ref{fig:event-pair-A-selection_4combosum_b} is a best-case scenario for this technique. The mean best-fit values are $m_{\tilde q} = 547 \pm 31 \,\,\mathrm{GeV}$, $m_{\tilde \chi_2^0} = 165\pm 25 \,\,\mathrm{GeV}$, $m_{\tilde l} = 126 \pm 25 \,\, \mathrm{GeV}$ and $m_{\tilde \chi_1^0} = 83 \pm 25 \,\,\mathrm{GeV}$. Although the determinant cut has reduced the errors compared to fig.\ \ref{fig:event-pair-A-selection_4combosum_a}, the errors are still very large --- as large as 30 \% for the LSP. There is also a significant downward bias, which is enhanced by the determiant cut. Part of this uncertainty is introduced by the summing of four combinations. It would be desirable to find a way to discriminate between these combinations also. 
 
-One might try to revert to the method of ``jumping'' between combinations in the $\xi^2$ function, but jumping between only the four remaining combinations instead of all eight. We have tried this option, but it gives a very poor fit.\marginpar{Should try detA cut to remove events before jump-minimizing. Maybe maybe maybe this helps.}
+One might try to revert to the method of ``jumping'' between combinations in the $\xi^2$ function, but jumping between only the four remaining combinations instead of all eight. We have tried this option, but it gives a very poor fit. \marginpar{Should try detA cut to remove events before jump-minimizing. Maybe maybe maybe this helps. Implement as third option besides combosum and no combinatorics?} 
 
-
-Say something about SFL events? Test the versatile minimization on full SFL&OFL dataset? Worth a try since it's easy, maybe not include depending on results. Should point out that this doubles statistics, so maybe use 50 events? Or use 25, but also test OFL with only 12-13 events?
-
+Another possibility is to do something analogous to the algorithm we applied to choose between the $\mathbf{A}$'s. One could imagine pairing events and minimizing all combinations ($4^2 = 16$, in this case), selecting the combination which is minimal in most cases. However, this would only give two contributing terms to the $\xi^2$ for each minimization, instead of eight terms in the case where four permutations are summed. The $\xi^2$ turns out to be difficult to minimize in this case, and it often does not converge at all. A better approach might be to select permutations for each event at random, and apply an iterative scheme to attempt to converge on a choice of combinations with a minimal $\xi^2$ value. \marginpar{The reader will then ask why I have not done this.}
 
 
 
@@ -2044,6 +2106,14 @@ Below it turns out that the method seems insensitive to the LSP mass -- I am sta
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Conclusions and outlook} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The method presented by Webber, although promising, has been shown to have inherent technical problems which lead to under-estimation of the errors and biases in the original article \cite{Webber:2009vm}, given in table \ref{table:webber_original}. The challenges stem in part from the combinatorical ambiguity inherent in the chain. 
+
+When the estimates are revised, taking into account the need for a lower {\tt SIMPLEX} tolerance in order to resolve the function minimum, the error is significantly increased, and biases are introduced, as can be seen from table \ref{table:webber_rec_lowtol}. In addition, there is a dependence upon the minimization starting point which adds to the uncertainties. Particularily, we have shown that when experimental uncertainties are simulated in the form of momentum smearing, the mass of the LSP is fitted to zero in many of the samples (fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}). This is the case even without considering combinatorics.
+
+Attempts to modify the method to avoid these problems is partially successful at best. Although we have found an implementation that is robust against different starting points for the minimization algorithm, handles the combinatorical ambiguities and resolves the LSP mass, we have not found a way to reduce the errors 
 
 
 
@@ -2064,38 +2134,6 @@ Below it turns out that the method seems insensitive to the LSP mass -- I am sta
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \chapter{Improvements of the method}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% To think about: How do we scan when we don't know true values? The fit is sensitive to initial values. Might it be fruitful to run many minimizations with different starting positions? That would essentially stack another 4-dimensional minimization on top of this one. Would scale CPU time enormously. Probably not that clever.
-
-% What about discarding events with large minima? Do they seem to ruin the fit or is the minimal value not that good a measurement? Webber does this. 
-
-% I have not looked much into using Det(A) as a measure of invertibility. It seems like invertibility is not really the big issue, but it might be worth investigating never the less. Maybe discard events based on Det(A)?
-
-% One very unchewed idea: How about fitting the more fundamental SUSY soft parameters instead of the physical masses? I.e. substitute the soft masses instead of the physical ones? Can we gain something under different model assumptions, extract some co-varying parameters or something?
 
 
 
@@ -2122,9 +2160,177 @@ Below it turns out that the method seems insensitive to the LSP mass -- I am sta
 
 
 
-\chapter{Calculations}
 
-\section{Invariant mass with misidentification of lepton}
+\chapter{The Dirac equation}
+\label{appendix:diraceq}
+% The Dirac equation is derived. The derivation closely follows \cite[pp.\ 225-229]{griffiths:elementary_particles}. 
+
+Einstein's fundamental relationship between energy, momentum and mass in special relativity is
+\begin{align}
+  p^\mu p_\mu - m^2 = 0.\label{eq:energymomentum}
+\end{align}
+Following the prescriptions of quantum mechanics, energy and momentum are promoted to operators:
+\begin{align}
+	p_\mu \to i\hbar \frac{\partial}{\partial x^\mu} \equiv i\hbar \partial_\mu.
+\end{align}
+Taken as an eigenvalue equation for a field $\psi$, this gives rise to the relativistic {\it Klein-Gordon} equation
+\begin{align}
+	-\hbar^2 \partial^\mu \partial_\mu \psi - m^2 \psi = 0.
+\end{align}
+This equation differs from the Schr\"{o}dinger equation of non-relativistic quantum mechanics in that it is second order in $\partial_{0} = \partial_t$, while the Schr\"{o}dinger equation is first order. To obtain a first-order differential equation in time, Dirac attempted \cite{griffiths:elementary_particles} to factor the energy-momentum relation \eqref{eq:energymomentum} as
+\begin{align}
+	p^\mu p_\mu - m^2 = \left(\gamma^\kappa p_\kappa + m\right)\left(\gamma^\lambda p_\lambda - m\right).
+\end{align}
+This leads to the requirement
+\begin{align}
+	p^\mu p_\mu = \gamma^\mu \gamma^\nu p_\mu p_\nu.
+\end{align}
+The right hand side can be written as
+\begin{align}
+	\gamma^\mu \gamma^\nu p_\mu p_\nu &= \frac{1}{2}\left( \gamma^\mu \gamma^\nu p_\mu p_\nu + \gamma^\nu \gamma^\mu p_\nu p_\mu \right)\\
+	&= \frac{1}{2}\left( \gamma^\mu \gamma^\nu  + \gamma^\nu \gamma^\mu \right) p_\mu p_\nu,
+\end{align}
+where we have used the fact that $\mu$ and $\nu$ are dummy summation variables. This implies that
+\begin{align}
+	\left\{ \gamma^\mu, \gamma^\nu \right\} = 2g^{\mu\nu},
+\end{align}
+where $g^{\mu\nu}$ is the Minkowski metric tensor, and the curly brackets denote the anticommutator $\left\{ \gamma^\mu, \gamma^\nu \right\} = \gamma^\mu \gamma^\nu + \gamma^\nu \gamma^\mu$. Dirac realized that this condition can be met provided we let the $\gamma^\mu$ be {\it matrices}. It turns out that the lowest possible dimension of these matrices is $4\times 4$. They may be represented in several equivalent bases, but one standard convention is
+\begin{align}
+	\gamma^0 = \begin{pmatrix}
+		1 & 0 \\ 0 & -1
+	\end{pmatrix}, \quad{} \gamma^i = \begin{pmatrix}
+		0 & \sigma^i \\ -\sigma^i & 0
+	\end{pmatrix},
+\end{align}
+where $\sigma^i$ are the Pauli matrices, $1$ denotes the $2\times 2$ identity matrix and $0$ the $2\times 2$ matrix of zeros. With this factorization, the relativistic momentum-energy relation is satisfied by
+\begin{align}
+	\gamma^\mu p_\mu - m = 0.
+\end{align}
+The Dirac equation is obtained by substituting operators and letting them act on an object $\Psi$, giving
+\begin{align}
+	\left(i\hbar \gamma^\mu \partial_\mu - m\right)\Psi = 0,
+\end{align}
+where $\Psi$ is required by dimensionality to be a four-column vector of fields,
+\begin{align}
+	\Psi = \begin{pmatrix}
+		\psi_1(x) \\ \psi_2(x) \\ \psi_3(x) \\ \psi_4(x)
+	\end{pmatrix},
+\end{align}
+called a Dirac {\it spinor}.
+
+The {\it equations of motion} are the equations describing the field configurations which minimizes the {\it action},
+\begin{align}
+	S = \int d^4 x \, \mathcal{L},
+\end{align}
+Demanding stationarity of action for a spinor field $\Psi$ and its adjoint $\bar\Psi$,
+\begin{align}
+	\delta S = 0,
+\end{align}
+gives the {\it Euler-Lagrange} equations of motion
+\begin{align}
+	\partial_{\mu}\left(\frac{\partial\mathcal{L}}{\partial\left(\partial_{\mu}\Psi\right)}\right) - \frac{\partial\mathcal{L}}{\partial\Psi} &= 0,\\
+	\partial_{\mu}\left(\frac{\partial\mathcal{L}}{\partial\left(\partial_{\mu}\bar\Psi\right)}\right) - \frac{\partial\mathcal{L}}{\partial\bar\Psi} &= 0.
+\end{align}
+The Lagrangian $\mathcal{L}_D$ which yields the Dirac equation upon application of the equations of motion is
+\begin{align}
+	\mathcal{L}_D = \bar \Psi \left( i\hbar \slashed \mu - m \right)\Psi,
+\end{align}
+called the Dirac bilinear.
+
+
+
+
+\chapter{Higgs mass loop corrections}
+\label{appendix:higgs_mass_loop_correction}
+This appendix contains calculations of the one-loop contributions to the Higgs mass from fermionic and scalar particles.
+
+\section{Fermion loop}
+The diagram is given in fig.\ \ref{fig:appendix_higgs_top_loop}.
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=1]{figures/appendix/higgs_top_loop_with_momenta.eps}
+\caption{Fermionic loop correction to the Higgs propagator.}
+\label{fig:appendix_higgs_top_loop}
+\end{figure}
+The vertex factors are $-i\frac{y}{\sqrt{2}}$, where $y$ is the Yukawa coupling of the fermion, which has mass $m$. The amplitude is then given by
+\begin{align}
+	i\mathcal{M} =& -(-i)^2\frac{y^2}{2} \mathrm{Tr}\left\{ \int \frac{d^4 k}{(2\pi)^4} \frac{\left[ \slashed q + \slashed k + m \right]\left[ \slashed k + m \right]}{\left[(q+k)^2 - m^2 \right] \left[ k^2 - m^2 \right]}  \right\}.
+\end{align}
+The denominators can be combined by a Feynman parametrization,
+\begin{align}
+	\frac{1}{\left[(q+k)^2 - m^2 \right] \left[ k^2 - m^2 \right]} &= \int_0^1 dx\, \frac{1}{\left[\left( (q+k)^2 - m^2\right) x + \left(k^2 -m^2 \right)(1-x)\right]^2}\nonumber \\
+	&= \int_0^1 dx \, \frac{1}{\left[(k+qx)^2 - \Delta\right]^2},
+\end{align}
+where $\Delta \equiv q^2x(x-1)+m^2$. Defining $\ell \equiv k+qx$, we get
+\begin{align}
+	i\mathcal{M} &= -\frac{y^2}{2}\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} \mathrm{Tr}\left\{ \frac{ \slashed{\ell}^2 + \slashed{q}^2x(x-1) + m^2}{\left[ \ell^2 - \Delta \right]^2}  \right\},
+\end{align}
+where we have omitted terms linear in $\ell$, since they vanish by the antisymmetry of the integral, and terms with an odd number of $\gamma$ matrices since they trace to zero. The remaining trace is found by using that
+\begin{align}
+	\mathrm{Tr} \left\{ \gamma^\mu \gamma^\nu\right\} = 4g^{\mu\nu},
+\end{align}
+and remembering that there is really also a $4\times 4$ identity matrix in the $m^2$ term. We then get
+\begin{align}
+	i\mathcal{M} &= -\frac{y^2}{2}\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} 4 \frac{ {\ell}^2 + {q}^2x(x-1) + m^2}{\left[ \ell^2 - \Delta \right]^2}  \\
+				&= -2y^2\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} 4 \frac{ {\ell}^2 + \Delta}{\left[ \ell^2 - \Delta \right]^2}.\nonumber
+\end{align}
+We now make a Wick rotation by introducing the Euclidian variable $\ell_E$, given by $\ell^0 = i\ell^0_E$, $\vec\ell = \vec\ell_E$, such that
+\begin{align}
+	\ell^2 = -\ell_E^2, \quad d^4\ell = id^4\ell_E.
+\end{align}
+This gives
+\begin{align}
+	i\mathcal{M} &= i8y^2\int_0^1 dx \int \frac{d^4\ell_E}{(2\pi)^4}  \frac{ {\ell_E}^2 - \Delta}{\left[ \ell_E^2 + \Delta \right]^2}, 
+\end{align}
+which can be evaluated in spherical coordinates,
+\begin{align}
+	\int d^4\ell_E = \int d\Omega_4 \int d|\ell_E| \, |\ell_E|^3,
+\end{align}
+where $\Omega_4$ is the four-dimensional solid angle, which by spherical symmetry just gives
+\begin{align}
+	 \int d\Omega_4 = 2\pi^2.
+\end{align}
+By using a cutoff regularization parametrized by $\Lambda$, the whole amplitude is then
+\begin{align}
+	i\mathcal{M} = &-i\frac{4\pi^2}{(2\pi)^4}y^2 \int_0^1 dx\, \left[ \int_0^\Lambda d|\ell_E| \frac{|\ell_E|^5}{\left(|\ell_E|^2 + \Delta\right)^2} - \Delta \int_0^\Lambda \frac{|\ell_E|^3}{\left( |\ell_E|^2 + \Delta \right)^2}\right]\nonumber \\
+	= &-iy^2\frac{1}{4\pi^2}\int_0^1 dx \, \left[ \frac{-2\Delta^2 + \Delta \Lambda^2 + \Lambda^4 - 3\Delta\left( \Delta + \Lambda^2\right)\log \left(\Delta + \Lambda^2\right)}{2\left(\Delta + \Lambda^2\right)} \right.\nonumber \\
+	&-\left. \frac{-2\Delta^2 - 4\Delta^2\log\Delta}{2\Delta}\right]\\
+	\overset{\Lambda^2 \gg \Delta}{\to} &-iy^2\frac{1}{4\pi^2} \frac{\Lambda^4}{2\Lambda^2}\nonumber \\
+	= &-i\frac{y^2}{8\pi^2}\Lambda^2.\nonumber
+\end{align}
+For $y = |\lambda_f|$, this gives the first term in eq.\ \eqref{eq:higgs_mass_corrections}.
+
+\section{Scalar loop}
+The diagram is given in fig.\ \ref{fig:appendix_higgs_stop_loop}.
+\begin{figure}[hbt]
+\centering
+\includegraphics[scale=1]{figures/appendix/higgs_stop_loop_with_momenta.eps}
+\caption{Scalar loop correction to the Higgs propagator.}
+\label{fig:appendix_higgs_stop_loop}
+\end{figure}
+The vertex factor is taken to be $i\lambda$, and $m$ is the mass of the scalar in the loop. The amplitude is given by
+\begin{align}
+	i\mathcal{M} &= i\lambda \int \frac{d^4k}{(2\pi)^4}\, \frac{i}{k^2-m^2}.
+\end{align}
+By Wick rotating $k\to k_E$ and switching to spherical coordinates as in the previous section, we get
+\begin{align}
+	i\mathcal{M}= &i\lambda \frac{1}{(2\pi)^4}\int d\Omega_4 \int_0^\Lambda d|k_E| \, \frac{|k_E|^3}{|k_E|^2 + m^2}\nonumber\\
+				= &i\frac{\lambda}{16\pi^2} \left(\Lambda^2 + m^2\log \left( \frac{m^2}{m^2+\Lambda^2} \right) \right)\label{eq:scalar_loop_result}\\
+				\overset{\Lambda^2 \gg m^2}{\to} &i\frac{\lambda}{16\pi^2} \Lambda^2.\nonumber
+\end{align}
+For $\lambda = \lambda_{\tilde f}$, this is the second term in eq.\ \eqref{eq:higgs_mass_corrections}. 
+
+Note that when the leading, quadratic terms cancel each other, the remainder in eq.\ \eqref{eq:scalar_loop_result} is 
+\begin{align}
+	m^2\log \left( \frac{m^2}{m^2+\Lambda^2} \right),
+\end{align}
+which does {\it not} cancel with the fermion loop, since it depends on the scalar mass. If the scalar, {\it i.e.}\ the superpartner particle, is heavy, then this contribution may be significant. This puts restrictions on the sfermion masses in order not to reintroduce the fine-tuning, and is sometimes called the {\it little hierarchy problem}.
+
+
+
+% \chapter{Calculations}
+
+\chapter{Invariant mass with lepton misidentifications}
 \label{sec:appendix_invmass-calculations}
 The invariant mass of $a + A$ in the decay topology of fig.\ \ref{fig:decaytree_appendix} is $m_{aA}^2 = (p_a + p_A)^2 = m_B^2$. However, if the particle $b$ is misidentified as $a$, what is the resulting invariant mass $m_X^2$? The calculation is most easily done in the rest frame of $B$. 
 \begin{figure}[hbt]
@@ -2495,164 +2701,7 @@ bool amoeba(double *point, double &fmin, double (*func)(double *, int, int, doub
 
 
 
-\chapter{The Dirac equation}
-\label{appendix:diraceq}
-% The Dirac equation is derived. The derivation closely follows \cite[pp.\ 225-229]{griffiths:elementary_particles}. 
 
-Einstein's fundamental relationship between energy, momentum and mass in special relativity is
-\begin{align}
-  p^\mu p_\mu - m^2 = 0.\label{eq:energymomentum}
-\end{align}
-Following the prescriptions of quantum mechanics, energy and momentum are promoted to operators:
-\begin{align}
-	p_\mu \to i\hbar \frac{\partial}{\partial x^\mu} \equiv i\hbar \partial_\mu.
-\end{align}
-Taken as an eigenvalue equation for a field $\psi$, this gives rise to the relativistic {\it Klein-Gordon} equation
-\begin{align}
-	-\hbar^2 \partial^\mu \partial_\mu \psi - m^2 \psi = 0.
-\end{align}
-This equation differs from the Schr\"{o}dinger equation of non-relativistic quantum mechanics in that it is second order in $\partial_{0} = \partial_t$, while the Schr\"{o}dinger equation is first order. To obtain a first-order differential equation in time, Dirac attempted \cite{griffiths:elementary_particles} to factor the energy-momentum relation \eqref{eq:energymomentum} as
-\begin{align}
-	p^\mu p_\mu - m^2 = \left(\gamma^\kappa p_\kappa + m\right)\left(\gamma^\lambda p_\lambda - m\right).
-\end{align}
-This leads to the requirement
-\begin{align}
-	p^\mu p_\mu = \gamma^\mu \gamma^\nu p_\mu p_\nu.
-\end{align}
-The right hand side can be written as
-\begin{align}
-	\gamma^\mu \gamma^\nu p_\mu p_\nu &= \frac{1}{2}\left( \gamma^\mu \gamma^\nu p_\mu p_\nu + \gamma^\nu \gamma^\mu p_\nu p_\mu \right)\\
-	&= \frac{1}{2}\left( \gamma^\mu \gamma^\nu  + \gamma^\nu \gamma^\mu \right) p_\mu p_\nu,
-\end{align}
-where we have used the fact that $\mu$ and $\nu$ are dummy summation variables. This implies that
-\begin{align}
-	\left\{ \gamma^\mu, \gamma^\nu \right\} = 2g^{\mu\nu},
-\end{align}
-where $g^{\mu\nu}$ is the Minkowski metric tensor, and the curly brackets denote the anticommutator $\left\{ \gamma^\mu, \gamma^\nu \right\} = \gamma^\mu \gamma^\nu + \gamma^\nu \gamma^\mu$. Dirac realized that this condition can be met provided we let the $\gamma^\mu$ be {\it matrices}. It turns out that the lowest possible dimension of these matrices is $4\times 4$. They may be represented in several equivalent bases, but one standard convention is
-\begin{align}
-	\gamma^0 = \begin{pmatrix}
-		1 & 0 \\ 0 & -1
-	\end{pmatrix}, \quad{} \gamma^i = \begin{pmatrix}
-		0 & \sigma^i \\ -\sigma^i & 0
-	\end{pmatrix},
-\end{align}
-where $\sigma^i$ are the Pauli matrices, $1$ denotes the $2\times 2$ identity matrix and $0$ the $2\times 2$ matrix of zeros. With this factorization, the relativistic momentum-energy relation is satisfied by
-\begin{align}
-	\gamma^\mu p_\mu - m = 0.
-\end{align}
-The Dirac equation is obtained by substituting operators and letting them act on an object $\Psi$, giving
-\begin{align}
-	\left(i\hbar \gamma^\mu \partial_\mu - m\right)\Psi = 0,
-\end{align}
-where $\Psi$ is required by dimensionality to be a four-column vector of fields,
-\begin{align}
-	\Psi = \begin{pmatrix}
-		\psi_1(x) \\ \psi_2(x) \\ \psi_3(x) \\ \psi_4(x)
-	\end{pmatrix},
-\end{align}
-called a Dirac {\it spinor}.
-
-The {\it equations of motion} are the equations describing the field configurations which minimizes the {\it action},
-\begin{align}
-	S = \int d^4 x \, \mathcal{L},
-\end{align}
-Demanding stationarity of action for a spinor field $\Psi$ and its adjoint $\bar\Psi$,
-\begin{align}
-	\delta S = 0,
-\end{align}
-gives the {\it Euler-Lagrange} equations of motion
-\begin{align}
-	\partial_{\mu}\left(\frac{\partial\mathcal{L}}{\partial\left(\partial_{\mu}\Psi\right)}\right) - \frac{\partial\mathcal{L}}{\partial\Psi} &= 0,\\
-	\partial_{\mu}\left(\frac{\partial\mathcal{L}}{\partial\left(\partial_{\mu}\bar\Psi\right)}\right) - \frac{\partial\mathcal{L}}{\partial\bar\Psi} &= 0.
-\end{align}
-The Lagrangian $\mathcal{L}_D$ which yields the Dirac equation upon application of the equations of motion is
-\begin{align}
-	\mathcal{L}_D = \bar \Psi \left( i\hbar \slashed \mu - m \right)\Psi,
-\end{align}
-called the Dirac bilinear.
-
-
-
-
-\chapter{Higgs mass loop corrections}
-\label{appendix:higgs_mass_loop_correction}
-This appendix contains calculations of the one-loop contributions to the Higgs mass from fermionic and scalar particles.
-
-\section{Fermion loop}
-The diagram is given in fig.\ \ref{fig:appendix_higgs_top_loop}.
-\begin{figure}[hbt]
-\centering
-\includegraphics[scale=1]{figures/appendix/higgs_top_loop_with_momenta.eps}
-\caption{Fermionic loop correction to the Higgs propagator.}
-\label{fig:appendix_higgs_top_loop}
-\end{figure}
-The vertex factors are $-i\frac{y}{\sqrt{2}}$, where $y$ is the Yukawa coupling of the fermion, which has mass $m$. The amplitude is then given by
-\begin{align}
-	i\mathcal{M} =& -(-i)^2\frac{y^2}{2} \mathrm{Tr}\left\{ \int \frac{d^4 k}{(2\pi)^4} \frac{\left[ \slashed q + \slashed k + m \right]\left[ \slashed k + m \right]}{\left[(q+k)^2 - m^2 \right] \left[ k^2 - m^2 \right]}  \right\}.
-\end{align}
-The denominators can be combined by a Feynman parametrization,
-\begin{align}
-	\frac{1}{\left[(q+k)^2 - m^2 \right] \left[ k^2 - m^2 \right]} &= \int_0^1 dx\, \frac{1}{\left[\left( (q+k)^2 - m^2\right) x + \left(k^2 -m^2 \right)(1-x)\right]^2}\nonumber \\
-	&= \int_0^1 dx \, \frac{1}{\left[(k+qx)^2 - \Delta\right]^2},
-\end{align}
-where $\Delta \equiv q^2x(x-1)+m^2$. Defining $\ell \equiv k+qx$, we get
-\begin{align}
-	i\mathcal{M} &= -\frac{y^2}{2}\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} \mathrm{Tr}\left\{ \frac{ \slashed{\ell}^2 + \slashed{q}^2x(x-1) + m^2}{\left[ \ell^2 - \Delta \right]^2}  \right\},
-\end{align}
-where we have omitted terms linear in $\ell$, since they vanish by the antisymmetry of the integral, and terms with an odd number of $\gamma$ matrices since they trace to zero. The remaining trace is found by using that
-\begin{align}
-	\mathrm{Tr} \left\{ \gamma^\mu \gamma^\nu\right\} = 4g^{\mu\nu},
-\end{align}
-and remembering that there is really also a $4\times 4$ identity matrix in the $m^2$ term. We then get
-\begin{align}
-	i\mathcal{M} &= -\frac{y^2}{2}\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} 4 \frac{ {\ell}^2 + {q}^2x(x-1) + m^2}{\left[ \ell^2 - \Delta \right]^2}  \\
-				&= -2y^2\int_0^1 dx \int \frac{d^4\ell}{(2\pi)^4} 4 \frac{ {\ell}^2 + \Delta}{\left[ \ell^2 - \Delta \right]^2}.\nonumber
-\end{align}
-We now make a Wick rotation by introducing the Euclidian variable $\ell_E$, given by $\ell^0 = i\ell^0_E$, $\vec\ell = \vec\ell_E$, such that
-\begin{align}
-	\ell^2 = -\ell_E^2, \quad d^4\ell = id^4\ell_E.
-\end{align}
-This gives
-\begin{align}
-	i\mathcal{M} &= i8y^2\int_0^1 dx \int \frac{d^4\ell_E}{(2\pi)^4}  \frac{ {\ell_E}^2 - \Delta}{\left[ \ell_E^2 + \Delta \right]^2}, 
-\end{align}
-which can be evaluated in spherical coordinates,
-\begin{align}
-	\int d^4\ell_E = \int d\Omega_4 \int d|\ell_E| \, |\ell_E|^3,
-\end{align}
-where $\Omega_4$ is the four-dimensional solid angle, which by spherical symmetry just gives
-\begin{align}
-	 \int d\Omega_4 = 2\pi^2.
-\end{align}
-By using a cutoff regularization parametrized by $\Lambda$, the whole amplitude is then
-\begin{align}
-	i\mathcal{M} = &-i\frac{4\pi^2}{(2\pi)^4}y^2 \int_0^1 dx\, \left[ \int_0^\Lambda d|\ell_E| \frac{|\ell_E|^5}{\left(|\ell_E|^2 + \Delta\right)^2} - \Delta \int_0^\Lambda \frac{|\ell_E|^3}{\left( |\ell_E|^2 + \Delta \right)^2}\right]\nonumber \\
-	= &-iy^2\frac{1}{4\pi^2}\int_0^1 dx \, \left[ \frac{-2\Delta^2 + \Delta \Lambda^2 + \Lambda^4 - 3\Delta\left( \Delta + \Lambda^2\right)\log \left(\Delta + \Lambda^2\right)}{2\left(\Delta + \Lambda^2\right)} \right.\nonumber \\
-	&-\left. \frac{-2\Delta^2 - 4\Delta^2\log\Delta}{2\Delta}\right]\\
-	\overset{\Lambda^2 \gg \Delta}{\to} &-iy^2\frac{1}{4\pi^2} \frac{\Lambda^4}{2\Lambda^2}\nonumber \\
-	= &-i\frac{y^2}{8\pi^2}\Lambda^2.\nonumber
-\end{align}
-For $y = |\lambda_f|$, this gives the first term in eq.\ \eqref{eq:higgs_mass_corrections}.
-
-\section{Scalar loop}
-The diagram is given in fig.\ \ref{fig:appendix_higgs_stop_loop}.
-\begin{figure}[hbt]
-\centering
-\includegraphics[scale=1]{figures/appendix/higgs_stop_loop_with_momenta.eps}
-\caption{Scalar loop correction to the Higgs propagator.}
-\label{fig:appendix_higgs_stop_loop}
-\end{figure}
-The vertex factor is taken to be $i\lambda$, and $m$ is the mass of the scalar in the loop. The amplitude is given by
-\begin{align}
-	i\mathcal{M} &= i\lambda \int \frac{d^4k}{(2\pi)^4}\, \frac{i}{k^2-m^2}.
-\end{align}
-By Wick rotating $k\to k_E$ and switching to spherical coordinates as in the previous section, we get
-\begin{align}
-	i\mathcal{M}= &i\lambda \frac{1}{(2\pi)^4}\int d\Omega_4 \int_0^\Lambda d|k_E| \, \frac{|k_E|^3}{|k_E|^2 + m^2}\nonumber\\
-				= &i\frac{\lambda}{16\pi^2} \left(\Lambda^2- m^2 \log(m^2 + \Lambda^2) + m^2\log m^2 \right)\\
-				\overset{\Lambda^2 \gg m^2}{\to} &i\frac{\lambda}{16\pi^2} \Lambda^2.\nonumber
-\end{align}
-For $\lambda = \lambda_{\tilde f}$, this is the second term in eq.\ \eqref{eq:higgs_mass_corrections}.\marginpar{Point out that the remaining terms are the Little Hierarchy Problem.}
 
 
 \bibliographystyle{unsrt}
