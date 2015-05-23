@@ -525,8 +525,8 @@ The different field components have the following properties: $f(x)$, $m(x)$ and
 
 A supersymmetry transformation on a superfield $\Phi(x^\mu, \theta, \bar\theta)$ in terms of infinitesimal parameters $\xi_A$ and $\bar\xi^{\dot A}$ may be written
 \begin{align}
-	\delta_\xi \Phi &= \left( \xi^A \frac{\partial}{\partial \theta^A} + \bar\xi_{\dot A}\frac{\partial}{\partial \bar\theta_{\dot A}} + i\left[ \xi\sigma^\mu \bar\theta + \bar\xi \bar\sigma^\mu \theta  \right]\partial_\mu \right)\Phi\\
-	&= \Phi(x^\mu + i\xi\sigma^\mu\bar\theta + i\bar\xi \bar\sigma^\mu \theta, \theta + \xi, \bar\theta + \bar\xi) - \Phi(x^\mu, \theta, \bar\theta).
+	\delta_\xi \Phi &= \left( \xi^A \frac{\partial}{\partial \theta^A} + \bar\xi_{\dot A}\frac{\partial}{\partial \bar\theta_{\dot A}} + i\left[ \xi\sigma^\mu \bar\theta + \bar\xi \bar\sigma^\mu \theta  \right]\partial_\mu \right)\Phi\label{eq:susy_transformation}\\
+	&= \Phi(x^\mu + i\xi\sigma^\mu\bar\theta + i\bar\xi \bar\sigma^\mu \theta, \theta + \xi, \bar\theta + \bar\xi) - \Phi(x^\mu, \theta, \bar\theta).\nonumber
 \end{align}
 A set of covariant derivatives are defined by
 \begin{align}
@@ -548,11 +548,7 @@ This shows that a left-chiral superfield must be independent of $\bar \theta$ in
 \begin{align}
 	\Phi(y, \theta) = A(y) + \sqrt{2}\theta\psi(y) + \theta\theta F(y), 
 \end{align}
-thus containing two complex scalar fields and a left-handed Weyl spinor. Under an infinitesimal supersymmetry transformation with parameters $\xi_A$,
-\begin{align}
-	\delta_\xi \Phi = -i(\xi Q + \bar\xi\bar Q)\Phi,
-\end{align}
-the component field $F$ can be shown to transform into a total derivative. It will thus not contribute to the action, since all fields must vanish on the boundary at infinity. For this reason it is called an auxillary field. Thus we see that a left-chiral superfield contains two bosonic (scalar) degrees of freedom and two fermionic degrees of freedom contained in a left-handed Weyl spinor. Similar arguments may be applied to define a right-chiral superfield by the condition
+thus containing two complex scalar fields and a left-handed Weyl spinor. Under the infinitesimal supersymmetry transformation defined in eq.\ \eqref{eq:susy_transformation}, the component field $F$ can be shown to transform into a total derivative. It will thus not contribute to the action, since all fields must vanish on the boundary at infinity. For this reason it is called an auxillary field. Thus we see that a left-chiral superfield contains two bosonic (scalar) degrees of freedom and two fermionic degrees of freedom contained in a left-handed Weyl spinor. Similar arguments may be applied to define a right-chiral superfield by the condition
 \begin{align}
 	D_A \Psi^\dag = 0,
 \end{align}
@@ -587,7 +583,7 @@ To obtain a theory which is supersymmetric, the action, given by
  \begin{align}
  	\mathcal{L} = \mathcal{L}_{\theta\theta \bar\theta \bar\theta} + \theta \theta \mathcal{L}_{\bar\theta \bar\theta} + \bar\theta \bar\theta \mathcal{L}_{\theta \theta},
  \end{align}
- where the indices indicates the highest power of $\theta$ in each term.
+ where the indices indicate the highest power of $\theta$ in each term.
 
 The {\it superpotential} $W$ is defined as a product of left-chiral superfields,
  \begin{align}
@@ -1262,7 +1258,7 @@ The plan of attack is as follows:
 	\item Because of final state radiation and parton showering, as well as---to a lesser degree---sparticle widths, the particles in the decay chain will not be on-shell due to extra gluons (and photons) in the final state. We employ a more sophisticated Monte Carlo code, {\tt Herwig++}~\cite{Bahr:2008pv}  to simulate these properties. This should have an effect on the mass reconstruction since Webber's method assumes on-shell decays.
 	\item	We then compare results with and without including the combinatorical issues from identifying the decay products, and we add a simple parametrised momentum smearing, based on realistic detector response, in order to simulate that the measurement of the kinematics of final-state particles is not exact. This was the level of precision employed by Webber in~\cite{Webber:2009vm}.
 	\item The partons that emerge from the hadron showers will hadronize, forming a hadron jet before arriving in the detector. Measurement of the initial parton from reconstructing such jets is one of the big challenges of collider physics. We use the {\tt FastJet}~\cite{Cacciari:2011ma} program for jet reconstruction, with algorithms used in the LHC experiments, and study the effect of jet reconstruction on the mass measurement.
-	\item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. In addition we simulate the expected largest backgrounds for a four-lepton supersymmetry search and investigate how the performance of the method is affected by the presence of background.
+	\item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. In addition we simulate the expected largest backgrounds for a four-lepton supersymmetry search and investigate how the performance of the method is affected by the presence of background.\marginpar{Remove mention of background?}
 	% \item {\bf If time} As a last step towards realism, we put the events through a fast detector simulation. 
 	% \item We then investigate improvements over the original model. Webber and collaborators \cite{Nojiri:2010dk} propose combining the kinematical best-fit reconstruction with measurements of end points of invariant mass distributions.
 	% \item Investigating other types of chains. Not-equal-sided? Different number of steps? Fitting a mass plane rather than points?
@@ -1973,7 +1969,7 @@ We have implemented this in the following way: We use the mass-squared differenc
 		\caption{ }
 		\label{fig:correct_A_preference_distribution_b}
 	\end{subfigure}
-	\caption{Histogram of all the 100 event samples of unsmeared {\tt Heriwg++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. A minimal value cut of 10 is put on the determinant in (b), discarding some events. See the text for details.}
+	\caption{Distribution of the 25-event samples of {\tt Heriwg++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. A minimal value cut of 10 is put on the determinant in (b), discarding some events. See the text for details.}
 	\label{fig:correct_A_preference_distribution}
 \end{figure}
 For the {\tt Herwig++} data set of 100 bins of 25 events, there seems to be a clear preference for the correct A matrix. The fraction of events where the correct A is chosen, for each event sample, is shown in fig.\ \ref{fig:correct_A_preference_distribution}. We see that for the samples with the lowest fraction of correct events, the fraction is 60 \%. No cut on $\mathrm{det}\mathbf{A}$ is applied prior to the selection, since we find that we get a significantly clearer signal by including all events. In fig.\ \ref{fig:correct_A_preference_distribution_b}, a determinant cut is used to remove events after the selection. There is a slight weight shift towards a higher fraction of correct $\mathbf{A}$ after this cut.
@@ -2016,7 +2012,6 @@ In our analysis so far, we have discarded events where all the four leptons are 
 \end{figure}
 
 In fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL}, we show the best-fit points obtained in this case. The errors are somewhat larger than when using only opposite-flavour leptons (OFL), and the downward bias is enhanced. The best-fit points with a determinant cut are $547 \pm 31\,\, \mathrm{GeV}, 165 \pm 25\,\, \mathrm{GeV}, 126 \pm 25\,\, \mathrm{GeV}$ and $83 \pm 25\,\, \mathrm{GeV}$ for the OFL only case (fig.\ \ref{fig:event-pair-A-selection_4combosum_b}), and $534 \pm 35\,\, \mathrm{GeV}, 160 \pm 27\,\, \mathrm{GeV}, 121 \pm 27\,\, \mathrm{GeV}$ and $78 \pm 28\,\, \mathrm{GeV}$ when SFL events are included as well (fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL_b}).
-
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.6\textwidth}
@@ -2030,10 +2025,27 @@ In fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL}, we show the best-fit p
 		\caption{ }
 		\label{fig:event-pair-A-selection_4combosum-OSFL_b} 
 	\end{subfigure}
-	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics handled by selecting $\mathbf{A}$ matrices for each event using the event-pairing algorithm described in section \ref{sec:handling_combinatorics_summed-combo} and summing the remaining four combinations. A minimal-value determinant cut of 10 is applied in subfig.\ b.}
+	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset including same-flavour lepton events, with combinatorics handled by selecting $\mathbf{A}$ matrices for each event using the event-pairing algorithm described in section \ref{sec:handling_combinatorics_summed-combo} and summing the remaining four combinations. A minimal-value determinant cut of 10 is applied in subfig.\ b.}
 	\label{fig:event-pair-A-selection_4combosum-OSFL}
 \end{figure}
 
+Since using only OFL events amounts to discarding half the available events, we might argue that when SFL events are included we should really double the sample size.\marginpar{Redo 50-event minimization plots with correct Nevents.}
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-OSFL-50events_nosmear_nodetAcut_A_matrix_algorithm_4combosum_TMP.pdf} 
+		\caption{ }
+		\label{fig:event-pair-A-selection_4combosum-OSFL-50events_a}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp-OSFL-50events_nosmear_detAcut10_A_matrix_algorithm_4combosum_TMP.pdf}
+		\caption{ }
+		\label{fig:event-pair-A-selection_4combosum-OSFL-50events_b} 
+	\end{subfigure}
+	\caption{Mass-difference minimization on 50-event samples of the unsmeared Herwig++ dataset, including same-flavour lepton events, with combinatorics handled by selecting $\mathbf{A}$ matrices for each event using the event-pairing algorithm described in section \ref{sec:handling_combinatorics_summed-combo} and summing the remaining four combinations. A minimal-value determinant cut of 10 is applied in subfig.\ b.}
+	\label{fig:event-pair-A-selection_4combosum-OSFL-50events}
+\end{figure}
 
 
 \subsection{Handling the remaining combinatorical ambiguity}
@@ -2053,15 +2065,86 @@ Another possibility is to do something analogous to the algorithm we applied to 
 
 
 \section{Taking jet reconstruction effects into account}
-In a realistic detector event, the quarks will fragment into hadron jets. These jets must be reconstructed using specially constructed algorithms in order to determine, as well as possible, the four-momentum and invariant mass of the originating quark. This process potentially introduces large inaccuracies into the measurement. Another complication is that, as mentioned in the beginning of Chapter \ref{ch:MC}, there may be more than two high-momentum jets. This is in fact quite likely, since one or both of the squarks in the chains may come from gluinos, originating from the processes $pp \to \tilde g \tilde q$ and $pp \to \tilde g \tilde g$ and decaying as $\tilde g \to \tilde q q$.
+In a realistic detector event, the quarks will fragment into hadron jets. These jets must be reconstructed using specially constructed algorithms in order to determine, as well as possible, the four-momentum and invariant mass of the originating quark. This process potentially introduces large inaccuracies into the measurement. Another complication is that, as mentioned in the beginning of Chapter \ref{ch:MC}, there may be more than two high-momentum jets. This is in fact quite likely, since one or both of the squarks in the chains may come from gluinos, originating from the processes $pp \to \tilde g \tilde q$ and $pp \to \tilde g \tilde g$ and decaying as $\tilde g \to \tilde q q$. 
 
-To estimate these effects, we have simulated jet reconstruction using {\tt Pythia} with the {\tt FastJet} jet-reconstruction algorithm. \marginpar{Explain anti-kT method?}
+To estimate these effects, we have simulated jet reconstruction using {\tt Pythia} v.\ 8.2 \cite{Sjostrand:2014zea} with the {\tt FastJet} \cite{Cacciari:2011ma} jet-reconstruction algorithm.\marginpar{Do I need to explain the anti-kT algorithm?} We use $R = 0.4$, $|\eta|<4$ as parameters for the jet reconstruction. We require the events we keep to satisfy the following cuts:
+\begin{itemize}
+	\item There must be at least two jets with $p_T > 100 \,\,\mathrm{GeV}$, $|\eta|<2.5$
+	\item All the four leptons must have $p_T > 10 \,\,\mathrm{GeV}$, $|\eta|<2.5$
+	\item The event must have missing $p_T > 50\,\,\mathrm{GeV}$
+\end{itemize}
+These cuts are taken from \cite{Cheng:2009fw}. 
 
-Apply cuts according to \cite{Cheng:2009fw}.
+Since we use {\tt Pythia} rather than {\tt Herwig++} for the jet reconstruction, we check that the events are consistent with previous results when jet reconstruction is not taken into account. This is indeed the case, and fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events} shows analogous fits as fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL} for the {\tt Pythia} dataset, {\it i.e.}\ mass-difference minimization on 25-event samples including both OF and SF lepton event, with a determinant cut applied in subfig.\ b.\marginpar{Quantify how similar they are?}
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_nosmear_25evbins_OSFL_nodetAcut_TMP.pdf} 
+		\caption{ }
+		\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events_a}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_nosmear_25evbins_OSFL_detAcut10_TMP.pdf}
+		\caption{ }
+		\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events_b} 
+	\end{subfigure}
+	\caption{Minimization on the Pythia dataset without jet reconstruction. Should be compared to fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL}.}
+	\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events}
+\end{figure}
+
+In fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events}, we show scatter plots of the best-fit points obtained for the {\tt Pythia} dataset with jet reconstruction, minimized on samples of 25 events, including both OF and SF lepton events. A determinant cut of 10 is applied in subfig.\ b. The two hardest jets in each event have been taken as the signal jets. This is justified in SPS1a because of the small mass splitting between the gluino and the squarks, which limit the momentum attainable for the quarks from gluino decay in events containing $\tilde g \to q\tilde q$. 
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_25evbins_nodetAcut-nosmear_TMP.pdf} 
+		\caption{ }
+		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events_a}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_25evbins_detAcut10-nosmear_TMP.pdf}
+		\caption{ }
+		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events_b} 
+	\end{subfigure}
+	\caption{Minimization on the Pythia dataset with jet reconstruction and 25-event bins.}
+	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events}
+\end{figure}
+
+Another reason for selecting jets in this way is that the alternative would require discrimination between three or more jets. This quickly increases the combinatorical ambiguity --- with three jets, there are six different $\mathbf{A}$ matrices for OFL events, and 12 for SFL. With four jets, there are 12/24 different $\mathbf{A}$'s. One could hope to reduce the ambiguity with additional selection criteria, such as constraints from the invariant mass edges discussed in the beginning of Chapter \ref{ch:introducing_the_method}, but the prospects for selecting the correct combination are still dim.
+
+Note that when we use the jet reconstructed quark momenta, we lose information on which quark belongs to which chain in the Monte Carlo data. We thus no longer have the possibility to minimize only the correct quark-lepton combinations. Also, since the numbering of jets is independent from the numbering of chains, we should expect the $\mathbf{A}$ selection algorithm to have equal preference for the two matrices which have correct lepton combinations, which means that the fraction of events where $\mathbf A_1$ is selected should be centered on 0.5. The distribution of $\mathbf A_1$ preference in the jet-reconstructed 25-event samples with both OFL and SFL events, and a determinant cut, is shown in fig.\ \ref{fig:histogram_jetrec_A1preference}. We see that the main weight is in the middle, with a slight preference for lower values due to the fact that the algorithm in some events prefers the (wrong) matrices $\mathbf A_3$ and $\mathbf A_4$.
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/improving_combinatorics/histogram_jetrec_OSFL_25evbins_detAcut10.pdf} 
+	\caption{The distribution of the fraction of events where the $\mathbf A$ selection algorithm prefers $\mathbf A_1$, on the {\tt Pythia} dataset with jet reconstruction.}
+	\label{fig:histogram_jetrec_A1preference}
+\end{figure}
+
+In fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events}, we show the minimization on jet-reconstructed samples of 50 events each, including both OFL and SFL events.
+\begin{figure}[hbt]
+	\centering
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_50evbins_nodetAcut-nosmear_TMP.pdf} 
+		\caption{ }
+		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events_a}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_50evbins_detAcut10-nosmear_TMP.pdf}
+		\caption{ }
+		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events_b} 
+	\end{subfigure}
+	\caption{Minimization on the Pythia dataset with jet reconstruction and 50-event bins.}
+	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events}
+\end{figure}
+
+
 
 {\it I have done the jet-reconstruction in Pythia, so I have the data, but in order to analyse them I must find a way to choose the correct jet-pair, or try all combinations. But the combinatorical ambiguities scale for >2 jets. For 3 jets, where two are the true jets, there are 6 possible combinations, and for 4 jets there are 12. Should try to just use the two hardest jets, will hopefully often be the correct ones for msquark approx mgluino. Argue that the alternative, choosing between 6 or 12 matrices, is worse.}
 
+Note that with jet reconstruction, inversion fails for some events. How many? Not any fails for R = 0.6.
 
+Note that we have to include both lepton-quark pairings (all four for SFL), since we don't know jet-quark correspondence. Since the jet ordering is independent of chain ordering, we SHOULD expect the choosing algorithm to prefer matrix A2 over A1 in about half the events. 
 
 
 
@@ -2084,21 +2167,11 @@ Apply cuts according to \cite{Cheng:2009fw}.
 
 
 
-We saw in the previous chapter that the minimization was not well-defined, since it depended heavily on the choice of starting point. This was however a minimization done with the full inclusion of combinatorical ambiguities (see section \ref{sec:combinatorics}). While these ambiguities are clearly unavoidable -- we do not know \`{a} priori which particles belong together -- there may be other ways to handle them than the intuitive method applied in the above analysis. It might be possible to use other kinematical constraints, like the end-point method mentioned in section \ref{ch:introducing_the_method}, to rule out combinations. We could also try to minimize a separate $\xi^2$ for each combination in each event, and select the combination which gives the lowest value as the true one -- {\bf if} this turns out to correlate with the correct combination. In \cite{Gripaios:2011jm} there is a comprehensive discussion of the relationship between different combinations -- maybe we can exploit these relationships to pin down the correct combination? Or borrow some other ideas from it?
-
-We should also investigate methods to identify events which contribute badly to the fit, so they can be dropped. We might try to use the event-wise $\xi^2$ for this, dropping events with a large minimum. We could also hope to use the determinant of the matrix A to identify events that are difficult to invert (small determinant), surmising that they also will give poor reconstruction. We should also investigate the determinant for the different combinatorical choices -- maybe we can rule out some combinations based on this? (Although several combinations share the same A.)
-
-Below it turns out that the method seems insensitive to the LSP mass -- I am starting to think that the way they do it in \cite{Nojiri:2010dk}, fitting the squared mass differences instead, is all we can hope to do. But this should be tried together with using the dilepton end-point to pin the LSP mass, which MAY give a full reconstruction again. Or at least some more plots.
 
 
 
 
 \begin{itemize}
-	\item Minimize separately for each event? Do something to make it steep enough?
-	\item combinatorical elimination: momentum cuts, angles, invariant mass edge. Angular selection: squarks produced more or less at rest (except if they come from gluino in a large mass-gap scenario). But if there is a mass gap further down, does this give anisotropies in angular distributions of opposite-chain particles? Don't focus on angles.
-	\item migrad or similar for minimization of 1-event bins? Provide gradient, analytical or numerical?
-	\item combinatorical issues with three or four hard squarks -- gluino-gluino vs gluino-squark vs squark-squark/squark-antisquark. Nllfast to give xsec. 
-	\item Examine correlation between det(A) and minimization performance. 
 	\item Include plots of the $\xi^2$ surface somewhere suitable -- maybe we can even compare combinatorics vs no combinatorics in a nice way?
 \end{itemize}
 
@@ -2222,7 +2295,7 @@ The {\it equations of motion} are the equations describing the field configurati
 \begin{align}
 	S = \int d^4 x \, \mathcal{L},
 \end{align}
-Demanding stationarity of action for a spinor field $\Psi$ and its adjoint $\bar\Psi$,
+Demanding stationarity of action for a spinor field $\Psi$ and its adjoint $\bar\Psi \equiv  \Psi^\dag \gamma^0$,
 \begin{align}
 	\delta S = 0,
 \end{align}
