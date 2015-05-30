@@ -45,14 +45,14 @@
 	\textbf{Samandrag}
 \end{center}
 \begin{abstract}{norsk}
-    \lipsum[1]
+    Dette er ein abstrakt tekst.
 \end{abstract}
 
 \begin{center}
 	\textbf{Abstract}
 \end{center}
 \begin{abstract}{english}
-    \lipsum[1]
+    We investigate a method, originally suggested in \cite{Webber:2009vm}, for determination of the masses of supersymmetric resonances and invisible final states in a certain type of cascade decays, within the framework of the Minimal Supersymmetric Standard Model with conservation of R-parity. The method formulates the mass determination as an optimization problem for which numerical techniques can be applied. The method was demonstrated in \cite{Webber:2009vm} by Monte Carlo simulations to have good prospects for accurate mass determination. We discover that there are certain problematic issues with the method and the analysis, which lead to an under-estimation of the errors. In light of this, we present revised estimates for the errors. We proceed to investigate alternative formulations of the method which might amend the issues, and present mass estimates and errors for Monte Carlo analyses of these alternative formulations. We also investigate the effects of jet reconstruction, and show that this is an important source of uncertainty for the method. 
 \end{abstract}
 
 \end{abstractpage}
@@ -84,9 +84,11 @@ In a scenario where Supersymmetry exists with conservation of R-parity, there sh
 
 Should hints of SUSY be seen at the LHC in the future, it will be important to determine the masses of the SUSY particles, and many methods have been investigated for this purpose, see {\it e.g.}~\cite{Miller:2005zp}. In \cite{Webber:2009vm} a method for determining the masses by formulating the kinematics as a linear algebra problem is presented and discussed. The article specifically considers a pair of SUSY particles, each decaying to the LSP in a three-step cascade, emitting three Standard Model particles each. Determination of the masses then involve inverting an 8 by 8 matrix containing the measured parameters, using it to determine the 4-momenta, $p^\mu_\mathrm{inv},$ of the two invisible LSPs. Having calculated the invisible 4-momenta, one can make a hypothesis for the eight unknown SUSY masses involved in the chains, and minimize $p^2_\mathrm{inv}-M^2_\mathrm{hyp}$ in order to obtain a best fit hypothesis (the minimized quantity should be zero for an on-shell particle). The article further demonstrates by a Monte Carlo simulation that a good fit can be obtained using only a few tens of events. This is a very desirable feature, since only a very limited number of SUSY candidate events are  expected at the LHC, given current limits on SUSY particle masses.
 
-In the following chapters, the method of \cite{Webber:2009vm} is presented and discussed. Chapter \ref{ch:introducing_the_method} formulates the type of process we are studying and the problems we face, and defines the method. We also discuss some minor issues with the original formulation and suggest ways to amend these. The subsequent chapters deal with investigation and improvements on the method. We begin by simulating events using the Monte Carlo generator {\tt Herwig++} and attempt to reproduce the results presented in \cite{Webber:2009vm}. In the course of this, we discover what appears to be some problematic issues with the analysis in \cite{Webber:2009vm}, concerned with the technicalities of numerical function minimization. We are able to reproduce the results using the same code as in the original article \cite{Webber:epost}, and this confirms the issues.
+\marginpar{I am not sure how detailed the introduction should be, and whether I should give away the punch line or write it as if I don't know what will happen?} In the following chapters, the method of \cite{Webber:2009vm} is presented and discussed. Chapter \ref{ch:introducing_the_method} formulates the type of process we are studying and the problems we face, and defines the method. We also discuss some minor issues with the original formulation and suggest ways to amend these. The subsequent chapters deal with investigation and improvements on the method. We begin in Chapter \ref{ch:MC} by simulating events using the Monte Carlo generator {\tt Herwig++} and attempt to reproduce the results presented in \cite{Webber:2009vm}. In the course of this, we discover what appears to be some problematic issues with the analysis in \cite{Webber:2009vm}, concerned with the technicalities of numerical function minimization. We are able to reproduce the results using the same code as in the original article \cite{Webber:epost}, and this confirms the issues.
 
 In light of this, we present revised estimates for the accuracy we can expect of the method. In Chapter \ref{ch:investigating_improvements}, we investigate ways to amend the problems by modifying the method in various ways. Although we are able to construct modified versions of the method which is free of the technical problems in the original formulation, we are unable to recover the accuracy pertained in the original paper.
+
+We finalize our analysis by taking the effects of jet reconstruction into account, something which is not considered in the original paper. We find that the uncertainties introduced by the jet reconstruction increases the errors significantly. 
 
 
 % \input{thesis-introchapters.tex}
@@ -248,7 +250,7 @@ The $SU(3)_C$ symmetry is the symmetry of the strong force, and among the fermio
 While the fermions transform under the groups in the fundamental representation, which has dimension $n$ for $SU(n)$, the gauge vector boson fields transform in the adjoint representation, which has dimension $n^2-1$. This number then determines the number of different gauge bosons for each group: $U(1)_Y$ has a single gauge boson field labeled $B^\mu$; $SU(2)_L$ has three, labeled $W^\mu_{1,2,3}$; and $SU(3)_C$ has eight different gauge boson fields, labeled $A^\mu_a$ for $a = 1,...,8$. The $SU(3)_C$ bosons are called {\it gluons}. The $U(1)_Y$ and $SU(2)_L$ bosons are not the ones that we observe --- the physical gauge boson eigenstates are linear combinations of them, mixed together by the spontaneous symmetry breaking of the Higgs mechanism.
 
 \section{The Higgs mechanism}
-Gauge invariance forbids the inclusion of terms of the form $m^2A^\mu A_\mu$ into the Lagrangian, which are required in order to give vector bosons such as the $Z$ their observed mass. To include the terms, we must also include a new complex scalar field doublet $\Phi = (\phi_a, \phi_b)^T$. This mechanism was first suggested by Anderson \cite{1963PhRv..130..439A}, and subsequently generalized to a relativistic field theory independently by three groups: Guralnik, Hagen and Kibble \cite{1964PhRvL..13..585G}; Brout and Englert \cite{1964PhRvL..13..321E}; and Higgs \cite{Higgs:1964pj}. It is commonly referred to as the Higgs mechanism. The mechanism introduces the following terms into the Lagrangian:
+Gauge invariance forbids the inclusion of terms of the form $m^2A^\mu A_\mu$ into the Lagrangian, which are required in order to give vector bosons such as the $Z$ their observed mass. To include the terms, we must also include a new complex scalar field doublet $\Phi = (\phi_a, \phi_b)^T$. This mechanism was first suggested by Anderson \cite{1963PhRv..130..439A}, and subsequently generalized to a relativistic field theory independently by three groups: Guralnik, Hagen and Kibble \cite{1964PhRvL..13..585G}, Brout and Englert \cite{1964PhRvL..13..321E}, and Higgs \cite{Higgs:1964pj}. It is commonly referred to as the Higgs mechanism. The mechanism introduces the following terms into the Lagrangian:
 \begin{align}
 	\mathcal L \ni |D_\mu \Phi(x)|^2 - \mu^2|\Phi(x)|^2 - \lambda |\Phi(x)|^4.\label{eq:higgs_lagrange}
 \end{align}
@@ -427,7 +429,7 @@ The primary quantities of interest from a phenomenological viewpoint are the bet
 
 
 \section[Motivations for extending the Standard Model]{Motivations for extending the\\ Standard Model}
-
+\label{sec:motivations_for_extending_the_SM}
 Since the Standard Model is widely believed to be a low-energy effective model of some more fundamental high-energy theory, it is speculated that the three interactions of the Standard Model unite at a higher energy and act as a single interaction under some larger gauge group. However, when the three couplings are evolved to high energies using the Callan-Symanzik equations, they do not meet at a single point. This is seen by many as a flaw of the Standard Model. In the theory of Supersymmetry, the evolution of the couplings is altered, and they may meet at a single point. This effect is shown in fig.\ \ref{fig:coupling_unification}. Supersymmetry is discussed in more detail in the next chapter.
 \begin{figure}[hbt]
 	\centering
@@ -942,19 +944,19 @@ The mass parameters $m_{1/2}$ and $m_0$ are the common soft masses of all gaugin
 \end{figure}
 This is illustrated in fig.\ \ref{fig:mssm_rgerun} for one choice of $m_{1/2}$ and $m_0$. The figure also illustrates the evolution of $m_{H_u}$ down to a negative value, facilitating the radiative electroweak symmetry breaking.
 
-Because the renormalization running is proportional to the Yukawa couplings of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small or even degenerate, since the masses are dominated by the common soft mass terms. In the CMSSM, the first two generations of sfermions are very often mass-degenerate. Note also that since all the sfermion masses evolve from the common mass $m_0$, the squarks will always be heavier than the sleptons in CMSSM because the running of the former is affected by QCD interactions. \marginpar{Explain: Why is mgluino approx msquark usually? (in cmssm)}
+Because the renormalization running is proportional to the Yukawa couplings of the Standard Model partners, the sfermion partners will often get an inverted mass hierarchy compared to the Standard Model. Especially in the colour sector, where stop and sbottom are often the lightest squarks. However, the effect may be compensated by other terms, and often the mass splittings are small or even degenerate, since the masses are dominated by the common soft mass terms. In the CMSSM, the first two generations of sfermions are very often mass-degenerate. Note also that since all the sfermion masses evolve from the common mass $m_0$, the squarks will always be heavier than the sleptons in CMSSM because the running of the former is affected by QCD interactions. \marginpar{Need to figure out/ask Are: Why is mgluino approx msquark in CMSSM.}
 
 This thesis studies a particular type of cascade decay, namely
 \begin{align}
 	\tilde q \to \tilde\chi_2^0q \to \tilde l l q \to \tilde \chi_1^0 ll q.	\label{eq:susyintrochap_cascade}
 \end{align}
 which exhibits several features which enable determination of SUSY mass parameters. For this chain to be available to study in a CMSSM parameter point, the following conditions must be satisfied: 
-\begin{itemize}
+\begin{enumerate}
 	\item The mass hierarchy must be $m_{\tilde q} > m_{\tilde\chi_2^0} > m_{\tilde l} > m_{\tilde\chi_1^0}$.
 	\item The gluino must be as heavy or heavier than the squarks, to disable the $\tilde q \to \tilde g q$ channel, which otherwise dominates over the chain process.
 	\item All the intermediate particles must have sizeable branching fractions to the subsequent chain particles.
-\end{itemize}
-In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied in large parts of the CMSSM parameter space. They also show that $\tilde\chi_1^0$ is the LSP in most of the parameter space, which is desirable in order to explain dark matter. Figure \ref{fig:mSUGRA_decay_spectrum} shows plots of a selection of the CMSSM parameter space, indicating different mass hierarchies. The dark green areas have the correct hierarchy for the chain. The light green area inside it additionally has a sizeable branching fraction into the chain. Regions where a charged particle is the LSP are excluded. The point labeled $\alpha$ in subfig.\ (a) is the parameter point that will be used for the study in the subsequent chapters.
+\end{enumerate}
+In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied in large parts of the CMSSM parameter space. They also show that $\tilde\chi_1^0$ is the LSP in most of the parameter space, which is desirable in order to explain dark matter. Figure \ref{fig:mSUGRA_decay_spectrum} shows plots of a selection of the CMSSM parameter space, indicating different mass hierarchies. The dark green areas have the correct hierarchy for the chain and the right LSP. The light green area inside it additionally has a sizeable branching fraction into the chain, {\it i.e.}\ more than 10 \% of the branching at the SPS1a benchmark point, which is marked and denoted $\alpha$ in subfig.\ (a). Regions where a charged particle is the LSP are excluded. The SPS1a point is the parameter point that will be used for the study in the subsequent chapters.
 \begin{figure}[hbt]
 \centering
 \begin{subfigure}[b]{0.4\textwidth}
@@ -986,21 +988,25 @@ In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied
 
 
 \section{The experimental status of supersymmetry}
-% {\it Include some ATLAS plots. Say something about $B_s \to \mu^+ \mu^-$ at LHCb and constraints on $\tan \beta$? Discuss mSUGRA validity? Mention more general naturalness condition?}
+The search for supersymmetric particles is one of the main activities ongoing at CERNs Large Hadron Collider, particularly in the general purpose ATLAS and CMS experiments. Before the LHC was turned off for maintenance and upgrades at the end of 2012, each experiment had collected $\sim 20 ~\mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8~\mathrm{TeV}$ in what is called LHC Run~I. No significant excesses of events that could indicate the existence of SUSY have so far been observed, with the exception of a few minor deviations in data that do not reach the level required for a discovery, the most significant being a $3\sigma$ excess in events consistent with a $Z$-boson, missing energy and jets~\cite{Aad:2015wqa}. At the time of writing, the LHC has begun circulating beams in preparation for Run II, which will achieve a centre-of-momentum energy of $\sqrt{s} = 13~\mathrm{TeV}$, and is expected to record $\sim 300 ~\mathrm{fb}^{-1}$ of data over the next ten years. In an even longer perspective, an upgrade to the {\it high luminosity LHC} is planned, which brings the total expected integrated luminosity up to $3000~\mathrm{fb}^{-1}$ at $\sqrt{s} = 14~\mathrm{TeV}$. 
 
-The search for SUSY is very actively ongoing in the LHC experiment at CERN, particularly in the ATLAS and CMS groups. Before the LHC was turned off for maintenance, it collected $\sim 20 ~\mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8~\mathrm{TeV}$. No significant excesses of events that could indicate the existence of SUSY have so far been observed. At the time of writing, the LHC has begun circulating beams in preparation for Run II, which will use a centre-of-momentum energy of $\sqrt{s} = 13~\mathrm{TeV}$, and is expected to record $\sim 300 ~\mathrm{fb}^{-1}$ of data during the next ten years. In an even longer perspective, it is hoped that the machine will recieve an upgrade to the {\it high luminosity LHC}, which brings the total expected integrated luminosity up to $3000~\mathrm{fb}^{-1}$. 
+The discovery of a Higgs boson with~\cite{Aad:2015zhl}
+\begin{equation}
+m_h = 125.09\,\pm 0.21\, (\rm{stat.})\pm\, 0.11\, (\rm{syst.})~{\rm GeV,}
+\label{eq:higgsmass}
+\end{equation}
+has important implications for supersymmetry. If we assume that it is the light SM-like Higgs of the MSSM, eqs.\ (\ref{eq:mssm_higgs_masses1}) and (\ref{eq:mssm_higgs_masses2}) restrict combinations of the Higgs potential parameters $|\mu|$, $\tan\beta$ and $m^2_{H_{u/d}}$ at tree level. In corrections to its mass at loop-level this Higgs impacts even more supersymmetric particles, in particular those with large couplings, such as the stop squark, as discussed in section \ref{sec:motivations_for_extending_the_SM} and appendix \ref{appendix:higgs_mass_loop_correction}.
 
-The discovery of a Higgs boson with $m_h = 125.09\pm 0.21\, (\rm{stat.})\pm 0.11\, (\rm{syst.}) ~\rm{GeV}$ \cite{Aad:2015zhl} has implications for SUSY. If we assume that it is the light Higgs of SUSY, eqs.\ (\ref{eq:mssm_higgs_masses1}--\ref{eq:mssm_higgs_masses2}) puts restrictions on the combinations of the parameters $|\mu|$, $\tan\beta$ and $m^2_{H_{u/d}}$.
-
-Figure \ref{fig:ATLAS_mSUGRA} shows a plot of the search for SUSY by ATLAS in the CMSSM model. The plot shows the $(m_0,m_{1/2})$ plane for fixed values of $\tan\beta = 30$, $A_0 = -2m_0$ and $\mu>0$. The various coloured lines indicate the lower bound for the parameter combination at 95 \% confidence level in different searches. More specifically, the solid line for each colour is the exclusion limit obtained from analysis of the collision data, while the dashed line is the theoretical exclusion limit one would expect from the Standard Model. We see that for low values of $m_0$, the searches for events with several jets and no leptons put the largest limits on the $m_{1/2}$ parameter (because a light gluino would have a large cross-section, and often decay to jets).
+Figure \ref{fig:ATLAS_mSUGRA} shows the current reach of ATLAS in the CMSSM model which we discussed in section \ref{sec:cmssm}. The plot shows the $(m_0,m_{1/2})$ plane for fixed values of $\tan\beta = 30$, $A_0 = -2m_0$ and $\mu>0$. The choice of $\tan\beta$ and $A_0$ is made to accomodate a large Higgs mass consistent with (\ref{eq:higgsmass}), here shown as dashed--dotted blue lines. The various coloured (solid) lines indicate the lower bound for the parameter combination at the 95 \% confidence level in different searches, while the dashed lines are the expected exclusion limits for the given data assuming only the Standard Model. We see that for low values of $m_0$, where the decay chain in eq.~(\ref{eq:susyintrochap_cascade}) exists, searches for events with multiple jets and no leptons put the most constraining limits on the $m_{1/2}$ parameter.
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.9\textwidth]{figures/susyintro/ATLAS_SUSY_MSUGRA.pdf}
-	\caption{CMSSM limits from ATLAS per february 2015. }
+	\caption{CMSSM limits from ATLAS following Run I \cite{Aad:2014wea,Aad:2013wta,Aad:2014lra,TheATLAScollaboration:2013uha,Aad:2014mra,Aad:2014pda}.}
 	\label{fig:ATLAS_mSUGRA}
 \end{figure}
 
-Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit, but in the $(m_{\tilde q/\tilde g}, m_{\tilde \chi_1^0})$ plane. These searches assume the mass hierarchy $m_{\tilde q/\tilde g} > m_{\tilde \chi_2^0} > m_{\tilde l} > m_{\tilde \chi_1^0}$. The events considered in this analysis are required to have two (a) and four (b) jets, respectively, where none of the jets have been tagged as $b$-jets. Additionally, there must be two leptons of opposite sign and same flavour, which are not allowed to have an invariant mass between them that is compatible with a $Z$ boson decaying. Also, there must be a significant amount $(> 200 ~\mathrm{GeV})$ of missing transverse energy.
+Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limits, but now in the $(m_{\tilde q/\tilde g}, m_{\tilde \chi_1^0})$ mass plane for the MSSM. These searches assume simplified models with the mass hierarchy $m_{\tilde q/\tilde g} > m_{\tilde \chi_2^0} > m_{\tilde l} > m_{\tilde \chi_1^0}$ and all other sparticles decoupled.\footnote{Only the squarks of the first two generations are included. The third generation squarks are assumed to be decoupled.} The events considered in this analysis are required to have two (a) and four (b) jets, respectively, where none of the jets have been tagged as $b$-jets. Additionally, there must be two leptons of opposite sign and same flavour, which are not allowed to have an invariant mass between them that is compatible with a $Z$ boson decaying. Also, there must be a significant amount $(> 200 ~\mathrm{GeV})$ of missing transverse energy. We see that for a $\tilde \chi_1^0$ with mass below 200 GeV, squarks below 800 GeV are excluded, and below 300 GeV, gluinos below 1200 GeV are ruled out, thus putting considerable constraints on the decay chain we are interested in.
+
 \begin{figure}[hbt]
 \centering
 \begin{subfigure}[b]{0.45\textwidth}
@@ -1013,17 +1019,25 @@ Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limit,
 	\caption{ }
 	\label{fig:ATLAS_neutralinogluino_b}
 \end{subfigure}
-\caption{Limits on $\tilde q$ (a) and $\tilde g$ (b) versus $\tilde \chi_1^0$ mass in events with least two (a) or four (b) jets (none of them $b$-jets), respectively, and a same-flavour dilepton pair. From ATLAS per march 2015.}
+\caption{Limits on the mass of $\tilde q$ (a) and $\tilde g$ (b) versus the $\tilde \chi_1^0$ mass in events with least two (a) or four (b) jets (with a $b$-jet veto), respectively, and a same-flavour dilepton pair. From ATLAS per march 2015 \cite{Aad:2015wqa}.}
 \label{fig:ATLAS_neutralinogluino}
 \end{figure}
 
-Referring back to fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. The top left region, where $m_{1/2} \gtrsim 800~\mathrm{GeV}$ and $1000 ~\mathrm{GeV} \gtrsim m_0 \gtrsim 400 ~\mathrm{GeV}$, is compatible with the green areas of fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by the ATLAS limits themselves, but it corresponds to a Higgs mass $m_h \lesssim 123 ~\mathrm{GeV}$, which is excluded. Large values of $m_0$ and $m_{1/2}$ are needed to evade the experimental constraints. All the bright green regions, where the chain has large branching, seem to be excluded. There is, however, also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. 
+Referring back to fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$ in the CMSSM. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. The top left region, where $m_{1/2} \gtrsim 800~\mathrm{GeV}$ and $1000 ~\mathrm{GeV} \gtrsim m_0 \gtrsim 400 ~\mathrm{GeV}$, is compatible with the green areas of fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by the ATLAS limits themselves, but it corresponds to a Higgs mass $m_h \lesssim 123 ~\mathrm{GeV}$, which is somewhat far from the measured value in (\ref{eq:higgsmass}). However, it should be noted that current state-of-the-art calculations of the Higgs mass in the MSSM (and CMSSM) come with theoretical errors of the order of 2 GeV~\cite{Heinemeyer:2015dsa}, thus this region is not {\it per se} ruled out. There is also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. Tuning these parameters may bring closer agreement with the Higgs mass, but this has not been investigated here since it would require a full re-evaluation of the ATLAS searches.
 
-As a benchmark for the expected chain event yield, we have calculated the expected number of events in the parameter point $m_0 = 800 ~\mathrm{GeV}$, $m_{1/2} = 400 ~\mathrm{GeV}$, $A_0 = -800~\mathrm{GeV}$, $\tan\beta = 10$, $\mu>0$ for LHC Run II. This is the lowest $m_0-m_{1/2}$ combination that is not excluded by fig.\ \ref{fig:ATLAS_mSUGRA} and at the same time provides the conditions needed for the chain --- but it {\it is} excluded by the Higgs mass constraint, and we only include it for purposes of illustration. We calculate sparticle masses and branching fractions using {\tt SoftSUSY} v.\ 3.4.1 \cite{Allanach:2001kg} and squark and gluino cross-sections for 13 TeV LHC using {\tt NLL-fast} v.\ 3.0 \cite{Beenakker:1996ch,Kulesza:2008jb,Kulesza:2009kq,Beenakker:2009ha,Beenakker:2011fu,Beenakker:1997ut,Beenakker:2010nq}. Assuming an integrated luminosity of $3000~\mathrm{fb}^{-1}$ for a high-luminosity upgraded LHC\footnote{If the high-luminosity upgrade of the LHC is carried out, it will probably take data at $\sqrt{s}=14~\mathrm{TeV}$. There is, however, no complete implementation of {\tt NLL-fast} for $14 ~\mathrm{TeV}$.}, we find an expectation of 3 events. 
+As a benchmark for the event yield of the chain (\ref{eq:susyintrochap_cascade}), we have calculated the expected number of events in which there are two such chains, for the parameter point $m_0 = 400 ~\mathrm{GeV}$, $m_{1/2} = 800 ~\mathrm{GeV}$, $A_0 = -800~\mathrm{GeV}$, $\tan\beta = 30$, $\mu>0$ for LHC Run II. This is the lowest $(m_0,m_{1/2})$ combination that is not excluded by fig.\ \ref{fig:ATLAS_mSUGRA} and at the same time provides the conditions needed for the chain. We calculate sparticle masses and branching fractions using {\tt SoftSUSY} v.\ 3.4.1 \cite{Allanach:2001kg} and squark and gluino cross-sections for 13 TeV LHC using {\tt NLL-fast} v.\ 3.0 \cite{Beenakker:1996ch,Kulesza:2008jb,Kulesza:2009kq,Beenakker:2009ha,Beenakker:2011fu,Beenakker:1997ut,Beenakker:2010nq}. Assuming an integrated luminosity of $3000~\mathrm{fb}^{-1}$ for a high-luminosity upgraded LHC,\footnote{The high-luminosity upgrade of the LHC will probably take data at $\sqrt{s}=14~\mathrm{TeV}$. There is, however, no complete implementation of {\tt NLL-fast} for $14 ~\mathrm{TeV}$.} we find an expectation of 2.12 events.
 
-To evade the experimental constraints of the Higgs mass and ATLAS SUSY searches, and at the same time keep the conditions needed for the chain as given in fig.\ \ref{fig:mSUGRA_decay_spectrum}, it appears that both the $m_0$ and $m_{1/2}$ parameters need to be pushed to or above 1000 GeV. Increasing the masses reduces the production cross-section, which means that even an expectation of 3 events may be optimistic. Thus, it seems that the golden decay chain is difficult to realize in the CMSSM.
+In experiments at the LHC, one has to apply {\it cuts} to the data to isolate the signal. This further reduces the expected signal yield. We have used {\tt Pythia} v.\ 8.2 \cite{Sjostrand:2014zea} to estimate the fraction of events at the aforementioned parameter point which has two instances of the decay chain and pass a set of cut criteria given by: 
+\begin{itemize}
+	\item At least two jets with $p_T > 200~\mathrm{GeV}$, $|\eta|<2.5$
+	\item All four leptons have $p_T > 20~\mathrm{GeV}$
+	\item There is missing $p_T > 100~\mathrm{GeV}$
+\end{itemize}
+We find that about 90 \% of the events pass these cuts.
 
-However, by loosening some of the constraining assumptions of the CMSSM, such as the soft mass unification at a high scale, more general parametrizations of SUSY may be defined. The failure of the LHC to find SUSY has prompted a large interest in studies of these more general models, often termed ``Natural SUSY'' since the main guiding principle is to avoid the need for fine-tuning, such as the {\it Little Hierarchy Problem} of the Higgs mass discussed in appendix \ref{appendix:higgs_mass_loop_correction}. In these models, the squark and gluino masses may decouple, pushing {\it e.g.}\ the gluino to high mass while retaining light squarks. This may evade the experimental constraints such as the Higgs mass, and still give high cross-sections for squark production to initiate the chain.
+To match the measured Higgs mass and avoid the ATLAS direct searches, and at the same time keep the conditions needed for the chain as illustrated in fig.\ \ref{fig:mSUGRA_decay_spectrum}, it appears that both the $m_0$ and $m_{1/2}$ parameters need to be pushed to or above 1000 GeV. Increasing the sparticle masses reduces the production cross-section, which means that even an expectation of 2 events may be optimistic. Thus, it seems that it will be difficult to measure the golden decay chain in the CMSSM at the LHC.
+
+By loosening some of the constraining assumptions of the CMSSM, such as the soft mass unification at a high scale, more general parametrizations of SUSY may be defined. The failure of the LHC to find signs of supersymmetry has prompted a large interest in studies of these more general models, in particular those  termed ``Natural SUSY'', since the main guiding principle is to avoid the need for fine-tuning, such as the {\it Little Hierarchy Problem} of the Higgs mass discussed in appendix \ref{appendix:higgs_mass_loop_correction}. In these more general models, the squark and/or gluino masses may decouple, {\it e.g.}\ pushing the gluino and third generation squarks to high masses, while retaining light squarks of the two first generations. This may evade experimental constraints on the Higgs mass, and still give relatively large cross-sections for squark production to initiate the chain. However, one would still be subject to the constraints shown in fig.~\ref{fig:ATLAS_neutralinogluino} (a).
 
 % There are also other experimental signatures that can be used to set limits on SUSY parameters. One notable example is the branching fraction for the decay $B_s \to \mu^+ \mu^-$, which has a would-be SUSY contribution which is heavily dependent on $\tan\beta$. So far, analyses by the CMS and LHCb groups \cite{CMS:2014xfa} have found results which match the predictions of the Standard Model to high precision, thus placing stringent limits on any non-Standard Model contributions. \marginpar{Remove this paragraph?}
 
@@ -1256,8 +1270,8 @@ Note that in order to switch the ordering of leptons within the same chain, all 
 
 
 \section{Outline of the plan}
-\marginpar{Better reformulate away from ``reproduce'', and also modify to be what I actually do}
-In this thesis we wish to investigate and develop this method further. We will begin by trying to reproduce Webber's parton level results using Monte Carlo simulations. We will then add layers of realism and complexety approaching something closer to the real experimental situation, in order to investigate its full potential. In the end we will focus on well motivated scenarios that can be discovered in Run II of the LHC.  Along the way we will also make some improvements on the method.
+\marginpar{I am not sure how I should write this section. Should I write it as if I don't yet know that I will run into problems with Webber's analysis? Any way, I need to change the bullet points since I go straight to analyzing the problems with Webber's analysis.}
+In the following chapters we wish to investigate and develop this method further. We will begin by trying to reproduce Webber's parton level results using Monte Carlo simulations. We will then add layers of realism and complexety approaching something closer to the real experimental situation, in order to investigate its full potential. Along the way we will also make some improvements on the method.
 
 The plan of attack is as follows:
 \begin{enumerate}
@@ -1265,7 +1279,8 @@ The plan of attack is as follows:
 	\item Because of final state radiation and parton showering, as well as---to a lesser degree---sparticle widths, the particles in the decay chain will not be on-shell due to extra gluons (and photons) in the final state. We employ a more sophisticated Monte Carlo code, {\tt Herwig++}~\cite{Bahr:2008pv}  to simulate these properties. This should have an effect on the mass reconstruction since Webber's method assumes on-shell decays.
 	\item	We then compare results with and without including the combinatorical issues from identifying the decay products, and we add a simple parametrised momentum smearing, based on realistic detector response, in order to simulate that the measurement of the kinematics of final-state particles is not exact. This was the level of precision employed by Webber in~\cite{Webber:2009vm}.
 	\item The partons that emerge from the hadron showers will hadronize, forming a hadron jet before arriving in the detector. Measurement of the initial parton from reconstructing such jets is one of the big challenges of collider physics. We use the {\tt FastJet}~\cite{Cacciari:2011ma} program for jet reconstruction, with algorithms used in the LHC experiments, and study the effect of jet reconstruction on the mass measurement.
-	\item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. In addition we simulate the expected largest backgrounds for a four-lepton supersymmetry search and investigate how the performance of the method is affected by the presence of background.\marginpar{Remove mention of background?}
+	\item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. 
+	% In addition we simulate the expected largest backgrounds for a four-lepton supersymmetry search and investigate how the performance of the method is affected by the presence of background.\marginpar{Remove mention of background?}
 	% \item {\bf If time} As a last step towards realism, we put the events through a fast detector simulation. 
 	% \item We then investigate improvements over the original model. Webber and collaborators \cite{Nojiri:2010dk} propose combining the kinematical best-fit reconstruction with measurements of end points of invariant mass distributions.
 	% \item Investigating other types of chains. Not-equal-sided? Different number of steps? Fitting a mass plane rather than points?
@@ -1311,7 +1326,7 @@ Webber demonstrates the aptitude of the method on a Monte Carlo generated datase
 There are several ways in which a pair of squarks can be produced in $pp$ collisions. The three main categories are: direct pair production of two squarks or a squark-antisquark pair; squark plus gluino with subsequent gluino decay to a squark; and pair production of two gluinos which both subsequently decay to squarks. The mechanism of production affects how much momentum goes into the squark, and thus the momentum of the subsequent decay chain. But our method deals mainly with the internal kinematics of the squark decay, which by Lorentz invariance is independent of squark momentum. The only variables in our analysis which explicitly depends on the overall event kinematics is the missing transverse momentum. The three different categories also affect how many hard jets are present in the event, which affects the combinatorical aspects of reconstructing the chain.
 
 \section{Reproducing Webber's results}
-Webber uses Fortran {\tt HERWIG} version 6.510 \cite{Corcella:2000bw,Moretti:2002eu} to produce events, selecting only events with two left-handed first- or second generation squarks (to limit the mass splitting), but irrespective of the hard production process. The analysis, {\it i.e.} minimization of the $\xi^2$, is performed on 100 samples of 25 events each, using the Minuit {\tt Simplex} \cite{James:1975dr} routine for minimization. He models the effects of measurement errors in a real detector by applying momentum smearing according to a gaussian distribution, and he puts a cut on the total $\xi^2$ obtained at the minimum to eliminate samples which give a bad result. His results are summarized in table 1 of \cite{Webber:2009vm}, which we for convenience show in table \ref{table:webber_original}. 
+Webber studies the benchmark CMSSM parameter point SPS1a \cite{Allanach:2002nj} which we mentioned in Chapter \ref{ch:susyintro}. He uses Fortran {\tt HERWIG} version 6.510 \cite{Corcella:2000bw,Moretti:2002eu} to produce events, selecting only events with two left-handed first- or second generation squarks (to limit the mass splitting), but irrespective of the hard production process. The analysis, {\it i.e.} minimization of the $\xi^2$, is performed on 100 samples of 25 events each, using the Minuit {\tt Simplex} \cite{James:1975dr} routine for minimization. He models the effects of measurement errors in a real detector by applying momentum smearing according to a gaussian distribution, and he puts a cut on the total $\xi^2$ obtained at the minimum to eliminate samples which give a bad result. His results are summarized in table 1 of \cite{Webber:2009vm}, which we for convenience show in table \ref{table:webber_original}. 
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=0.6\textwidth]{figures/webber_rec_table/sps1a_fits.eps} 
@@ -1378,10 +1393,10 @@ A pitfall of any minimization routine, also for Minuit Simplex, is that it has a
 		\caption{}
 		\label{fig:3D_masses4}
 	\end{subfigure}
-	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses are fixed to their true value.}
+	\caption{3D contour plot of $\log(\xi^2)$ in $m_{\tilde q}-m_i$ plane around the point of true minimum, where $i=\tilde \chi_2^0$ for (a), $i=\tilde l$ for (b) and $i=\tilde \chi_1^0$ for (c) and (d). The other two masses in each case are fixed to their true value.}
 	\label{fig:3D_masses}
-\end{figure}\marginpar{Include $\xi^2$ surface plots. Discuss a bit more?} 
-This is illustrated in fig.\ \ref{fig:3D_masses}, which shows contour plots of the $\xi^2$ for one event sample as function of pairs of mass parameters. We see that in this sample, the $\tilde \chi_1^0$ direction is flat at low mass values.
+\end{figure}
+This is illustrated in fig.\ \ref{fig:3D_masses}, which shows contour plots of the $\xi^2$ for one event sample as function of pairs of mass parameters. We see that in this sample, the $\tilde \chi_1^0$ direction is flat at low mass values. Note however that there may be higher-dimensional degeneracies in the four-mass space which will not show in a two-dimensional plot.
 
 Setting the tolerance high may therefore lead to convergence at a non-minimal point. If, additionally, the search is started at or close to the masses used to generate the Monte Carlo, then the minimization may obtain ``convergence'' at points very close to the true value, but these points are not minimal points, just regions where the function is not very steep.
 
@@ -1409,7 +1424,7 @@ Our reproduction of fig.\ \ref{fig:webber_scatter} is shown in fig.\ \ref{fig:we
 	\centering
 	\begin{tabular}{| l | l | l | l  || l | l | l | l |}
 		\hline
-		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{corr}$ & $m_{\tilde q} (540)$ & $m_{\tilde \chi_2^0} (177)$ & $m_{\tilde l} (143)$ & $m_{\tilde \chi_1^0} (96)$ \\
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{corr}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
 		\hline \hline
 		0 & 	$\infty$ &	100 \%	& 65 \%	& $566 \pm 9$	&	$180 \pm 2$		&	$144 \pm 2$	& 	$97 \pm 3$	\\
 		0 &		100 &		85 \%	& 67 \% & $567 \pm 6$	&	$180 \pm 1$		&	$144 \pm 1$	&	$97 \pm 3$	\\
@@ -1510,7 +1525,7 @@ In fig.\ \ref{fig:starting_point_sensitivity_combinatorics} we show the best-fit
 
 
 
-It might, however, be that the function has multiple local minima, giving rise to the behaviour in fig.\ \ref{fig:starting_point_sensitivity_combinatorics}, but that the {\it global} minimum is the one we find by starting in the TMP. To investigate this, we have run minimizations (with low tolerance) where we perturb the starting point of each of the four parameters for each event sample away from the TMP by a gaussian distribution of width 10 or 20 GeV. This is a minor perturbation relative to the masses. The minimization results are shown in table \ref{table:webber_rec_lowtol_perturbedSP} for perturbations of 10 (top) and 20 (bottom) GeV. The standard errors of the fit increase considerably compared with \ref{table:webber_rec_lowtol}. \marginpar{Smear with 10 \% and 20 \% of the masses too?}
+It might, however, be that the function has multiple local minima, giving rise to the behaviour in fig.\ \ref{fig:starting_point_sensitivity_combinatorics}, but that the {\it global} minimum is the one we find by starting in the TMP. To investigate this, we have run minimizations (with low tolerance) where we perturb the starting point of each of the four parameters for each event sample away from the TMP by a gaussian distribution of width 10 or 20 GeV. This is a minor perturbation relative to the masses. The minimization results are shown in table \ref{table:webber_rec_lowtol_perturbedSP} for perturbations of 10 (top) and 20 (bottom) GeV. The standard errors of the fit increase considerably compared with \ref{table:webber_rec_lowtol}. \marginpar{I plan to include tables with 10 \% and 20 \% of the masses as perturbations also.}
  
 % we have made a scan of many starting points, minimizing the whole 100 bin dataset from each starting point. We selected five different values for each of the four SUSY masses and checked all combinations which make physical sense ({\it i.e.\ }where the mass hierarchy is present). This gave a total of 132 different starting points, which were indexed from 1 to 132. The TMP was point number 34. For each bin we then checked which index had the lowest $\xi^2$ value. Figure \ref{fig:webber_rec_hist_starting_points} shows a histogram of this. We see that number 34, the TMP, indeed dominates, but it is only the lowest in 14 of the 100 bins. The other 86 bins are distributed quite evenly among the other starting points. This leads us to conclude that the minimization, using this technique, simply is not well defined: There is no reasonable hope that we will be able to find a reliable best-fit estimate in an experimental situation where the TMP is unknown. This is especially true given that this scan was done on the unsmeared dataset ---we should expect even worse results when the resolution gets blurred by uncertainties.
 
@@ -1837,7 +1852,7 @@ In this section we investigate what can be gained by applying a minimal value cu
 		\caption{ } 
 		\label{fig:detAcut_d}
 	\end{subfigure}
-	\caption{Minimization where a minimal value cut is applied on $|\mathrm{det}(\mathbf A)|$ for each event, in this case $|\mathrm{det}(\mathbf A)|>10$. Minimization is done using the mass-difference technique, on the {\tt Herwig++} dataset without smearing in (a) and (b) and with 5 percent smearing in (c) and (d). $\xi^2$ cuts of $1000$ are applied in (b) and (d).}
+	\caption{Minimization where a minimal value cut is applied on $|\mathrm{det}(\mathbf A)|$ for each event, in this case $|\mathrm{det}(\mathbf A)|>10$. Minimization is done using the mass-difference technique, on the {\tt Herwig++} dataset without smearing in (a) and (b) and with 5 percent smearing in (c) and (d). $\xi^2$ cuts of $1000$ are applied in (b) and (d). Only the true quark-lepton combination for each event is considered, and the four lepton permutations are summed.}
 	\label{fig:detAcut}
 \end{figure}
 
@@ -1952,7 +1967,7 @@ To test this approach, we apply a subdeterminant cut of 1, by requiring that bot
 	% 	\caption{ } 
 	% 	\label{fig:subdetAcut_d}
 	% \end{subfigure}
-	\caption{Minimization where a minimal value cut of 1 is applied on $|\mathrm{subdet}(\mathbf A,1,3)|$ and $|\mathrm{subdet}(\mathbf A,5,7)|$ for each event. Minimization is done using the mass-difference technique, on the {\tt Herwig++} dataset without smearing.% in (a) and (b) and with 5 percent smearing in (c) and (d). $\xi^2$ cuts of $50000$ are applied in (b) and (d).
+	\caption{Minimization where a minimal value cut of 1 is applied on $|\mathrm{subdet}(\mathbf A,1,3)|$ and $|\mathrm{subdet}(\mathbf A,5,7)|$ for each event. Minimization is done using the mass-difference technique, on the {\tt Herwig++} dataset without smearing. Only the true quark-lepton combinations are considered, and the remaining four lepton permutations are summed.% in (a) and (b) and with 5 percent smearing in (c) and (d). $\xi^2$ cuts of $50000$ are applied in (b) and (d).
 	}
 	\label{fig:subdetAcut}
 \end{figure}
@@ -1989,7 +2004,7 @@ We proceed with investigating the method of summing only the four closest combin
 \subsection{An event-pair algorithm for handling combinatorics}
 Another possibility is to combine a few events at a time, and minimize the $\xi^2$, with the lepton-combinations summed, separately for each of the quark-lepton combinations ({\it i.e.}\ each matrix $\mathbf{A}$) in each event. For instance, if we select two events, then there are four ways to combine the different $\mathbf{A}$ matrices among the events. If the lowest $\xi^2$ minimum value among these four tend to belong to the true $\mathbf{A}$ matrices, then this may be used to select the correct quark-lepton combinations before all events are summed together for the total mass fit. 
 
-We have implemented this in the following way: We use the mass-squared difference fitting technique, and we sum the four closest combinations. For each sample of events, we run through all the individual events, indexing them by $i$. For each event, we run through all the other events, indexed by $j$. For each pair $(i,j)$,~we minimize the four possible combinations of $(\mathbf{A}_i^a, \mathbf{A}_j^b)$ matrices, where $a,b=1,2$ denotes the different $\mathbf{A}$ matrices for each event. We make a note of which choice $a$ for event $i$ gives the lowest minimum among the four. We allow the minima to take unphysical values for the fitted SUSY masses, either wrong mass hierarchies or even negative mass values, since we only are interested in the $\xi^2$ value. For each event $i$, we count how many of the pairs prefer the different choices of $\mathbf{A}_i^a$. If there is a clear preference for one of the two choices, then we select this as the ``true'' combination. In the case of events where all four leptons are the same flavour, there would be four different $\mathbf{A}^a$ matrices instead of two, thus increasing the number of combinations to evaluate.
+We have implemented this in the following way: We use the mass-squared difference fitting technique, and we sum the four closest combinations. For each sample of events, we run through all the individual events, indexing them by $i$. For each event, we run through all the other events, indexed by $j$. For each pair $(i,j)$,~we minimize the four possible combinations of $(\mathbf{A}_i^a, \mathbf{A}_j^b)$ matrices, where $a,b=1,2$ denotes the different $\mathbf{A}$ matrices for each event. We make a note of which choice $a$ for event $i$ gives the lowest minimum among the four. We allow the minima to take unphysical values for the fitted SUSY masses, either in the form of wrong mass hierarchies or even negative mass values, since we only are interested in the $\xi^2$ value. For each event $i$, we count how many of the pairs prefer the different choices of $\mathbf{A}_i^a$. If there is a clear preference for one of the two choices, then we select this as the ``true'' combination. In the case of events where all four leptons are the same flavour, there would be four different $\mathbf{A}^a$ matrices instead of two, thus increasing the number of combinations to evaluate.
 \begin{figure}[hbtp!]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -2002,7 +2017,7 @@ We have implemented this in the following way: We use the mass-squared differenc
 		\caption{ }
 		\label{fig:correct_A_preference_distribution_b}
 	\end{subfigure}
-	\caption{Distribution of the 25-event samples of {\tt Heriwg++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. A minimal value cut of 10 is put on the determinant in (b), discarding some events. See the text for details.}
+	\caption{Distribution of the 25-event samples of {\tt Herwig++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. A minimal value cut of 10 is put on the determinant in (b), discarding some events. See the text for details.}
 	\label{fig:correct_A_preference_distribution}
 \end{figure}
 
@@ -2021,7 +2036,7 @@ Figure \ref{fig:event-pair-A-selection_4combosum} shows scatter plots of the bes
 		\caption{ }
 		\label{fig:event-pair-A-selection_4combosum_b} 
 	\end{subfigure}
-	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics handled by selecting $\mathbf{A}$ matrices for each event using the event-pairing algorithm described in section \ref{sec:handling_combinatorics_summed-combo} and summing the remaining four combinations. A minimal-value determinant cut of 10 is applied in subfig.\ b.}
+	\caption{Mass-difference minimization on the unsmeared Herwig++ dataset with combinatorics handled by selecting $\mathbf{A}$ matrices for each event using the event-pairing algorithm described in section \ref{sec:handling_combinatorics_summed-combo} and summing the remaining four combinations. A minimal-value determinant cut of 10 is applied in (b).}
 	\label{fig:event-pair-A-selection_4combosum}
 \end{figure}
 
@@ -2061,7 +2076,7 @@ In fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL}, we show the best-fit p
 	\label{fig:event-pair-A-selection_4combosum-OSFL}
 \end{figure}
 
-Since using only OFL events amounts to discarding half the available events, we might argue that when SFL events are included we should really double the sample size. Figure \ref{fig:event-pair-A-selection_4combosum-OSFL-50events} shows scatter plots of this. The mean best-fit points with a determinant cut of 10 are $539 \pm 32~\mathrm{GeV}, 165 \pm 19~\mathrm{GeV}, 125 \pm 19~\mathrm{GeV}$ and $83 \pm 20~\mathrm{GeV}$. The errors are somewhat reduced compared to the minimization with 25-event samples, and they are also slightly lower than the 25-event sample minimization with only OFL events, though there is a larger downward bias on the squark mass than in the only-OFL case.
+Since using only OFL events amounts to discarding half the available events, when SFL events are included we should really double the sample size. Figure \ref{fig:event-pair-A-selection_4combosum-OSFL-50events} shows scatter plots of this. The mean best-fit points with a determinant cut of 10 are $539 \pm 32~\mathrm{GeV}, 165 \pm 19~\mathrm{GeV}, 125 \pm 19~\mathrm{GeV}$ and $83 \pm 20~\mathrm{GeV}$. The errors are somewhat reduced compared to the minimization with 25-event samples, and they are also slightly lower than the 25-event sample minimization with only OFL events, though there is a larger downward bias on the squark mass than in the only-OFL case.
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -2082,62 +2097,94 @@ Since using only OFL events amounts to discarding half the available events, we 
 \subsection{Handling the remaining combinatorical ambiguity}
 The method of event-pair selection described in the previous section provides a way to select between the quark-lepton combinations. With this, we in principle have a working method which can be applied to a sample of events without knowing the true combinatorical configuration, and which is robust against starting points and convergence issues. The plot of minimization on the unsmeared {\tt Herwig++} dataset with a determinant cut, shown in fig.\ \ref{fig:event-pair-A-selection_4combosum_b}, can be viewed as a best-case scenario for this technique. The mean best-fit values are $m_{\tilde q} = 547 \pm 31 ~\mathrm{GeV}$, $m_{\tilde \chi_2^0} = 165\pm 25 ~\mathrm{GeV}$, $m_{\tilde l} = 126 \pm 25 ~\mathrm{GeV}$ and $m_{\tilde \chi_1^0} = 83 \pm 25 ~\mathrm{GeV}$. Although the determinant cut has reduced the errors compared to fig.\ \ref{fig:event-pair-A-selection_4combosum_a}, the errors are still very large --- as large as 30 \% for the LSP. There is also a significant downward bias, which is enhanced by the determiant cut. Part of this uncertainty is introduced by the summing of four combinations. It would be desirable to find a way to discriminate between these combinations also. 
 
-One might try to revert to the method of ``jumping'' between combinations in the $\xi^2$ function, but jumping between only the four remaining combinations instead of all eight. We have tried this option, but it gives a very poor fit. \marginpar{Should try detA cut to remove events before jump-minimizing. Maybe maybe maybe this helps. Implement as third option besides combosum and no combinatorics?} 
+One might try to revert to the method of ``jumping'' between combinations in the $\xi^2$ function, but jumping between only the four remaining combinations instead of all eight. We have tried this option, but it gives a very poor fit. 
+% \marginpar{Should try detA cut to remove events before jump-minimizing. Maybe maybe maybe this helps. Implement as third option besides combosum and no combinatorics?} 
 
-Another possibility is to do something analogous to the algorithm we applied to choose between the $\mathbf{A}$'s. One could imagine pairing events and minimizing all combinations ($4^2 = 16$, in this case), selecting the combination which is minimal in most cases. However, this would only give two contributing terms to the $\xi^2$ for each minimization, instead of eight terms in the case where four permutations are summed. The $\xi^2$ turns out to be difficult to minimize in this case, and it often does not converge at all. A better approach might be to select permutations for each event at random, and apply an iterative scheme to attempt to converge on a choice of combinations with a minimal $\xi^2$ value. \marginpar{The reader will then ask why I have not done this.}
+Another possibility is to do something analogous to the algorithm we applied to choose between the $\mathbf{A}$'s. One could imagine pairing events and minimizing all combinations ($4^2 = 16$, in this case), selecting the combination which is minimal in most cases. However, this would only give two contributing terms to the $\xi^2$ for each minimization, instead of eight terms in the case where four permutations are summed. The $\xi^2$ turns out to be difficult to minimize in this case, and it often does not converge at all. A better approach might be to select permutations for each event at random, and apply an iterative scheme to attempt to converge on a choice of combinations with a minimal $\xi^2$ value. \marginpar{The reader will then ask why I have not done this. Can I say that I have omitted it due to time constraints, or just drop the mention?}
 
+\section{Comparison benchmark}
+We are now in a position to produce a table analogous to those of Chapter \ref{ch:MC}, for our modified implementation of the method. We apply the mass-difference fit with dilepton edge to the {\tt Herwig++} dataset with only OFL events. We use the event-pair selection algorithm to choose between the two $\mathbf{A}$ matrices for each event, and sum the remaining four lepton permutations in the $\xi^2$. We apply a minimal value determinant cut of 10. We also test applying a $\xi^2$ cut as in Chapter \ref{ch:MC}, although the cut value has to be set higher to get a sizeable fraction of samples past the cut because of the changes made to the method. We have chosen a cut value which gives a similar pass-cut fraction as in Webber's original analysis, table \ref{table:webber_original}. The results are summarized in table \ref{table:MD_fit_table}.\marginpar{Should I also make a table for 50-event samples including SFL events?}
+\begin{table}[hbt]
+	\centering
+	\begin{tabular}{| l | l | l | l | l  || l | l | l | l |}
+		\hline
+		$\delta p/p$ & $\xi^2_\mathrm{max}$ & $f_\xi$ & $f_\mathrm{corr}$ & $f_{\mathrm{det}\mathbf{A}}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
+		\hline \hline
+		0 & 	$\infty$ &	100 \%	& 83 \%	& 64 \% & $547 \pm 31$	&	$165 \pm 25$	&	$126 \pm 25$	& 	$83 \pm 25$	\\
+		0 &		5000 &		81 \%	& 82 \% & 63 \% & $546 \pm 19$	&	$162 \pm 18$	&	$122 \pm 19$	&	$80 \pm 19$	\\
+		5 \% &	$\infty$ &	100 \%	& 82 \% & 65 \% & $548 \pm 33$	& 	$167 \pm 27$	&	$128 \pm 27$	&	$85 \pm 28$ \\
+		5 \% &	5000 &		75 \%	& 83 \% & 64 \% & $547 \pm 22$	&	$166 \pm 18$	& 	$126 \pm 18$	&	$84 \pm 19$	\\
+		10 \% &	$\infty$ &	100 \%	& 81 \% & 64 \% & $545 \pm 40$	&	$161 \pm 29$	&	$122 \pm 29$	&	$78 \pm 31$	\\
+		10 \% &	5000 &		65 \%	& 80 \% & 64 \% & $543 \pm 31$	& 	$159 \pm 25$	&	$120 \pm 25$	&	$76 \pm 26$ \\
+		\hline
+	\end{tabular}
+	\caption{Mass-difference minimization on the {\tt Herwig++} dataset with and without momentum smearing and $\xi^2$ cuts. See the text for details.}
+	\label{table:MD_fit_table}
+\end{table}
+We see that the $\xi^2$ helps to reduce the errors as before. Note that the fraction of events passing the $\xi^2$ cut does not decrease as rapidly with increased momentum smearing as in the original analysis of Webber. Particularily, we have not doubled the $\xi^2$ cut value for the 10 \% smearing case, contrary to the original analysis. The errors on the fits in table \ref{table:MD_fit_table} are larger compared to those of the original analysis \cite{Webber:2009vm}, given in table \ref{table:webber_original}. For {\it e.g.}\ the 5 \% smeared fit with $\xi^2$ cut, the error on the squark mass is about double, while the errors on the other three masses are an order of magnitude larger. By reducing the $\xi^2$ cut value to 2000, we bring $f_{\mathrm{corr}}$ down to $56 \%$, the same as in table \ref{table:webber_original}. This brings the errors somewhat down, to give the best-fit values $m_{\tilde q} = 548\pm19~\mathrm{GeV}$, $m_{\tilde \chi_2^0}=163\pm16~\mathrm{GeV}$, $m_{\tilde l} = 124\pm16~\mathrm{GeV}$, $m_{\tilde \chi_1^0} = 81\pm16~\mathrm{GeV}$.
 
-
-
-
-
-
-
-
+Note that this analysis is done with a determinant cut of 10. In a more thorough analysis one should experiment with different combinations of determinant and $\xi^2$ cuts to find an optimal combination.
 
 \section{Taking jet reconstruction effects into account}
 In a realistic detector event, the quarks will fragment into hadron jets. These jets must be reconstructed using specially constructed algorithms in order to determine, as well as possible, the four-momentum and invariant mass of the originating quark. This process potentially introduces large inaccuracies into the measurement. Another complication is that, as mentioned in the beginning of Chapter \ref{ch:MC}, there may be more than two high-momentum jets. This is in fact quite likely, since one or both of the squarks in the chains may come from gluinos, originating from the processes $pp \to \tilde g \tilde q$ and $pp \to \tilde g \tilde g$ and decaying as $\tilde g \to \tilde q q$. 
 
-To estimate these effects, we have simulated jet reconstruction using {\tt Pythia} v.\ 8.2 \cite{Sjostrand:2014zea} with the {\tt FastJet} \cite{Cacciari:2011ma} jet-reconstruction algorithm.\marginpar{Do I need to explain the anti-kT algorithm?} We use $R = 0.4$, $|\eta|<4$ as parameters for the jet reconstruction. We adapt the cuts used in \cite{Cheng:2009fw}, which are:
-\begin{itemize}
-	\item There must be at least two jets with $p_T > 100 ~\mathrm{GeV}$, $|\eta|<2.5$;
-	\item All the four leptons must have $p_T > 10 ~\mathrm{GeV}$, $|\eta|<2.5$;
+To estimate these effects, we have simulated jet reconstruction using {\tt Pythia} v.\ 8.2 \cite{Sjostrand:2014zea} with the {\tt FastJet} \cite{Cacciari:2011ma} jet-reconstruction algorithm.\marginpar{Should I explain the anti-kT algorithm?} We use $R = 0.4$, $|\eta|<4$ as parameters for the jet reconstruction. We adapt the cuts used in \cite{Cheng:2009fw}, which are:
+\begin{enumerate}
+	\item There must be at least two jets with $p_T > 100~\mathrm{GeV}$, $|\eta|<2.5$;
+	\item All the four leptons must have $p_T > 10~\mathrm{GeV}$, $|\eta|<2.5$;
 	\item The event must have missing $p_T > 50~\mathrm{GeV}$.
-\end{itemize}
-Since we use {\tt Pythia} rather than {\tt Herwig++} for the jet reconstruction, we check that the events are consistent with previous results when jet reconstruction is not taken into account. This is indeed the case, and fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events} shows analogous fits as fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL} for the {\tt Pythia} dataset, {\it i.e.}\ mass-difference minimization on 25-event samples including both OF and SF lepton event, with a determinant cut applied in subfig.\ b.\marginpar{Quantify how similar they are?}
+\end{enumerate}
+Since we use {\tt Pythia} rather than {\tt Herwig++} for the jet reconstruction, we have checked that the events are consistent with previous results when jet reconstruction is not taken into account. 
+% This is indeed the case, and fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events} shows analogous fits as fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL} for the {\tt Pythia} dataset, {\it i.e.}\ mass-difference minimization on 25-event samples including both OF and SF lepton event, with a determinant cut applied in subfig.\ b.\marginpar{Quantify how similar they are?}
+% \begin{figure}[hbt]
+% 	\centering
+% 	\begin{subfigure}[b]{0.45\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_nosmear_25evbins_OSFL_nodetAcut_TMP.pdf} 
+% 		\caption{ }
+% 		\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events_a}
+% 	\end{subfigure}
+% 	\begin{subfigure}[b]{0.45\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_nosmear_25evbins_OSFL_detAcut10_TMP.pdf}
+% 		\caption{ }
+% 		\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events_b} 
+% 	\end{subfigure}
+% 	\caption{Minimization on the Pythia dataset without jet reconstruction. Should be compared to fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL}.}
+% 	\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events}
+% \end{figure}
+
+In fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events}, we show scatter plots of the best-fit points obtained for the {\tt Pythia} dataset with jet reconstruction, minimized on samples of 25 events with only OF leptons. We use the mass-difference minimization with a sum of lepton permutations and the event-pair selection algorithm for the quark-lepton permutation. A determinant cut of 10 is applied in subfig.\ b. The two hardest jets in each event have been taken as the signal jets. This is justified in SPS1a because of the small mass splitting between the gluino and the squarks, which limit the momentum attainable for the quarks from gluino decay in events containing $\tilde g \to q\tilde q$. 
 \begin{figure}[hbt]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_nosmear_25evbins_OSFL_nodetAcut_TMP.pdf} 
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_onlyOFL_25evbins_nodetAcut-nosmear_TMP.pdf} 
 		\caption{ }
-		\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events_a}
+		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events_a}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_nosmear_25evbins_OSFL_detAcut10_TMP.pdf}
+		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_onlyOFL_25evbins_detAcut10-nosmear_TMP.pdf}
 		\caption{ }
-		\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events_b} 
+		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events_b} 
 	\end{subfigure}
-	\caption{Minimization on the Pythia dataset without jet reconstruction. Should be compared to fig.\ \ref{fig:event-pair-A-selection_4combosum-OSFL}.}
-	\label{fig:event-pair-A-selection_pythia_4combosum-OSFL-25events}
+	\caption{Minimization on the {\tt Pythia} dataset with jet reconstruction and kinematical cuts, using 25-event samples with only OFL events. Most of the points in (a) lie outside the plotting region.}
+	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events}
 \end{figure}
 
-In fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events}, we show scatter plots of the best-fit points obtained for the {\tt Pythia} dataset with jet reconstruction, minimized on samples of 25 events, including both OF and SF lepton events. A determinant cut of 10 is applied in subfig.\ b. The two hardest jets in each event have been taken as the signal jets. This is justified in SPS1a because of the small mass splitting between the gluino and the squarks, which limit the momentum attainable for the quarks from gluino decay in events containing $\tilde g \to q\tilde q$. 
-\begin{figure}[hbt]
-	\centering
-	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_25evbins_nodetAcut-nosmear_TMP.pdf} 
-		\caption{ }
-		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events_a}
-	\end{subfigure}
+% \begin{figure}[hbt]
+% 	\centering
+% 	\begin{subfigure}[b]{0.6\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_25evbins_nodetAcut-nosmear_TMP.pdf} 
+% 		\caption{ }
+% 		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events_a}
+% 	\end{subfigure}
 
-	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_25evbins_detAcut10-nosmear_TMP.pdf}
-		\caption{ }
-		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events_b} 
-	\end{subfigure}
-	\caption{Minimization on the Pythia dataset with jet reconstruction and 25-event bins.}
-	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events}
-\end{figure}
+% 	\begin{subfigure}[b]{0.6\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_25evbins_detAcut10-nosmear_TMP.pdf}
+% 		\caption{ }
+% 		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events_b} 
+% 	\end{subfigure}
+% 	\caption{Minimization on the Pythia dataset with jet reconstruction and 25-event bins.}
+% 	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-25events}
+% \end{figure}
 
 Another reason for selecting jets in this way is that the alternative would require discrimination between three or more jets. This quickly increases the combinatorical ambiguity --- with three jets, there are six different $\mathbf{A}$ matrices for OFL events, and 12 for SFL. With four jets, there are 12/24 different $\mathbf{A}$'s. One could hope to reduce the ambiguity with additional selection criteria, such as constraints from the invariant mass edges discussed in the beginning of Chapter \ref{ch:introducing_the_method}, but the prospects for selecting the correct combination are still dim.
 
@@ -2149,65 +2196,49 @@ Note that when we use the jet reconstructed quark momenta, we lose information o
 	\label{fig:histogram_jetrec_A1preference}
 \end{figure}
 
-In fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events}, we show the minimization on jet-reconstructed samples of 50 events each, including both OFL and SFL events.
+In fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events}, we show the minimization on jet-reconstructed samples of 50 events each, including both OFL and SFL events. 
 \begin{figure}[hbt]
 	\centering
-	\begin{subfigure}[b]{0.6\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_50evbins_nodetAcut-nosmear_TMP.pdf} 
 		\caption{ }
 		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events_a}
 	\end{subfigure}
-
-	\begin{subfigure}[b]{0.6\textwidth}
+	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_50evbins_detAcut10-nosmear_TMP.pdf}
 		\caption{ }
 		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events_b} 
 	\end{subfigure}
-	\caption{Minimization on the Pythia dataset with jet reconstruction and 50-event bins.}
+	\caption{Minimization on the {\tt Pythia} dataset with jet reconstruction and kinematical cuts, using 50-event samples with both OFL and SFL events. Most of the points in (a) lie outside the plotting region.}
 	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events}
 \end{figure}
 
-
-Figure \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events} shows the fit using 25-event samples of only OFL events. The results are similar to the 50-event samples including SFL, and they are both somewhat better than the 25-event samples with both OFL and SFL events.
-\begin{figure}[hbt]
+The best-fit values are summarized in table \ref{table:table_jetrec}. We have also tried applying cuts to the $\xi^2$ values in the minimization with determinant cuts. We have found $\xi^2$ cut values for each of the OFL and O\&SFL cases which yield about 15 \%, 40 \% and 75 \% of samples past, respectively. We see that the two lowest $\xi^2$ cuts approximately halve the errors for both the OFL and the O\&SFL cases, while the loosest cut gives less of an error reduction. The OF and O\&SFL cases obtain similar results --- the O\&SFL case has somewhat smaller errors, but a larger downward bias.
+\begin{table}[hbt]
+	\small
 	\centering
-	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_onlyOFL_25evbins_nodetAcut-nosmear_TMP.pdf} 
-		\caption{ }
-		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events_a}
-	\end{subfigure}
-
-	\begin{subfigure}[b]{0.6\textwidth}
-		\includegraphics[width=\textwidth]{figures/improving_combinatorics/pythia_jetrec_onlyOFL_25evbins_detAcut10-nosmear_TMP.pdf}
-		\caption{ }
-		\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events_b} 
-	\end{subfigure}
-	\caption{Minimization on the Pythia dataset with jet reconstruction on 25-event bins with only OFL events.}
-	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OFL-25events}
-\end{figure}
-
-{\it
-Note that with jet reconstruction, inversion fails for some events -- the determinant is too small. How many? A few hundred. Not any fails when I jet-reconstruct with R = 0.6. Should I mention this, or switch value?
- 
-
-Should try to cut on xisquared for event pairs, maybe it helps? Also test the usual xisquared-cut procedure on the jet situation.
-}
+	\begin{tabular}{| l | l | l || l | l | l | l |}
+		\hline
+		Type $(N_\mathrm{evt})$ & $\xi^2_\mathrm{max}$ ($f_\xi$) & $f_{\mathrm{det}\mathbf A}$ & $m_{\tilde q} (568)$ & $m_{\tilde \chi_2^0} (180)$ & $m_{\tilde l} (144)$ & $m_{\tilde \chi_1^0} (97)$ \\
+		\hline \hline
+		OFL (25) 	& 	$\infty$ 				& 56 \%		&  $525 \pm 154$	&	$213\pm90$	&	$177\pm87$	& 	$138\pm88$	\\
+		OFL (25) 	& 	$10^4$ (18 \% ) 		& 50 \% 	& $535\pm67$	&	$178\pm46$	&	$139\pm45$	& 	$96\pm48$	\\
+		OFL (25) 	& 	$5\cdot10^4$ (41 \% ) 	& 54 \%		& $536\pm64$	&	$180\pm56$	&	$141\pm56$	& 	$98\pm57$	\\
+		OFL (25) 	& 	$5\cdot10^5$ (71 \% ) 	& 55 \%		& $551\pm105$	&	$205\pm82$	&	$166\pm82$	& 	$123\pm84$	\\
+		OSFL (50) 	& 	$\infty$ 				& 60 \%		& $495\pm147$	&	$204\pm95$	&	$170\pm89$	& 	$132\pm89$	\\
+		OSFL (50) 	& 	$5\cdot10^4$ (14 \% ) 	& 58 \%		& $504\pm54$	&	$163\pm45$	&	$125\pm44$	& 	$79\pm47$	\\
+		OSFL (50) 	& 	$3\cdot10^5$ (39 \% ) 	& 60 \%		& $503\pm52$	&	$167\pm38$	&	$128\pm37$	& 	$83\pm40$	\\
+		OSFL (50) 	& 	$3\cdot10^6$ (77 \% ) 	& 60 \%		& $494\pm110$	&	$190\pm80$	&	$155\pm75$	& 	$115\pm76$	\\
+		\hline
+	\end{tabular}
+	\caption{Summary of results obtained on the {\tt Pythia} dataset with jet-reconstruction and kinematical cuts, using the mass-difference minimization with the event-pair selection algorithm for choosing between $\mathbf A^a$ matrices and summing over the four lepton permutations. A minimal value cut of 10 is applied on the determinant. The acronym OSFL means that both OFL and SFL events are included.}
+	\label{table:table_jetrec}
+\end{table}
 
 
 
-\clearpage
-\section{The pile}
-
-\subsection{Thoughts}
-
-\begin{itemize}
-\item Compare mean value and error to the original hopes of Webber, and to e.g. Cheng. 
-% \item However, biased. Cite cheng?, wrong combinations bias downward. Desireable to reduce wrong combinations also within same matrix.
-% \item Investigate determinant.
-% \item Investigate SFL events. What happens to the minima if there are four different A matrices? Can we select the true combo among the four? Remember to also utilise the dilepton edge to discriminate.
-% \item Possible way out of combinatorics: Sum all contributions with same matrix A. Select between the two matrices in some way, either by Webber-jumping or by selecting on samples of fewer events. That actually works better than I thought. At LEAST something to include plots of. Note: Bias toward lower values, even after cut. Can be corrected by MC? 
-\item A point for conclusions: Webber cites the Cheng papers in the original article, pointing out that his method is ``closest in spirit to those''. So maybe we can sum up by comparing, and saying something about that the Cheng version appears to have prospects for a more accurate determination?
-\end{itemize}
+% pythia_jetrec_onlyOFL_25evbins_detAcut10-nosmear-xisqcut10e4_TMP.pdf
+% pythia_jetrec_50evbins_nodetAcut-nosmear-xisqcut5times10e4_TMP.pdf
 
 
 
@@ -2215,23 +2246,26 @@ Should try to cut on xisquared for event pairs, maybe it helps? Also test the us
 
 
 
-\begin{itemize}
-	\item Include plots of the $\xi^2$ surface somewhere suitable --- maybe we can even compare combinatorics vs no combinatorics in a nice way?
-\end{itemize}
+% \begin{itemize}
+% 	\item Include plots of the $\xi^2$ surface somewhere suitable --- maybe we can even compare combinatorics vs no combinatorics in a nice way?
+% \end{itemize}
 
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Conclusions and outlook} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Conclusions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The method presented by Webber, although promising, has been shown to have inherent technical problems which lead to under-estimation of the errors and biases in the original article \cite{Webber:2009vm}, given in table \ref{table:webber_original}. The challenges stem in part from the combinatorical ambiguity inherent in the chain. 
 
 When the estimates are revised, taking into account the need for a lower {\tt SIMPLEX} tolerance in order to resolve the function minimum, the error is significantly increased, and biases are introduced, as can be seen from table \ref{table:webber_rec_lowtol}. In addition, there is a dependence upon the minimization starting point which adds to the uncertainties, demonstrated in table \ref{table:webber_rec_lowtol_perturbedSP}. Of particular importance is the feature that when experimental uncertainties are simulated in the form of momentum smearing, and the convergence tolerance is set sufficiently low, the mass of the LSP is fitted to zero in many of the samples (fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}). This is the case even without taking into account combinatorics.
 
-Attempts to modify the method to avoid these problems only has limited success. Although we have devised an implementation that is robust against different starting points for the minimization algorithm, handles the combinatorical ambiguities and resolves the LSP mass, we have not found a way to reduce the errors to values comparable to the results pertained in the original article. 
+Attempts to modify the method to avoid these problems only has limited success. Although we have devised an implementation that is robust against different starting points for the minimization algorithm, handles the combinatorical ambiguities and resolves the LSP mass, we have not found a way to reduce the errors to values that are comparable to the results pertained in the original article. Table \ref{table:MD_fit_table} gives a summary of the capabilities of the alternative implementation of the method, and should be compared to the original estimates given in table \ref{table:webber_original}. For the three lightest particles, the errors in our analysis are an order of magnitude larger than the original estimate. We also observe a significant downward bias on all four masses.
 
+Jet reconstruction effects were not investigated by Webber in the original article. Taking these into account should be expected to affect the precision attainable by the method, and we indeed find that it drastically increases the errors. Our results with jet reconstruction are summarized in table \ref{table:table_jetrec}. When we apply a cut on the $\xi^2$ values which remove about half the event samples, along with a minimal value cut on the determinant, we obtain errors of the order 50 GeV on all four masses. For the LSP mass this corresponds to an error of 50 \%. Doubling the event samples by including events where all four leptons have the same flavour reduces the errors somewhat, but at the expense of introducing a larger downward bias. 
+
+In summary, we do not believe this method to be useful for precision measurements of sparticle masses. It may be used to set limits, but the limits will be rather wide. In addition, our analysis employs event samples which are large compared to the expected event yield given current limits on sparticle masses. Reducing the sample size is expected to further increase the uncertainties. 
 
 
 
@@ -2638,7 +2672,7 @@ The distribution is approximately symmetric, with the majority of the weight at 
 \chapter{A C++ implementation of the Nelder-Mead Simplex algorithm}
 \label{ch:simplex}
 
-Adapted from \cite{simplex-implementation}. The function to call for minimization is {\tt amoeba}. It returns true or false depending on whether convergence has been obtained within the set number of iterations.
+\marginpar{Remember to update code version} Adapted from \cite{simplex-implementation}. The function to call for minimization is {\tt amoeba}. It returns true or false depending on whether convergence has been obtained within the set number of iterations.
 
 \lstset{language=C++}
 \begin{lstlisting}
