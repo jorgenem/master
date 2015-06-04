@@ -15,7 +15,7 @@
 \usepackage{lipsum}
 \usepackage{footnote}
 \makesavenoteenv{table}
-\usepackage[sorting=none,backend=bibtex]{biblatex}
+\usepackage[sorting=none,backend=bibtex,bibstyle=ieee,citestyle=numeric-comp]{biblatex}
 
 \addbibresource{thesis-bibliography.bib}
 
@@ -48,14 +48,14 @@
 	\textbf{Samandrag}
 \end{center}
 \begin{abstract}{norsk}
-    Dette er ein abstrakt tekst.
+    Vi unders{\o}ker ein metode, opphavleg foresl{\aa}tt i \cite{Webber:2009vm}, for {\aa} bestemme massane til resonansar og usynlege sluttilstandar i kaskadehenfall, i teoriar utanfor Standardmodellen med ein paritetssymmetri. Vi gjer unders{\o}kinga v{\aa}r innanfor rammeverket til den Minimale Supersymmetriske Standardmodellen med bevaring av R-paritet. Metoden formulerer massebestemminga som eit optimeringsproblem som kan l{\o}ysast med numeriske verkt{\o}y. I \cite{Webber:2009vm} vart det demonstrert med Monte Carlo-simuleringar at metoden har gode utsikter for n{\o}yaktig massebestemming. Vi finn at det er visse problem med metoden og analysen, som leiar til underestimering av feilen. I lys av dette presenterer vi reviderte feilestimat. Vi held fram med {\aa} unders{\o}ke alternative formuleringar av metoden som kanskje kan l{\o}yse problema, og presenterer masseestimat og usikkerheiter for Monte Carlo-analysar av desse alternative formuleringane. Vi unders{\o}ker ogs{\aa} effektane av jet-rekonstruksjon, og viser at dette er ei viktig kjelde til feil for metoden.
 \end{abstract}
 
 \begin{center}
 	\textbf{Abstract}
 \end{center}
 \begin{abstract}{english}
-    We investigate a method, originally suggested in \cite{Webber:2009vm}, for determination of the masses of resonances and invisible final states in cascade decays in Beyond-Standard-Model theories with a parity symmetry. We do our study within the framework of the Minimal Supersymmetric Standard Model with conservation of R-parity. The method formulates the mass determination as an optimization problem for which numerical techniques can be applied. The method was demonstrated in \cite{Webber:2009vm} by Monte Carlo simulations to have good prospects for accurate mass determination. We discover that there are certain problems with the method and the analysis, which lead to an under-estimation of the errors. In light of this, we present revised error estimates. We proceed to investigate alternative formulations of the method which might amend the issues, and present mass estimates and uncertainties for Monte Carlo analyses of these alternative formulations. We also investigate the effects of jet reconstruction, and show that this is an important source of error for the method. 
+    We investigate a method, originally suggested in \cite{Webber:2009vm}, for determination of the masses of resonances and invisible final states in cascade decays, in Beyond-Standard-Model theories with a parity symmetry. We do our study within the framework of the Minimal Supersymmetric Standard Model with conservation of R-parity. The method formulates the mass determination as an optimization problem for which numerical techniques can be applied. The method was demonstrated in \cite{Webber:2009vm} by Monte Carlo simulations to have good prospects for accurate mass determination. We discover that there are certain problems with the method and the analysis, which lead to an under-estimation of the errors. In light of this, we present revised error estimates. We proceed to investigate alternative formulations of the method which might amend the issues, and present mass estimates and uncertainties for Monte Carlo analyses of these alternative formulations. We also investigate the effects of jet reconstruction, and show that this is an important source of error for the method. 
 \end{abstract}
 
 \end{abstractpage}
@@ -64,12 +64,11 @@
 
 \begin{dedication}
 Til mamma
- \\\vspace{12pt}
-
+ % \\\vspace{12pt}
 \end{dedication}
 
 \begin{acknowledgements}
-Takk til Are Raklev for god rettleiing. Takk til Lars Andreas Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk til Janne-Kristin Svarstad Nyg{\aa}rd for at eg f{\aa}r dele kvardagane med deg. Takk til pappa for at du alltid stiller opp. Takk også til Mona Semb, Bryan Webber, Tor Gjerrestad, Arild Gaasdal, Bj{\o}rn Hallvard Samset, Fysikkforeningen, Fysisk fagutval og milj{\o}et p{\aa} Lillefy, venner og familie. 
+Takk til Are Raklev for god rettleiing. Takk til Lars Andreas Dal og Anders Kvellestad for uvurderleg hjelp, og til Anders Lauvland og Anders Hafreager for gode diskusjonar. Takk til Janne-Kristin Svarstad Nyg{\aa}rd for at eg f{\aa}r dele kvardagane med deg. Takk til pappa for at du alltid stiller opp. Takk ogs{\aa} til Mona Semb, Bryan Webber, Tor Gjerrestad, Arild Gaasdal, Bj{\o}rn Hallvard Samset, Fysikkforeningen, Fysisk fagutval og milj{\o}et p{\aa} Lillefy, venner og familie. 
 \end{acknowledgements}
 
 
@@ -88,7 +87,7 @@ This thesis begins with an introduction to the principles that underlie the Stan
 
 In a scenario where supersymmetry (SUSY) exists with conservation of R-parity, there should be a neutral lightest supersymmetric particle (LSP) which is absolutely stable. Additionally, all SUSY-particles will be produced in pairs in collisions. Any supersymmetric particle will decay down to the LSP, possibly in multiple steps. At the Large Hadron Collider (LHC) at CERN, one typically expects squarks or gluinos, the supersymmetric partners of the quarks and gluons, which subsequently decay in a cascade down to the LSP, emitting multiple Standard Model particles in the process, see {\it e.g.}~\cite{Martin:1997ns}. The LSP escapes detection, but the energy and momentum of all the SM particles can be measured (assuming no neutrinos are produced).
 
-Should hints of SUSY be seen at the LHC in the future, it will be important to determine the masses of the SUSY particles, and many methods have been investigated for this purpose, {\it e.g.}~see \cite{Barr:2010zj} for a review. In \cite{Webber:2009vm} a method for determining the masses by formulating the kinematics as a linear algebra problem is presented and discussed. The article specifically considers a pair of SUSY particles, each decaying to the LSP in a three-step cascade, emitting three Standard Model particles each. Determination of the masses then involve inverting an eight by eight matrix containing the measured Standard Model particle momenta, using it to determine the four-momenta, $p^\mu_\mathrm{inv},$ of the two invisible LSPs. Having calculated the invisible four-momenta, one can make a hypothesis for the eight unknown SUSY masses involved in the chains, and minimize $p^2_\mathrm{inv}-M^2_\mathrm{hyp}$ in order to obtain a best fit hypothesis (the minimized quantity should be zero for an on-shell particle). The article further demonstrates by a Monte Carlo simulation that a good fit can be obtained using only a few tens of events. This is a very desirable feature, since only a very limited number of SUSY candidate events are  expected at the LHC, given current limits on SUSY particle masses.
+Should hints of SUSY be seen at the LHC in the future, it will be important to determine the masses of the SUSY particles, and many methods have been investigated for this purpose, {\it e.g.}~see \cite{Barr:2010zj} for a review. In \cite{Webber:2009vm} a method for determining the masses by formulating the kinematics as a linear algebra problem is presented and discussed. The article specifically considers a pair of SUSY particles, each decaying to the LSP in a three-step cascade, emitting three Standard Model particles each. Determination of the masses then involve inverting an eight by eight matrix containing the measured Standard Model particle momenta, using it to determine the four-momenta, $p^\mu_\mathrm{inv},$ of the two invisible LSPs. Having calculated the invisible four-momenta, one can make a hypothesis for the eight unknown SUSY masses involved in the chains, and minimize $p^2_\mathrm{inv}-M^2_\mathrm{hyp}$ in order to obtain a best fit hypothesis (the minimized quantity should be zero for an on-shell particle). The article further demonstrates by a Monte Carlo simulation that a good fit can be obtained using only a few tens of events. This is a very desirable feature, since only a very limited number of SUSY candidate events are  expected at the LHC, given current limits on SUSY particle masses. Being able to reconstruct the four-momenta of the invisibles is also useful for measuring spins.
 
 In Chapter \ref{ch:introducing_the_method} and \ref{ch:MC}, the method of \cite{Webber:2009vm} is presented and discussed. Chapter \ref{ch:introducing_the_method} formulates the type of process we are studying and the problems faced, and defines the method. We also discuss some minor issues with the original formulation and suggest ways to amend these. The subsequent chapters deal with an investigation of, and improvements on the method. We begin in Chapter \ref{ch:MC} by simulating events using the Monte Carlo generator {\tt Herwig++} and attempt to reproduce the results presented in \cite{Webber:2009vm}. In the course of this, we discover what appears to be problematic issues with the analysis in \cite{Webber:2009vm}, concerned with the numerical function minimization. We are able to reproduce our results using the same code as in the original article \cite{Webber:epost}, and this confirms the issues.
 
@@ -787,8 +786,8 @@ The remaining free parameter is conventionally parametrized as
 
  \begin{table}[hbt]
  \centering
- 	\begin{tabular}{|l c  c  r|}
-    \hline
+ 	\begin{tabular}{l c  c  r}
+    % \hline
  		Standard model particles\footnote{Plus the extended Higgs sector.} & Spin & Superpartners & Spin\\
  		\hline
     \hline
@@ -810,11 +809,10 @@ The remaining free parameter is conventionally parametrized as
  	\caption{Summary of MSSM particle and sparticle content.}
  	\label{table:MSSM_particles}
  \end{table}
-The total particle content of the MSSM is as follows: \marginpar{These paragraphs could use a polish, they don't flow well}
-The Standard Model particles are present: electrons, muons, taus and their corresponding neutrinos, the up, down, strange, charm, bottom and top quarks, the photon, Z boson and W bosons and gluons, and the Higgs boson. 
-In addition to the Standard Model Higgs $h$, there are four other scalar Higgs particles with positive R-parity, labeled $H$, $H^\pm$ and $A$. $H$ is identical to $h$ except for its larger mass, and is therefore termed ``heavy Higgs'', in contrast to the ``light Higgs'' $h$ of the Standard Model. The other neutral field $A$ is a pseudo-scalar.
+The total particle content of the MSSM is as follows: %\marginpar{These paragraphs could use a polish, they don't flow well}
+The Standard Model particles are present: electrons, muons, taus and their corresponding neutrinos, the up, down, strange, charm, bottom and top quarks, the photon, Z boson, W bosons, gluons, and the Higgs boson. In addition to the Standard Model Higgs $h$, there are four other scalar Higgs particles with positive R-parity, labeled $H$, $H^\pm$ and $A$. $H$ is identical to $h$ except for its larger mass, and is therefore termed ``heavy Higgs'', in contrast to the ``light Higgs'' $h$ of the Standard Model. The other neutral field $A$ is a pseudo-scalar.
 
-All the Standard Model particles get superpartners, often termed {\it sparticles}. For the gluons, they are called gluinos and labeled $\tilde g$. The partners of the $B^0$ and $W^a$ fields, which in the Standard Model make up the photon, $Z$ and $W^\pm$, mix with the superpartner Higgs fields to form four neutral Majorana fermions called neutralinos, labeled $\tilde\chi_i^0$, $i=1,...,4$, and two charged fermion-antifermion pairs called charginos, $\tilde\chi_i^\pm$, $i=1,2$. Each of the Standard Model fermions get two corresponding scalar particles with the same gauge charges. For the first two generations, the mass matrix is to good approximation diagonal in the basis spanned by the superpartner fields to the chiral Weyl fermions, so {\it e.g.}\ the superpartners of the up quark $u$ are labeled $\tilde u_R$ and $\tilde u_L$. For the third-generation fermions, the chiral approximation is cruder, so these mass eigenstates are just numbered, {\it e.g.}\ $\tilde b_1$ and $\tilde b_2$ for the $b$ quark. A summary of the MSSM particle content is shown in Table \ref{table:MSSM_particles}.
+All the Standard Model particles have superpartners, often termed {\it sparticles}. For the gluons, they are called gluinos and labeled $\tilde g$. The partners of the $B^0$ and $W^a$ fields, which in the Standard Model make up the photon, $Z$ and $W^\pm$, mix with the superpartner Higgs fields to form four neutral Majorana fermions called neutralinos, labeled $\tilde\chi_i^0$, $i=1,...,4$, and two charged fermion-antifermion pairs called charginos, $\tilde\chi_i^\pm$, $i=1,2$. Each of the Standard Model fermions get two corresponding scalar particles with the same gauge charges. For the first two generations, the mass matrix is to good approximation diagonal in the basis spanned by the superpartner fields to the chiral Weyl fermions, so {\it e.g.}\ the superpartners of the up quark $u$ are labeled $\tilde u_R$ and $\tilde u_L$. For the third-generation fermions, the chiral approximation is cruder, so these mass eigenstates are just numbered, {\it e.g.}\ $\tilde b_1$ and $\tilde b_2$ for the $b$ quark. A summary of the MSSM particle content is shown in Table \ref{table:MSSM_particles}.
 
 The fact that superpartner fields inherit the couplings of their Standard Model counterparts is very useful when drawing Feynman diagrams for processes, since intuition from the Standard Model can be applied through {\it supersymmetrization} of the diagrams. For instance, the fermion-fermion-gauge boson vertices (Fig.\ \ref{fig:feynmandiagram_supersymmetrization_a}) of the Standard Model have supersymmetrized fermion-sfermion-gaugino and sfermion-sfermion-gauge boson versions (figs.\ \ref{fig:feynmandiagram_supersymmetrization} b and c). However, sfermion-sfermion-gaugino does not exist, because of R-parity. 
  \begin{figure}[htbp]
@@ -1005,7 +1003,7 @@ In \cite{Gjelsten:2004ki} it is shown that these conditions are indeed satisfied
 
 
 \subsection{The SPS1a benchmark point}
-\label{sec:sps1a_benchmark_point}\marginpar{Estimate chain event yield}
+\label{sec:sps1a_benchmark_point}%\marginpar{Estimate chain event yield}
 The SPS1a benchmark point is defined in \cite{Allanach:2002nj} as the CMSSM point with $m_0=100~\mathrm{GeV}$, $m_{1/2}=250~\mathrm{GeV}$, $A_0=-100~\mathrm{GeV}$, $\tan \beta = 10$ and $\mu > 0$. The point is actually defined as the MSSM parameters obtained by using {\tt ISAJET 7.58} \cite{Baer:1999sp} to RG-run down from the defining CMSSM parameters. In this thesis we will instead use the parameters obtained by using {\tt SOFTSUSY 3.4.1} \cite{Allanach:2001kg} for RG-running. This gives a slightly different mass spectrum, but the main features are the same. Figure \ref{fig:SPS1a_softsusy_spectrum} shows the mass and decay spectrum of the SPS1a point in {\tt SOFTSUSY}. The dashed lines indicate the decay channels, and the line width is proportional to the branching ratio. Decays with a branching ratio of less than 1\% are not shown.
 \begin{figure}[hbt]
   % \centering
@@ -1013,7 +1011,9 @@ The SPS1a benchmark point is defined in \cite{Allanach:2002nj} as the CMSSM poin
   \caption{The mass spectrum of SPS1a from {\tt SOFTSUSY}. The dashed lines show the decay channels. The figure is made using {\tt PySLHA 3.0.2} \cite{Buckley:2013jua}. See the text for details.}
   \label{fig:SPS1a_softsusy_spectrum}
 \end{figure}
-Among the features to note is that the right-handed squarks have a much smaller branching ratio to $\tilde \chi_2^0$ than the left-handeds: 1\% and 30\%, respectively. This limits the amount of right-handed squarks initiating the chain, which is helpful for mass reconstruction since it limits the mass splitting between the squarks in the chain. Also, the left-handed sleptons are heavier than $\tilde \chi_2^0$, switching off that decay channel and limiting the slepton mass splitting. The branching fractions of the $\chi_2^0$ are divided between the the different $\tilde l l$ decay modes, with nearly 90\% branching to $\tilde \tau \tau$ and the rest evenly divided between $\tilde e e$ and $\tilde \mu \mu$. Because the tau is short-lived and has a large branching fraction to hadrons (65\%) \cite{Agashe:2014kda}, it is difficult to use the cascade events which contain a tau for kinematical analysis, and this limits the number of useful chain events at SPS1a.
+Among the features to note is that the right-handed squarks have a much smaller branching ratio to $\tilde \chi_2^0$ than the left-handeds: 1\% and 30\%, respectively. This limits the amount of right-handed squarks initiating the chain, which is helpful for mass reconstruction since it limits the mass splitting between the squarks in the chain. Also, the left-handed sleptons are heavier than $\tilde \chi_2^0$, switching off that decay channel and limiting the slepton mass splitting. 
+
+The branching fractions of the $\chi_2^0$ are divided between the the different $\tilde l l$ decay modes, with nearly 90\% branching to $\tilde \tau \tau$ and the rest evenly divided between $\tilde e e$ and $\tilde \mu \mu$. Because the tau is short-lived and has a large branching fraction to hadrons (65\%) \cite{Agashe:2014kda}, it is difficult to use the cascade events which contain a tau for kinematical analysis, and this limits the number of useful chain events at SPS1a. For the analysis in the coming chapters, we will work with event samples of 25 events generated in the SPS1a parameter point at a centre-of-momentum energy of $\sqrt{s}= 14~\mathrm{TeV}$, selected such that the leptons in the two chains are of different flavour. This corresponds to an integrated luminosity of $3~\mathrm{fb}^{-1}$ \cite{Webber:2009vm}.
 
 \section{The experimental status of supersymmetry}
 The search for supersymmetric particles is one of the main activities ongoing at CERN's Large Hadron Collider, particularly in the general purpose ATLAS and CMS experiments. Before the LHC was turned off for maintenance and upgrades at the end of 2012, each experiment had collected $\sim 20 ~\mathrm{fb}^{-1}$ of data at a centre-of-momentum energy of $\sqrt{s} = 8~\mathrm{TeV}$ in what is called LHC Run~I. No significant excesses of events that could indicate the existence of SUSY have so far been observed, with the exception of a few minor deviations in data that do not reach the level required for a discovery, the most significant being a $3\sigma$ excess in events consistent with a $Z$-boson, missing energy and jets~\cite{Aad:2015wqa}. At the time of writing, the LHC has begun circulating beams in preparation for Run II, which will achieve a centre-of-momentum energy of $\sqrt{s} = 13~\mathrm{TeV}$, and is expected to record $\sim 300 ~\mathrm{fb}^{-1}$ of data over the next ten years. In an even longer perspective, an upgrade to the {\it high luminosity LHC} is planned, which brings the total expected integrated luminosity up to $3000~\mathrm{fb}^{-1}$ at $\sqrt{s} = 14~\mathrm{TeV}$. 
@@ -1053,19 +1053,21 @@ Figure \ref{fig:ATLAS_neutralinogluino} shows the same kinds of exclusion limits
 
 Referring back to Fig.\ \ref{fig:mSUGRA_decay_spectrum}, we see that the bright green region, where the chain hierarchy is present with a sizeable branching fraction, favours low values for $m_0$ and $m_{1/2}$ in the CMSSM. Comparing to the experimental constraints of figure \ref{fig:ATLAS_mSUGRA}, we see that much of these parts of the parameter space are ruled out. In particular we note that the SPS1a point is excluded. The top left region, where $m_{1/2} \gtrsim 800~\mathrm{GeV}$ and $1000 ~\mathrm{GeV} \gtrsim m_0 \gtrsim 400 ~\mathrm{GeV}$, is compatible with the green areas of Fig.\ \ref{fig:mSUGRA_decay_spectrum} and is not ruled out by the ATLAS limits themselves, but it corresponds to a Higgs mass $m_h \lesssim 123 ~\mathrm{GeV}$, which is somewhat far from the measured value in (\ref{eq:higgsmass}). However, it should be noted that current state-of-the-art calculations of the Higgs mass in the MSSM (and CMSSM) come with theoretical errors of the order of 2 GeV~\cite{Heinemeyer:2015dsa}, thus this region is not {\it per se} ruled out. There is also a question of what values are chosen for $A_0$ and $\tan\beta$, since the searches in Fig.\ \ref{fig:ATLAS_mSUGRA} assume one specific choice. Tuning these parameters may bring closer agreement with the Higgs mass, but this has not been investigated here since it would require a full re-evaluation of the ATLAS searches.
 
-As a benchmark for the event yield of the chain (\ref{eq:susyintrochap_cascade}), we have calculated the expected number of events in which there are two such chains, for the parameter point $m_0 = 400 ~\mathrm{GeV}$, $m_{1/2} = 800 ~\mathrm{GeV}$, $A_0 = -800~\mathrm{GeV}$, $\tan\beta = 30$, $\mu>0$ for LHC Run II. This is the lowest $(m_0,m_{1/2})$ combination that is not excluded by Fig.\ \ref{fig:ATLAS_mSUGRA} and at the same time provides the conditions needed for the chain. We calculate sparticle masses and branching fractions using {\tt SOFTSUSY 3.4.1} \cite{Allanach:2001kg} and squark and gluino cross-sections for 13 TeV LHC using {\tt NLL-fast 3.0} \cite{Beenakker:1996ch,Kulesza:2008jb,Kulesza:2009kq,Beenakker:2009ha,Beenakker:2011fu,Beenakker:1997ut,Beenakker:2010nq}. Assuming an integrated luminosity of $3000~\mathrm{fb}^{-1}$ for a high-luminosity upgraded LHC,\footnote{The high-luminosity upgrade of the LHC will probably take data at $\sqrt{s}=14~\mathrm{TeV}$. There is, however, no complete implementation of {\tt NLL-fast} for $14 ~\mathrm{TeV}$.} we find an expectation of 2.12 events.
+As a benchmark for the event yield of the chain (\ref{eq:susyintrochap_cascade}), we have calculated the expected number of events in which there are two such chains, for the parameter point $m_0 = 400 ~\mathrm{GeV}$, $m_{1/2} = 800 ~\mathrm{GeV}$, $A_0 = -800~\mathrm{GeV}$, $\tan\beta = 30$, $\mu>0$ for LHC Run II. This is the lowest $(m_0,m_{1/2})$ combination that is not excluded by Fig.\ \ref{fig:ATLAS_mSUGRA} and at the same time provides the conditions needed for the chain. We calculate sparticle masses and branching fractions using {\tt SOFTSUSY 3.4.1} \cite{Allanach:2001kg} and squark and gluino cross-sections for 13 TeV LHC using {\tt NLL-fast 3.0} \cite{Beenakker:1996ch,Kulesza:2008jb,Kulesza:2009kq,Beenakker:2009ha,Beenakker:2011fu,Beenakker:1997ut,Beenakker:2010nq}. Assuming an integrated luminosity of $3000~\mathrm{fb}^{-1}$ for a high-luminosity upgraded LHC,\footnote{The high-luminosity upgrade of the LHC will probably take data at $\sqrt{s}=14~\mathrm{TeV}$. There is, however, no complete implementation of {\tt NLL-fast} for $14 ~\mathrm{TeV}$.} we find an expectation of the order $10^{-5}$ events.
 
-In experiments at the LHC, one has to apply {\it cuts} to the data to isolate the signal. This further reduces the expected signal yield. We have used {\tt Pythia 8.2} \cite{Sjostrand:2014zea} to estimate the fraction of events at the aforementioned parameter point which has two instances of the decay chain and pass a set of cut criteria given by: 
-\begin{itemize}
-	\item At least two jets with $p_T > 200~\mathrm{GeV}$, $|\eta|<2.5$.
-	\item All four leptons have $p_T > 20~\mathrm{GeV}$.
-	\item There is missing $p_T > 100~\mathrm{GeV}$.
-\end{itemize}
-We find that about 90\% of the events pass these cuts.
+% In experiments at the LHC, one has to apply {\it cuts} to the data to isolate the signal. This further reduces the expected signal yield. We have used {\tt Pythia 8.2} \cite{Sjostrand:2014zea}, with the {\tt FastJet} \cite{Cacciari:2011ma} program for jet reconstruction, to estimate the fraction of events at the aforementioned parameter point which has two instances of the decay chain, and pass a set of cut criteria which are taken from \cite{Cheng:2009fw}, given by: 
+% \begin{itemize}
+% 	\item At least two jets with $p_T > 100~\mathrm{GeV}$, $|\eta|<2.5$.
+% 	\item All four leptons have $p_T > 10~\mathrm{GeV}$.
+% 	\item There is missing $p_T > 50~\mathrm{GeV}$.
+% \end{itemize}
+% We find that 93\% of the events pass these cuts.
 
-To match the measured Higgs mass and avoid the ATLAS direct searches, and at the same time keep the conditions needed for the chain as illustrated in Fig.\ \ref{fig:mSUGRA_decay_spectrum}, it appears that both the $m_0$ and $m_{1/2}$ parameters need to be pushed to or above 1000 GeV. Increasing the sparticle masses reduces the production cross-section, which means that even an expectation of 2 events may be optimistic. Thus, it seems that it will be difficult to measure the golden decay chain in the CMSSM at the LHC in a way that will be useful in the present context.
+To match the measured Higgs mass and avoid the ATLAS direct searches, and at the same time keep the conditions needed for the chain as illustrated in Fig.\ \ref{fig:mSUGRA_decay_spectrum}, it appears that both the $m_0$ and $m_{1/2}$ parameters need to be pushed to or above 1000 GeV. Increasing the sparticle masses reduces the production cross-section, which means that the expected number of events decreases even further. Thus, it seems that it will be difficult to measure the golden decay chain in the CMSSM at the LHC in a way that will be useful in the present context. However, by requiring only one chain rather than two, the expected event yield increases significantly. There are several measurements that can be done using only one chain \cite{Miller:2005zp}. For the aforementioned parameter point, the expected number of events with one chain is 0.10 --- which is still very small, but it illustrates how much rarer the two-sided chain is.
 
-By loosening some of the constraining assumptions of the CMSSM, such as the soft mass unification at a high scale, more general parametrizations of SUSY may be defined. The failure of the LHC to find signs of supersymmetry has prompted a large interest in studies of these more general models, in particular those  termed ``Natural SUSY'', since the main guiding principle is to avoid the need for fine-tuning, such as the {\it little hierarchy problem} of the Higgs mass discussed in Appendix \ref{appendix:higgs_mass_loop_correction}. In these more general models, the squark and/or gluino masses may decouple, {\it e.g.}\ pushing the gluino and third generation squarks to high masses, while retaining light squarks of the two first generations. This may evade experimental constraints on the Higgs mass, and still give relatively large cross-sections for squark production to initiate the chain. However, one would still be subject to the constraints shown in fig.~\ref{fig:ATLAS_neutralinogluino} (a). As a benchmark for this scenario, we have used {\tt NLL-fast} to find the squark-pair production cross-section at 14 TeV LHC, in the decoupling limit of large gluino mass. Assuming $m_{\tilde q} = 850~\mathrm{GeV}$, we get $\sigma_{\tilde q \tilde q} = 0.258~\mathrm{pb}$. If we assume that all the particles in our decay chain have 100\% branching to subsequent chain particles, as a best-case scenario, then the expected event yield with an integrated luminosity of $3000~\mathrm{fb}^{-1}$ is 774000 events.
+By loosening some of the constraining assumptions of the CMSSM, such as the soft mass unification at a high scale, more general parametrizations of SUSY may be defined. The failure of the LHC to find signs of supersymmetry has prompted a large interest in studies of these more general models, in particular those  termed ``Natural SUSY'', since the main guiding principle is to avoid the need for fine-tuning, such as the {\it little hierarchy problem} of the Higgs mass discussed in Appendix \ref{appendix:higgs_mass_loop_correction}. In these more general models, the squark and/or gluino masses may decouple, {\it e.g.}\ pushing the gluino and third generation squarks to high masses, while retaining light squarks of the two first generations. This may evade experimental constraints on the Higgs mass, and still give relatively large cross-sections for squark production to initiate the chain. However, one would still be subject to the constraints shown in fig.~\ref{fig:ATLAS_neutralinogluino} (a). 
+
+As a benchmark for this scenario, we have used {\tt NLL-fast} to find the squark-pair production cross-section at 14 TeV LHC, in the decoupling limit of large gluino mass. Assuming $m_{\tilde q} = 850~\mathrm{GeV}$, we get $\sigma_{\tilde q \tilde q} = 0.258~\mathrm{pb}$. If we assume, as a best-case scenario, that the squarks have $\mathrm{BR}(\tilde q_L \to q\tilde\chi_2^0)=100\%$, $\mathrm{BR}(\tilde q_R \to q\tilde\chi_1^0)=100\%,$\footnote{This corresponds to a scenario where $\tilde\chi_2^0\sim \tilde W^0$, $\tilde\chi_1^0\sim \tilde B^0$.} and that $\mathrm{BR}(\tilde\chi_2^0\to l\tilde l)=100\%$ and $\mathrm{BR}(\tilde l \to l\tilde\chi_1^0)=100\%$, then the expected event yield with an integrated luminosity of $3000~\mathrm{fb}^{-1}$ is about 200 000 events.
 
 % There are also other experimental signatures that can be used to set limits on SUSY parameters. One notable example is the branching fraction for the decay $B_s \to \mu^+ \mu^-$, which has a would-be SUSY contribution which is heavily dependent on $\tan\beta$. So far, analyses by the CMS and LHCb groups \cite{CMS:2014xfa} have found results which match the predictions of the Standard Model to high precision, thus placing stringent limits on any non-Standard Model contributions. \marginpar{Remove this paragraph?}
 
@@ -1214,11 +1216,11 @@ Note that this quantity measures the goodness-of-fit of all the unknown masses e
 
 For each event there are eight constraining equations. There are eight unknowns from the masses plus six from the unknown LSP momenta (using the on-shell constraint on the LSPs). The system is thus underconstrained, with six free parameters. The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a potentially very complicated behaviour, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one which one could hope could be solved. In this case the number of free parameters reduces from six to two. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. As was discussed in Section \ref{sec:cmssm}, this is a realistic assumption in many SUSY scenarios. Note that because the system is underconstrained, more than one event is needed to be able to solve for the masses.
 
-Note that the method is applicable to a wider range of models than supersymmetry --- it may be used in any model which adds Standard Model partner particles under a parity symmetry, for example in universal extra dimension (UED) for the {\it Kaluza-Klein} excitations cascade
+Note that the method is applicable to a wider range of models than supersymmetry --- it may be used in any model which adds Standard Model partner particles under a parity symmetry, for example in universal extra dimension (UED) with the {\it Kaluza-Klein} excitations cascade
 \begin{align}
   q_1 \to qZ_1 \to qll_1 \to qll\gamma_1,
 \end{align}
-where $\gamma_1$ is the Kaluza-Klein excitation of the photon \cite{Webber:2009vm,Appelquist:2000nn}. This is why we often discuss the chain in the abstract notation used above. However, we will only consider supersymmetric applications in this thesis.
+where $\gamma_1$ is the Kaluza-Klein excitation of the photon \cite{Cheng:2002ab}. This is why we discuss the chain in the abstract notation used above. However, we will only consider supersymmetric applications in this thesis.
 
 \section{Two technical modifications}\label{sec:dimension_fixing}
 For the method to be applicable, the matrix $\mathbf{A}$ must be invertible. A matrix is invertible if its determinant is non-zero. However, the matrix $\mathbf A$ as it stands in \eqref{eq:Amatrix_orig} as defined by Webber \cite{Webber:2009vm}, is technically ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$, have no dimension, while the other rows have dimension $[\mathrm{mass}]^1$. This is reflected in the components of $\mathbf{S}$, where all, except 4 and 8, have dimension $[\mathrm{mass}]^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale, since some rows have non-zero dimension, and that it does not scale properly for numerical calculations, since not all rows have the same dimension. This is something that Webber does not comment on, and although it is more sensitive to numerical instability the method still in principle works, but we make some minor reformulations of the method in order to amend both problems.
@@ -1303,7 +1305,7 @@ In the following chapters we will investigate and develop this method further. T
   \item We then compare results with and without including the combinatorical issues from identifying the decay products. We also investigate the effects of using a more sophisticated parametrization of the momentum smearing, based on realistic detector response.
   \item We proceed with investigating potential improvements to the method, such as using the value of the determinant of the matrix $\mathbf A$ to discard bad events, and schemes for reducing the combinatorical ambiguities.
   \item The partons that emerge from the hadron showers will hadronize, forming a hadron jet before arriving in the detector. Measurement of the initial parton from reconstructing such jets is one of the big challenges of collider physics. We use the {\tt FastJet}~\cite{Cacciari:2011ma} program for jet reconstruction, with algorithms used in the LHC experiments, and study the effect of jet reconstruction on the mass measurement.
-  \item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. 
+  \item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC, and present estimates for the precision we can expect from the method in this case.
 \end{enumerate}
 
 
@@ -1496,7 +1498,7 @@ In Fig.\ \ref{fig:webber_rec_scatter_tolerance-comparison_5pmomsmear} we show sc
 % 	\label{fig:webber_rec_scatter_tolerance-comparison_10pmomsmear}
 % \end{figure}
 
-However, Webber also investigates the effects of imposing a {\it cut} on the $\xi^2$ value obtained at the minimum. In his fits, this cut tends to remove the bad events, giving a better fit. Applying a cut also helps for the reduced-tolerance fit, although it does not recover Webber's original low error estimate. In Table \ref{table:webber_rec_lowtol} we reproduce Table \ref{table:webber_softsusy} for the reduced-tolerance fit. We note that the fraction of samples passing the $\xi^2$ cut is drastically reduced compared to Table \ref{table:webber_softsusy}. The fraction of events where the best-fit combination is the true one is also reduced. The fact that the fraction of samples passing the $\xi^2$ cut decreases is puzzling --- one would expect that a lower tolerance ensures that the fit obtains a lower $\xi^2$ value. However, the form of the $\xi^2$ is very complicated due to the combinatorical ambiguities, and it may be difficult for {\tt Simplex} to handle.
+However, Webber also investigates the effects of imposing a {\it cut} on the $\xi^2$ value obtained at the minimum. In his fits, this cut tends to remove the bad events, giving a better fit. Applying a cut also helps for the reduced-tolerance fit, although it does not recover Webber's original low error estimate. In Table \ref{table:webber_rec_lowtol} we reproduce Table \ref{table:webber_softsusy} for the reduced-tolerance fit. We note that the fraction of samples passing the $\xi^2$ cut is drastically reduced compared to Table \ref{table:webber_softsusy}. The fraction of events where the best-fit combination is the true one is also reduced. The fact that the fraction of samples passing the $\xi^2$ cut decreases is counter-intuitive --- one would expect that a lower tolerance ensures that the fit obtains a lower $\xi^2$ value. However, the form of the $\xi^2$ is very complicated due to the combinatorical ambiguities, and it may be difficult for {\tt Simplex} to handle.
 
 \begin{table}[hbt]
 	\centering
@@ -2092,7 +2094,7 @@ For each event $i$, we count how many of the $(i,j)$ pairs prefer the different 
 \begin{figure}[hbtp!]
 	\centering
 		\includegraphics[width=0.6\textwidth]{figures/improving_combinatorics/histogram-pairwise_A_selection-fraction_of_corr_A.pdf} 
-	\caption{Distribution of the 25-event samples of {\tt Herwig++} events, indicating, for each sample, the fraction of events where the discrimination algorithm prefers the true $\mathbf{A}$ matrix. A $|\mathrm{det}\mathbf A > 10$ cut is used in the blue distribution, discarding some events. See the text for details.}
+	\caption{Distribution of the 25-event samples of {\tt Herwig++} events, indicating, for each sample, the fraction of events where the event-pair selection algorithm prefers the true $\mathbf{A}$ matrix. A $|\mathrm{det}\mathbf A > 10$ cut is used in the blue distribution, discarding some events. See the text for details.}
 	\label{fig:correct_A_preference_distribution}
 \end{figure}
 
@@ -2177,7 +2179,7 @@ One might try to revert to the method of ``jumping'' between combinations in the
 Another possibility is to do something analogous to the algorithm we applied to choose between the quark assignments. One could imagine pairing events and minimizing all combinations ($4^2 = 16$, in this case), selecting the combination which is minimal in most cases. However, this would only give two contributing terms to the $\xi^2$ for each minimization, instead of eight terms in the case where four permutations are summed. The $\xi^2$ turns out to be difficult to minimize in this case, and it often does not converge at all.
 
 \section{Comparison benchmark}
-We are now in a position to produce a table analogous to those of Chapter \ref{ch:MC}, for our modified implementation of the method. We apply the MSD fit with dilepton edge to the {\tt Herwig++} dataset with only OFL events. We use the event-pair selection algorithm to choose between the two $\mathbf{A}$ matrices for each event, and sum the remaining four lepton permutations in the $\xi^2$. We apply a minimal value determinant cut of 10. We also test applying a $\xi^2$ cut as in Chapter \ref{ch:MC}, although the cut value has to be set higher to get a sizeable fraction of samples past the cut because of the changes made to the method. We have chosen a cut value which gives a similar pass-cut fraction as in Webber's original analysis, Table \ref{table:webber_original}. The results are summarized in Table \ref{table:MD_fit_table}.\marginpar{Should I also make a table for 50-event samples including SFL events?}
+We are now in a position to produce a table analogous to those of Chapter \ref{ch:MC}, for our modified implementation of the method. We apply the MSD fit with dilepton edge to the {\tt Herwig++} dataset with only OFL events. We use the event-pair selection algorithm to choose between the two $\mathbf{A}$ matrices for each event, and sum the remaining four lepton permutations in the $\xi^2$. We apply a minimal value determinant cut of 10. We also test applying a $\xi^2$ cut as in Chapter \ref{ch:MC}, although the cut value has to be set higher to get a sizeable fraction of samples past the cut because of the changes made to the method. We have chosen a cut value which gives a similar pass-cut fraction as in Webber's original analysis, Table \ref{table:webber_original}. The results are summarized in Table \ref{table:MD_fit_table}.%\marginpar{Should I also make a table for 50-event samples including SFL events?}
 \begin{table}[hbt]
 	\centering
 	\begin{tabular}{| l | l | l | l | l  || l | l | l | l |}
@@ -2428,7 +2430,7 @@ Following the prescriptions of quantum mechanics, energy and momentum are promot
 \begin{align}
 	p_\mu \to i\hbar \frac{\partial}{\partial x^\mu} \equiv i\hbar \partial_\mu.
 \end{align}
-Taken as an eigenvalue equation for a field $\phi$, this gives rise to the relativistic {\it Klein-Gordon} equation
+Taken as an eigenvalue equation for a free field $\phi$, this gives rise to the relativistic {\it Klein-Gordon} equation
 \begin{align}
 	-\hbar^2 \partial^\mu \partial_\mu \phi - m^2 \phi = 0.
 \end{align}
@@ -2449,7 +2451,7 @@ where we have used the fact that $\mu$ and $\nu$ are dummy summation variables. 
 \begin{align}
 	\left\{ \gamma^\mu, \gamma^\nu \right\} = 2g^{\mu\nu},
 \end{align}
-where $g^{\mu\nu}$ is the Minkowski metric tensor, and the curly brackets denote the anticommutator $\left\{ \gamma^\mu, \gamma^\nu \right\} = \gamma^\mu \gamma^\nu + \gamma^\nu \gamma^\mu$. Dirac realized that this condition can be met provided we let the $\gamma^\mu$ be {\it matrices}. It turns out that the lowest possible dimension of these matrices is $4\times 4$. They may be represented in several equivalent bases, but one standard convention is
+where $g^{\mu\nu}$ is the Minkowski metric tensor, and the curly brackets denote the anticommutator $\{ \gamma^\mu, \gamma^\nu \} = \gamma^\mu \gamma^\nu + \gamma^\nu \gamma^\mu$. Dirac realized that this condition can be met provided we let the $\gamma^\mu$ be {\it matrices}. It turns out that the lowest possible dimension of these matrices is $4\times 4$. They may be represented in several equivalent bases, but one standard convention is
 \begin{align}
 	\gamma^0 = \begin{pmatrix}
 		1 & 0 \\ 0 & -1
@@ -2473,9 +2475,9 @@ where $\Psi$ is required by dimensionality to be a four-column vector of fields,
 \end{align}
 called a Dirac {\it spinor}.
 
-The {\it equations of motion} are the equations describing the field configurations which minimizes the {\it action},
+The {\it equations of motion} are the equations describing the field configurations which minimize the {\it action},
 \begin{align}
-	S = \int d^4 x \, \mathcal{L},
+	S = \int d^4 x \, \mathcal{L}.
 \end{align}
 Demanding stationarity of action for a spinor field $\Psi$ and its adjoint $\bar\Psi \equiv  \Psi^\dag \gamma^0$,
 \begin{align}
@@ -2490,7 +2492,7 @@ The Lagrangian $\mathcal{L}_D$ which yields the Dirac equation upon application 
 \begin{align}
 	\mathcal{L}_D = \bar \Psi \left( i\hbar \slashed \partial - m \right)\Psi,
 \end{align}
-called the Dirac bilinear.
+which is called the Dirac bilinear.
 
 
 
