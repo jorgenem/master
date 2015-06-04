@@ -55,7 +55,7 @@
 	\textbf{Abstract}
 \end{center}
 \begin{abstract}{english}
-    We investigate a method, originally suggested in \cite{Webber:2009vm}, for determination of the masses of supersymmetric resonances and invisible final states in a certain type of cascade decays. We do our study within the framework of the Minimal Supersymmetric Standard Model with conservation of R-parity, but the method applies to any Beyond-Standard Model theory with a parity symmetry. The method formulates the mass determination as an optimization problem for which numerical techniques can be applied. The method was demonstrated in \cite{Webber:2009vm} by Monte Carlo simulations to have good prospects for accurate mass determination. We discover that there are certain problems with the method and the analysis, which lead to an under-estimation of the errors. In light of this, we present revised error estimates. We proceed to investigate alternative formulations of the method which might amend the issues, and present mass estimates and uncertainties for Monte Carlo analyses of these alternative formulations. We also investigate the effects of jet reconstruction, and show that this is an important source of error for the method. 
+    We investigate a method, originally suggested in \cite{Webber:2009vm}, for determination of the masses of resonances and invisible final states in cascade decays in Beyond-Standard-Model theories with a parity symmetry. We do our study within the framework of the Minimal Supersymmetric Standard Model with conservation of R-parity. The method formulates the mass determination as an optimization problem for which numerical techniques can be applied. The method was demonstrated in \cite{Webber:2009vm} by Monte Carlo simulations to have good prospects for accurate mass determination. We discover that there are certain problems with the method and the analysis, which lead to an under-estimation of the errors. In light of this, we present revised error estimates. We proceed to investigate alternative formulations of the method which might amend the issues, and present mass estimates and uncertainties for Monte Carlo analyses of these alternative formulations. We also investigate the effects of jet reconstruction, and show that this is an important source of error for the method. 
 \end{abstract}
 
 \end{abstractpage}
@@ -65,7 +65,7 @@
 \begin{dedication}
 Til mamma
  \\\vspace{12pt}
-Dypt savna
+
 \end{dedication}
 
 \begin{acknowledgements}
@@ -1119,22 +1119,22 @@ Webber \cite{Webber:2009vm} suggests a different method, where all available kin
 \end{figure}
 Assuming that the decaying particles are on-shell, the four-momenta in the first chain should satisfy
 \begin{align}
-	(p_c + p_b + p_a + p_A)^2 &= M_D^2,\nonumber \\
-	(p_b + p_a + p_A)^2 &= M_C^2,\nonumber \\
-	(p_a + p_A)^2 &= M_B^2,\label{eq:constraints}\\
-	p_A^2 &= M_A^2.\nonumber
+	(p_c + p_b + p_a + p_A)^2 &= m_D^2,\nonumber \\
+	(p_b + p_a + p_A)^2 &= m_C^2,\nonumber \\
+	(p_a + p_A)^2 &= m_B^2,\label{eq:constraints}\\
+	p_A^2 &= m_A^2.\nonumber
 \end{align}
 The first three equations give three linear constraints on the invisible four-momentum $p_A$:
 \begin{align}
-	-2p_c\cdot p_A &= M_C^2 - M_D^2 + 2p_c\cdot p_b + 2p_c \cdot p_a + m_c^2 \equiv S_1,\label{eq:constraints_projections1} \\
-	-2p_b\cdot p_A &= M_B^2 - M_C^2 + 2p_b\cdot p_a + m_b^2 \equiv S_2,\\
-	-2p_a\cdot p_A &= M_A^2 - M_B^2 + m_a^2 \equiv S_3.
+	-2p_c\cdot p_A &= m_C^2 - m_D^2 + 2p_c\cdot p_b + 2p_c \cdot p_a + m_c^2 \equiv S_1,\label{eq:constraints_projections1} \\
+	-2p_b\cdot p_A &= m_B^2 - m_C^2 + 2p_b\cdot p_a + m_b^2 \equiv S_2,\\
+	-2p_a\cdot p_A &= m_A^2 - m_B^2 + m_a^2 \equiv S_3.
 \end{align}
 Physically, these correspond to projections of the invisible particles on the measured ones. Equivalently the second chain (with primed indices) gets the constraints
 \begin{align}
-	-2p_{c'}\cdot p_{A'} &= M_{C'}^2 - M_{D'}^2 + 2p_{c'}\cdot p_{b'} + 2p_{c'} \cdot p_{a'} + m_{c'}^2 \equiv S_5, \\ 
-	-2p_{b'}\cdot p_{A'} &= M_{B'}^2 - M_{C'}^2 + 2p_{b'}\cdot p_{a'} + m_{b'}^2 \equiv S_6,\\
-	-2p_{a'}\cdot p_{A'} &= M_{A'}^2 - M_{B'}^2 + m_{a'}^2 \equiv S_7.\label{eq:constraints_projections6}
+	-2p_{c'}\cdot p_{A'} &= m_{C'}^2 - m_{D'}^2 + 2p_{c'}\cdot p_{b'} + 2p_{c'} \cdot p_{a'} + m_{c'}^2 \equiv S_5, \\ 
+	-2p_{b'}\cdot p_{A'} &= m_{B'}^2 - m_{C'}^2 + 2p_{b'}\cdot p_{a'} + m_{b'}^2 \equiv S_6,\\
+	-2p_{a'}\cdot p_{A'} &= m_{A'}^2 - m_{B'}^2 + m_{a'}^2 \equiv S_7.\label{eq:constraints_projections6}
 \end{align}
 In addition we have the transverse momentum constraints
 \begin{align}
@@ -1144,7 +1144,7 @@ In addition we have the transverse momentum constraints
 
 The vector $\mathbf{S} = (S_1, S_2, ...)$ thus depends on the eight unknown masses 
 \begin{align}
-	\mathbf{M} = (M_D^2, M_C^2, M_B^2, M_{A'}^2, M_{D'}^2, M_{C'}^2, M_{B'}^2, M_{A'}^2)
+	\mathbf{M} = (m_D^2, m_C^2, m_B^2, m_{A'}^2, m_{D'}^2, m_{C'}^2, m_{B'}^2, m_{A'}^2)
 \end{align}
 and the visible momenta, which in principle are measurable. We define a vector containing the four-momenta of the invisible final state particles as
 \begin{align}
@@ -1197,22 +1197,28 @@ where $\mathbf{D} = \mathbf{A}^{-1}\mathbf{B}$ and $\mathbf{E} = \mathbf{A}^{-1}
 
 The matrix $\mathbf{D}$ and vector $\mathbf{E}$ contain only measurable quantities, hence they only need to be calculated once for every event. For the true value of the unknown masses $\mathbf{M}$, the system should satisfy the on-shell conditions
 \begin{align}
-	p_{A}^2 &= P_4^2 - P_1 ^2 - P_2^2 - P_3^2 = M_{A}^2, \nonumber\\
-	p_{A'}^2 &= P_8^2 - P_5 ^2 - P_6^2 - P_7^2 = M_{A'}^2.
+	p_{A}^2 &= P_4^2 - P_1 ^2 - P_2^2 - P_3^2 = m_{A}^2, \nonumber\\
+	p_{A'}^2 &= P_8^2 - P_5 ^2 - P_6^2 - P_7^2 = m_{A'}^2.
 \end{align}
 So by calculating $\mathbf{D}_n$ and $\mathbf{E}_n$ for each event $n$, and making a {\it hypothesis} $\mathbf{M}$ for the unknown masses, we can measure the goodness of fit for our hypothesis by the quantity
 \begin{align}
-	\xi^2(\mathbf{M}) = \sum_n \left[(p_{A}^2)_n - M_A^2\right]^2 + \left[(p_{A'}^2)_n - M_{A'}^2\right]^2. \label{eq:xisquared}
+	\xi^2(\mathbf{M}) = \sum_n \left[(p_{A}^2)_n - m_A^2\right]^2 + \left[(p_{A'}^2)_n - m_{A'}^2\right]^2. \label{eq:xisquared}
 \end{align}
 Note that this quantity measures the goodness-of-fit of all the unknown masses equally, since it follows from the constraint equations \eqref{eq:constraints} that for example
 \begin{align}
-	(p_B^2)_n - M_B^2 &= (p_a + p_A)_n^2 - M_B^2 \nonumber\\
-				  &= (p_a^2)_n + (p_A^2)_n + 2p_a\cdot p_A - M_B^2\nonumber\\
-				  &= (p_a^2)_n + (p_A^2)_n - M_A^2 + M_B^2 - m_a^2 - M_B^2\\
-				  &= (p_A^2)_n - M_A^2.\nonumber
+	(p_B^2)_n - m_B^2 &= (p_a + p_A)_n^2 - m_B^2 \nonumber\\
+				  &= (p_a^2)_n + (p_A^2)_n + 2p_a\cdot p_A - m_B^2\nonumber\\
+				  &= (p_a^2)_n + (p_A^2)_n - m_A^2 + m_B^2 - m_a^2 - m_B^2\\
+				  &= (p_A^2)_n - m_A^2.\nonumber
 \end{align}
 
 For each event there are eight constraining equations. There are eight unknowns from the masses plus six from the unknown LSP momenta (using the on-shell constraint on the LSPs). The system is thus underconstrained, with six free parameters. The point of the method is to minimize $\xi^2$ as a function of $\mathbf{M}$. This is generally an eight-dimensional minimization problem with a potentially very complicated behaviour, and thus not easy to solve. However, in the case of identical chains, it reduces to a much more handleable four-dimensional one which one could hope could be solved. In this case the number of free parameters reduces from six to two. The condition of identical chains can often be satisfied by a combination of vetoing ({\it e.g.} b-jets) and assuming small mass splittings between different generations, thus approximating their masses as equal. As was discussed in Section \ref{sec:cmssm}, this is a realistic assumption in many SUSY scenarios. Note that because the system is underconstrained, more than one event is needed to be able to solve for the masses.
+
+Note that the method is applicable to a wider range of models than supersymmetry --- it may be used in any model which adds Standard Model partner particles under a parity symmetry, for example in universal extra dimension (UED) for the {\it Kaluza-Klein} excitations cascade
+\begin{align}
+  q_1 \to qZ_1 \to qll_1 \to qll\gamma_1,
+\end{align}
+where $\gamma_1$ is the Kaluza-Klein excitation of the photon \cite{Webber:2009vm,Appelquist:2000nn}. This is why we often discuss the chain in the abstract notation used above. However, we will only consider supersymmetric applications in this thesis.
 
 \section{Two technical modifications}\label{sec:dimension_fixing}
 For the method to be applicable, the matrix $\mathbf{A}$ must be invertible. A matrix is invertible if its determinant is non-zero. However, the matrix $\mathbf A$ as it stands in \eqref{eq:Amatrix_orig} as defined by Webber \cite{Webber:2009vm}, is technically ill-defined for inversion since not all rows have the same units. The rows 4 and 8, corresponding to the components 4 and 8 of the vector $\mathbf{S}$, have no dimension, while the other rows have dimension $[\mathrm{mass}]^1$. This is reflected in the components of $\mathbf{S}$, where all, except 4 and 8, have dimension $[\mathrm{mass}]^2$. This means both that the magnitude of the determinant is sensitive to the choice of mass scale, since some rows have non-zero dimension, and that it does not scale properly for numerical calculations, since not all rows have the same dimension. This is something that Webber does not comment on, and although it is more sensitive to numerical instability the method still in principle works, but we make some minor reformulations of the method in order to amend both problems.
@@ -1259,7 +1265,7 @@ and we choose to take it into the matrix and vectors such that they all become d
 \end{align}
 thus modifying $\mathbf{M}$ and $\mathbf{C}$ in the same way as $\mathbf{S}$ to comply with Eq.\ \eqref{eq:SBMC}. We also modify the fitting function $\xi^2$ accordingly, so that it becomes
 \begin{align}
-	\xi^2(\mathbf{M}) = \sum_n \left[(\hat p_{A}^2)_n - \frac{M_A^2}{M_\mathrm{norm}^2}\right]^2 + \left[(\hat p_{A'}^2)_n - \frac{M_{A'}^2}{M_\mathrm{norm}^2}\right]^2.\label{eq:xisquared_modified}
+	\xi^2(\mathbf{M}) = \sum_n \left[(\hat p_{A}^2)_n - \frac{m_A^2}{M_\mathrm{norm}^2}\right]^2 + \left[(\hat p_{A'}^2)_n - \frac{m_{A'}^2}{M_\mathrm{norm}^2}\right]^2.\label{eq:xisquared_modified}
 \end{align}
 
 To obtain numbers of order one, which is optimal for numerical purposes, we should pick a mass of the relevant scale for the problem. This is not something that is known {\it a priori}, since it depends on the supersymmetric masses that we are trying to determine. We might be tempted to use something based on the measured momenta, but this is a bad idea since it would mean weighting different events differently. We choose the normalization constant
@@ -1290,23 +1296,17 @@ Note that in order to switch the ordering of near and far leptons within the sam
 
 
 \section{Outline of our plan}
-\marginpar{Rewrite after chapters are in final form (check comments from Are when I do)}
-In the following chapters we wish to investigate and develop this method further. We will begin by trying to reproduce Webber's parton level results using Monte Carlo simulations. We will then add layers of realism and complexety approaching something closer to the real experimental situation, in order to investigate its full potential. Along the way we will also make some improvements on the method.
-
-The plan of attack is as follows:
+In the following chapters we will investigate and develop this method further. The plan of attack is as follows:
 \begin{enumerate}
-	\item We begin by generating squark pairs at rest, decaying them in the chain of on-shell two-body decays given in (\ref{eq:goldencascade}). The visible decay products, quarks and leptons, are then used to reconstruct the masses. As a benchmark we investigate the precision attainable for the CMSSM parameter point SPS1a~\cite{Allanach:2002nj}, which was used by Webber. 
-	\item Because of final state radiation and parton showering, as well as --- to a lesser degree --- sparticle widths, the particles in the decay chain will not be on-shell due to extra gluons (and photons) in the final state. We employ a more sophisticated Monte Carlo code, {\tt Herwig++}~\cite{Bahr:2008pv}  to simulate these properties. This should have an effect on the mass reconstruction since Webber's method assumes on-shell decays.
-	\item	We then compare results with and without including the combinatorical issues from identifying the decay products, and we add a simple parametrised momentum smearing, based on realistic detector response, in order to simulate that the measurement of the kinematics of final-state particles is not exact. This was the level of precision employed by Webber in~\cite{Webber:2009vm}.
-	\item The partons that emerge from the hadron showers will hadronize, forming a hadron jet before arriving in the detector. Measurement of the initial parton from reconstructing such jets is one of the big challenges of collider physics. We use the {\tt FastJet}~\cite{Cacciari:2011ma} program for jet reconstruction, with algorithms used in the LHC experiments, and study the effect of jet reconstruction on the mass measurement.
-	\item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. 
-	% In addition we simulate the expected largest backgrounds for a four-lepton supersymmetry search and investigate how the performance of the method is affected by the presence of background.\marginpar{Remove mention of background?}
-	% \item {\bf If time} As a last step towards realism, we put the events through a fast detector simulation. 
-	% \item We then investigate improvements over the original model. Webber and collaborators \cite{Nojiri:2010dk} propose combining the kinematical best-fit reconstruction with measurements of end points of invariant mass distributions.
-	% \item Investigating other types of chains. Not-equal-sided? Different number of steps? Fitting a mass plane rather than points?
-	% \item Finally, we look at a well motivated model taken from \cite{Allanach:2014gsa} that was constructed on the basis of a small excess seen in 8 TeV data by the CMS Collaboration~\cite{CMS:2014jfa}, which would be consistent with the decay chain in (\ref{eq:goldencascade}). We show what precission we can expect from mass measurments at 14 TeV LHC should such a scenario be realized.
-  \item{Attempts at improvements}
+  \item We begin by attempting to reproduce Webber's parton level results using Monte Carlo simulations. As a benchmark we investigate the precision attainable for the CMSSM parameter point SPS1a~\cite{Allanach:2002nj}, which was used by Webber \cite{Webber:2009vm}. We also apply a crude momentum smearing, in order to simulate that the measurement of the kinematics of final-state particles is not exact, as well as a quality cut on the best-fit value of the $\xi^2$ function to eliminate bad event samples.
+  \item We proceed to analyze the effects of changing the settings of the numerical routine used for minimizing the $\xi^2$ function. In light of this, we present revised estimates for the precision attainable for the method in the different cases with and without momentum smearing.
+  \item We then compare results with and without including the combinatorical issues from identifying the decay products. We also investigate the effects of using a more sophisticated parametrization of the momentum smearing, based on realistic detector response.
+  \item We proceed with investigating potential improvements to the method, such as using the value of the determinant of the matrix $\mathbf A$ to discard bad events, and schemes for reducing the combinatorical ambiguities.
+  \item The partons that emerge from the hadron showers will hadronize, forming a hadron jet before arriving in the detector. Measurement of the initial parton from reconstructing such jets is one of the big challenges of collider physics. We use the {\tt FastJet}~\cite{Cacciari:2011ma} program for jet reconstruction, with algorithms used in the LHC experiments, and study the effect of jet reconstruction on the mass measurement.
+  \item In an analysis of real data, one would have to use selection criteria such as cuts on transverse momentum and number of jets and leptons to discriminate between signal and background events. We will apply such cut schemes to our simulated events based on expectations for 14 TeV LHC. 
 \end{enumerate}
+
+
 
 
 
@@ -1367,7 +1367,7 @@ The analysis, {\it i.e.} minimization of the $\xi^2$, is performed on 100 sample
 	\label{table:webber_original}
 \end{table}
 
-To reproduce Webber's results, we have mainly generated events using {\tt Herwig++ 2.7.1} \cite{Bahr:2008pv}. As a control, and to enable us to interface the simulation with jet reconstruction software later, we have also used {\tt Pythia 8.2} \cite{Sjostrand:2014zea}. We have also had access to the {\tt HERWIG 6.510} code used in the original paper, enabling us to make a quite close reconstruction of Webber's analysis \cite{Webber:epost}. The reproductions of Webber's results in the present chapter are done with the {\tt HERWIG} code. In Section \ref{sec:without_combinatorics} we switch to a {\tt Herwig++} generated dataset, which we also use through most of Chapter \ref{ch:investigating_improvements}, before we employ {\tt Pythia} to study jet reconstruction effects in Section \ref{sec:jetrec}. Even though the SPS1a parameter point is excluded by experimental data, we choose to use it for our study to be able to compare as closely as possible to Webber's results.
+To reproduce Webber's results, we have mainly generated events using {\tt Herwig++ 2.7.1} \cite{Bahr:2008pv}. As a control, and to enable us to interface the simulation with jet reconstruction software later, we have also used {\tt Pythia 8.2} \cite{Sjostrand:2014zea}. We have also had access to the {\tt HERWIG 6.510} code used in the original paper, enabling us to make a quite close reconstruction of Webber's analysis \cite{Webber:epost}. The reproductions of Webber's results in the present chapter are done with the {\tt HERWIG} code. In Section \ref{sec:without_combinatorics} we switch to a {\tt Herwig++} generated dataset, which we also use through most of Chapter \ref{ch:investigating_improvements}, before we employ {\tt Pythia} to study jet reconstruction effects in Section \ref{sec:jetrec}. Even though the SPS1a parameter point is excluded by experimental data, as discussed in Section \ref{sec:sps1a_benchmark_point}, we choose to use it for our study to be able to compare our results as closely as possible to Webber's.
 
 To minimize the $\xi^2$ function, we have used the {\tt Simplex} algorithm. For the reproduction of Webber's results in the present chapter we have used the {\tt Minuit} implementation, which was also used in \cite{Webber:2009vm}. For the subsequent investigation of improvements, we have also used a custom implementation listed in Appendix \ref{ch:simplex}. In the course of our investigation, we have discovered that the mass fit is heavily dependent on the input parameters to the {\tt Simplex} minimization, and this makes the fit more challenging. To facilitate the subsequent discussion, we briefly introduce the {\tt Simplex} method.
 
@@ -1464,11 +1464,13 @@ These fit results, with the low tolerance setting, are still not bad. However, i
 	\begin{subfigure}[b]{0.8\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_hightol_5pmomsmear_nocut.pdf} 
 		\caption{ }
+  \label{fig:webber_rec_scatter_tolerance-comparison_5pmomsmear_a}
 	\end{subfigure}
 
 	\begin{subfigure}[b]{0.8\textwidth}
 		\includegraphics[width=\textwidth]{figures/webber_rec_table/webber_HW-rec_OFL_minuit-minimizer_lowtol_5pmomsmear_nocut.pdf}
 		\caption{ } 
+  \label{fig:webber_rec_scatter_tolerance-comparison_5pmomsmear_b}
 	\end{subfigure}
 	\caption{Reproduction of Webber's 5\% momentum-smeared fit, corresponding to the third row of Table \ref{table:webber_original}, for {\bf (a)} original convergence tolerance and {\bf (b)} the lower tolerance criterion.}
 	\label{fig:webber_rec_scatter_tolerance-comparison_5pmomsmear}
@@ -1681,8 +1683,8 @@ We have checked that this dataset gives consistent results with the {\tt HERWIG 
 % In any case, the minimization is not a heavy calculation (the whole minimization of 100 bins, including combinatorics, is done in fractions of a second on a single CPU core), so doing a scan like the one we made above over different starting points is not unrealistic.
 % \marginpar{Is there any point in doing a minimization grid scan here, for the no-combinatorics case? Maybe better to wait until I have handled combinatorics.}
 
-We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 5\% smeared dataset for the same four starting points. The plots are shown in Fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. We find that it also in this case gives consistent results irrespective of starting point --- but the LSP mass is fitted to zero in 63 of 94 samples. It appears that when the data is smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to the absolute mass scale of the problem. 
-\begin{figure}[hbt]
+We also keep in mind the effects of momentum smearing, and check the no-combinatorics minimization on the 5\% smeared dataset for the same four starting points. The plots are shown in Fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. We find that it also in this case gives consistent results irrespective of starting point, with mean best-fit values of $m_{\tilde q} = 556\pm 33~\mathrm{GeV}$, $m_{\tilde\chi_2^0} = 156 \pm 21~\mathrm{GeV}$, $m_{\tilde l} = 112 \pm 20~\mathrm{GeV}$ and $m_{\tilde\chi_1^0} = 22 \pm 34~\mathrm{GeV}$ --- but the LSP mass is fitted to zero in 63 of 94 samples. It appears that when the data are smeared, the method loses its sensitivity to the LSP mass. Or equivalently, we could say that it loses its sensitivity to the absolute mass scale of the problem. 
+\begin{figure}[hbtp!]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{figures/improving_combinatorics/herwigpp_5psmear_lowtol_nocomb_TMP.pdf} 
@@ -1706,7 +1708,33 @@ We also keep in mind the effects of momentum smearing, and check the no-combinat
 \end{figure} 
 
 
+\section{Effects of a more realistic momentum smearing}
+\label{sec:acerdet_smearing}
+The momentum smearing that Webber uses is crude. More realistic smearing formulae can be obtained from the manual to {\tt AcerDET 1.0} \cite{RichterWas:2002ch}. We apply these smearing formulae, updated to be consistent with the ATLAS Technical Paper \cite{Aad:2008zzm}, to the {\tt Herwig++} dataset. In Fig.\ \ref{fig:acerdetsmear} we show minimizations with low tolerance on this dataset. In Fig.\ \ref{fig:acerdetsmear_a} combinatorics is not taken into account, and in Fig.\ \ref{fig:acerdetsmear_b} it is. In the former case, the LSP mass is fitted to zero in 32 of the samples, and in the latter case it is fitted to zero in 12 of the samples. 
 
+The best-fit masses in the no-combinatorics case of Fig.\ \ref{fig:acerdetsmear_a} are $m_{\tilde q} = 557\pm 16~\mathrm{GeV}$, $m_{\tilde\chi_2^0} = 161 \pm 15~\mathrm{GeV}$, $m_{\tilde l} = 120 \pm 17~\mathrm{GeV}$ and $m_{\tilde\chi_1^0} = 47 \pm 38~\mathrm{GeV}$, which have smaller errors and biases compared to the fit with 5\% momentum smearing in the previous section. This indicates that the momentum smearing used by Webber overestimates the uncertainties, since we obtain a better fit with a more realistic smearing. The fit in the case with combinatorics, Fig.\ \ref{fig:acerdetsmear_b}, also has less spread compared to Fig.\ \ref{fig:webber_rec_scatter_tolerance-comparison_5pmomsmear_b}. However, it has the same issues with dependence on the {\tt Simplex} starting point.
+
+\begin{figure}[hbtp!]
+  \centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{figures/webber_rec_table/herwigpp_nocombinatorics_acerdetsmearing_original_formulation.pdf} 
+    \caption{ }
+    \label{fig:acerdetsmear_a}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{figures/webber_rec_table/herwigpp_webber-jumping-combinatorics_acerdetsmearing_original_formulation.pdf}
+    \caption{ } 
+    \label{fig:acerdetsmear_b}
+  \end{subfigure}
+  \caption{Minimization with low tolerance on the {\tt Herwig++} dataset with momentum smearing according to the {\tt AcerDET 1.0} manual \cite{RichterWas:2002ch}. Combinatorics is not taken into account in {\bf (a)}.}
+  \label{fig:acerdetsmear}
+\end{figure} 
+
+% herwigpp_nocombinatorics_acerdetsmearing_original_formulation.pdf
+% LSP = 0 in 32
+
+% herwigpp_webber-jumping-combinatorics_acerdetsmearing_original_formulation.pdf
+% LSP = 0 in 19
 
 
 
@@ -1758,7 +1786,7 @@ Referring back to Chapter \ref{ch:introducing_the_method}, and the way the recon
 \end{align}
 where
 \begin{align}
-	M^2_1 = M_D^2 - M_C^2,\quad  M^2_2 = M_C^2 - M_B^2, \quad M^2_3 = M_B^2 - M_A^2,
+	M^2_1 = m_D^2 - m_C^2,\quad  M^2_2 = m_C^2 - m_B^2, \quad M^2_3 = m_B^2 - m_A^2,
 \end{align}
 and observe that the vector $\mathbf{S}$ may still be written as
 \begin{align}
@@ -1785,11 +1813,11 @@ where $\mathbf{M}$ and $\mathbf{B}$ are modified and $\mathbf{A}$ and $\mathbf{C
 
 This means that we can reformulate our problem to fit $M^2_{1,2,3}$ instead. However, since we in this case do not fit the masses themselves, our $\xi^2$ function,
 \begin{align}
-	\xi^2(\mathbf{M}) = \sum_n \left[(\hat p_{A}^2)_n - \frac{M_A^2}{M_\mathrm{norm}^2}\right]^2 + \left[(\hat p_{A'}^2)_n - \frac{M_{A'}^2}{M_\mathrm{norm}^2}\right]^2,\label{eq:xisquared_modified_repeat}
+	\xi^2(\mathbf{M}) = \sum_n \left[(\hat p_{A}^2)_n - \frac{m_A^2}{M_\mathrm{norm}^2}\right]^2 + \left[(\hat p_{A'}^2)_n - \frac{m_{A'}^2}{M_\mathrm{norm}^2}\right]^2,\label{eq:xisquared_modified_repeat}
 \end{align} 
-has an unknown variable $M_A$. We choose to use the dilepton mass edge constraint, Eq.\ \eqref{eq:MLSP_dilepton_edge}, to calculate the value of $M_A^2$ from the squared mass difference at each function evaluation. In terms of the mass-squared differences $M^2_{1,2,3}$, $M_A^2$ is given as
+has an unknown variable $m_A$. We choose to use the dilepton mass edge constraint, Eq.\ \eqref{eq:MLSP_dilepton_edge}, to calculate the value of $m_A^2$ from the squared mass difference at each function evaluation. In terms of the mass-squared differences $M^2_{1,2,3}$, $m_A^2$ is given as
 \begin{align}
-	M_A^2 = M^2_3\left[ \frac{M^2_2}{(m_{ll}^\mathrm{max})^ 2} - 1 \right].
+	m_A^2 = M^2_3\left[ \frac{M^2_2}{(m_{ll}^\mathrm{max})^ 2} - 1 \right].
 \end{align}
 We note that with these modifications, we have introduced another constraining equation into our problem, thus reducing the number of free parameters from two to one, as discussed in Chapter \ref{ch:introducing_the_method}. In addition, the minimization problem has been reduced from a four-dimensional one to a three-dimensional one. 
 
@@ -1897,12 +1925,12 @@ The lepton permutations consist of permuting the leptons in one, both or none of
 \caption{Decay topology, from \cite{Miller:2005zp}.}
 \label{fig:decaytree_improvementchap}
 \end{figure} 
-For the true assignment of near and far lepton, we have the relationship $m^2_B = (p_A + p_a)^2 \equiv m^2_{Aa}$. If the lepton assigments are switched, it corresponds to reconstructing the mass $(p_A + p_b)^2 = m^2_{Ab} \equiv m_X$ instead of the true mass $M_B$. The kinematics of this misidentification is investigated in Appendix \ref{sec:appendix_invmass-calculations}. It turns out that $m_X$ has a probablity distribution limited by the values 
+For the true assignment of near and far lepton, we have the relationship $m^2_B = (p_A + p_a)^2 \equiv m^2_{Aa}$. If the lepton assigments are switched, it corresponds to reconstructing the mass $(p_A + p_b)^2 = m^2_{Ab} \equiv m_X$ instead of the true mass $m_B$. The kinematics of this misidentification is investigated in Appendix \ref{sec:appendix_invmass-calculations}. It turns out that $m_X$ has a probablity distribution limited by the values 
 \begin{align}
 	{m_X^2}_\mathrm{high} &= m_A^2 + m_C^2 - m_B^2,\\
 	{m_X^2}_\mathrm{low} &= \frac{m_C^2 m_A^2}{m_B^2}.\nonumber
 \end{align}
-Note that $m_X$ is contained in the interval $(m_A, m_C)$ for any kinematically allowed choice of masses $M_{A,B,C}.$ The probability distribution of $M_X$ is shown in Fig.\ \ref{fig:mX-dist_improvementchap}.
+Note that $m_X$ is contained in the interval $(m_A, m_C)$ for any kinematically allowed choice of masses $m_{A,B,C}.$ The probability distribution of $m_X$ is shown in Fig.\ \ref{fig:mX-dist_improvementchap}.
 \begin{figure}[hbt]
 \centering
 \includegraphics[scale=0.4]{figures/appendix/mX-distribution.pdf}
@@ -2288,7 +2316,7 @@ In Fig.\ \ref{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events},
 	\label{fig:event-pair-A-selection_pythia_4combosum-jetrec-OSFL-50events}
 \end{figure}
 
-The best-fit values are summarized in Table \ref{table:table_jetrec}. We have also tried applying cuts to the $\xi^2$ values in the minimization with determinant cuts. We have found $\xi^2$ cut values for each of the OFL and OSFL cases which yield about 15\%, 40\% and 75\% of samples past, respectively. We see that the two lowest $\xi^2$ cuts approximately halve the errors for both the OFL and the OSFL cases, while the loosest cut gives less of an error reduction. The OF and O\&SFL cases obtain similar results --- the OSFL case has somewhat smaller errors, but a larger downward bias.
+The best-fit values are summarized in Table \ref{table:table_jetrec}. We have also tried applying cuts to the $\xi^2$ values in the minimization with determinant cuts. We have found $\xi^2$ cut values for each of the OFL and OSFL cases which yield about 15\%, 40\% and 75\% of samples past, respectively. We see that the two lowest $\xi^2$ cuts approximately halve the errors for both the OFL and the OSFL cases, while the loosest cut gives less of an error reduction. The OFL and OSFL cases obtain similar results --- the OSFL case has somewhat smaller errors, but a larger downward bias.
 \begin{table}[hbt]
 	\small
 	\centering
@@ -2306,7 +2334,7 @@ The best-fit values are summarized in Table \ref{table:table_jetrec}. We have al
     OSFL (50)   &   $5\cdot10^4$ (14\% )  & 58\%    & $504\pm54$  & $163\pm45$  & $125\pm44$  &   $79\pm47$ \\
 		\hline
 	\end{tabular}
-	\caption{Summary of results obtained on the {\tt Pythia} dataset with jet reconstruction and kinematical cuts, using the MSD technique with the event-pair selection algorithm for choosing between $\mathbf A^a$ matrices and summing over the four lepton permutations. A minimal value cut of 10 is applied on the determinant.}
+	\caption{Summary of results obtained on the {\tt Pythia} dataset with jet reconstruction and kinematical cuts, using the MSD technique with the event-pair selection algorithm for choosing between $\mathbf A^a$ matrices and summing over the four lepton permutations. A $|\mathrm{det}\mathbf A|>10$ cut has been applied.}
 	\label{table:table_jetrec}
 \end{table}
 
@@ -2333,15 +2361,15 @@ The best-fit values are summarized in Table \ref{table:table_jetrec}. We have al
 \chapter*{Conclusions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \addcontentsline{toc}{chapter}{Conclusions} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The method presented by Webber, although promising, has been shown to have inherent technical problems which lead to under-estimation of the errors and biases in the original article \cite{Webber:2009vm}, given in Table \ref{table:webber_original}. The challenges stem in part from the combinatorical ambiguity inherent in the chain. 
+The method presented by Webber in \cite{Webber:2009vm}, although promising, has been shown to have inherent technical problems which lead to an underestimation of the errors and biases in the original article, as presented in Table \ref{table:webber_original}. The challenges stem in part from the combinatorical ambiguity inherent in the chain. 
 
-When the estimates are revised, taking into account the need for a lower {\tt Simplex} tolerance in order to resolve the function minimum, the error is significantly increased, and biases are introduced, as can be seen from Table \ref{table:webber_rec_lowtol}. In addition, there is a dependence upon the minimization starting point which adds to the uncertainties, demonstrated in Table \ref{table:webber_rec_lowtol_perturbedSP-percentage}. Of particular importance is the feature that when experimental uncertainties are simulated in the form of momentum smearing, and the convergence tolerance is set sufficiently low, the mass of the LSP is fitted to zero in many of the samples (Fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}). This is the case even without taking into account combinatorics.
+When the estimates are revised, taking into account the need for a lower {\tt Simplex} tolerance in order to resolve the function minimum, the error is significantly increased, and biases are introduced, as can be seen from the results presented in Table \ref{table:webber_rec_lowtol}. In addition, there is a dependence upon the minimization starting point which adds to the uncertainties, demonstrated in Table \ref{table:webber_rec_lowtol_perturbedSP-percentage}. Of particular importance is the feature that when experimental uncertainties are simulated in the form of momentum smearing, and the convergence tolerance is set sufficiently low, the mass of the LSP is fitted to zero in many of the samples, see Fig.\ \ref{fig:moving_on-starting_point_sensitivity_no_combinatorics_5pmomsmear}. This is the case even without taking into account combinatorics.
 
 Attempts to modify the method to avoid these problems only has limited success. Although we have devised an implementation that is robust against different starting points for the minimization algorithm, handles the combinatorical ambiguities and resolves the LSP mass, we have not found a way to reduce the errors to values that are comparable to the results pertained in the original article. Table \ref{table:MD_fit_table} gives a summary of the capabilities of the alternative implementation of the method, and should be compared to the original estimates given in Table \ref{table:webber_original}. For the three lightest particles, the errors in our analysis are an order of magnitude larger than the original estimate. We also observe a significant downward bias on all four masses.
 
-Jet reconstruction effects were not investigated by Webber in the original article. Taking these into account should be expected to affect the precision attainable by the method, and we indeed find that it drastically increases the errors. Our results with jet reconstruction are summarized in Table \ref{table:table_jetrec}. When we apply a cut on the $\xi^2$ values which remove about half the event samples, along with a minimal value cut on the determinant, we obtain errors of the order 50 GeV on all four masses. For the LSP mass this corresponds to an error of 50\%. Doubling the event samples by including events where all four leptons have the same flavour reduces the errors somewhat, but at the expense of introducing a larger downward bias. 
+Jet reconstruction effects were not investigated by Webber in the original article. Taking these into account should be expected to affect the precision attainable by the method, and we indeed find that it drastically increases the errors. Our results with jet reconstruction are summarized in Table \ref{table:table_jetrec}. Even when we apply a quality cut on the $\xi^2$ values of the fits which remove about half the event samples, along with a minimal value cut on the determinant of the kinematics matrix for each event, we obtain errors of the order 50 GeV on all four masses. For the LSP mass this corresponds to an error of 50\%. Doubling the event samples by including events where all four leptons have the same flavour reduces the errors somewhat, but at the expense of solidifying a significant downward bias in mass estimate.
 
-In summary, we do not believe this method to be useful for precision measurements of sparticle masses. It may be used to set limits, but the limits will be rather wide. In addition, our analysis employs event samples which are large compared to the expected event yield given current limits on sparticle masses. Reducing the sample size is expected to further increase the uncertainties. 
+In summary, we have shown that the errors and biases were underestimated in the original article. We have revised the estimates to be more realistic. In addition, our analysis employs event samples which are large compared to the expected event yield given current limits on sparticle masses, at least in the CMSSM. Reducing the sample size is expected to further increase the uncertainties. 
 
 
 
@@ -2400,9 +2428,9 @@ Following the prescriptions of quantum mechanics, energy and momentum are promot
 \begin{align}
 	p_\mu \to i\hbar \frac{\partial}{\partial x^\mu} \equiv i\hbar \partial_\mu.
 \end{align}
-Taken as an eigenvalue equation for a field $\psi$, this gives rise to the relativistic {\it Klein-Gordon} equation
+Taken as an eigenvalue equation for a field $\phi$, this gives rise to the relativistic {\it Klein-Gordon} equation
 \begin{align}
-	-\hbar^2 \partial^\mu \partial_\mu \psi - m^2 \psi = 0.
+	-\hbar^2 \partial^\mu \partial_\mu \phi - m^2 \phi = 0.
 \end{align}
 This equation differs from the Schr\"{o}dinger equation of non-relativistic quantum mechanics in that it is second order in $\partial_{0} = \partial_t$, while the Schr\"{o}dinger equation is first order. To obtain a first-order differential equation in time, Dirac attempted \cite{griffiths:elementary_particles} to factor the energy-momentum relation \eqref{eq:energymomentum} as
 \begin{align}
